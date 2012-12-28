@@ -1,0 +1,11 @@
+Current Version
+0.7
+
+Mac
+Link
+
+Windows
+Link
+
+AutomaticUpdater
+Link
