@@ -1,11 +1,11 @@
 Current Version
-0.7
+0.71
 
 Mac
-http://ubuntuone.com/7TwPxxjmMkHQUUDY9NJkBq
+http://cl.ly/Lsy5
 
 Windows
-http://ubuntuone.com/3QhdPxPOy7RCogWbN0UfZn
+http://cl.ly/Lsgx
 
 AutomaticUpdater
 http://2catstudios.wikispaces.com/Home
