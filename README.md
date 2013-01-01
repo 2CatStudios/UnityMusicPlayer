@@ -6,27 +6,29 @@ Version 0.7
 UnityMusicPlayer is being developed by
 Gibson Bethke & Jan Heemstra
 
-This repository is (right now) exclusively for the MediaDownload Framework in UnityMusicPlayer.
+UMP is currently in development, so please expect things to change in later releases.
+In version 0.7 we've adding the following:
 
-It's currently in development, so please expect things to change in later releases.
-In version 0.7 we're adding the following:
-
-• Music download network & framework
-• Music download client
-• Free songs ( ! )
+• Update alert
+• Automatic update framework
 • Audio visualizers
 • Save preferences
-• Fixes to back button
+• Automatic music detection
+• Changes and fixes to back button
 • More control options
 • Improvements to song length rounding
-• Optimization
+• Continuous play
+• UI changes
+• Many, many, smaller things (like, a lot)
 • Bug fixes
 
 In the next major update ( 0.8 ) we plan on adding/changing the following:
 
-• Continuous music play
-• Custom background option
-• Custom font option
-• More ( ? )
+• See more songs by artist (Thanks, Wolfgun)
+• Automatic updater
+• Convert songs to WAV
+• Ogg compatibility
+• Web-streaming
+• Custom themes
 
 If you have any questions or concerns, please email me at gibsonbethke@gmail.com
