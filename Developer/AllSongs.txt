@@ -13,7 +13,7 @@ Act Of Love/You Are Like Me
 Electronic (Dubstep)
 wav
 http://ubuntuone.com/7j5Tbjjm4GZyi4ztBSkgOa
-http://google.com
+http://rchetype.bandcamp.com/track/you-are-like-me
 
 Valley of the Shadows
 Wolfgun
@@ -21,7 +21,7 @@ Physics
 Electronic (Dubstep)
 wav
 http://ubuntuone.com/7GoxiBHbdbLajV2qa53Z5y
-http://google.com
+http://wolfgun.bandcamp.com/album/physics
 
 River (ft. Tim Bonvallet)
 Wolfgun
@@ -29,7 +29,7 @@ SUNDISK
 Electronic (Trance)
 wav
 http://ubuntuone.com/4ZEoCs1YL2WRazuwq1HylF
-http://google.com
+http://wolfgun.bandcamp.com/album/sundisk
 
 Pacific
 Wolfgun
@@ -37,23 +37,23 @@ SUNDISK
 Electronic (Pop)
 wav
 http://ubuntuone.com/5miTx9iY7zvu26m40N0Gp6
-http://google.com
+http://wolfgun.bandcamp.com/album/sundisk
 
 Classic Tetris
 Jan Heemstra
-Inflammable Lime
+UMP Exclusive
 Other (VideoGame)
 wav
 http://ubuntuone.com/7g2DhY50oCgdIMJENFs68w
-http://google.com
+NONE
 
 Epic Classic
 Jan Heemstra
-Inflammable Lime
+UMP Exclusive
 Orchestra (Violin)
 wav
 http://ubuntuone.com/5O5r0JDZ3aPrwusB2Zu1jw
-http://google.com
+https://soundcloud.com/combustible-lemonade
 
 Dubstep
 Jan Heemstra
@@ -61,7 +61,7 @@ Inflammable Lime
 Electronic (Dubstep)
 wav
 http://ubuntuone.com/70ih3gucV5OPrZ4jsebbcl
-http://google.com
+https://soundcloud.com/combustible-lemonade/2nd-dubstep-song
 
 Quantum Realm
 Jan Heemstra
@@ -69,7 +69,7 @@ Inflammable Lime
 Electronic (Dubstep)
 wav
 http://ubuntuone.com/2wDrF6eO5JkQDODyxiIwRM
-http://google.com
+https://soundcloud.com/combustible-lemonade/quantum-realm
 
 End of the World
 Jan Heemstra
@@ -77,7 +77,7 @@ Inflammable Lime
 Electronic (Dubstep)
 wav
 http://ubuntuone.com/5gX0l7wcrYFtbrHdChbEIb
-http://google.com
+https://soundcloud.com/combustible-lemonade/combustible-lemonade-end-of
 
 The Future of our Past
 BlackTie Vivid
@@ -85,7 +85,7 @@ Darkest Mornings / Brightest Nights
 Electronic (Ambient)
 wav
 http://ubuntuone.com/3O4KUeb3CbHxiGYLrom4PO
-http://google.com
+NONE
 
 Joking
 BlackTie Vivid
@@ -93,4 +93,4 @@ Original Tracks
 Electronic (Progressive)
 wav
 http://ubuntuone.com/7FxPUdfJojsWQJQAfosAcJ
-http://google.com
+NONE
