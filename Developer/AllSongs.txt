@@ -1,7 +1,7 @@
 --- -
 Liberty
 DJ Purify
-Album
+Liberty - EP
 Electronic (Trance)
 wav
 http://ubuntuone.com/7BxIsjXjlxDY7rXFUvkGCA
@@ -40,7 +40,7 @@ http://ubuntuone.com/5miTx9iY7zvu26m40N0Gp6
 http://wolfgun.bandcamp.com/album/sundisk
 
 Classic Tetris
-Jan Heemstra
+Combustible Lemonade
 UMP Exclusive
 Other (VideoGame)
 wav
@@ -48,7 +48,7 @@ http://ubuntuone.com/7g2DhY50oCgdIMJENFs68w
 NONE
 
 Epic Classic
-Jan Heemstra
+Combustible Lemonade
 UMP Exclusive
 Orchestra (Violin)
 wav
@@ -56,7 +56,7 @@ http://ubuntuone.com/5O5r0JDZ3aPrwusB2Zu1jw
 NONE
 
 Blended
-Jan Heemstra
+Combustible Lemonade
 it burns
 Electronic (Dubstep)
 wav
@@ -64,7 +64,7 @@ http://ubuntuone.com/4PnkC6BRtLK9wnuveSpfqe
 https://soundcloud.com/combustible-lemonade/2nd-dubstep-song
 
 Quantum Realm
-Jan Heemstra
+Combustible Lemonade
 Long Time
 Electronic (Dubstep)
 wav
@@ -72,7 +72,7 @@ http://ubuntuone.com/2wDrF6eO5JkQDODyxiIwRM
 https://soundcloud.com/combustible-lemonade/quantum-realm
 
 Ghosts
-Jan Heemstra
+Combustible Lemonade
 Long Time
 Electronic (Dubstep)
 wav
@@ -80,7 +80,7 @@ http://ubuntuone.com/2ZZdKdY7BYwYPNuPztSEbl
 NONE
 
 End of the World
-Jan Heemstra
+Combustible Lemonade
 it burns
 Electronic (Dubstep)
 wav
