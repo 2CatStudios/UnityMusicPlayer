@@ -2,10 +2,10 @@ Current Version
 0.8
 
 Mac
-http://cl.ly/Lsy5
+http://2catstudios.wikispaces.com/UnityMusicPlayer
 
 Windows
-http://cl.ly/Lsgx
+http://2catstudios.wikispaces.com/UnityMusicPlayer
 
 AutomaticUpdater
-http://2catstudios.wikispaces.com/Home
+http://2catstudios.wikispaces.com/UnityMusicPlayer
