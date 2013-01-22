@@ -1,5 +1,5 @@
 Current Version
-0.72
+0.71
 
 Mac
 http://cl.ly/Lsy5
