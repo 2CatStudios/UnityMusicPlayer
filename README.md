@@ -1,5 +1,4 @@
-UnityMusicPlayer
-Version 0.7
+UnityMusicPlayer || Version 0.8
 --- -
 
 UnityMusicPlayer is being developed by
