@@ -1,6 +1,7 @@
 Current Version
-0.83
+0.82
 NOTE: Future updates won't work if you don't update to the latest version.
+
 Mac
 http://2catstudios.wikispaces.com/UnityMusicPlayer
 

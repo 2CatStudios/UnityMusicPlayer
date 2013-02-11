@@ -1,6 +1,5 @@
 Current Version
 0.83
-
 NOTE: Future updates won't work if you don't update to the latest version.
 
 Mac
