@@ -1,6 +1,6 @@
 Current Version
 0.84
-NOTE: This update is [Strongly] recommended.
+NOTE: This update is [Very Strongly] recommended.
 
 Mac
 http://2catstudios.wikispaces.com/UnityMusicPlayer
