@@ -42,7 +42,7 @@ http://wolfgun.bandcamp.com/album/sundisk
 Classic Tetris
 UMP Exclusive
 Combustible Lemonade
-SoundTrack (VideoGame)
+Soundtrack (VideoGame)
 wav
 http://ubuntuone.com/7g2DhY50oCgdIMJENFs68w
 NONE
@@ -106,7 +106,7 @@ NONE
 Classic Tetris Encrypted
 UMP Exclusive
 Combustible Lemonade
-SoundTrack (VideoGame)
+Soundtrack (VideoGame)
 umpd
-http://ubuntuone.com/3nDCj6L2j8e0JOlobGMwDH
+http://ubuntuone.com/56LYxxNTZlmQOtOkrFtIy1
 NONE
