@@ -1,5 +1,3 @@
-UnityMusicPlayer || Version 0.8
---- -
+UnityMusicPlayer
 
-UnityMusicPlayer is being developed by
-Gibson Bethke & Jan Heemstra
+I don't like the way GitHub formats this document, so I'm going to leave it blank!
