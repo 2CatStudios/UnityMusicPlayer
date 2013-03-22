@@ -43,8 +43,8 @@ Classic Tetris
 UMP Exclusive
 Combustible Lemonade
 Soundtrack (VideoGame)
-wav
-http://ubuntuone.com/7g2DhY50oCgdIMJENFs68w
+unity3d
+http://ubuntuone.com/7lXCnSmWjwLqBE7LMT2HyQ
 NONE
 
 Epic Classic
@@ -101,12 +101,4 @@ BlackTie Vivid
 Electronic (Progressive)
 wav
 http://ubuntuone.com/7FxPUdfJojsWQJQAfosAcJ
-NONE
-
-Classic Tetris Encrypted
-UMP Exclusive
-Combustible Lemonade
-Soundtrack (VideoGame)
-unity3d
-http://ubuntuone.com/7lXCnSmWjwLqBE7LMT2HyQ
 NONE
