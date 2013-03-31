@@ -1,0 +1,11 @@
+UnityMusicPlayer
+OnlineMusicBrowser
+Song classification table
+
+Title
+Album
+Artist
+Genre
+Type
+Download link [or] Release date (Start with "|", no space)
+SupportLink
