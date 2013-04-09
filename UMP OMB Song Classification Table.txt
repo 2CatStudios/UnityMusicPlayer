@@ -8,4 +8,4 @@ Artist
 Genre
 Type
 Download link [or] Release date (Start with "|", no space)
-SupportLink
+SupportLink [or] "NONE"
