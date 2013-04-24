@@ -1,0 +1,82 @@
+UnityMusicPlayer
+0.9
+
+
+Tutorial:
+
+Right Arrow Key: Swipe to OnlineMusicBrowser
+Left Arrow Key: Swipe to MusicViewer
+Down Arrow Key: Play next song
+Up Arrow Key: Play previous song
+
+
+FAQ:
+
+(Q) How do I add songs?
+(A) There are a few ways to add songs, the easiest being to click the "Add Songs" button, and drag your audio files into the folder that will appear. You can also download music via the OnlineMusicBrowser. If you don't know what that is, read on.
+
+(Q) I listened to Owl City before Fireflies, and I want to add music the hard way.
+(A) You can navigate to
+Mac: /Users/*Username*/Library/Application Support/2Cat Studios/Unity Music Player/Media
+Windows: C:\Users\*Username*\AppData\Roaming\2Cat Studios\Unity Music Player\Media
+and drop music files in there.
+
+(Q) A few questions back you mentioned something called an OnlineMusicBrowser?
+(A) Yes I did.
+
+(Q) … You serious?
+(A) Nah, I'm kidding. The OnlineMusicBrowser is our music "store". You can navigate to it by pressing the right arrow key.
+
+(Q) By store, do you mean I can buy new music?
+(A) No, everything in our store is free. So, you can receive music, but you cannot pay for it.
+
+(Q) Is that legal?
+(A) Don't worry, we have permission from all the artists on UMP to give their music away.
+
+(Q) Okay, I went to your "store" (it's very cool, by the way), and downloaded some songs; how do I get back to the musicViewer?!
+(A) The left arrow key will take you back to the MusicViewer.
+
+(Q) I added some music, but I don't see it!
+(A) UnityMusicPlayer only supports .WAV and .OGG audio files, but have no fear, there are easy ways to convert them; scroll to the bottom to see how.
+
+(Q) You said UMP only supports .WAV and .OGG files, why?
+(A) The answer is simple: .MP3 licensing fees are too expensive, and who uses any other formats? (That is rhetorical, I know you like AIF)
+
+(Q) I can read your mind, and I know that you know that I like AIF. Does UMP support that?
+(A) Woah, you're creepy… anyway, no, UMP only supports .WAV and .OGG. That said, the more people that contact us asking for other music formats, the more likely you'll be able to play it in a future update.
+
+(Q) I have Shuffle on, but my song has repeated! The deck must be rigged!
+(A) Put simply, the Shuffle function randomly (if you believe in random) picks a song to play; that means the same song can play many times in a row (although, it's unlikely).
+
+(Q) My totally important question was not answered here, what do I do?!!1!!!1!11!!!!!2!
+(A) If this FAQ didn't resolve your question, please email me at: gibsonbethke@gmail.com
+
+(Q) After reading the FAQ, I feel worse about myself.
+(A) Although this is a serious FAQ, I wanted it to be fun to read… so I added humor! It's all meant in good fun, and I hope I didn't offend you (guy who listened to Owl City before Fireflies, I'm talking to you)!
+
+
+Converting to .WAV or .OGG:
+
+In order to listen to your music in UMP, you must have .WAV or .OGG audio files. Although we haven't included a way to convert music natively (yet, probably), you can use iTunes to easily change music from almost any format to .WAV or .OGG. It's a relatively simple process, and I'll outline the steps bellow.
+
+(1) Open iTunes.
+
+(2) Navigate to iTunes preferences.
+
+(3) Under the General tab, find the "Import Settings…" button (near the bottom)
+
+(4) Set "Import Using:" to WAV Encoder or OGG Encoder
+
+(5) Click Okay, and select all the songs you want to convert (Shift-Click)
+
+(6) Right click, and select "Create WAV Version" or "Create OGG Version"
+
+(7) After the converting process has completed, start UMP and click "Add Songs".
+
+(8) Drag the songs from iTunes to your UMP folder.
+
+(9) ???
+
+(0) Profit.
+
+If something didn't go right, and this guide didn't help to convert songs, just search "Convert song to WAV" or "Convert song to OGG" on the internet, and you'll probably find better tutorials.
