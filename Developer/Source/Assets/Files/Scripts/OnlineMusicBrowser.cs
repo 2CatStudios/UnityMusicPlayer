@@ -237,7 +237,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 		GUILayout.BeginHorizontal ();
 		GUILayout.Space ( onlineMusicBrowserPosition.width / 2 - 300  );
 
-		scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  onlineMusicBrowserPosition.height - ( onlineMusicBrowserPosition.height / 4 + 50 )));
+		scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  onlineMusicBrowserPosition.height - ( onlineMusicBrowserPosition.height / 4 + 55 )));
 
 		switch (sortBy)
 		{

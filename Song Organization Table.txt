@@ -9,3 +9,23 @@ Genre
 Type
 Download link [or] Release date (Start with "|", no space)
 SupportLink [or] "NONE"
+
+
+Examples:
+
+Classic Tetris
+UMP Exclusive
+Combustible Lemonade
+Soundtrack (VideoGame)
+wav
+http://ubuntuone.com/7g2DhY50oCgdIMJENFs68w
+NONE
+
+
+Classic Tetris
+UMP Exclusive
+Combustible Lemonade
+Soundtrack (VideoGame)
+wav
+|4/24/13
+http://soundcloud.com/combustible-lemonade

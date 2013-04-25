@@ -116,6 +116,10 @@ public class DownloadManager : MonoBehaviour
 				downloadThread.Start();
 
 				downloading = true;
+				if ( song.supportLink == "NONE" )
+					downloadWindowY = 220;
+				else
+					downloadWindowY = 250;
 			}
 		}
 			
@@ -130,7 +134,8 @@ public class DownloadManager : MonoBehaviour
 				onlineMusicBrowser.songInfoWindowOpen = false;
 				paneManager.popupBlocking = false;
 				getDownloadSize = true;
-				GUI.FocusWindow (1);
+				GUI.FocusWindow ( 1 );
+				GUI.BringWindowToFront ( 1 );
 			}
 		}
 			
@@ -187,7 +192,9 @@ public class DownloadManager : MonoBehaviour
 		showSongInformation = false;
 		downloading = false;
 		onlineMusicBrowser.songInfoWindowOpen = false;
-		paneManager.popupBlocking = true;
+		paneManager.popupBlocking = false;
 		getDownloadSize = true;
+		GUI.FocusWindow ( 1 );
+		GUI.BringWindowToFront ( 1 );
 	}	
 }

@@ -145,14 +145,9 @@ public class MusicViewer : MonoBehaviour
 		audioVisualizerLight.color = new Color ( avcR, avcG, avcB, 255 );
 
 
-		bloom = Convert.ToBoolean ( prefs [ 9 ] );
-		manager.GetComponent<BloomAndLensFlares>().enabled = bloom;
-	
+		bloom = Convert.ToBoolean ( prefs [ 9 ] );	
 		motionBlur = Convert.ToBoolean ( prefs [ 10 ] );
-		manager.GetComponent<MotionBlur>().enabled = motionBlur;
-
 		sunShafts = Convert.ToBoolean ( prefs [ 11 ] );
-		manager.GetComponent<SunShafts>().enabled = sunShafts;
 
 
 		previousSongs [ 0 ] = Convert.ToInt32 ( prefs [ 12 ] );
@@ -224,22 +219,13 @@ public class MusicViewer : MonoBehaviour
 			showStreamingWindow = false;
 		}
 
-		if ( GUI.Button ( new Rect ( 275, 20, 60, 20 ), "Confirm" ))
+		if ( GUI.Button ( new Rect ( 290, 20, 50, 20 ), "Close" ))
 		{
-
-			audioVisualizerLight.color = new Color ( avcR, avcG, avcB, 1.000F );
-			manager.GetComponent<BloomAndLensFlares>().enabled = bloom;
-			manager.GetComponent<MotionBlur>().enabled = motionBlur;
-			manager.GetComponent<SunShafts>().enabled = sunShafts;
 
 			GUI.FocusWindow ( 0 );
 			GUI.BringWindowToFront ( 0 );
 			paneManager.popupBlocking = false;
 			showSettingsWindow = false;
-
-			TextWriter savePrefs = new StreamWriter ( prefsLocation );
-			savePrefs.WriteLine ( loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + showAllDividers + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + motionBlur + "\n" + sunShafts + "\n" + previousSongs [ 0 ] + "\n" + previousSongs [ 1 ] + "\n" + previousSongs [ 2 ] + "\n" + previousSongs [ 3 ] + "\n" + previousSongs [ 4 ] + "\n" + previousSongs [ 5 ] + "\n" + previousSongs [ 6 ] );
-			savePrefs.Close ();
 		}
 
 #region AudioVisualizerSettings
@@ -478,7 +464,8 @@ public class MusicViewer : MonoBehaviour
 			
 			rtMinutes = 00;
 			rtSeconds = 00;
-			
+
+			loadingImage.showLoadingImages = false;
 			manager.audio.Play ();
 			updateOnce = false;
 			isPaused = false;
@@ -582,23 +569,29 @@ public class MusicViewer : MonoBehaviour
 				
 					string pathToFile = clipList [ i ];
 					string clipToPlay = clipList [ i ].Substring ( mediaPath.Length + 1 );
-					string songName = clipToPlay.Substring ( 0, clipToPlay.Length - 8 );
-					bool isAssetBundle = false;
+					string songName;
 
-					if ( clipToPlay.Substring ( clipToPlay.Length - 7 ) == "unity3d" )
-						isAssetBundle = true;
-					else
-						isAssetBundle = false;
-
-					if ( showTypes == false )
+					bool isAssetBundle;
+					if ( clipToPlay.Length > 8 )
 					{
 
-						if ( isAssetBundle == true )
+						if ( clipToPlay.Substring ( clipToPlay.Length - 7 ) == "unity3d" )
+						{
 
-							clipToPlay = clipToPlay.Substring ( 0, clipToPlay.Length - 8 );
-						else
-							clipToPlay = clipToPlay.Substring ( 0, clipToPlay.Length - 4 );
+							isAssetBundle = true;
+							songName = clipToPlay.Substring ( 0, clipToPlay.Length - 8 );
+						} else {
+
+							isAssetBundle = false;
+							songName = clipToPlay.Substring ( 0, clipToPlay.Length - 4 );
+						}
+					} else {
+						isAssetBundle = false;
+						songName = clipToPlay.Substring ( 0, clipToPlay.Length - 4 );
 					}
+
+					if ( showTypes == false )
+						clipToPlay = songName;
 
 					if ( GUILayout.Button ( clipToPlay ))
 					{
@@ -610,6 +603,8 @@ public class MusicViewer : MonoBehaviour
 						{
 
 							StartCoroutine ( LoadAssetBundle ( "file://" + pathToFile, songName));
+							loadingImage.showLoadingImages = true;
+							loadingImage.InvokeRepeating ("LoadingImages", 0.25F, 0.25F);
 
 						} else {
 
@@ -659,6 +654,22 @@ public class MusicViewer : MonoBehaviour
 
 		hideGUI = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 - 160, musicViewerPosition.height - 20, 80, 20 ), hideGUI, "Hide Songs" );
 		showVisualizer = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 - 80, musicViewerPosition.height - 20, 100, 20 ), showVisualizer, "AudioVisualizer" );
+
+		if ( showVisualizer == true )
+		{
+
+			GameObject.FindGameObjectWithTag ("AudioVisualizer").GetComponent<AudioVisualizerR> ().showAV = showVisualizer;
+			audioVisualizerLight.color = new Color ( avcR, avcG, avcB, 1.000F );
+			manager.GetComponent<BloomAndLensFlares>().enabled = bloom;
+			manager.GetComponent<MotionBlur>().enabled = motionBlur;
+			manager.GetComponent<SunShafts>().enabled = sunShafts;
+		} else {
+
+			GameObject.FindGameObjectWithTag ("AudioVisualizer").GetComponent<AudioVisualizerR> ().showAV = showVisualizer;
+			manager.GetComponent<BloomAndLensFlares>().enabled = false;
+			manager.GetComponent<MotionBlur>().enabled = false;
+			manager.GetComponent<SunShafts>().enabled = false;
+		}
 		
 		if ( doubleSpeed = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 + 20, musicViewerPosition.height - 20, 95, 20 ), doubleSpeed, "Double Speed" ))
 		{
@@ -680,16 +691,6 @@ public class MusicViewer : MonoBehaviour
 		
 		if ( halfSpeed == false && doubleSpeed == false )
 			manager.audio.pitch = 1.0F;
-
-		if ( showVisualizer == true )
-		{
-
-			GameObject.FindGameObjectWithTag ("AudioVisualizer").GetComponent<AudioVisualizerL> ().showAV = true;
-			GameObject.FindGameObjectWithTag ("AudioVisualizer").GetComponent<AudioVisualizerR> ().showAV = true;
-		} else {
-			GameObject.FindGameObjectWithTag ("AudioVisualizer").GetComponent<AudioVisualizerL> ().showAV = false;
-			GameObject.FindGameObjectWithTag ("AudioVisualizer").GetComponent<AudioVisualizerR> ().showAV = false;
-		}
 
 		if ( showSettingsWindow == true || showStreamingWindow == true )
 			GUI.DrawTexture ( new Rect ( 0, 0, musicViewerPosition.width, musicViewerPosition.height ), underlay );

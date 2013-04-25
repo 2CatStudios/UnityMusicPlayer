@@ -13,7 +13,7 @@ Up Arrow Key: Play previous song
 FAQ:
 
 (Q) How do I add songs?
-(A) There are a few ways to add songs, the easiest being to click the "Add Songs" button, and drag your audio files into the folder that will appear. You can also download music via the OnlineMusicBrowser. If you don't know what that is, read on.
+(A) There are a few ways to add songs, the easiest being to click the "Manage Audio" button, and drag your audio files into the folder that will appear. You can also download music via the OnlineMusicBrowser. If you don't know what that is, read on.
 
 (Q) I listened to Owl City before Fireflies, and I want to add music the hard way.
 (A) You can navigate to
@@ -31,7 +31,7 @@ and drop music files in there.
 (A) No, everything in our store is free. So, you can receive music, but you cannot pay for it.
 
 (Q) Is that legal?
-(A) Don't worry, we have permission from all the artists on UMP to give their music away.
+(A) Don't worry, we have permission from all the artists on UMP to give their music away. However, some artists have requested that their music needs to remain private, so some songs won't work in other players.
 
 (Q) Okay, I went to your "store" (it's very cool, by the way), and downloaded some songs; how do I get back to the musicViewer?!
 (A) The left arrow key will take you back to the MusicViewer.
@@ -40,16 +40,16 @@ and drop music files in there.
 (A) UnityMusicPlayer only supports .WAV and .OGG audio files, but have no fear, there are easy ways to convert them; scroll to the bottom to see how.
 
 (Q) You said UMP only supports .WAV and .OGG files, why?
-(A) The answer is simple: .MP3 licensing fees are too expensive, and who uses any other formats? (That is rhetorical, I know you like AIF)
+(A) The answer is simple: .MP3 licensing fees are too expensive, and who uses any other formats? (That is rhetorical, I know you like AIFF)
 
-(Q) I can read your mind, and I know that you know that I like AIF. Does UMP support that?
-(A) Woah, you're creepy… anyway, no, UMP only supports .WAV and .OGG. That said, the more people that contact us asking for other music formats, the more likely you'll be able to play it in a future update.
+(Q) I can read your mind, and I know that you know that I like AIFF. Does UMP support that?
+(A) Whoa, you're creepy… anyway, no, UMP only supports .WAV and .OGG. That said, the more people that contact us asking for other music formats, the more likely you'll be able to use it in a future update.
 
 (Q) I have Shuffle on, but my song has repeated! The deck must be rigged!
-(A) Put simply, the Shuffle function randomly (if you believe in random) picks a song to play; that means the same song can play many times in a row (although, it's unlikely).
+(A) Put simply, the Shuffle function randomly (if you believe in random) picks a song to play. That means the same song can play many times in a row (although, it's unlikely).
 
 (Q) My totally important question was not answered here, what do I do?!!1!!!1!11!!!!!2!
-(A) If this FAQ didn't resolve your question, please email me at: gibsonbethke@gmail.com
+(A) If this FAQ didn't resolve your question, please email us at: gibsonbethke@gmail.com
 
 (Q) After reading the FAQ, I feel worse about myself.
 (A) Although this is a serious FAQ, I wanted it to be fun to read… so I added humor! It's all meant in good fun, and I hope I didn't offend you (guy who listened to Owl City before Fireflies, I'm talking to you)!
@@ -57,7 +57,7 @@ and drop music files in there.
 
 Converting to .WAV or .OGG:
 
-In order to listen to your music in UMP, you must have .WAV or .OGG audio files. Although we haven't included a way to convert music natively (yet, probably), you can use iTunes to easily change music from almost any format to .WAV or .OGG. It's a relatively simple process, and I'll outline the steps bellow.
+In order to listen to your music in UMP, you must have .WAV or .OGG audio files. Although we haven't included a way to convert music natively (yet… probably), you can use iTunes to easily change music from almost any format to .WAV or .OGG. It's a relatively simple process, and I'll outline the steps bellow.
 
 (1) Open iTunes.
 
@@ -67,11 +67,11 @@ In order to listen to your music in UMP, you must have .WAV or .OGG audio files.
 
 (4) Set "Import Using:" to WAV Encoder or OGG Encoder
 
-(5) Click Okay, and select all the songs you want to convert (Shift-Click)
+(5) Click Okay, and select all the songs you want to convert (Shift-Click / Command-Click)
 
-(6) Right click, and select "Create WAV Version" or "Create OGG Version"
+(6) Right-Click, and select "Create WAV Version" or "Create OGG Version"
 
-(7) After the converting process has completed, start UMP and click "Add Songs".
+(7) After the converting process has completed, start UMP and click "Manage Audio".
 
 (8) Drag the songs from iTunes to your UMP folder.
 
