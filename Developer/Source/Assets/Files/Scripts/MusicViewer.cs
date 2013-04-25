@@ -322,7 +322,7 @@ public class MusicViewer : MonoBehaviour
 		
 		GUI.Label ( new Rect ( -36, 17, 340, 25 ), "Paste the link to an audio file in the textfield." );
 		
-		streamingLink = GUI.TextField ( new Rect ( 45, 45, 300, 20 ), streamingLink );
+		streamingLink = GUI.TextField ( new Rect ( 45, 45, 300, 20 ), streamingLink.Trim ());
 		
 		if ( GUI.Button ( new Rect ( 6, 45, 35, 20 ), "Go" ))
 		{
