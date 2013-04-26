@@ -93,7 +93,7 @@ BlackTie Vivid
 Ambient
 wav
 http://ubuntuone.com/3O4KUeb3CbHxiGYLrom4PO
-NONE
+https://soundcloud.com/blacktie-vivid
 
 Joking
 UMP Exclusive
@@ -126,3 +126,11 @@ Electronic (Trance)
 unity3d
 http://ubuntuone.com/5FhLmaobrtN2LhnWXPebwy
 http://soundcloud.com/avelocity
+
+Background Sounds
+Darkest Mornings / Brightest Nights
+BlackTie Vivid
+Ambient
+wav
+http://ubuntuone.com/1Gz5btxAjxMa76xHD6Dg1A
+https://soundcloud.com/blacktie-vivid
