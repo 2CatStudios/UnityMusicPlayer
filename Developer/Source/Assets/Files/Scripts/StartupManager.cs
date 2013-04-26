@@ -23,6 +23,9 @@ public class StartupManager : MonoBehaviour
 	bool connctingToInternet = true;
 	bool errorInInternetConnection = false;
 
+	internal bool showUnderlay = false;
+
+	PaneManager paneManager;
 	OnlineMusicBrowser onlineMusicBrowser;
 	internal string[] allSongs;
 	
@@ -53,6 +56,7 @@ public class StartupManager : MonoBehaviour
 
 		connectionInformation.text = "Connecting to the OnlineMusicDatabase...";
 		onlineMusicBrowser = GameObject.FindGameObjectWithTag ("OnlineMusicBrowser").GetComponent<OnlineMusicBrowser>();
+		paneManager = gameObject.GetComponent<PaneManager>();
 
 		if(Environment.OSVersion.ToString().Substring (0, 4) == "Unix")
 		{
@@ -180,6 +184,8 @@ public class StartupManager : MonoBehaviour
 		if (updateAvailable == true)
 		{
 
+			showUnderlay = true;
+			paneManager.popupBlocking = true;
 			GUI.Window(3, new Rect (Screen.width / 2 - 142.5F, Screen.height / 2 - 85, 300, 100), NewVersion, "An Update is Available");
 			GUI.FocusWindow (3);
 			GUI.BringWindowToFront ( 3 );
@@ -209,6 +215,7 @@ public class StartupManager : MonoBehaviour
 
 		    developmentMode = false;
 			GUI.FocusWindow ( 0 );
+			GUI.BringWindowToFront ( 0 );
 		}
 	}
 
@@ -218,7 +225,14 @@ public class StartupManager : MonoBehaviour
 		GUI.Label (new Rect (0, 15, 300, 40), applicationDownloads[2]);
 		GUI.Label (new Rect (0, 50, 300, 40), "Download now?");
 		if (GUI.Button (new Rect (20, 60, 70, 30), "No"))
+		{
+
 			updateAvailable = false;
+			showUnderlay = false;
+			paneManager.popupBlocking = false;
+			GUI.FocusWindow ( 0 );
+			GUI.BringWindowToFront ( 0 );
+		}
 		
 		if (GUI.Button (new Rect (210, 60, 70, 30), "Yes"))
 		{
@@ -227,6 +241,9 @@ public class StartupManager : MonoBehaviour
 				Process.Start (macVersionLink);
 			else
 				Process.Start (windowsVersionLink);
+			paneManager.popupBlocking = true;
+			updateAvailable = false;
+			showUnderlay = false;
 			Application.Quit();
 		}
 	}

@@ -202,7 +202,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 		
 		GUI.skin = skin;
 
-		onlineMusicBrowserPosition = GUI.Window (1, onlineMusicBrowserPosition, OnlineMusicBrowserPane, "OnlineMusicBrowser");
+		if ( paneManager.loading == false )
+			onlineMusicBrowserPosition = GUI.Window (1, onlineMusicBrowserPosition, OnlineMusicBrowserPane, "OnlineMusicBrowser");
 
 		if(startOMB == true)
 		{

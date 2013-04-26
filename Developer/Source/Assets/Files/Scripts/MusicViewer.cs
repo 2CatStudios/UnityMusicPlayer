@@ -15,7 +15,8 @@ public class MusicViewer : MonoBehaviour
 	StartupManager startupManager;
 	LoadingImage loadingImage;
 	PaneManager paneManager;
-	Light audioVisualizerLight;
+	AudioVisualizerR audioVisualizerR;
+	AudioVisualizerL audioVisualizerL;
 
 //-------
 	
@@ -121,7 +122,8 @@ public class MusicViewer : MonoBehaviour
 		settingsWindowRect.x = musicViewerPosition.width/2 - settingsWindowRect.width/2;
 		settingsWindowRect.y = musicViewerPosition.height/2 - settingsWindowRect.height/2;
 
-		audioVisualizerLight = GameObject.FindGameObjectWithTag ( "AudioVisualizerLight" ).GetComponent<Light>();
+		audioVisualizerR = GameObject.FindGameObjectWithTag ("AudioVisualizer").GetComponent<AudioVisualizerR> ();
+		audioVisualizerL = GameObject.FindGameObjectWithTag ("AudioVisualizer").GetComponent<AudioVisualizerL> ();
 
 		clipList = Directory.GetFiles ( mediaPath, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
 
@@ -142,7 +144,6 @@ public class MusicViewer : MonoBehaviour
 		avcR = float.Parse ( prefs [ 6 ] );
 		avcG = float.Parse ( prefs [ 7 ] );
 		avcB = float.Parse ( prefs [ 8 ] );
-		audioVisualizerLight.color = new Color ( avcR, avcG, avcB, 255 );
 
 
 		bloom = Convert.ToBoolean ( prefs [ 9 ] );	
@@ -652,20 +653,27 @@ public class MusicViewer : MonoBehaviour
 		GUILayout.EndVertical();
 		GUILayout.EndHorizontal();
 
-		hideGUI = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 - 160, musicViewerPosition.height - 20, 80, 20 ), hideGUI, "Hide Songs" );
+		hideGUI = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 - 160, musicViewerPosition.height - 20, 80, 20 ), hideGUI, "Hide Audio" );
 		showVisualizer = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 - 80, musicViewerPosition.height - 20, 100, 20 ), showVisualizer, "AudioVisualizer" );
 
 		if ( showVisualizer == true )
 		{
 
-			GameObject.FindGameObjectWithTag ("AudioVisualizer").GetComponent<AudioVisualizerR> ().showAV = showVisualizer;
-			audioVisualizerLight.color = new Color ( avcR, avcG, avcB, 1.000F );
+			audioVisualizerR.showAV = showVisualizer;
+			audioVisualizerL.showAV = showVisualizer;
+			audioVisualizerR.topLine.material.color = new Color ( avcR, avcG, avcB, 255 );
+			audioVisualizerR.bottomLine.material.color = new Color ( avcR, avcG, avcB, 255 );
+			audioVisualizerL.topLine.material.color = new Color ( avcR, avcG, avcB, 255 );
+			audioVisualizerL.bottomLine.material.color = new Color ( avcR, avcG, avcB, 255 );
+
 			manager.GetComponent<BloomAndLensFlares>().enabled = bloom;
 			manager.GetComponent<MotionBlur>().enabled = motionBlur;
 			manager.GetComponent<SunShafts>().enabled = sunShafts;
 		} else {
 
-			GameObject.FindGameObjectWithTag ("AudioVisualizer").GetComponent<AudioVisualizerR> ().showAV = showVisualizer;
+			audioVisualizerR.showAV = showVisualizer;
+			audioVisualizerL.showAV = showVisualizer;
+
 			manager.GetComponent<BloomAndLensFlares>().enabled = false;
 			manager.GetComponent<MotionBlur>().enabled = false;
 			manager.GetComponent<SunShafts>().enabled = false;
@@ -692,7 +700,7 @@ public class MusicViewer : MonoBehaviour
 		if ( halfSpeed == false && doubleSpeed == false )
 			manager.audio.pitch = 1.0F;
 
-		if ( showSettingsWindow == true || showStreamingWindow == true )
+		if ( showSettingsWindow == true || showStreamingWindow == true || startupManager.showUnderlay == true )
 			GUI.DrawTexture ( new Rect ( 0, 0, musicViewerPosition.width, musicViewerPosition.height ), underlay );
 	}
 

@@ -23,10 +23,9 @@ public class AudioVisualizerL : MonoBehaviour
 	private float[] spectrum; //Arrat to store spectrum data from audio
 	private float rmsValue;
 	private float[] volume; //Array to store output data in for calculating volume
-	private float mMax; // Target value for sine amplitude multiplier
-	private float mCur = 0; //Current value for sine amplitude multiplier
 
-	public LineRenderer[] renderers;
+	public LineRenderer topLine;
+	public LineRenderer bottomLine;
 	
 	void Start ()
 	{
@@ -36,13 +35,9 @@ public class AudioVisualizerL : MonoBehaviour
 		spectrum = new float[numSamples];
 		fCur = new float [numSamples];
 		fMax = new float [numSamples];
-		
-		foreach(LineRenderer l in renderers)
-		{
-			
-        	l.SetVertexCount (numSamples);
-        	l.useWorldSpace = false;
-        }
+
+        topLine.SetVertexCount (numSamples);
+		bottomLine.SetVertexCount (numSamples);
 	}
 	
 	void Update ()
@@ -51,8 +46,8 @@ public class AudioVisualizerL : MonoBehaviour
 			if (showAV == true)
 			{
 
-				foreach (LineRenderer l in renderers)	
-					l.enabled = true;
+				topLine.enabled = true;
+				bottomLine.enabled = true;
 
 				#region Get volume
 				/**Thank you to Aldo Naletto on Unity Answers**/
@@ -106,18 +101,15 @@ public class AudioVisualizerL : MonoBehaviour
 			
 					#endregion
 
-					//Apply calculated position to current point in Linerenderer
-					foreach (LineRenderer l in renderers)
-							l.SetPosition (i, new Vector3 (x, y, 0));
+					topLine.SetPosition (i, new Vector3 (x, y, 0));
+					bottomLine.SetPosition (i, new Vector3 (x, y, 0));
 			}
 		
 			#endregion
-					
-			foreach (LineRenderer l in renderers)	
-					l.gameObject.renderer.material.mainTextureOffset -= new Vector2 (Time.deltaTime * 20 * mCur, 0);
+
 		} else {
-				foreach (LineRenderer l in renderers)	
-						l.enabled = false;
+			topLine.enabled = false;
+			bottomLine.enabled = false;
 		}
 	}
 }
