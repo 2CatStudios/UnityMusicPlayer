@@ -2,7 +2,7 @@
 Liberty
 Liberty - EP
 DJ Purify
-Electronic (Trance)
+Trance
 wav
 http://ubuntuone.com/7BxIsjXjlxDY7rXFUvkGCA
 http://purify1.bandcamp.com/track/purify-liberty
@@ -10,7 +10,7 @@ http://purify1.bandcamp.com/track/purify-liberty
 You Are Like Me
 Act Of Love/You Are Like Me
 Wolfgun
-Electronic (Dubstep)
+Dubstep
 wav
 http://ubuntuone.com/7j5Tbjjm4GZyi4ztBSkgOa
 http://rchetype.bandcamp.com/track/you-are-like-me
@@ -18,7 +18,7 @@ http://rchetype.bandcamp.com/track/you-are-like-me
 Valley of the Shadows
 Physics
 Wolfgun
-Electronic (Dubstep)
+Dubstep
 wav
 http://ubuntuone.com/7GoxiBHbdbLajV2qa53Z5y
 http://wolfgun.bandcamp.com/album/physics
@@ -26,7 +26,7 @@ http://wolfgun.bandcamp.com/album/physics
 River (ft. Tim Bonvallet)
 SUNDISK
 Wolfgun
-Electronic (Trance)
+Trance
 wav
 http://ubuntuone.com/4ZEoCs1YL2WRazuwq1HylF
 http://wolfgun.bandcamp.com/album/sundisk
@@ -34,7 +34,7 @@ http://wolfgun.bandcamp.com/album/sundisk
 Pacific
 SUNDISK
 Wolfgun
-Electronic (Pop)
+Electronic
 wav
 http://ubuntuone.com/5miTx9iY7zvu26m40N0Gp6
 http://wolfgun.bandcamp.com/album/sundisk
@@ -42,15 +42,15 @@ http://wolfgun.bandcamp.com/album/sundisk
 Classic Tetris
 UMP Exclusive
 Combustible Lemonade
-Soundtrack (VideoGame)
-wav
-http://ubuntuone.com/7g2DhY50oCgdIMJENFs68w
+VideoGame
+unity3d
+http://ubuntuone.com/7lXCnSmWjwLqBE7LMT2HyQ
 NONE
 
 Epic Classic
 UMP Exclusive
 Combustible Lemonade
-Orchestra (Violin)
+Orchestra
 wav
 http://ubuntuone.com/5O5r0JDZ3aPrwusB2Zu1jw
 NONE
@@ -58,7 +58,7 @@ NONE
 Blended
 it burns
 Combustible Lemonade
-Electronic (Dubstep)
+Dubstep
 wav
 http://ubuntuone.com/4PnkC6BRtLK9wnuveSpfqe
 https://soundcloud.com/combustible-lemonade/2nd-dubstep-song
@@ -66,7 +66,7 @@ https://soundcloud.com/combustible-lemonade/2nd-dubstep-song
 Quantum Realm
 Long Time
 Combustible Lemonade
-Electronic (Dubstep)
+Dubstep
 wav
 http://ubuntuone.com/2wDrF6eO5JkQDODyxiIwRM
 https://soundcloud.com/combustible-lemonade/quantum-realm
@@ -74,7 +74,7 @@ https://soundcloud.com/combustible-lemonade/quantum-realm
 Ghosts
 Long Time
 Combustible Lemonade
-Electronic (Dubstep)
+Dubstep
 wav
 http://ubuntuone.com/2ZZdKdY7BYwYPNuPztSEbl
 NONE
@@ -82,7 +82,7 @@ NONE
 End of the World
 it burns
 Combustible Lemonade
-Electronic (Dubstep)
+Dubstep
 wav
 http://ubuntuone.com/5st0Li9CB7afaJnQoxrpnF
 https://soundcloud.com/combustible-lemonade/combustible-lemonade-end-of
@@ -90,15 +90,47 @@ https://soundcloud.com/combustible-lemonade/combustible-lemonade-end-of
 The Future of our Past
 Darkest Mornings / Brightest Nights
 BlackTie Vivid
-Electronic (Ambient)
+Ambient
 wav
 http://ubuntuone.com/3O4KUeb3CbHxiGYLrom4PO
-NONE
+https://soundcloud.com/blacktie-vivid
 
 Joking
-Original Tracks
+UMP Exclusive
 BlackTie Vivid
-Electronic (Progressive)
+Trance
 wav
 http://ubuntuone.com/7FxPUdfJojsWQJQAfosAcJ
 NONE
+
+Catastrophic
+Get Outside
+Avelocity
+Electronic (Trance)
+unity3d
+http://ubuntuone.com/7fKMUHrE2XCPCzpQeGpFZa
+http://soundcloud.com/avelocity
+
+Liquid Sunshine
+Get Outside
+Avelocity
+Electronic (Trance)
+unity3d
+http://ubuntuone.com/4Kba9YLDz46aDwukt9x8G3
+http://soundcloud.com/avelocity
+
+Vibrance
+Vibrance - EP
+Avelocity
+Electronic (Trance)
+unity3d
+http://ubuntuone.com/5FhLmaobrtN2LhnWXPebwy
+http://soundcloud.com/avelocity
+
+Background Sounds
+Darkest Mornings / Brightest Nights
+BlackTie Vivid
+Ambient
+wav
+http://ubuntuone.com/1Gz5btxAjxMa76xHD6Dg1A
+https://soundcloud.com/blacktie-vivid
