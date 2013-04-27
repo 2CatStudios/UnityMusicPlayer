@@ -61,7 +61,7 @@ Combustible Lemonade
 Dubstep
 wav
 http://ubuntuone.com/3292zZJBkEBwnUR5DumLr1
-https://soundcloud.com/combustible-lemonade/2nd-dubstep-song
+http://soundcloud.com/combustible-lemonade/2nd-dubstep-song
 
 Quantum Realm
 Long Time
@@ -69,7 +69,7 @@ Combustible Lemonade
 Dubstep
 wav
 http://ubuntuone.com/4Q18uccMDugja68nnIDx6F
-https://soundcloud.com/combustible-lemonade/quantum-realm
+http://soundcloud.com/combustible-lemonade/quantum-realm
 
 Ghosts
 Long Time
@@ -85,7 +85,7 @@ Combustible Lemonade
 Dubstep
 wav
 http://ubuntuone.com/6gkJXzF1qC5Oygr1aMXTQT
-https://soundcloud.com/combustible-lemonade/combustible-lemonade-end-of
+http://soundcloud.com/combustible-lemonade/combustible-lemonade-end-of
 
 The Future of our Past
 Darkest Mornings / Brightest Nights
@@ -93,7 +93,7 @@ BlackTie Vivid
 Ambient
 wav
 http://ubuntuone.com/3O4KUeb3CbHxiGYLrom4PO
-https://soundcloud.com/blacktie-vivid
+http://soundcloud.com/blacktie-vivid
 
 Joking
 UMP Exclusive
@@ -133,4 +133,28 @@ BlackTie Vivid
 Ambient
 wav
 http://ubuntuone.com/1Gz5btxAjxMa76xHD6Dg1A
-https://soundcloud.com/blacktie-vivid
+http://soundcloud.com/blacktie-vivid
+
+Space Invaders
+Space Invaders - Single
+UMCΛRUJΞ
+Dubstep
+ogg
+http://ubuntuone.com/1MGY3Bci6OXzH0YibIJh13
+http://soundcloud.com/umcaruje
+
+Fractal
+Fractal - Single
+UMCΛRUJΞ
+Dubstep
+ogg
+http://ubuntuone.com/6yXdt9BaVSMbu7KpdZms2W
+http://soundcloud.com/umcaruje
+
+Maths (Umcaruje Cover)
+Maths - Single
+UMCΛRUJΞ
+Dubstep
+ogg
+http://ubuntuone.com/4ljvKJfbfsB9qRbphRPQzm
+http://soundcloud.com/umcaruje
