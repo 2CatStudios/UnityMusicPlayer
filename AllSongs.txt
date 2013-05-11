@@ -50,7 +50,7 @@ NONE
 Epic Classic
 UMP Exclusive
 Combustible Lemonade
-Orchestra
+Classical
 wav
 http://ubuntuone.com/7fw5QzTFScCtMCB4sSvhcL
 NONE
@@ -162,7 +162,7 @@ http://soundcloud.com/umcaruje
 15 Inventions a 2 Voix: IV
 UMP Exclusive
 Combustible Lemonade
-Orchestra
+Classical
 wav
 http://ubuntuone.com/0T1cNERrJpDxj1nfpAQVyK
 NONE
