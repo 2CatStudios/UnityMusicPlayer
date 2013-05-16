@@ -39,7 +39,7 @@ public class StartupManager : MonoBehaviour
 	internal string supportPath;
 	internal string mediaPath;
 
-	int linesInPrefs = 19;
+	int linesInPrefs = 20;
 
 	string[] applicationDownloads;
 
@@ -89,12 +89,12 @@ public class StartupManager : MonoBehaviour
 			using (FileStream createPrefs = File.Create(supportPath + "Preferences.umpp"))
 			{
 				
-				Byte[] preferences = new UTF8Encoding(true).GetBytes("False\nFalse\nFalse\nFalse\nFalse\n1.0\n0.373\n0.569\n1.000\nFalse\nFalse\nFalse\n0\n0\n0\n0\n0\n0\n0");
+				Byte[] preferences = new UTF8Encoding(true).GetBytes("False\nFalse\nFalse\nFalse\nFalse\nFalse\n1.0\n0.373\n0.569\n1.000\nFalse\nFalse\nFalse\n0\n0\n0\n0\n0\n0\n0");
 				createPrefs.Write(preferences, 0, preferences.Length);
 			}
 		}
 
-		if(!File.Exists (supportPath + "FAQ & Tutorial.txt") | !File.Exists (supportPath + "ReadMe.txt"))
+		if(!File.Exists (supportPath + "FAQ & Tutorial.txt") || !File.Exists (supportPath + "ReadMe.txt"))
 		{
 
 			File.Copy (Application.streamingAssetsPath + Path.DirectorySeparatorChar + "FAQ & Tutorial.txt", supportPath + "FAQ & Tutorial.txt");
@@ -120,7 +120,7 @@ public class StartupManager : MonoBehaviour
 			}
 			faq.Close();
 			readme.Close ();
-			
+
 			if(faqVersion != runningVersion.ToString ())
 			{
 				

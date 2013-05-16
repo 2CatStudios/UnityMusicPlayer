@@ -43,33 +43,36 @@ public class PaneManager : MonoBehaviour
 */
 	void Update()
 	{
-
-		if ( popupBlocking == false && Input.GetKey (KeyCode.LeftArrow) && currentPane == pane.musicViewer && moving == false && startupManager.musicMakerEnabled == true )
+		if ( musicViewer.djMode == false )
 		{
+
+			if ( popupBlocking == false && Input.GetKey (KeyCode.LeftArrow) && currentPane == pane.musicViewer && moving == false && startupManager.musicMakerEnabled == true )
+			{
 			
-			moving = true;
-			moveToMM = true;
-		}
+				moving = true;
+				moveToMM = true;
+			}
 
-		if ( popupBlocking == false && Input.GetKey (KeyCode.RightArrow) && currentPane == pane.musicMaker && moving == false )
-		{
+			if ( popupBlocking == false && Input.GetKey (KeyCode.RightArrow) && currentPane == pane.musicMaker && moving == false )
+			{
 			
-			moving = true;
-			moveToMVfMM = true;
-		}
+				moving = true;
+				moveToMVfMM = true;
+			}
 
-		if ( popupBlocking == false && Input.GetKey (KeyCode.LeftArrow) && currentPane == pane.onlineMusicBrowser && moving == false )
-		{
+			if ( popupBlocking == false && Input.GetKey (KeyCode.LeftArrow) && currentPane == pane.onlineMusicBrowser && moving == false )
+			{
 			
-			moving = true;
-			moveToMVfOMB = true;
-		}
+				moving = true;
+				moveToMVfOMB = true;
+			}
 
-		if ( popupBlocking == false && Input.GetKey (KeyCode.RightArrow) && currentPane == pane.musicViewer && moving == false && loading == false )
-		{
+			if ( popupBlocking == false && Input.GetKey (KeyCode.RightArrow) && currentPane == pane.musicViewer && moving == false && loading == false )
+			{
 
-			moving = true;
-			moveToOMB = true;
+				moving = true;
+				moveToOMB = true;
+			}
 		}
 
 		//Move to OnlineMusicBrowser from MusicViewer

@@ -1,5 +1,5 @@
 UnityMusicPlayer
-0.9
+0.91
 
 
 Tutorial:
@@ -47,6 +47,9 @@ and drop music files in there.
 
 (Q) I have Shuffle on, but my song has repeated! The deck must be rigged!
 (A) Put simply, the Shuffle function randomly (if you believe in random) picks a song to play. That means the same song can play many times in a row (although, it's unlikely).
+
+(Q) I downloaded a song, but it has a brief loading period when I try to play it. What's up with this?
+(A) Some artists have requested that their music is only playable on UnityMusicPlayer, so it's encrypted. The loading is to decode the song, and cache it, so it doesn't have to load again. Just to reiterate, it will only load once, and that data will be cached. When you quit UnityMusicPlayer, the cached data is cleared, so it'll have to load one time when you open UMP next.
 
 (Q) My totally important question was not answered here, what do I do?!!1!!!1!11!!!!!2!
 (A) If this FAQ didn't resolve your question, please email us at: gibsonbethke@gmail.com

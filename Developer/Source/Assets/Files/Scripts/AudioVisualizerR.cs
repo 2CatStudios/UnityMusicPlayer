@@ -26,7 +26,7 @@ public class AudioVisualizerR : MonoBehaviour
 
 	public LineRenderer topLine;
 	public LineRenderer bottomLine;
-	
+
 	void Start ()
 	{
 	

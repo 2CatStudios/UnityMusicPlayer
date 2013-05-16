@@ -31,19 +31,19 @@ public class AudioVisualizerL : MonoBehaviour
 	{
 	
 		//Define arrays
-		volume = new float[numSamples];
-		spectrum = new float[numSamples];
-		fCur = new float [numSamples];
-		fMax = new float [numSamples];
+		volume = new float [ numSamples ];
+		spectrum = new float [ numSamples ];
+		fCur = new float [ numSamples ];
+		fMax = new float [ numSamples ];
 
-        topLine.SetVertexCount (numSamples);
-		bottomLine.SetVertexCount (numSamples);
+        topLine.SetVertexCount ( numSamples );
+		bottomLine.SetVertexCount ( numSamples );
 	}
 	
 	void Update ()
 		{
 			
-			if (showAV == true)
+			if ( showAV == true )
 			{
 
 				topLine.enabled = true;

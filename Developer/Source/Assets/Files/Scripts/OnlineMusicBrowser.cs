@@ -104,6 +104,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	internal bool startOMB = false;
 
 	string[] allSongs;
+	List<Song> allRecentList = new List<Song>();
 	List<Song> allSongsList = new List<Song>();
 	List<Album> allAlbumsList = new List<Album>();
 	List<Artist> allArtistsList = new List<Artist>();
@@ -188,12 +189,16 @@ public class OnlineMusicBrowser : MonoBehaviour
 			song.downloadLink = allSongs [i - 2];
 			song.supportLink = allSongs [i - 1];
 			
-			allSongsList.Add (song);
-			
-			allAlbumsList.Sort((a, b) => a.name.CompareTo(b.name));
-			allArtistsList.Sort((a, b) => a.name.CompareTo(b.name));
-			allGenresList.Sort((a, b) => a.name.CompareTo(b.name));
+			allSongsList.Add ( song );
+			allRecentList.Add ( song );
 		}
+
+		allSongsList.Sort (( a, b ) => a.name.CompareTo ( b.name ));
+		allAlbumsList.Sort (( a, b ) => a.name.CompareTo ( b.name ));
+		allArtistsList.Sort (( a, b ) => a.name.CompareTo ( b.name ));
+		allGenresList.Sort (( a, b ) => a.name.CompareTo ( b.name ));
+		allRecentList.Reverse ();
+
 		paneManager.loading = false;
 	}
 	
@@ -233,12 +238,15 @@ public class OnlineMusicBrowser : MonoBehaviour
 		if (GUILayout.Button ("Genres"))
 			sortBy = 3;
 
+		if (GUILayout.Button ("Recent"))
+			sortBy = 4;
+
 		GUILayout.EndHorizontal ();
 		GUILayout.Space(15);
 		GUILayout.BeginHorizontal ();
 		GUILayout.Space ( onlineMusicBrowserPosition.width / 2 - 300  );
 
-		scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  onlineMusicBrowserPosition.height - ( onlineMusicBrowserPosition.height / 4 + 55 )));
+		scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  onlineMusicBrowserPosition.height - ( onlineMusicBrowserPosition.height / 4 + 56 )));
 
 		switch (sortBy)
 		{
@@ -290,7 +298,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 				{
 
 					specificSort = album.songs;
-					sortBy = 4;
+					sortBy = 5;
 				}
 			}
 			break;
@@ -303,7 +311,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 				{
 
 					specificSort = artist.songs;
-					sortBy = 4;
+					sortBy = 5;
 				}
 			}
 			break;
@@ -316,12 +324,51 @@ public class OnlineMusicBrowser : MonoBehaviour
 				{
 
 					specificSort = genre.songs;
-					sortBy = 4;
+					sortBy = 5;
 				}
 			}
 			break;
 
-			case 4:
+		case 4:
+			if(allRecentList.Count != 0)
+			{
+				
+				foreach (Song song in allRecentList)
+				{
+					
+					if (GUILayout.Button (song.name))
+					{
+						
+						if(songInfoWindowOpen == false)
+						{
+							
+							loadingImage.showLoadingImages = true;
+							loadingImage.InvokeRepeating ("LoadingImages", 0.25F, 0.25F);
+							paneManager.popupBlocking = true;
+							
+							downloadManager.song = song;
+							
+							if ( song.downloadLink.StartsWith ( "|" ) == true )
+							{
+								
+								downloadManager.url = null;
+								downloadManager.downloadButtonText = song.downloadLink.Substring ( 1 );
+							} else if ( song.downloadLink.StartsWith ( "h" ) == true )
+							{
+								
+								downloadManager.url = new Uri (song.downloadLink);
+								downloadManager.downloadButtonText = "Download";
+							}
+							
+							downloadManager.SendMessage ("GetInfo");
+							songInfoWindowOpen = true;
+						}
+					}
+				}
+			}
+			break;
+
+			case 5:
 			foreach(Song song in specificSort)
 			{
 				
