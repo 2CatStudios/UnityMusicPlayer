@@ -6,7 +6,9 @@ using System.Text;
 using System.Collections;
 using System.Diagnostics;
 //Written by GibsonBethke
-//Thanks for getting me through this, Jesus!
+//Thank you for saving me, Jesus!
+//Thank you for living in me, Spirit!
+//Thank you for making me, Father!
 public class MusicViewer : MonoBehaviour
 {
 
@@ -75,10 +77,16 @@ public class MusicViewer : MonoBehaviour
 	bool continuous = false;
 	
 	float volumeBarValue = 1.0F;
+	
+	bool echo = false;
+	string echoDelay = "200";
+	string echoDecayRate = "0.3";
+	string echoWetMix = "0.8";
+	string echoDryMix = "0.6";
 
 	bool showSettingsWindow = false;
 	Rect settingsWindowRect = new Rect ( 0, 0, 350, 200 );
-	bool showAllDividers;
+//	bool showAllDividers;
 	bool showTypes;
 	float avcR = 0.9886364F;
 	float avcG = 0.5227273F;
@@ -149,53 +157,52 @@ public class MusicViewer : MonoBehaviour
 		continuous = Convert.ToBoolean ( prefs [ 2 ] );
 
 		showTypes = Convert.ToBoolean ( prefs [ 3 ] );
-		showAllDividers = Convert.ToBoolean ( prefs [ 4 ] );
-		preciseTimebar = Convert.ToBoolean ( prefs [ 5 ] );
+		preciseTimebar = Convert.ToBoolean ( prefs [ 4 ] );
 		tempPreciseTimebar = preciseTimebar;
-		volumeBarValue = Convert.ToSingle ( prefs [ 6 ] );
+		volumeBarValue = Convert.ToSingle ( prefs [ 5 ] );
 
 
-		avcR = float.Parse ( prefs [ 7 ] );
-		avcG = float.Parse ( prefs [ 8 ] );
-		avcB = float.Parse ( prefs [ 9 ] );
+		avcR = float.Parse ( prefs [ 6 ] );
+		avcG = float.Parse ( prefs [ 7 ] );
+		avcB = float.Parse ( prefs [ 8 ] );
 
 
-		bloom = Convert.ToBoolean ( prefs [ 10 ] );	
-		motionBlur = Convert.ToBoolean ( prefs [ 11 ] );
-		sunShafts = Convert.ToBoolean ( prefs [ 12 ] );
+		bloom = Convert.ToBoolean ( prefs [ 9 ] );	
+		motionBlur = Convert.ToBoolean ( prefs [ 10 ] );
+		sunShafts = Convert.ToBoolean ( prefs [ 11 ] );
 
 
-		previousSongs [ 0 ] = Convert.ToInt32 ( prefs [ 13 ] );
+		previousSongs [ 0 ] = Convert.ToInt32 ( prefs [ 12 ] );
 		if ( previousSongs [ 0 ] > clipList.Length )
 			previousSongs [ 0 ] = clipList.Length;
 		
-		previousSongs [ 1 ] = Convert.ToInt32 ( prefs [ 14 ] );
+		previousSongs [ 1 ] = Convert.ToInt32 ( prefs [ 13 ] );
 		if ( previousSongs [ 1 ] > clipList.Length )
 			previousSongs [ 1 ] = clipList.Length;
 		
-		previousSongs [ 2 ] = Convert.ToInt32 ( prefs [ 15 ] );
+		previousSongs [ 2 ] = Convert.ToInt32 ( prefs [ 14 ] );
 		if ( previousSongs [ 2 ] > clipList.Length )
 			previousSongs [ 2 ] = clipList.Length;
 		
-		previousSongs [ 3 ] = Convert.ToInt32 ( prefs [ 16 ] );
+		previousSongs [ 3 ] = Convert.ToInt32 ( prefs [ 15 ] );
 		if ( previousSongs [ 3 ] > clipList.Length )
 			previousSongs [ 3 ] = clipList.Length;
 		
-		previousSongs [ 4 ] = Convert.ToInt32 ( prefs [ 17 ] );
+		previousSongs [ 4 ] = Convert.ToInt32 ( prefs [ 16 ] );
 		if ( previousSongs [ 4 ] > clipList.Length )
 			previousSongs [ 4 ] = clipList.Length;
 		
-		previousSongs [ 5 ] = Convert.ToInt32 ( prefs [ 18 ] );
+		previousSongs [ 5 ] = Convert.ToInt32 ( prefs [ 17 ] );
 		if ( previousSongs [ 5 ] > clipList.Length )
 			previousSongs [ 5 ] = clipList.Length;
 		
-		previousSongs [ 6 ] = Convert.ToInt32 ( prefs [ 19 ] );
+		previousSongs [ 6 ] = Convert.ToInt32 ( prefs [ 18 ] );
 		if ( previousSongs [ 6 ] > clipList.Length )
 			previousSongs [ 6 ] = clipList.Length;
 
 
 		TextWriter savePrefs = new StreamWriter ( prefsLocation );
-		savePrefs.WriteLine ( loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + showAllDividers + "\n" + preciseTimebar + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + motionBlur + "\n" + sunShafts + "\n" + previousSongs [ 0 ] + "\n" + previousSongs [ 1 ] + "\n" + previousSongs [ 2 ] + "\n" + previousSongs [ 3 ] + "\n" + previousSongs [ 4 ] + "\n" + previousSongs [ 5 ] + "\n" + previousSongs [ 6 ] );
+		savePrefs.WriteLine ( loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + preciseTimebar + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + motionBlur + "\n" + sunShafts + "\n" + previousSongs [ 0 ] + "\n" + previousSongs [ 1 ] + "\n" + previousSongs [ 2 ] + "\n" + previousSongs [ 3 ] + "\n" + previousSongs [ 4 ] + "\n" + previousSongs [ 5 ] + "\n" + previousSongs [ 6 ] );
 		savePrefs.Close ();
 
 		InvokeRepeating ( "Refresh", 0, 2 );
@@ -291,18 +298,11 @@ public class MusicViewer : MonoBehaviour
 			if ( tempDJMode == true )
 			{
 
+				manager.audio.Stop ();
+
 				djMode = true;
 				timebar.enabled = false;
-				currentSong.text = "";
-
-				showVisualizer = true;
-
-				audioVisualizerR.showAV = showVisualizer;
-				audioVisualizerL.showAV = showVisualizer;
-				audioVisualizerR.topLine.material.color = new Color ( avcR, avcG, avcB, 255 );
-				audioVisualizerR.bottomLine.material.color = new Color ( avcR, avcG, avcB, 255 );
-				audioVisualizerL.topLine.material.color = new Color ( avcR, avcG, avcB, 255 );
-				audioVisualizerL.bottomLine.material.color = new Color ( avcR, avcG, avcB, 255 );
+				currentSong.text = "Select Line-In";
 
 				manager.GetComponent<BloomAndLensFlares>().enabled = bloom;
 				manager.GetComponent<MotionBlur>().enabled = motionBlur;
@@ -349,11 +349,32 @@ public class MusicViewer : MonoBehaviour
 		mousePos = Event.current.mousePosition;
 		GUI.Label ( new Rect ( 175 - mousePos.x/20, 35 - mousePos.y/20, 200, 25 ), GUI.tooltip);
 
-		showTypes = GUI.Toggle ( new Rect ( 170, 45, 120, 20 ), showTypes, "Show audio types" );
 
-		showAllDividers = GUI.Toggle ( new Rect ( 170, 65, 115, 20 ), showAllDividers, "Show all dividers" );
+		showTypes = GUI.Toggle ( new Rect ( 170, 42, 120, 15 ), showTypes, "Show audio types" );
 
-		tempPreciseTimebar = GUI.Toggle ( new Rect ( 170, 85, 115, 20 ), tempPreciseTimebar, "Precise Timebar" );
+		tempPreciseTimebar = GUI.Toggle ( new Rect ( 170, 57, 115, 15 ), tempPreciseTimebar, "Precise Timebar" );
+
+#region AudioSettings
+
+		GUI.Box ( new Rect ( 170, 80, 170, 110 ), "Audio Echo Settings" );
+
+		GUI.Label ( new Rect ( 200, 100, 80, 20 ), "Echo Delay" );
+		echoDelay = GUI.TextField ( new Rect ( 175, 100, 30, 20 ), echoDelay, 3 );
+		manager.GetComponent<AudioEchoFilter> ().delay = Convert.ToSingle ( echoDelay );
+
+		GUI.Label ( new Rect ( 204, 122, 110, 20 ), "Echo Decay Rate" );
+		echoDecayRate = GUI.TextField ( new Rect ( 175, 122, 30, 20 ), echoDecayRate, 3 );
+		manager.GetComponent<AudioEchoFilter> ().decayRatio = Convert.ToSingle ( echoDecayRate );
+
+		GUI.Label ( new Rect ( 198, 144, 100, 20 ), "Echo Wet Mix" );
+		echoWetMix = GUI.TextField ( new Rect ( 175, 144, 30, 20 ), echoWetMix, 3 );
+		manager.GetComponent<AudioEchoFilter> ().wetMix = Convert.ToSingle ( echoWetMix );
+
+		GUI.Label ( new Rect ( 196, 166, 100, 20 ), "Echo Dry Mix" );
+		echoDryMix = GUI.TextField ( new Rect ( 175, 166, 30, 20 ), echoDryMix, 3 );
+		manager.GetComponent<AudioEchoFilter> ().dryMix = Convert.ToSingle ( echoDryMix );
+
+#endregion
 	}
 
 
@@ -388,7 +409,7 @@ public class MusicViewer : MonoBehaviour
 				Resources.UnloadUnusedAssets ();
 				
 				TextWriter savePrefs = new StreamWriter ( prefsLocation );
-				savePrefs.WriteLine ( loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + showAllDividers + "\n" + preciseTimebar + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + motionBlur + "\n" + sunShafts + "\n" + previousSongs [ 0 ] + "\n" + previousSongs [ 1 ] + "\n" + previousSongs [ 2 ] + "\n" + previousSongs [ 3 ] + "\n" + previousSongs [ 4 ] + "\n" + previousSongs [ 5 ] + "\n" + previousSongs [ 6 ] );
+				savePrefs.WriteLine ( loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + preciseTimebar + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + motionBlur + "\n" + sunShafts + "\n" + previousSongs [ 0 ] + "\n" + previousSongs [ 1 ] + "\n" + previousSongs [ 2 ] + "\n" + previousSongs [ 3 ] + "\n" + previousSongs [ 4 ] + "\n" + previousSongs [ 5 ] + "\n" + previousSongs [ 6 ] );
 				savePrefs.Close ();
 			
 				if ( startupManager.developmentMode == true )
@@ -418,8 +439,32 @@ public class MusicViewer : MonoBehaviour
 						audioInput = device;
 						pickInput = false;
 
-						UnityEngine.Debug.Log ( "New input device should be " + audioInput );
-						manager.audio.clip = Microphone.Start(audioInput, true, 10, 44100);
+						loadingImage.showLoadingImages = true;
+						loadingImage.InvokeRepeating ("LoadingImages", 0.25F, 0.25F);
+
+						currentSong.text = "";
+
+						showVisualizer = true;
+
+						audioVisualizerR.showAV = showVisualizer;
+						audioVisualizerL.showAV = showVisualizer;
+						audioVisualizerR.topLine.material.color = new Color ( avcR, avcG, avcB, 255 );
+						audioVisualizerR.bottomLine.material.color = new Color ( avcR, avcG, avcB, 255 );
+						audioVisualizerL.topLine.material.color = new Color ( avcR, avcG, avcB, 255 );
+						audioVisualizerL.bottomLine.material.color = new Color ( avcR, avcG, avcB, 255 );
+
+						int minFreq = 20;
+						int maxFreq = 20000;
+
+
+						UnityEngine.Debug.Log ( "New input device: " + audioInput );
+
+						Microphone.GetDeviceCaps ( audioInput, out minFreq, out maxFreq );
+						UnityEngine.Debug.Log ( minFreq + " " + maxFreq  );
+
+						loadingImage.showLoadingImages = false;
+
+						manager.audio.clip = Microphone.Start ( audioInput, true, 2, 44100 );
 						manager.audio.Play();
 					}
 				}
@@ -601,7 +646,6 @@ public class MusicViewer : MonoBehaviour
 			
 			if ( startupManager.developmentMode == true )
 				UnityEngine.Debug.Log ( "Playing audio" );
-			
 		}
 		
 		if ( wwwClient.error != null )
@@ -688,10 +732,6 @@ public class MusicViewer : MonoBehaviour
 
 			if ( hideGUI == false )
 			{
-
-
-				if ( showAllDividers == true )
-					GUILayout.Box ( "Local Audio" );
 			
 				for ( i = 0; i < clipList.Length; i ++ )
 				{
@@ -781,8 +821,8 @@ public class MusicViewer : MonoBehaviour
 		GUILayout.EndVertical();
 		GUILayout.EndHorizontal();
 
-		hideGUI = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 - 160, musicViewerPosition.height - 20, 80, 20 ), hideGUI, "Hide Audio" );
-		showVisualizer = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 - 80, musicViewerPosition.height - 20, 100, 20 ), showVisualizer, "AudioVisualizer" );
+		hideGUI = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 - 190, musicViewerPosition.height - 20, 80, 20 ), hideGUI, "Hide Audio" );
+		showVisualizer = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 - 110, musicViewerPosition.height - 20, 100, 20 ), showVisualizer, "AudioVisualizer" );
 
 		if ( showVisualizer == true )
 		{
@@ -807,7 +847,7 @@ public class MusicViewer : MonoBehaviour
 			manager.GetComponent<SunShafts>().enabled = false;
 		}
 		
-		if ( doubleSpeed = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 + 20, musicViewerPosition.height - 20, 95, 20 ), doubleSpeed, "Double Speed" ))
+		if ( doubleSpeed = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 - 10, musicViewerPosition.height - 20, 95, 20 ), doubleSpeed, "Double Speed" ))
 		{
 			
 			manager.audio.pitch = 2.0F;
@@ -816,7 +856,7 @@ public class MusicViewer : MonoBehaviour
 				halfSpeed = false;
 		}
 		
-		if ( halfSpeed = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 + 115, musicViewerPosition.height - 20, 90, 20 ), halfSpeed, "Half Speed" ))
+		if ( halfSpeed = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 + 85, musicViewerPosition.height - 20, 80, 20 ), halfSpeed, "Half Speed" ))
 		{
 			
 			manager.audio.pitch = 0.5F;
@@ -824,6 +864,14 @@ public class MusicViewer : MonoBehaviour
 			if ( halfSpeed == true && doubleSpeed == true )
 				doubleSpeed = false;
 		}
+
+		echo = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 + 165, musicViewerPosition.height - 20, 90, 20 ), echo,  "Echo" );
+
+		if ( echo == true )
+			manager.GetComponent<AudioEchoFilter> ().enabled = true;
+		else
+		    manager.GetComponent<AudioEchoFilter> ().enabled = false;
+
 		
 		if ( halfSpeed == false && doubleSpeed == false )
 			manager.audio.pitch = 1.0F;
@@ -969,13 +1017,12 @@ public class MusicViewer : MonoBehaviour
 			
 			rtMinutes = 00;
 			rtSeconds = 00;
-			
+
 			manager.audio.Play ();
 			isPaused = false;
 			
 			if ( startupManager.developmentMode == true )
 				UnityEngine.Debug.Log ( "Playing audio" );
-			
 		}
 
 		if ( www.error != null )
@@ -1067,6 +1114,26 @@ public class MusicViewer : MonoBehaviour
 
 //						UnityEngine.Debug.Log ( "SongEnd" );
 					}
+				}
+			}
+		} else {
+
+			if ( Input.GetKey ( KeyCode.Q ))
+			    Application.Quit();
+
+			if ( pickInput == false )
+			{
+
+				float[] spectrum = manager.audio.GetSpectrumData(1024, 0, FFTWindow.BlackmanHarris);
+				int i = 1;
+				while (i < 1023)
+				{
+
+					UnityEngine.Debug.DrawLine(new Vector3(i - 1, spectrum[i] + 10, 0), new Vector3(i, spectrum[i + 1] + 10, 0), Color.red);
+					UnityEngine.Debug.DrawLine(new Vector3(i - 1, Mathf.Log(spectrum[i - 1]) + 10, 2), new Vector3(i, Mathf.Log(spectrum[i]) + 10, 2), Color.cyan);
+					UnityEngine.Debug.DrawLine(new Vector3(Mathf.Log(i - 1), spectrum[i - 1] - 10, 1), new Vector3(Mathf.Log(i), spectrum[i] - 10, 1), Color.green);
+					UnityEngine.Debug.DrawLine(new Vector3(Mathf.Log(i - 1), Mathf.Log(spectrum[i - 1]), 3), new Vector3(Mathf.Log(i), Mathf.Log(spectrum[i]), 3), Color.yellow);
+					i++;
 				}
 			}
 		}
