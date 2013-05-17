@@ -444,8 +444,18 @@ public class MusicViewer : MonoBehaviour
 
 						currentSong.text = "";
 
-						showVisualizer = true;
+						int minFreq = 20;
+						int maxFreq = 20000;
 
+						UnityEngine.Debug.Log ( "New input device: " + audioInput );
+
+						Microphone.GetDeviceCaps ( audioInput, out minFreq, out maxFreq );
+						UnityEngine.Debug.Log ( minFreq + " " + maxFreq  );
+
+						manager.audio.clip = Microphone.Start ( audioInput, true, 10, 44100 );
+						manager.audio.Play();
+
+						showVisualizer = true;
 						audioVisualizerR.showAV = showVisualizer;
 						audioVisualizerL.showAV = showVisualizer;
 						audioVisualizerR.topLine.material.color = new Color ( avcR, avcG, avcB, 255 );
@@ -453,19 +463,7 @@ public class MusicViewer : MonoBehaviour
 						audioVisualizerL.topLine.material.color = new Color ( avcR, avcG, avcB, 255 );
 						audioVisualizerL.bottomLine.material.color = new Color ( avcR, avcG, avcB, 255 );
 
-						int minFreq = 20;
-						int maxFreq = 20000;
-
-
-						UnityEngine.Debug.Log ( "New input device: " + audioInput );
-
-						Microphone.GetDeviceCaps ( audioInput, out minFreq, out maxFreq );
-						UnityEngine.Debug.Log ( minFreq + " " + maxFreq  );
-
 						loadingImage.showLoadingImages = false;
-
-						manager.audio.clip = Microphone.Start ( audioInput, true, 2, 44100 );
-						manager.audio.Play();
 					}
 				}
 
@@ -1111,31 +1109,14 @@ public class MusicViewer : MonoBehaviour
 							Invoke ( "SongEnd", betweenSongDelay );
 						else
 							SongEnd ();
-
-//						UnityEngine.Debug.Log ( "SongEnd" );
 					}
 				}
 			}
-		} else {
+		} else if ( pickInput == false )
+		{
 
-			if ( Input.GetKey ( KeyCode.Q ))
-			    Application.Quit();
-
-			if ( pickInput == false )
-			{
-
-				float[] spectrum = manager.audio.GetSpectrumData(1024, 0, FFTWindow.BlackmanHarris);
-				int i = 1;
-				while (i < 1023)
-				{
-
-					UnityEngine.Debug.DrawLine(new Vector3(i - 1, spectrum[i] + 10, 0), new Vector3(i, spectrum[i + 1] + 10, 0), Color.red);
-					UnityEngine.Debug.DrawLine(new Vector3(i - 1, Mathf.Log(spectrum[i - 1]) + 10, 2), new Vector3(i, Mathf.Log(spectrum[i]) + 10, 2), Color.cyan);
-					UnityEngine.Debug.DrawLine(new Vector3(Mathf.Log(i - 1), spectrum[i - 1] - 10, 1), new Vector3(Mathf.Log(i), spectrum[i] - 10, 1), Color.green);
-					UnityEngine.Debug.DrawLine(new Vector3(Mathf.Log(i - 1), Mathf.Log(spectrum[i - 1]), 3), new Vector3(Mathf.Log(i), Mathf.Log(spectrum[i]), 3), Color.yellow);
-					i++;
-				}
-			}
+			UnityEngine.Debug.Log ( Microphone.IsRecording ( audioInput ));
+			UnityEngine.Debug.Log ( Microphone.GetPosition ( audioInput ));
 		}
 	}
 

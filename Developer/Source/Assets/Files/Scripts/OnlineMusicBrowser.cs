@@ -99,6 +99,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 	Vector2 scrollPosition;
 	internal Rect onlineMusicBrowserPosition = new Rect(0, 0, 800, 600);
 
+	string currentPlace = "Name";
+
 	internal bool showDownloadList = false;
 	internal bool songInfoWindowOpen = false;
 	internal bool startOMB = false;
@@ -227,22 +229,50 @@ public class OnlineMusicBrowser : MonoBehaviour
 		GUILayout.BeginHorizontal ();
 
 		if (GUILayout.Button ("Name"))
+		{
+
 			sortBy = 0;
+			currentPlace = "Name";
+		}
 
 		if (GUILayout.Button ("Albums"))
+		{
+
 			sortBy = 1;
+			currentPlace = "Albums";
+		}
 
 		if (GUILayout.Button ("Artists"))
+		{
+
 			sortBy = 2;
+			currentPlace = "Artists";
+		}
 
 		if (GUILayout.Button ("Genres"))
+		{
+
 			sortBy = 3;
+			currentPlace = "Genres";
+		}
 
 		if (GUILayout.Button ("Recent"))
+		{
+
 			sortBy = 4;
+			currentPlace = "Recent";
+		}
 
 		GUILayout.EndHorizontal ();
-		GUILayout.Space(15);
+		GUILayout.Space(2);
+
+		GUILayout.BeginHorizontal ();
+		GUILayout.FlexibleSpace ();
+		GUILayout.Label ( "Current Sort: " + currentPlace );
+		GUILayout.FlexibleSpace ();
+		GUILayout.EndHorizontal ();
+
+		GUILayout.Space(3);
 		GUILayout.BeginHorizontal ();
 		GUILayout.Space ( onlineMusicBrowserPosition.width / 2 - 300  );
 
@@ -293,11 +323,12 @@ public class OnlineMusicBrowser : MonoBehaviour
 			case 1:
 			foreach (Album album in allAlbumsList)
 			{
-				
+
 				if (GUILayout.Button (album.name))
 				{
 
 					specificSort = album.songs;
+					currentPlace = "Albums > " + album.name;
 					sortBy = 5;
 				}
 			}
@@ -311,6 +342,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 				{
 
 					specificSort = artist.songs;
+					currentPlace = "Artists > " + artist.name;
 					sortBy = 5;
 				}
 			}
@@ -324,6 +356,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 				{
 
 					specificSort = genre.songs;
+					currentPlace = "Genres > " + genre.name;
 					sortBy = 5;
 				}
 			}
