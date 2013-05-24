@@ -20,8 +20,9 @@ public class StartupManager : MonoBehaviour
 	float newestVersion;
 
 	public GUIText connectionInformation;
-	bool connctingToInternet = true;
-	bool errorInInternetConnection = false;
+	bool errorInConnectionToInternet = false;
+	bool connectingToInternet = true;
+	bool u1 = true;
 
 	internal bool showUnderlay = false;
 
@@ -121,14 +122,14 @@ public class StartupManager : MonoBehaviour
 			faq.Close();
 			readme.Close ();
 
-			if(faqVersion != runningVersion.ToString ())
+			if(Convert.ToSingle ( faqVersion ) < runningVersion )
 			{
 				
 				File.Delete (supportPath + "FAQ & Tutorial.txt");
 				File.Copy (Application.streamingAssetsPath + Path.DirectorySeparatorChar + "FAQ & Tutorial.txt", supportPath + "FAQ & Tutorial.txt");
 				Process.Start (supportPath + "FAQ & Tutorial.txt");
 			}
-			if(readmeVersion != runningVersion.ToString ())
+			if(Convert.ToSingle ( readmeVersion ) < runningVersion )
 			{
 				
 				File.Delete (supportPath + "ReadMe.txt");
@@ -160,8 +161,8 @@ public class StartupManager : MonoBehaviour
 			macVersionLink = applicationDownloads[5];
 			windowsVersionLink = applicationDownloads[8];
 			
-			newestVersion = (float)Convert.ToDouble(applicationDownloads [1]);
-			if(runningVersion != newestVersion)
+			newestVersion = Convert.ToSingle(applicationDownloads [1]);
+			if(runningVersion < newestVersion)
 			{
 				
 				updateAvailable = true;
@@ -170,10 +171,13 @@ public class StartupManager : MonoBehaviour
 		{
 			
 			UnityEngine.Debug.Log (errorText);
-			errorInInternetConnection = true;
+			errorInConnectionToInternet = true;
 		}
-		connctingToInternet = false;
-		onlineMusicBrowser.startOMB = true;
+
+		if ( errorInConnectionToInternet == false )
+			onlineMusicBrowser.startOMB = true;
+
+		connectingToInternet = false;
 	}
 
 	void OnGUI ()
@@ -181,23 +185,32 @@ public class StartupManager : MonoBehaviour
 
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 
-		if (updateAvailable == true)
+		if ( updateAvailable == true )
 		{
 
 			showUnderlay = true;
 			paneManager.popupBlocking = true;
-			GUI.Window(3, new Rect (Screen.width / 2 - 142.5F, Screen.height / 2 - 85, 300, 100), NewVersion, "An Update is Available");
-			GUI.FocusWindow (3);
+			GUI.Window ( 3, new Rect (Screen.width / 2 - 142.5F, Screen.height / 2 - 85, 300, 100), NewVersion, "An Update is Available" );
+			GUI.FocusWindow ( 3 );
 			GUI.BringWindowToFront ( 3 );
 		}
 
-		if(connctingToInternet == false)
-			connectionInformation.text = "";
-		
-		if(errorInInternetConnection == true)
-			connectionInformation.text = "Unable to connect to the OnlineMusicDatabase!";
+		if ( errorInConnectionToInternet == true )
+		{
 
-		if(developmentMode == true && Application.isEditor == false)
+			StartCoroutine ( "UnableToConnectToOMB" );
+			errorInConnectionToInternet = false;
+		}
+
+		if ( u1 == true && connectingToInternet == false && errorInConnectionToInternet == false )
+		{
+
+			connectionInformation.text = "";
+			u1 = false;
+		}
+
+
+		if ( developmentMode == true && Application.isEditor == false )
 		{
 
 			GUI.Window ( 5, new Rect ( Screen.width / 2 - 100F, Screen.height / 2 - 45, 200, 80 ), DeveloperMode, "Warning!" );
@@ -246,5 +259,14 @@ public class StartupManager : MonoBehaviour
 			showUnderlay = false;
 			Application.Quit();
 		}
+	}
+
+	IEnumerator UnableToConnectToOMB ()
+	{
+
+		connectionInformation.text = "Unable to connect to the OnlineMusicDatabase!";
+
+		yield return new WaitForSeconds ( 10 );
+		connectionInformation.text = "";
 	}
 }
