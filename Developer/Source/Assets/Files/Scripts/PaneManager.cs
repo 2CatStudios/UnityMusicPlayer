@@ -122,6 +122,7 @@ public class PaneManager : MonoBehaviour
 				onlineMusicBrowser.onlineMusicBrowserPosition.x = onlineMusicBrowser.onlineMusicBrowserPosition.width + onlineMusicBrowser.onlineMusicBrowserPosition.width / 4;
 
 				onlineMusicBrowser.sortBy = 0;
+				onlineMusicBrowser.currentPlace = "Name";
 				moving = false;
 			}
 		}

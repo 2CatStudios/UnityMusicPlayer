@@ -12,9 +12,9 @@ public class AudioVisualizerR : MonoBehaviour
 	public	float scaleOffset; //Scaling of sine waves
 	public	float speedOffset = 8; //Speed of sine waves
 	public	float minSin; //Minimum amplitude multiplier of sine waves.
-	public	int channel; //Which channel to pull audio from (0 or 1)
+	public	int channel = 1; //Which channel to pull audio from (0 or 1)
 	int numSamples = 128; //Number of samples to take from audio
-	public	AudioSource audioSource; //AudioSource to pull data from
+	public AudioSource audioSource; //AudioSource to pull data from
 	public	float sineFade; //Number of points along lineRenderer it takes for sine wave to fade out
 
 	private float[] fCur; //Current frequency value (per vertex)
@@ -41,68 +41,68 @@ public class AudioVisualizerR : MonoBehaviour
 	}
 	
 	void Update ()
-		{
+	{
 			
-			if (showAV == true)
-			{
+		if (showAV == true)
+		{
 
-				topLine.enabled = true;
-				bottomLine.enabled = true;
-
-				#region Get volume
-				/**Thank you to Aldo Naletto on Unity Answers**/
+			topLine.enabled = true;
+			bottomLine.enabled = true;
 		
-				//Fill array with samples
-				audioSource.GetOutputData (volume, channel);
+			#region Get volume
+			/**Thank you to Aldo Naletto on Unity Answers**/
 		
-				int p;
-				float sum = 0;
+			//Fill array with samples
+			audioSource.GetOutputData (volume, channel);
 		
-				for (p = 0; p < numSamples; p++)
-					// sum squared samples
-					sum += volume [p] * volume [p];
-
-				// rms = square root of average
-				rmsValue = Mathf.Sqrt (sum / numSamples);
-				rmsValue = Mathf.Max (rmsValue, .3F);
+			int p;
+			float sum = 0;
 	
+			for (p = 0; p < numSamples; p++)
+				// sum squared samples
+				sum += volume [p] * volume [p];
+
+			// rms = square root of average
+			rmsValue = Mathf.Sqrt (sum / numSamples);
+			rmsValue = Mathf.Max (rmsValue, .3F);
+	
+			#endregion
+
+
+			//Get Spectrum data
+			audioSource.GetSpectrumData (spectrum, channel, FFTWindow.Rectangular);
+	
+			#region Iterate through each sample and linerenderer point
+			for (int i = 0; i < numSamples; i++)
+			{
+				
+				//Move along x plane based on scale
+				float x = scale * i;
+		   
+				//Move last segment out into the distance to make beam look longer
+				if (i == numSamples - 1)	
+					x += 400;
+		   
+				//Get spectrum data for current index. Multiply in scale and volume.
+				float y = spectrum [i] * rmsValue * 2 * yScale;
+		   
+				//Transform y value towards target
+				fMax [i] = Mathf.Max (fMax [i], y); //Same as above we want the highwest point, so wither the current target or the new data
+		   
+
+				#region Transform towards target
+				if (fCur [i] > fMax [i])	
+					fCur [i] = Mathf.Clamp (fCur [i] - Time.deltaTime * 60 * rmsValue * 5, fMax [i], fCur [i]);
+				else
+					fCur [i] = Mathf.Clamp (fCur [i] + Time.deltaTime * 100 * rmsValue * 5, fCur [i], fMax [i]);
+			   
+				fMax [i] -= Time.deltaTime * 3000; //Lower our max over time
+				y = fCur [i]; //Set the y value
+			
 				#endregion
 
-
-				//Get Spectrum data
-				audioSource.GetSpectrumData (spectrum, channel, FFTWindow.Rectangular);
-	
-				#region Iterate through each sample and linerenderer point
-				for (int i = 0; i < numSamples; i++)
-				{
-				
-					//Move along x plane based on scale
-					float x = scale * i;
-		   
-					//Move last segment out into the distance to make beam look longer
-					if (i == numSamples - 1)	
-						x += 400;
-		   
-					//Get spectrum data for current index. Multiply in scale and volume.
-					float y = spectrum [i] * rmsValue * 2 * yScale;
-		   
-					//Transform y value towards target
-					fMax [i] = Mathf.Max (fMax [i], y); //Same as above we want the highwest point, so wither the current target or the new data
-		   
-
-					#region Transform towards target
-					if (fCur [i] > fMax [i])	
-						fCur [i] = Mathf.Clamp (fCur [i] - Time.deltaTime * 60 * rmsValue * 5, fMax [i], fCur [i]);
-					else
-						fCur [i] = Mathf.Clamp (fCur [i] + Time.deltaTime * 100 * rmsValue * 5, fCur [i], fMax [i]);
-			   
-					fMax [i] -= Time.deltaTime * 3000; //Lower our max over time
-					y = fCur [i]; //Set the y value
-			
-					#endregion
-
-					topLine.SetPosition (i, new Vector3 (x, y, 0));
-					bottomLine.SetPosition (i, new Vector3 (x, y, 0));
+				topLine.SetPosition (i, new Vector3 (x, y, 0));
+				bottomLine.SetPosition (i, new Vector3 (x, y, 0));
 			}
 		
 			#endregion

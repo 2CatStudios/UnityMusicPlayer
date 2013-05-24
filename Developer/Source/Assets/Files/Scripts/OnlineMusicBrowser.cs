@@ -98,9 +98,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	
 	Vector2 scrollPosition;
 	internal Rect onlineMusicBrowserPosition = new Rect(0, 0, 800, 600);
-
-	string currentPlace = "Name";
-
+	
 	internal bool showDownloadList = false;
 	internal bool songInfoWindowOpen = false;
 	internal bool startOMB = false;
@@ -114,6 +112,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	
 	internal int sortBy = 0;
 	List<Song> specificSort = new List<Song>();
+	internal string currentPlace = "Name";
 
 	#endregion
 	
