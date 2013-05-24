@@ -104,37 +104,29 @@ public class StartupManager : MonoBehaviour
 			Process.Start (supportPath + "FAQ & Tutorial.txt");
 		} else if(developmentMode == false)
 		{
-
-			string faqVersion = "0.0";
-			string readmeVersion = "0.0";
 			
 			StreamReader faq = new StreamReader(supportPath + "FAQ & Tutorial.txt");
 			StreamReader readme = new StreamReader(supportPath + "ReadMe.txt");
-			
-			int lineCheck = 0;
-			while(lineCheck < 2)
-			{
-				
-				faqVersion = faq.ReadLine();
-				readmeVersion = readme.ReadLine();
-				lineCheck++;
-			}
+
+			float faqVersion = float.Parse ( faq.ReadLine ().Substring ( 17 ));
+			float readmeVersion = float.Parse ( readme.ReadLine ().Substring ( 17 ));
+
 			faq.Close();
 			readme.Close ();
 
-			if(Convert.ToSingle ( faqVersion ) < runningVersion )
+			if( faqVersion < runningVersion )
 			{
 				
-				File.Delete (supportPath + "FAQ & Tutorial.txt");
-				File.Copy (Application.streamingAssetsPath + Path.DirectorySeparatorChar + "FAQ & Tutorial.txt", supportPath + "FAQ & Tutorial.txt");
-				Process.Start (supportPath + "FAQ & Tutorial.txt");
+				File.Delete ( supportPath + "FAQ & Tutorial.txt" );
+				File.Copy ( Application.streamingAssetsPath + Path.DirectorySeparatorChar + "FAQ & Tutorial.txt", supportPath + "FAQ & Tutorial.txt" );
+				Process.Start ( supportPath + "FAQ & Tutorial.txt" );
 			}
-			if(Convert.ToSingle ( readmeVersion ) < runningVersion )
+			if ( readmeVersion < runningVersion )
 			{
 				
-				File.Delete (supportPath + "ReadMe.txt");
-				File.Copy (Application.streamingAssetsPath + Path.DirectorySeparatorChar + "ReadMe.txt", supportPath + "ReadMe.txt");
-				Process.Start (supportPath + "ReadMe.txt");
+				File.Delete ( supportPath + "ReadMe.txt" );
+				File.Copy ( Application.streamingAssetsPath + Path.DirectorySeparatorChar + "ReadMe.txt", supportPath + "ReadMe.txt" );
+				Process.Start ( supportPath + "ReadMe.txt" );
 			}
 		}
 	}

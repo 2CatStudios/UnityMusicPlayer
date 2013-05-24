@@ -1,5 +1,4 @@
-UnityMusicPlayer
-0.91
+UnityMusicPlayer 0.91
 
 
 UnityMusicPlayer is being developed by
