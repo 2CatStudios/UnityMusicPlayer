@@ -67,7 +67,7 @@ public class MusicViewer : MonoBehaviour
 
 	bool hideGUI = false;
 	public GUISkin GuiSkin;
-	public Texture2D streamingWindowTexture;
+	public Texture2D popupWindowTexture;
 	
 	int [ ] previousSongs = new int  [ 7 ] { 0, 0, 0, 0, 0, 0, 0 };
 	int psPlace = 6;
@@ -84,8 +84,8 @@ public class MusicViewer : MonoBehaviour
 	string tempEchoWetMix = "0.8";
 	string tempEchoDryMix = "0.6";
 
-	bool showSettingsWindow = false;
-	Rect settingsWindowRect = new Rect ( 0, 0, 350, 200 );
+	bool showOptionsWindow = false;
+	Rect optionsWindowRect = new Rect ( 0, 0, 350, 220 );
 	bool showTypes;
 	float avcR = 0.9886364F;
 	float avcG = 0.5227273F;
@@ -94,18 +94,18 @@ public class MusicViewer : MonoBehaviour
 	bool motionBlur = false;
 	bool sunShafts = false;
 
-	bool tempDJMode = false;
-	internal bool djMode = false;
+	bool tempSlideshow = false;
+	internal bool slideshow = false;
 
 
-	string[] djModeImageLocations;
-	GUITexture currentDJModeImage;
-	Texture2D newDJModeImage;
+	string[] slideshowImageLocations;
+	GUITexture currentSlideshowImage;
+	Texture2D newSlideshowImage;
 	float fadeVelocity = 0.0F;
 	bool fadeIn = false;
 	bool fadeOut = false;
 
-	int djModeImage = 0;
+	int slideshowImage = 0;
 
 
 //	String audioInput;
@@ -137,7 +137,7 @@ public class MusicViewer : MonoBehaviour
 		loadingImage = GameObject.FindGameObjectWithTag ( "LoadingImage" ).GetComponent<LoadingImage>();
 		mediaPath = startupManager.mediaPath;
 		prefsLocation = startupManager.supportPath + "Preferences.umpp";
-		currentDJModeImage = GameObject.FindGameObjectWithTag ( "DJModeImage" ).GetComponent<GUITexture>();
+		currentSlideshowImage = GameObject.FindGameObjectWithTag ( "DJModeImage" ).GetComponent<GUITexture>();
 
 		musicViewerPosition.width = Screen.width;
 		musicViewerPosition.height = Screen.height;
@@ -145,8 +145,8 @@ public class MusicViewer : MonoBehaviour
 		streamingWindowRect.x = musicViewerPosition.width/2 - streamingWindowRect.width/2;
 		streamingWindowRect.y = musicViewerPosition.height/2 - streamingWindowRect.height/2;
 
-		settingsWindowRect.x = musicViewerPosition.width/2 - settingsWindowRect.width/2;
-		settingsWindowRect.y = musicViewerPosition.height/2 - settingsWindowRect.height/2;
+		optionsWindowRect.x = musicViewerPosition.width/2 - optionsWindowRect.width/2;
+		optionsWindowRect.y = musicViewerPosition.height/2 - optionsWindowRect.height/2;
 
 		audioVisualizerR = GameObject.FindGameObjectWithTag ("AudioVisualizer").GetComponent<AudioVisualizerR> ();
 		audioVisualizerL = GameObject.FindGameObjectWithTag ("AudioVisualizer").GetComponent<AudioVisualizerL> ();
@@ -242,7 +242,7 @@ public class MusicViewer : MonoBehaviour
 	}
 
 
-	void SettingsWindow ( int wid )
+	void OptionsWindow ( int wid )
 	{
 
 		GUI.FocusWindow ( 6 );
@@ -330,98 +330,98 @@ public class MusicViewer : MonoBehaviour
 				}
 			}
 
-			if ( tempDJMode == true )
+			if ( tempSlideshow == true )
 			{
 
 				manager.audio.Stop ();
 
 				timebar.enabled = false;
 				currentSong.text = "";
-				djMode = true;
-				StartCoroutine ( "DJModeIn" );
+				slideshow = true;
+				StartCoroutine ( "SlideshowIN" );
 			}
 
 			GUI.FocusWindow ( 0 );
 			GUI.BringWindowToFront ( 0 );
 			paneManager.popupBlocking = false;
-			showSettingsWindow = false;
+			showOptionsWindow = false;
 		}
 
 #region AudioVisualizerSettings
 
-		GUI.Box ( new Rect ( 10, 20, 150, 170 ), "AudioVisualizer Settings" );
+		GUI.Box ( new Rect ( 10, 20, 150, 195 ), "AudioVisualizer Settings" );
 
-		GUI.Label ( new Rect ( 50, 30, 40, 30 ), "Red" );
-		avcR = GUI.HorizontalSlider ( new Rect ( 25, 50, 100, 15), avcR, 0.0F, 1.000F );
+		GUI.Label ( new Rect ( 50, 35, 40, 30 ), "Red" );
+		avcR = GUI.HorizontalSlider ( new Rect ( 25, 58, 100, 15), avcR, 0.0F, 1.000F );
 
-		GUI.Label ( new Rect ( 50, 55, 40, 30 ), "Green" );
-		avcG = GUI.HorizontalSlider ( new Rect ( 25, 75, 100, 15), avcG, 0.0F, 1.000F );
+		GUI.Label ( new Rect ( 50, 65, 40, 30 ), "Green" );
+		avcG = GUI.HorizontalSlider ( new Rect ( 25, 88, 100, 15), avcG, 0.0F, 1.000F );
 
-		GUI.Label ( new Rect ( 50, 80, 40, 30 ), "Blue" );
-		avcB = GUI.HorizontalSlider ( new Rect ( 25, 100, 100, 15), avcB, 0.0F, 1.000F );
+		GUI.Label ( new Rect ( 50, 95, 40, 30 ), "Blue" );
+		avcB = GUI.HorizontalSlider ( new Rect ( 25, 118, 100, 15), avcB, 0.0F, 1.000F );
 
 		GUI.contentColor = new Color ( avcR, avcG, avcB, 1.000F );
-		GUI.Label ( new Rect ( 35, 110, 80, 20 ), "Sample Color");
+		GUI.Label ( new Rect ( 35, 128, 80, 20 ), "Sample Color");
 		GUI.contentColor = Color.white;
 
-		bloom = GUI.Toggle ( new Rect ( 20, 128, 95, 20 ), bloom, "Toggle Bloom" );
+		bloom = GUI.Toggle ( new Rect ( 20, 150, 95, 20 ), bloom, "Toggle Bloom" );
 
-		motionBlur = GUI.Toggle ( new Rect ( 20, 148, 125, 20 ), motionBlur, "Toggle Motion Blur" );
+		motionBlur = GUI.Toggle ( new Rect ( 20, 170, 125, 20 ), motionBlur, "Toggle Motion Blur" );
 
-		sunShafts = GUI.Toggle ( new Rect ( 20, 168, 120, 20 ), sunShafts, "Toggle Sun Shafts" );
+		sunShafts = GUI.Toggle ( new Rect ( 20, 190, 120, 20 ), sunShafts, "Toggle Sun Shafts" );
 
 #endregion
 
 		GUI.Box ( new Rect ( 170, 20, 110, 22 ), "" );
-		tempDJMode = GUI.Toggle ( new Rect ( 175, 20, 70, 20 ), tempDJMode, new GUIContent ( "DJ Mode", "Remains on until restart!" ));
+		tempSlideshow = GUI.Toggle ( new Rect ( 175, 20, 77, 20 ), tempSlideshow, new GUIContent ( "Slideshow", "Remains on until restart!" ));
 
 		mousePos = Event.current.mousePosition;
-		GUI.Label ( new Rect ( 175 - mousePos.x/20, 35 - mousePos.y/20, 200, 25 ), GUI.tooltip);
+		GUI.Label ( new Rect ( 175 - mousePos.x/20, 40 - mousePos.y/20, 200, 25 ), GUI.tooltip);
 
 
-		showTypes = GUI.Toggle ( new Rect ( 170, 41, 120, 18 ), showTypes, "Show audio types" );
+		showTypes = GUI.Toggle ( new Rect ( 170, 62, 120, 18 ), showTypes, "Show audio types" );
 
-		tempPreciseTimebar = GUI.Toggle ( new Rect ( 170, 59, 115, 15 ), tempPreciseTimebar, "Precise Timebar" );
+		tempPreciseTimebar = GUI.Toggle ( new Rect ( 170, 80, 115, 15 ), tempPreciseTimebar, "Precise Timebar" );
 
 #region AudioSettings
 
-		GUI.Box ( new Rect ( 170, 80, 170, 110 ), "Audio Echo Settings" );
+		GUI.Box ( new Rect ( 170, 104, 170, 110 ), "Audio Echo Settings" );
 
-		GUI.Label ( new Rect ( 200, 100, 80, 20 ), "Echo Delay" );
-		tempEchoDelay = GUI.TextField ( new Rect ( 175, 100, 30, 20 ), tempEchoDelay, 3 );
+		GUI.Label ( new Rect ( 200, 124, 80, 20 ), "Echo Delay" );
+		tempEchoDelay = GUI.TextField ( new Rect ( 175, 124, 30, 20 ), tempEchoDelay, 3 );
 
-		GUI.Label ( new Rect ( 204, 122, 110, 20 ), "Echo Decay Rate" );
-		tempEchoDecayRate = GUI.TextField ( new Rect ( 175, 122, 30, 20 ), tempEchoDecayRate, 3 );
+		GUI.Label ( new Rect ( 204, 146, 110, 20 ), "Echo Decay Rate" );
+		tempEchoDecayRate = GUI.TextField ( new Rect ( 175, 146, 30, 20 ), tempEchoDecayRate, 3 );
 
-		GUI.Label ( new Rect ( 198, 144, 100, 20 ), "Echo Wet Mix" );
-		tempEchoWetMix = GUI.TextField ( new Rect ( 175, 144, 30, 20 ), tempEchoWetMix, 3 );
+		GUI.Label ( new Rect ( 198, 168, 100, 20 ), "Echo Wet Mix" );
+		tempEchoWetMix = GUI.TextField ( new Rect ( 175, 168, 30, 20 ), tempEchoWetMix, 3 );
 
-		GUI.Label ( new Rect ( 196, 166, 100, 20 ), "Echo Dry Mix" );
-		tempEchoDryMix = GUI.TextField ( new Rect ( 175, 166, 30, 20 ), tempEchoDryMix, 3 );
+		GUI.Label ( new Rect ( 196, 190, 100, 20 ), "Echo Dry Mix" );
+		tempEchoDryMix = GUI.TextField ( new Rect ( 175, 190, 30, 20 ), tempEchoDryMix, 3 );
 
 #endregion
 	}
 	
 
-	IEnumerator DJModeIn ()
+	IEnumerator SlideshowIN ()
 	{
 
-		djModeImageLocations = Directory.GetFiles ( startupManager.djModePath, "*.*" ).Where ( s => s.EndsWith ( ".png" ) || s.EndsWith ( ".jpg" ) || s.EndsWith ( ".jpeg" )).ToArray ();
+		slideshowImageLocations = Directory.GetFiles ( startupManager.slideshowPath, "*.*" ).Where ( s => s.EndsWith ( ".png" ) || s.EndsWith ( ".jpg" ) || s.EndsWith ( ".jpeg" )).ToArray ();
 
-		WWW wWw = new WWW ( "file://" + djModeImageLocations [ djModeImage ] );
+		WWW wWw = new WWW ( "file://" + slideshowImageLocations [ slideshowImage ] );
 		yield return wWw;
 
-		newDJModeImage = new Texture2D ( 600, 600, TextureFormat.ARGB32, false );
-		wWw.LoadImageIntoTexture ( newDJModeImage );
-		currentDJModeImage.texture = newDJModeImage;
+		newSlideshowImage = new Texture2D ( 600, 600, TextureFormat.ARGB32, false );
+		wWw.LoadImageIntoTexture ( newSlideshowImage );
+		currentSlideshowImage.texture = newSlideshowImage;
 
 		fadeIn = true;
 
 		yield return new WaitForSeconds ( 7 );
 
-		djModeImage += 1;
-		if ( djModeImage == djModeImageLocations.Length )
-			djModeImage = 0;
+		slideshowImage += 1;
+		if ( slideshowImage == slideshowImageLocations.Length )
+			slideshowImage = 0;
 
 		fadeOut = true;
 	}
@@ -434,39 +434,26 @@ public class MusicViewer : MonoBehaviour
 		{
 
 			paneManager.popupBlocking = true;
-			GUI.skin.window.normal.background = streamingWindowTexture;
+			GUI.skin.window.normal.background = popupWindowTexture;
 			GUI.Window ( 5, streamingWindowRect, StreamingWindow, "Web and Disk Streaming" );
 		}
 
-		if ( showSettingsWindow == true )
+		if ( showOptionsWindow == true )
 		{
 
 			paneManager.popupBlocking = true;
-			GUI.skin.window.normal.background = streamingWindowTexture;
-			GUI.Window ( 6, settingsWindowRect, SettingsWindow, "Settings" );
+			GUI.skin.window.normal.background = popupWindowTexture;
+			GUI.Window ( 6, optionsWindowRect, OptionsWindow, "Options and Settings" );
 		}
 
-		if ( djMode == false )
+		if ( slideshow == false )
 		{
 
 			GUI.skin = GuiSkin;
 			musicViewerPosition = GUI.Window ( 0, musicViewerPosition, MusicViewerPane, "MusicViewer" );
 
 			if ( GUI.Button ( new Rect ( musicViewerPosition.width - 75, musicViewerPosition.height - 50, 60, 30), "Quit" ))
-			{
-			
-				Resources.UnloadUnusedAssets ();
-				
-				TextWriter savePrefs = new StreamWriter ( prefsLocation );
-				savePrefs.WriteLine ( loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + preciseTimebar + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + motionBlur + "\n" + sunShafts + 
-				                     "\n" + tempEchoDelay + "\n" + tempEchoDecayRate + "\n" + tempEchoWetMix + "\n" + tempEchoDryMix + "\n" + previousSongs [ 0 ] + "\n" + previousSongs [ 1 ] + "\n" + previousSongs [ 2 ] + "\n" + previousSongs [ 3 ] + "\n" + previousSongs [ 4 ] + "\n" + previousSongs [ 5 ] + "\n" + previousSongs [ 6 ] );
-				savePrefs.Close ();
-			
-				if ( startupManager.developmentMode == true )
-					UnityEngine.Debug.Log ( "Quit has been called" );
-				else
-					Application.Quit ();
-			}
+				Quit ();
 		}
 	}
 
@@ -623,7 +610,6 @@ public class MusicViewer : MonoBehaviour
 			minutes = ( int ) Math.Round ( seconds )/60;
 			seconds -= minutes*60;
 		} else
-			
 			minutes = 0;
 
 		if ( preciseTimebar == true )
@@ -673,6 +659,7 @@ public class MusicViewer : MonoBehaviour
 
 				timemark.text = "0:00][0:00";
 			}
+		}
 		
 		if ( manager.audio.clip.isReadyToPlay )
 		{
@@ -690,7 +677,6 @@ public class MusicViewer : MonoBehaviour
 		
 		if ( wwwClient.error != null )
 			UnityEngine.Debug.Log ( wwwClient.error );
-		}
 	}
 
 
@@ -849,8 +835,8 @@ public class MusicViewer : MonoBehaviour
 
 			GUILayout.Box ( "System Commands" );
 
-			if ( GUILayout.Button ( "Settings" ))
-				showSettingsWindow = true;
+			if ( GUILayout.Button ( "Options" ))
+				showOptionsWindow = true;
 
 			if ( GUILayout.Button ( "Streaming" ))
 				showStreamingWindow = true;
@@ -918,7 +904,7 @@ public class MusicViewer : MonoBehaviour
 		if ( halfSpeed == false && doubleSpeed == false )
 			manager.audio.pitch = 1.0F;
 
-		if ( showSettingsWindow == true || showStreamingWindow == true || startupManager.showUnderlay == true )
+		if ( showOptionsWindow == true || showStreamingWindow == true || startupManager.showUnderlay == true )
 			GUI.DrawTexture ( new Rect ( 0, 0, musicViewerPosition.width, musicViewerPosition.height ), underlay );
 	}
 
@@ -1131,19 +1117,16 @@ public class MusicViewer : MonoBehaviour
 	void Update ()
 	{
 
-		if ( startupManager.developmentMode == true && manager.audio.isPlaying == true )
-			UnityEngine.Debug.Log ( manager.audio.time + "  :  " + manager.audio.clip.length );
-
-		if ( djMode == false )
+		if ( slideshow == false )
 		{
 
 			if ( Input.GetKeyDown ( KeyCode.DownArrow ))
 				NextSong ();
 
-			if ( Input.GetKeyUp ( KeyCode.UpArrow ))
+			if ( Input.GetKeyDown ( KeyCode.UpArrow ))
 				PreviousSong ();
 
-			if ( Input.GetKeyUp ( KeyCode.Space ))			
+			if ( Input.GetKeyDown ( KeyCode.Space ))			
 			{
 			
 				if (isPaused == false )
@@ -1221,13 +1204,13 @@ public class MusicViewer : MonoBehaviour
 			if ( fadeIn == true )
 			{
 
-				float smoothDampIn = Mathf.SmoothDamp ( currentDJModeImage.color.a, 1.0F, ref fadeVelocity, 2, 4000 );
-				currentDJModeImage.color = new Color ( 0.5F, 0.5F, 0.5F, smoothDampIn );
+				float smoothDampIn = Mathf.SmoothDamp ( currentSlideshowImage.color.a, 1.0F, ref fadeVelocity, 2, 4000 );
+				currentSlideshowImage.color = new Color ( 0.5F, 0.5F, 0.5F, smoothDampIn );
 
-				if ( currentDJModeImage.color.a > 0.95 )
+				if ( currentSlideshowImage.color.a > 0.95 )
 				{
 
-					currentDJModeImage.color = new Color ( 0.5F, 0.5F, 0.5F, 1.0F );
+					currentSlideshowImage.color = new Color ( 0.5F, 0.5F, 0.5F, 1.0F );
 					fadeIn = false;
 				}
 			}
@@ -1235,17 +1218,20 @@ public class MusicViewer : MonoBehaviour
 			if ( fadeOut == true )
 			{
 
-				float smoothDampOut = Mathf.SmoothDamp ( currentDJModeImage.color.a, 0.0F, ref fadeVelocity, 2, 4000 );
-				currentDJModeImage.color = new Color ( 0.5F, 0.5F, 0.5F, smoothDampOut );
+				float smoothDampOut = Mathf.SmoothDamp ( currentSlideshowImage.color.a, 0.0F, ref fadeVelocity, 2, 4000 );
+				currentSlideshowImage.color = new Color ( 0.5F, 0.5F, 0.5F, smoothDampOut );
 
-				if ( currentDJModeImage.color.a < 0.05 )
+				if ( currentSlideshowImage.color.a < 0.05 )
 				{
 
-					currentDJModeImage.color = new Color ( 0.5F, 0.5F, 0.5F, 0.0F );
+					currentSlideshowImage.color = new Color ( 0.5F, 0.5F, 0.5F, 0.0F );
 					fadeOut = false;
-					StartCoroutine ( "DJModeIn" );
+					StartCoroutine ( "SlideshowIN" );
 				}
 			}
+
+			if ( Input.GetKeyDown ( KeyCode.Q ))
+				Quit ();
 		}
 	}
 
@@ -1341,6 +1327,23 @@ public class MusicViewer : MonoBehaviour
 				}
 			}
 		}
+	}
+
+
+	void Quit ()
+	{
+
+		Resources.UnloadUnusedAssets ();
+
+		TextWriter savePrefs = new StreamWriter ( prefsLocation );
+		savePrefs.WriteLine ( loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + preciseTimebar + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + motionBlur + "\n" + sunShafts + 
+		                     "\n" + tempEchoDelay + "\n" + tempEchoDecayRate + "\n" + tempEchoWetMix + "\n" + tempEchoDryMix + "\n" + previousSongs [ 0 ] + "\n" + previousSongs [ 1 ] + "\n" + previousSongs [ 2 ] + "\n" + previousSongs [ 3 ] + "\n" + previousSongs [ 4 ] + "\n" + previousSongs [ 5 ] + "\n" + previousSongs [ 6 ] );
+		savePrefs.Close ();
+
+		if ( Application.isEditor == true )
+			UnityEngine.Debug.Log ( "Quit has been called" );
+		else
+			Application.Quit ();
 	}
 
 

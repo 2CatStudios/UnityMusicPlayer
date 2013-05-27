@@ -43,7 +43,7 @@ public class PaneManager : MonoBehaviour
 */
 	void Update()
 	{
-		if ( musicViewer.djMode == false )
+		if ( musicViewer.slideshow == false )
 		{
 
 			if ( popupBlocking == false && Input.GetKey (KeyCode.LeftArrow) && currentPane == pane.musicViewer && moving == false && startupManager.musicMakerEnabled == true )

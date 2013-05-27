@@ -39,7 +39,7 @@ public class StartupManager : MonoBehaviour
 	string path;
 	internal string mediaPath;
 	internal string supportPath;
-	internal string	djModePath;
+	internal string	slideshowPath;
 
 	int linesInPrefs = 23;
 
@@ -73,18 +73,16 @@ public class StartupManager : MonoBehaviour
 		}
 		mediaPath = path + Path.DirectorySeparatorChar + "Media";
 		supportPath = path + Path.DirectorySeparatorChar + "Support" + Path.DirectorySeparatorChar;
-		djModePath = supportPath + "DJ Mode";
+		slideshowPath = supportPath + "Slideshow";
 
-		if(!Directory.Exists (mediaPath))
-			Directory.CreateDirectory(mediaPath);
+		if ( !Directory.Exists ( mediaPath ))
+			Directory.CreateDirectory ( mediaPath );
 
-		if(!Directory.Exists (supportPath))
-		{
-
+		if ( !Directory.Exists ( supportPath ))
 			Directory.CreateDirectory(supportPath);
-			Directory.CreateDirectory ( djModePath );
-		} else if ( !Directory.Exists ( djModePath ))
-			Directory.CreateDirectory ( djModePath );
+
+		if ( !Directory.Exists ( slideshowPath ))
+			Directory.CreateDirectory ( slideshowPath );
 
 		Thread internetConnectionsThread = new Thread (InternetConnections);
 		internetConnectionsThread.Priority = System.Threading.ThreadPriority.Highest;
