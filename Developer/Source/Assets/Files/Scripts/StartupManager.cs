@@ -37,8 +37,9 @@ public class StartupManager : MonoBehaviour
 	internal bool showFileTypes;
 
 	string path;
-	internal string supportPath;
 	internal string mediaPath;
+	internal string supportPath;
+	internal string	djModePath;
 
 	int linesInPrefs = 23;
 
@@ -71,14 +72,19 @@ public class StartupManager : MonoBehaviour
 			onMac = false;
 		}
 		mediaPath = path + Path.DirectorySeparatorChar + "Media";
-
 		supportPath = path + Path.DirectorySeparatorChar + "Support" + Path.DirectorySeparatorChar;
+		djModePath = supportPath + "DJ Mode";
 
 		if(!Directory.Exists (mediaPath))
 			Directory.CreateDirectory(mediaPath);
 
 		if(!Directory.Exists (supportPath))
+		{
+
 			Directory.CreateDirectory(supportPath);
+			Directory.CreateDirectory ( djModePath );
+		} else if ( !Directory.Exists ( djModePath ))
+			Directory.CreateDirectory ( djModePath );
 
 		Thread internetConnectionsThread = new Thread (InternetConnections);
 		internetConnectionsThread.Priority = System.Threading.ThreadPriority.Highest;

@@ -97,11 +97,19 @@ public class MusicViewer : MonoBehaviour
 	bool tempDJMode = false;
 	internal bool djMode = false;
 
-	public Texture2D[] djModeImages = new Texture2D[3];
-	public float djModeImagesShuffleDelay = 10.0F;
 
-	String audioInput;
-	bool pickInput;
+	string[] djModeImageLocations;
+	GUITexture currentDJModeImage;
+	Texture2D newDJModeImage;
+	float fadeVelocity = 0.0F;
+	bool fadeIn = false;
+	bool fadeOut = false;
+
+	int djModeImage = 0;
+
+
+//	String audioInput;
+//	bool pickInput;
 
 //-------
 
@@ -129,6 +137,7 @@ public class MusicViewer : MonoBehaviour
 		loadingImage = GameObject.FindGameObjectWithTag ( "LoadingImage" ).GetComponent<LoadingImage>();
 		mediaPath = startupManager.mediaPath;
 		prefsLocation = startupManager.supportPath + "Preferences.umpp";
+		currentDJModeImage = GameObject.FindGameObjectWithTag ( "DJModeImage" ).GetComponent<GUITexture>();
 
 		musicViewerPosition.width = Screen.width;
 		musicViewerPosition.height = Screen.height;
@@ -326,17 +335,10 @@ public class MusicViewer : MonoBehaviour
 
 				manager.audio.Stop ();
 
-				djMode = true;
 				timebar.enabled = false;
-				currentSong.text = "Select Line-In";
-
-				manager.GetComponent<AudioSource>().bypassEffects = true;
-
-				manager.GetComponent<BloomAndLensFlares>().enabled = bloom;
-				manager.GetComponent<MotionBlur>().enabled = motionBlur;
-				manager.GetComponent<SunShafts>().enabled = sunShafts;
-
-				pickInput = true;
+				currentSong.text = "";
+				djMode = true;
+				StartCoroutine ( "DJModeIn" );
 			}
 
 			GUI.FocusWindow ( 0 );
@@ -399,6 +401,30 @@ public class MusicViewer : MonoBehaviour
 
 #endregion
 	}
+	
+
+	IEnumerator DJModeIn ()
+	{
+
+		djModeImageLocations = Directory.GetFiles ( startupManager.djModePath, "*.*" ).Where ( s => s.EndsWith ( ".png" ) || s.EndsWith ( ".jpg" ) || s.EndsWith ( ".jpeg" )).ToArray ();
+
+		WWW wWw = new WWW ( "file://" + djModeImageLocations [ djModeImage ] );
+		yield return wWw;
+
+		newDJModeImage = new Texture2D ( 600, 600, TextureFormat.ARGB32, false );
+		wWw.LoadImageIntoTexture ( newDJModeImage );
+		currentDJModeImage.texture = newDJModeImage;
+
+		fadeIn = true;
+
+		yield return new WaitForSeconds ( 7 );
+
+		djModeImage += 1;
+		if ( djModeImage == djModeImageLocations.Length )
+			djModeImage = 0;
+
+		fadeOut = true;
+	}
 
 
 	void OnGUI ()
@@ -440,67 +466,6 @@ public class MusicViewer : MonoBehaviour
 					UnityEngine.Debug.Log ( "Quit has been called" );
 				else
 					Application.Quit ();
-			}
-		} else if ( djMode == true )
-		{
-
-			if ( pickInput == true )
-			{
-
-				GUILayout.BeginHorizontal ();
-				GUILayout.Space ( musicViewerPosition.width / 2 - 300 );
-				GUILayout.BeginVertical ();
-				GUILayout.Space ( musicViewerPosition.height / 4 + 25 );
-	
-				scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  musicViewerPosition.height - ( musicViewerPosition.height / 4 + 56 )));
-
-				foreach (string device in Microphone.devices)
-				{
-
-					if ( GUILayout.Button ( device ))
-					{
-
-						audioInput = device;
-						pickInput = false;
-
-						loadingImage.showLoadingImages = true;
-						loadingImage.InvokeRepeating ("LoadingImages", 0.25F, 0.25F);
-
-						currentSong.text = "";
-
-						echo = false;
-						manager.GetComponent<AudioEchoFilter> ().enabled = false;
-
-						halfSpeed = false;
-						doubleSpeed = false;
-						manager.audio.pitch = 1.0F;
-
-						int minFreq = 20;
-						int maxFreq = 20000;
-
-						UnityEngine.Debug.Log ( "New input device: " + audioInput );
-
-						Microphone.GetDeviceCaps ( audioInput, out minFreq, out maxFreq );
-						UnityEngine.Debug.Log ( "Minimum Frequency: " + minFreq + " Maximum Frequency: " + maxFreq + " Output Frequency: " + AudioSettings.outputSampleRate );
-
-						manager.audio.clip = Microphone.Start ( audioInput, true, 10, 44100 );
-						manager.audio.Play();
-
-						showVisualizer = true;
-						audioVisualizerR.showAV = showVisualizer;
-						audioVisualizerL.showAV = showVisualizer;
-						audioVisualizerR.topLine.material.color = new Color ( avcR, avcG, avcB, 255 );
-						audioVisualizerR.bottomLine.material.color = new Color ( avcR, avcG, avcB, 255 );
-						audioVisualizerL.topLine.material.color = new Color ( avcR, avcG, avcB, 255 );
-						audioVisualizerL.bottomLine.material.color = new Color ( avcR, avcG, avcB, 255 );
-
-						loadingImage.showLoadingImages = false;
-					}
-				}
-
-				GUI.EndScrollView();
-				GUILayout.EndVertical();
-				GUILayout.EndHorizontal();
 			}
 		}
 	}
@@ -1085,45 +1050,23 @@ public class MusicViewer : MonoBehaviour
 
 			minutes = ( int ) Math.Round ( seconds )/60;
 			seconds -= minutes*60;
-		} else {
+		} else
+		{
 			
 			minutes = 0;
 		}
-		
-			if ( preciseTimebar == true )
+
+		if ( preciseTimebar == true )
+		{
+
+			if ( manager.audio.isPlaying == true )
 			{
 
-				if ( manager.audio.isPlaying == true )
+				if ( streaming == false )
 				{
 
-					if ( streaming == false )
-					{
-
-						rtSeconds = manager.audio.time;
-						seconds = manager.audio.clip.length;
-
-						if ( seconds >= 60 )
-						{
-
-							minutes = ( int ) Math.Round ( seconds )/60;
-							seconds -= minutes*60;
-						}
-
-						timemark.text = rtMinutes + ":" + String.Format ( "{0:00.000}", rtSeconds ) + "][" + minutes + ":" + String.Format ( "{0:00.000}", seconds );
-					} else {
-						timemark.text = "Streaming][Streaming";
-					}
-				} else {
-
-					timemark.text = "0:00.000][0:00.000";
-				}
-			} else {
-
-				if ( manager.audio.isPlaying == true )
-				{
-
-					rtSeconds = ( int ) Math.Round ( manager.audio.time );
-					seconds = ( int ) Math.Round ( manager.audio.clip.length );
+					rtSeconds = manager.audio.time;
+					seconds = manager.audio.clip.length;
 
 					if ( seconds >= 60 )
 					{
@@ -1132,11 +1075,40 @@ public class MusicViewer : MonoBehaviour
 						seconds -= minutes*60;
 					}
 
-					timemark.text = rtMinutes + ":" + String.Format ( "{0:00}", rtSeconds ) + "][" + minutes + ":" + String.Format ( "{0:00}", seconds );
-				} else {
+					timemark.text = rtMinutes + ":" + String.Format ( "{0:00.000}", rtSeconds ) + "][" + minutes + ":" + String.Format ( "{0:00.000}", seconds );
+				} else
+				{
+
+					timemark.text = "Streaming][Streaming";
+				}
+			} else
+			{
+
+				timemark.text = "0:00.000][0:00.000";
+			}
+		} else
+		{
+
+			if ( manager.audio.isPlaying == true )
+			{
+
+				rtSeconds = ( int ) Math.Round ( manager.audio.time );
+				seconds = ( int ) Math.Round ( manager.audio.clip.length );
+
+				if ( seconds >= 60 )
+				{
+
+					minutes = ( int ) Math.Round ( seconds )/60;
+					seconds -= minutes*60;
+				}
+
+				timemark.text = rtMinutes + ":" + String.Format ( "{0:00}", rtSeconds ) + "][" + minutes + ":" + String.Format ( "{0:00}", seconds );
+			} else
+			{
 
 					timemark.text = "0:00][0:00";
-				}
+			}
+		}
 
 		if ( manager.audio.clip.isReadyToPlay )
 		{
@@ -1153,7 +1125,6 @@ public class MusicViewer : MonoBehaviour
 
 		if ( www.error != null )
 			UnityEngine.Debug.Log ( www.error );
-		}
 	}
 
 
@@ -1245,10 +1216,36 @@ public class MusicViewer : MonoBehaviour
 					}
 				}
 			}
-		} else if ( pickInput == false )
-		{
+		} else {
 
-			UnityEngine.Debug.Log ( audioInput + ": " + Microphone.GetPosition ( audioInput ));
+			if ( fadeIn == true )
+			{
+
+				float smoothDampIn = Mathf.SmoothDamp ( currentDJModeImage.color.a, 1.0F, ref fadeVelocity, 2, 4000 );
+				currentDJModeImage.color = new Color ( 0.5F, 0.5F, 0.5F, smoothDampIn );
+
+				if ( currentDJModeImage.color.a > 0.95 )
+				{
+
+					currentDJModeImage.color = new Color ( 0.5F, 0.5F, 0.5F, 1.0F );
+					fadeIn = false;
+				}
+			}
+
+			if ( fadeOut == true )
+			{
+
+				float smoothDampOut = Mathf.SmoothDamp ( currentDJModeImage.color.a, 0.0F, ref fadeVelocity, 2, 4000 );
+				currentDJModeImage.color = new Color ( 0.5F, 0.5F, 0.5F, smoothDampOut );
+
+				if ( currentDJModeImage.color.a < 0.05 )
+				{
+
+					currentDJModeImage.color = new Color ( 0.5F, 0.5F, 0.5F, 0.0F );
+					fadeOut = false;
+					StartCoroutine ( "DJModeIn" );
+				}
+			}
 		}
 	}
 
