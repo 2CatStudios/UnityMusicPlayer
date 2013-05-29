@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 using System.Diagnostics;
-//Written by GibsonBethke
+//Written by Gibson Bethke
 //Thank you for saving me, Jesus!
 //Thank you for living in me, Spirit!
 //Thank you for making me, Father!
@@ -32,7 +32,7 @@ public class MusicViewer : MonoBehaviour
 	float rtSeconds;
 
 	bool tempPreciseTimebar;
-	bool preciseTimebar = false;
+	bool preciseTimebar;
 	
 	public GUIText timemark;
 	float timebarTime;
@@ -87,9 +87,13 @@ public class MusicViewer : MonoBehaviour
 	bool showOptionsWindow = false;
 	Rect optionsWindowRect = new Rect ( 0, 0, 350, 220 );
 	bool showTypes;
+	bool tempShowTypes;
 	float avcR = 0.9886364F;
+	float tempAVCR = 0.9886364F;
 	float avcG = 0.5227273F;
+	float tempAVCG = 0.5227273F;
 	float avcB = 0.1704545F;
+	float tempAVCB = 0.1704545F;
 	bool bloom = false;
 	bool motionBlur = false;
 	bool sunShafts = false;
@@ -280,7 +284,12 @@ public class MusicViewer : MonoBehaviour
 			manager.GetComponent<AudioEchoFilter> ().wetMix = Convert.ToSingle ( tempEchoWetMix );
 			manager.GetComponent<AudioEchoFilter> ().dryMix = Convert.ToSingle ( tempEchoDryMix );
 
+			avcR = tempAVCR;
+			avcG = tempAVCG;
+			avcB = tempAVCB;
+
 			preciseTimebar = tempPreciseTimebar;
+			showTypes = tempShowTypes;
 			if ( preciseTimebar == true )
 			{
 
@@ -352,15 +361,15 @@ public class MusicViewer : MonoBehaviour
 		GUI.Box ( new Rect ( 10, 20, 150, 195 ), "AudioVisualizer Settings" );
 
 		GUI.Label ( new Rect ( 50, 35, 40, 30 ), "Red" );
-		avcR = GUI.HorizontalSlider ( new Rect ( 25, 58, 100, 15), avcR, 0.0F, 1.000F );
+		tempAVCR = GUI.HorizontalSlider ( new Rect ( 25, 58, 100, 15), tempAVCR, 0.0F, 1.000F );
 
 		GUI.Label ( new Rect ( 50, 65, 40, 30 ), "Green" );
-		avcG = GUI.HorizontalSlider ( new Rect ( 25, 88, 100, 15), avcG, 0.0F, 1.000F );
+		tempAVCG = GUI.HorizontalSlider ( new Rect ( 25, 88, 100, 15), tempAVCG, 0.0F, 1.000F );
 
 		GUI.Label ( new Rect ( 50, 95, 40, 30 ), "Blue" );
-		avcB = GUI.HorizontalSlider ( new Rect ( 25, 118, 100, 15), avcB, 0.0F, 1.000F );
+		tempAVCB = GUI.HorizontalSlider ( new Rect ( 25, 118, 100, 15), tempAVCB, 0.0F, 1.000F );
 
-		GUI.contentColor = new Color ( avcR, avcG, avcB, 1.000F );
+		GUI.contentColor = new Color ( tempAVCR, tempAVCG, tempAVCB, 1.000F );
 		GUI.Label ( new Rect ( 35, 128, 80, 20 ), "Sample Color");
 		GUI.contentColor = Color.white;
 
@@ -379,7 +388,7 @@ public class MusicViewer : MonoBehaviour
 		GUI.Label ( new Rect ( 175 - mousePos.x/20, 40 - mousePos.y/20, 200, 25 ), GUI.tooltip);
 
 
-		showTypes = GUI.Toggle ( new Rect ( 170, 62, 120, 18 ), showTypes, "Show audio types" );
+		tempShowTypes = GUI.Toggle ( new Rect ( 170, 62, 120, 18 ), tempShowTypes, "Show audio types" );
 
 		tempPreciseTimebar = GUI.Toggle ( new Rect ( 170, 80, 115, 15 ), tempPreciseTimebar, "Precise Timebar" );
 
@@ -792,9 +801,9 @@ public class MusicViewer : MonoBehaviour
 					if ( GUILayout.Button ( clipToPlay ))
 					{
 
-						Resources.UnloadUnusedAssets ();
-
 						streaming = false;
+//						Resources.UnloadUnusedAssets ();
+
 						if ( isAssetBundle == true )
 						{
 
@@ -1012,6 +1021,8 @@ public class MusicViewer : MonoBehaviour
 	IEnumerator PlayAudio ()
 	{
 	
+		manager.audio.Stop ();
+
 		rawCurrentSong = clipList [ currentSongNumber ].Substring ( mediaPath.Length + 1 );
 		currentSong.text = rawCurrentSong.Substring ( 0, rawCurrentSong.Length -4 );
 		
@@ -1183,20 +1194,16 @@ public class MusicViewer : MonoBehaviour
 					timemark.text = rtMinutes + ":" + String.Format ( "{0:00}", rtSeconds ) + "][" + minutes + ":" + String.Format ( "{0:00}", seconds);
 				}
 
-				if ( manager.audio.time >= manager.audio.clip.length || manager.audio.time == 0 )
+				if ( manager.audio.time >= manager.audio.clip.length/* || manager.audio.time == 0 */)
 				{
 
 					if ( startupManager.developmentMode == true )
 						UnityEngine.Debug.Log ( manager.audio.time + "  :  " + manager.audio.clip.length );
 
-					if ( manager.audio.isPlaying == true )
-					{
-
-						if ( continuous == true || loop == false && shuffle == false )
-							Invoke ( "SongEnd", betweenSongDelay );
-						else
-							SongEnd ();
-					}
+					if ( continuous == true || loop == false && shuffle == false )
+						Invoke ( "SongEnd", betweenSongDelay );
+					else
+						SongEnd ();
 				}
 			}
 		} else {
