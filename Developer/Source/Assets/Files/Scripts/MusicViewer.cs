@@ -39,7 +39,7 @@ public class MusicViewer : MonoBehaviour
 	public GUIText timemark;
 	float timebarTime;
 
-	float betweenSongDelay = 1.0F;
+	float betweenSongDelay = 0.5F;
 
 	internal String [ ] clipList;
 	int currentSongNumber = -1;
@@ -804,7 +804,6 @@ public class MusicViewer : MonoBehaviour
 					{
 
 						streaming = false;
-//						Resources.UnloadUnusedAssets ();
 
 						if ( isAssetBundle == true )
 						{
@@ -1248,10 +1247,11 @@ public class MusicViewer : MonoBehaviour
 					if ( startupManager.developmentMode == true )
 						UnityEngine.Debug.Log ( manager.audio.time + "  :  " + manager.audio.clip.length );
 
-					if ( continuous == true || loop == false && shuffle == false )
-						Invoke ( "SongEnd", betweenSongDelay );
-					else
+					wasPlaying = false;
+					if ( continuous == true )
 						SongEnd ();
+					else
+						Invoke ( "SongEnd", betweenSongDelay );
 				}
 			}
 
@@ -1311,7 +1311,6 @@ public class MusicViewer : MonoBehaviour
 			UnityEngine.Debug.Log ( "AudioClips in Memory: " + Resources.FindObjectsOfTypeAll ( typeof ( AudioClip )).Length );
 		
 		psPlace = 6;
-		wasPlaying = false;
 
 		if ( continuous == true )
 		{
