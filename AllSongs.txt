@@ -166,3 +166,19 @@ Classical
 wav
 http://ubuntuone.com/0T1cNERrJpDxj1nfpAQVyK
 NONE
+
+Time
+Darkest Mornings / Brightest Nights
+BlackTie Vivid
+Ambient
+wav
+http://ubuntuone.com/4NcYKbZmXrLRYn0KsJjQDp
+http://soundcloud.com/blacktie-vivid
+
+Darkest
+Darkest Mornings / Brightest Nights
+BlackTie Vivid
+Ambient
+wav
+http://ubuntuone.com/6KOf5GASHX7zuVpwl3ZmFi
+http://soundcloud.com/blacktie-vivid
