@@ -93,9 +93,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	PaneManager paneManager;
 	LoadingImage loadingImage;
 	DownloadManager downloadManager;
-	
-	internal string path;
-	
+
 	Vector2 scrollPosition;
 	internal Rect onlineMusicBrowserPosition = new Rect(0, 0, 800, 600);
 	
@@ -110,9 +108,9 @@ public class OnlineMusicBrowser : MonoBehaviour
 	List<Artist> allArtistsList = new List<Artist>();
 	List<Genre> allGenresList = new List<Genre>();
 	
-	internal int sortBy = 0;
+	internal int sortBy = 4;
 	List<Song> specificSort = new List<Song>();
-	internal string currentPlace = "Name";
+	internal string currentPlace = "Recent";
 
 	#endregion
 	
@@ -120,7 +118,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 	{
 
 		manager = GameObject.FindGameObjectWithTag ("Manager").GetComponent<StartupManager>();
-		path = manager.mediaPath;
 
 		downloadManager = GameObject.FindGameObjectWithTag ("DownloadManager").GetComponent<DownloadManager>();
 		loadingImage = GameObject.FindGameObjectWithTag ( "LoadingImage" ).GetComponent<LoadingImage>();

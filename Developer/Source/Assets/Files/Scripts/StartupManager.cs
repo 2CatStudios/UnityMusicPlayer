@@ -7,6 +7,7 @@ using System.Threading;
 using System.Collections;
 using System.Diagnostics;
 using System.Net.Security;
+using System.Globalization;
 using System.Security.Cryptography.X509Certificates;
 //Written by GibsonBethke
 //Thank you for your ∞ mercy, Jesus!
@@ -40,6 +41,7 @@ public class StartupManager : MonoBehaviour
 	internal string mediaPath;
 	internal string supportPath;
 	internal string	slideshowPath;
+	internal string tempPath;
 
 	int linesInPrefs = 23;
 
@@ -74,6 +76,7 @@ public class StartupManager : MonoBehaviour
 		mediaPath = path + Path.DirectorySeparatorChar + "Media";
 		supportPath = path + Path.DirectorySeparatorChar + "Support" + Path.DirectorySeparatorChar;
 		slideshowPath = supportPath + "Slideshow";
+		tempPath = supportPath + "Temp";
 
 		if ( !Directory.Exists ( mediaPath ))
 			Directory.CreateDirectory ( mediaPath );
@@ -83,6 +86,19 @@ public class StartupManager : MonoBehaviour
 
 		if ( !Directory.Exists ( slideshowPath ))
 			Directory.CreateDirectory ( slideshowPath );
+
+		if ( !Directory.Exists ( tempPath ))
+		{
+
+			Directory.CreateDirectory ( tempPath );
+		} else if ( Directory.GetFiles ( tempPath ).Length > 0 )
+		{
+			
+			DirectoryInfo tempDirectory = new DirectoryInfo ( tempPath );
+			tempDirectory.Delete ( true );
+
+			Directory.CreateDirectory ( tempPath );
+		}
 
 		Thread internetConnectionsThread = new Thread (InternetConnections);
 		internetConnectionsThread.Priority = System.Threading.ThreadPriority.Highest;
@@ -108,26 +124,43 @@ public class StartupManager : MonoBehaviour
 			Process.Start (supportPath + "FAQ & Tutorial.txt");
 		} else if(developmentMode == false)
 		{
-			
-			StreamReader faq = new StreamReader(supportPath + "FAQ & Tutorial.txt");
-			StreamReader readme = new StreamReader(supportPath + "ReadMe.txt");
 
-			float faqVersion = float.Parse ( faq.ReadLine ().Substring ( 17 ));
-			float readmeVersion = float.Parse ( readme.ReadLine ().Substring ( 17 ));
-
-			faq.Close();
-			readme.Close ();
-
-			if( faqVersion < runningVersion )
+			try
 			{
+
+				TextReader faq = File.OpenText ( supportPath + "FAQ & Tutorial.txt" );
+				TextReader readme = File.OpenText ( supportPath + "ReadMe.txt" );
+
+				string faqVersion = faq.ReadLine ().Substring ( 17 );
+				string readmeVersion = readme.ReadLine ().Substring ( 17 );
+
+				faq.Close();
+				readme.Close ();
+
+				if( float.Parse( faqVersion, CultureInfo.InvariantCulture.NumberFormat ) < runningVersion )
+				{
 				
+					File.Delete ( supportPath + "FAQ & Tutorial.txt" );
+					File.Copy ( Application.streamingAssetsPath + Path.DirectorySeparatorChar + "FAQ & Tutorial.txt", supportPath + "FAQ & Tutorial.txt" );
+					Process.Start ( supportPath + "FAQ & Tutorial.txt" );
+				}
+				if ( float.Parse( readmeVersion, CultureInfo.InvariantCulture.NumberFormat ) < runningVersion )
+				{
+				
+					File.Delete ( supportPath + "ReadMe.txt" );
+					File.Copy ( Application.streamingAssetsPath + Path.DirectorySeparatorChar + "ReadMe.txt", supportPath + "ReadMe.txt" );
+					Process.Start ( supportPath + "ReadMe.txt" );
+				}
+			}
+			catch ( ArgumentOutOfRangeException error ) 
+			{
+
+				UnityEngine.Debug.Log ( "FAQ or ReadMe not formatted properly! " + error );
+
 				File.Delete ( supportPath + "FAQ & Tutorial.txt" );
 				File.Copy ( Application.streamingAssetsPath + Path.DirectorySeparatorChar + "FAQ & Tutorial.txt", supportPath + "FAQ & Tutorial.txt" );
 				Process.Start ( supportPath + "FAQ & Tutorial.txt" );
-			}
-			if ( readmeVersion < runningVersion )
-			{
-				
+
 				File.Delete ( supportPath + "ReadMe.txt" );
 				File.Copy ( Application.streamingAssetsPath + Path.DirectorySeparatorChar + "ReadMe.txt", supportPath + "ReadMe.txt" );
 				Process.Start ( supportPath + "ReadMe.txt" );

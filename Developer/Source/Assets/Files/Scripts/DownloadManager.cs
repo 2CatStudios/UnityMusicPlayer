@@ -13,6 +13,7 @@ public class DownloadManager : MonoBehaviour
 
 	public GUISkin guiskin;
 
+	StartupManager startupManager;
 	OnlineMusicBrowser onlineMusicBrowser;
 	LoadingImage loadingImage;
 	PaneManager paneManager;
@@ -36,6 +37,7 @@ public class DownloadManager : MonoBehaviour
 	void Start()
 	{
 
+		startupManager = GameObject.FindGameObjectWithTag ( "Manager" ).GetComponent<StartupManager>();
 		onlineMusicBrowser = GameObject.FindGameObjectWithTag ("OnlineMusicBrowser").GetComponent<OnlineMusicBrowser>();
 		loadingImage = GameObject.FindGameObjectWithTag ( "LoadingImage" ).GetComponent<LoadingImage>();
 		paneManager = GameObject.FindGameObjectWithTag ( "Manager" ).GetComponent<PaneManager>();
@@ -176,7 +178,7 @@ public class DownloadManager : MonoBehaviour
 			
 			client.DownloadProgressChanged += (start, end) => {  currentDownloadPercentage = end.ProgressPercentage.ToString(); };
 			
-			client.DownloadFileAsync (url, onlineMusicBrowser.path + Path.DirectorySeparatorChar + song.name + "." + song.format);
+			client.DownloadFileAsync (url, startupManager.tempPath + Path.DirectorySeparatorChar + song.name + "." + song.format);
 		} catch (Exception error)
 		{
 			
@@ -187,6 +189,7 @@ public class DownloadManager : MonoBehaviour
 	void DownloadFileCompleted(object sender, AsyncCompletedEventArgs end)
 	{
 
+		File.Move ( startupManager.tempPath + Path.DirectorySeparatorChar + song.name + "." + song.format, startupManager.mediaPath + Path.DirectorySeparatorChar + song.name + "." + song.format );
 		currentDownloadPercentage = "0%";
 		onlineMusicBrowser.showUnderlay = false;
 		showSongInformation = false;

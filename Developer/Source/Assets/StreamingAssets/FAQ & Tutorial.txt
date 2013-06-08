@@ -1,4 +1,4 @@
-UnityMusicPlayer 0.91
+UnityMusicPlayer 0.92
 
 
 Tutorial:
@@ -49,6 +49,9 @@ and drop music files in there.
 
 (Q) I downloaded a song, but it has a brief loading period when I try to play it. What's up with this?
 (A) Some artists have requested that their music is only playable on UnityMusicPlayer, so it's encrypted. The loading is to decode the song, and cache it, so it doesn't have to load again. Just to reiterate, it will only load once, and that data will be cached. When you quit UnityMusicPlayer, the cached data is cleared, so it'll have to load one time when you open UMP next.
+
+(Q) How do I use Slideshow Mode?
+(A) Using Slideshow Mode is easy, all you have to do is put pictures in "2CatStudios/UnityMusicPlayer/Support/Slideshow". The current highest supported resolution is 600x600 (anything higher will be scaled down or stretched), but this is likely to change in later releases.
 
 (Q) My totally important question was not answered here, what do I do?!!1!!!1!11!!!!!2!
 (A) If this FAQ didn't resolve your question, please email us at: gibsonbethke@gmail.com

@@ -1,4 +1,4 @@
-UnityMusicPlayer 0.91
+UnityMusicPlayer 0.92
 
 
 UnityMusicPlayer is being developed by
@@ -18,7 +18,6 @@ In the next major update (1.0) we plan on adding/changing the following:
 • Timebar
 • Improvements to streaming
 • Improvements to OnlineMusicBrowser
-• More robust error handling for downloads (clean-up after failure)
 
 
 If you have any questions or concerns, please email me at gibsonbethke@gmail.com
