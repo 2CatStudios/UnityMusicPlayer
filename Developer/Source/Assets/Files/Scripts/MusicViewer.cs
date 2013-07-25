@@ -269,7 +269,7 @@ public class MusicViewer : MonoBehaviour
 		if ( paneManager.currentPane == PaneManager.pane.musicViewer )
 		{
 			
-			clipList = Directory.GetFiles ( musicManager.currentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
+			clipList = Directory.GetFiles ( mediaPath, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
 
 			if ( clipList.Length == 0 || clipList == null )
 				clipListEmpty = true;

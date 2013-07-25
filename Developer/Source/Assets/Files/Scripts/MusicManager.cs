@@ -17,7 +17,7 @@ public class MusicManager : MonoBehaviour
 	internal bool showMusicManager = false;
 	MusicViewer musicViewer;
 	
-	internal string currentDirectory;
+	string currentDirectory;
 	string [] currentDirectoryDirectories;
 	string [] currentDirectoryFiles;
 	internal bool checkForChanges = false;
@@ -162,7 +162,7 @@ public class MusicManager : MonoBehaviour
 		musicViewer.mediaPath = currentDirectory;
 		if ( currentDirectoryFiles.Length > 0 )
 		{
-			musicViewer.clipList = Directory.GetFiles ( startupManager.mediaPath, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
+			musicViewer.clipList = Directory.GetFiles ( currentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
 			musicViewer.clipListEmpty = false;
 		} else {
 			
