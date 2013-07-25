@@ -8,7 +8,7 @@ public class PaneManager : MonoBehaviour
 {
 
 	public StartupManager startupManager;
-	public MusicMaker musicMaker;
+	public MusicManager musicManager;
 	public MusicViewer musicViewer;
 	public OnlineMusicBrowser onlineMusicBrowser;
 
@@ -17,14 +17,13 @@ public class PaneManager : MonoBehaviour
 	internal bool loading = true;
 	bool startup = true;
 
-	enum pane {musicMaker, musicViewer, onlineMusicBrowser};
-	pane currentPane = pane.musicViewer;
+	internal enum pane {musicManager, musicViewer, onlineMusicBrowser};
+	internal pane currentPane = pane.musicViewer;
 
 	internal bool moving = false;
 	internal bool moveToOMB = false;
 	bool moveToMM = false;
 
-	internal bool MMEnabled;
 	bool moveToMVfOMB = false;
 	bool moveToMVfMM = false;
 
@@ -36,7 +35,7 @@ public class PaneManager : MonoBehaviour
 	GUI.Window 1 is OnlineMusicViewer
 	GUI.Window 2 is DownloadInfo
 	GUI.Window 3 is UpdateAvailable
-	GUI.Window 4 is MusicMaker
+	GUI.Window 4 is MusicManager
 	GUI.Window 5 is Streaming
 	GUI.Window 6 is Settings
 
@@ -46,18 +45,20 @@ public class PaneManager : MonoBehaviour
 		if ( musicViewer.slideshow == false )
 		{
 
-			if ( popupBlocking == false && Input.GetKey (KeyCode.LeftArrow) && currentPane == pane.musicViewer && moving == false && startupManager.musicMakerEnabled == true )
+			if ( popupBlocking == false && Input.GetKey (KeyCode.LeftArrow) && currentPane == pane.musicViewer && moving == false )
 			{
 			
 				moving = true;
 				moveToMM = true;
+				musicManager.checkForChanges = true;
 			}
 
-			if ( popupBlocking == false && Input.GetKey (KeyCode.RightArrow) && currentPane == pane.musicMaker && moving == false )
+			if ( popupBlocking == false && Input.GetKey (KeyCode.RightArrow) && currentPane == pane.musicManager && moving == false )
 			{
 			
 				moving = true;
 				moveToMVfMM = true;
+				musicManager.checkForChanges = false;
 			}
 
 			if ( popupBlocking == false && Input.GetKey (KeyCode.LeftArrow) && currentPane == pane.onlineMusicBrowser && moving == false )
@@ -127,15 +128,15 @@ public class PaneManager : MonoBehaviour
 			}
 		}
 
-		//Move to MusicViewer from MusicMaker
+		//Move to MusicViewer from MusicManager
 		if ( moveToMVfMM == true )
 		{
 			
 			float smoothDampIn = Mathf.SmoothDamp ( musicViewer.musicViewerPosition.x, 0.0F, ref moveVelocity, 0.1F, 4000 );
-			float smoothDampOut = Mathf.SmoothDamp ( musicMaker.musicMakerPosition.x, -musicMaker.musicMakerPosition.width + -musicMaker.musicMakerPosition.width / 4, ref moveVelocity, 0.1F, 4000 );
+			float smoothDampOut = Mathf.SmoothDamp ( musicManager.musicManagerPosition.x, -musicManager.musicManagerPosition.width + -musicManager.musicManagerPosition.width / 4, ref moveVelocity, 0.1F, 4000 );
 			
 			musicViewer.musicViewerPosition.x = smoothDampIn;
-			musicMaker.musicMakerPosition.x = smoothDampOut;
+			musicManager.musicManagerPosition.x = smoothDampOut;
 			
 			if ( musicViewer.musicViewerPosition.x < 5 )
 			{
@@ -146,32 +147,32 @@ public class PaneManager : MonoBehaviour
 				currentPane = pane.musicViewer;
 				
 				musicViewer.musicViewerPosition.x = 0;
-				musicMaker.musicMakerPosition.x = -musicMaker.musicMakerPosition.width + -musicMaker.musicMakerPosition.width / 4;
+				musicManager.musicManagerPosition.x = -musicManager.musicManagerPosition.width + -musicManager.musicManagerPosition.width / 4;
 				
 				moving = false;
 			}
 		}
 
-		//Move to MusicMaker from MusicViewer
+		//Move to MusicManager from MusicViewer
 		if ( moveToMM == true )
 		{
 
-			float smoothDampIn = Mathf.SmoothDamp ( musicMaker.musicMakerPosition.x, 0.0F, ref moveVelocity, 0.1F, 4000 );
+			float smoothDampIn = Mathf.SmoothDamp ( musicManager.musicManagerPosition.x, 0.0F, ref moveVelocity, 0.1F, 4000 );
 			float smoothDampOut = Mathf.SmoothDamp ( musicViewer.musicViewerPosition.x, musicViewer.musicViewerPosition.width + musicViewer.musicViewerPosition.width / 4, ref moveVelocity, 0.1F, 4000 );
 
 			musicViewer.musicViewerPosition.x = smoothDampOut;
-			musicMaker.musicMakerPosition.x = smoothDampIn;
+			musicManager.musicManagerPosition.x = smoothDampIn;
 			
-			if ( musicMaker.musicMakerPosition.x > -5 )
+			if ( musicManager.musicManagerPosition.x > -5 )
 			{
 				
 				moveVelocity = 0;
 				moveToMM = false;
 
-				currentPane = pane.musicMaker;
+				currentPane = pane.musicManager;
 				
 				musicViewer.musicViewerPosition.x = musicViewer.musicViewerPosition.width + musicViewer.musicViewerPosition.width / 4;
-				musicMaker.musicMakerPosition.x = 0;
+				musicManager.musicManagerPosition.x = 0;
 
 				moving = false;
 			}

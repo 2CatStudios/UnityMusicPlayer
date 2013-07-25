@@ -96,6 +96,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 
 	Vector2 scrollPosition;
 	internal Rect onlineMusicBrowserPosition = new Rect(0, 0, 800, 600);
+	internal string onlineMusicBrowserTitle;
 	
 	internal bool showDownloadList = false;
 	internal bool songInfoWindowOpen = false;
@@ -113,7 +114,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	internal string currentPlace = "Recent";
 
 	#endregion
-	
+
 	void Start ()
 	{
 
@@ -206,7 +207,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 		GUI.skin = skin;
 
 		if ( paneManager.loading == false )
-			onlineMusicBrowserPosition = GUI.Window (1, onlineMusicBrowserPosition, OnlineMusicBrowserPane, "OnlineMusicBrowser");
+			onlineMusicBrowserPosition = GUI.Window ( 1, onlineMusicBrowserPosition, OnlineMusicBrowserPane, onlineMusicBrowserTitle );
 
 		if(startOMB == true)
 		{

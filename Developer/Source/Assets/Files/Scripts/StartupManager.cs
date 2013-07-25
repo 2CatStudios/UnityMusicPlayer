@@ -15,7 +15,6 @@ public class StartupManager : MonoBehaviour
 {
 
 	public bool developmentMode = false;
-	public bool musicMakerEnabled = true;
 
 	public float runningVersion;
 	float newestVersion;
@@ -37,13 +36,13 @@ public class StartupManager : MonoBehaviour
 
 	internal bool showFileTypes;
 
-	string path;
+	internal string path;
 	internal string mediaPath;
 	internal string supportPath;
 	internal string	slideshowPath;
 	internal string tempPath;
 
-	int linesInPrefs = 23;
+	int linesInPrefs = 25;
 
 	string[] applicationDownloads;
 
@@ -73,13 +72,25 @@ public class StartupManager : MonoBehaviour
 			path = windows;
 			onMac = false;
 		}
-		mediaPath = path + Path.DirectorySeparatorChar + "Media";
+
 		supportPath = path + Path.DirectorySeparatorChar + "Support" + Path.DirectorySeparatorChar;
-		slideshowPath = supportPath + "Slideshow";
+		slideshowPath = path + Path.DirectorySeparatorChar + "Slideshow";
 		tempPath = supportPath + "Temp";
 
-		if ( !Directory.Exists ( mediaPath ))
-			Directory.CreateDirectory ( mediaPath );
+		if ( !Directory.Exists ( path + Path.DirectorySeparatorChar + "Media" ))
+			Directory.CreateDirectory ( path + Path.DirectorySeparatorChar + "Media" );
+			
+		if ( !Directory.Exists ( path + Path.DirectorySeparatorChar + "Media" + Path.DirectorySeparatorChar + "Albums" ))
+			Directory.CreateDirectory ( path + Path.DirectorySeparatorChar + "Media" + Path.DirectorySeparatorChar + "Albums" );
+			
+		if ( !Directory.Exists ( path + Path.DirectorySeparatorChar + "Media" + Path.DirectorySeparatorChar + "Artists" ))
+			Directory.CreateDirectory ( path + Path.DirectorySeparatorChar + "Media" + Path.DirectorySeparatorChar + "Artists" );
+			
+		if ( !Directory.Exists ( path + Path.DirectorySeparatorChar + "Media" + Path.DirectorySeparatorChar + "Genres" ))
+			Directory.CreateDirectory ( path + Path.DirectorySeparatorChar + "Media" + Path.DirectorySeparatorChar + "Genres" );
+			
+		if ( !Directory.Exists ( path + Path.DirectorySeparatorChar + "Media" + Path.DirectorySeparatorChar + "Playlists" ))
+			Directory.CreateDirectory ( path + Path.DirectorySeparatorChar + "Media" + Path.DirectorySeparatorChar + "Playlists" );
 
 		if ( !Directory.Exists ( supportPath ))
 			Directory.CreateDirectory(supportPath);
@@ -99,21 +110,28 @@ public class StartupManager : MonoBehaviour
 
 			Directory.CreateDirectory ( tempPath );
 		}
-
-		Thread internetConnectionsThread = new Thread (InternetConnections);
-		internetConnectionsThread.Priority = System.Threading.ThreadPriority.Highest;
-		internetConnectionsThread.Start();
-
+		
 		if(!File.Exists (supportPath + "Preferences.umpp") || File.ReadAllLines ( supportPath + "Preferences.umpp" ).Length != linesInPrefs )
 		{
 
 			using (FileStream createPrefs = File.Create(supportPath + "Preferences.umpp"))
 			{
 				
-				Byte[] preferences = new UTF8Encoding(true).GetBytes("False\nFalse\nFalse\nFalse\nFalse\n1.0\n0.373\n0.569\n1.000\nFalse\nFalse\nTrue\n100\n0.3\n0.8\n0.6\n0\n0\n0\n0\n0\n0\n0");
+				Byte[] preferences = new UTF8Encoding(true).GetBytes( path + Path.DirectorySeparatorChar + "Media\nFalse\nFalse\nFalse\nFalse\nFalse\nFalse\n1.0\n0.373\n0.569\n1.000\nFalse\nFalse\nTrue\n100\n0.3\n0.8\n0.6\n0\n0\n0\n0\n0\n0\n0");
 				createPrefs.Write(preferences, 0, preferences.Length);
 			}
 		}
+		
+		mediaPath = File.ReadAllLines ( supportPath + "Preferences.umpp" )[0];
+		if ( !Directory.Exists ( mediaPath ))
+		{
+			
+			mediaPath = path + Path.DirectorySeparatorChar + "Media";
+		}
+
+		Thread internetConnectionsThread = new Thread (InternetConnections);
+		internetConnectionsThread.Priority = System.Threading.ThreadPriority.Highest;
+		internetConnectionsThread.Start();
 
 		if(!File.Exists (supportPath + "FAQ & Tutorial.txt") || !File.Exists (supportPath + "ReadMe.txt"))
 		{
@@ -121,7 +139,8 @@ public class StartupManager : MonoBehaviour
 			File.Copy (Application.streamingAssetsPath + Path.DirectorySeparatorChar + "FAQ & Tutorial.txt", supportPath + "FAQ & Tutorial.txt");
 			File.Copy (Application.streamingAssetsPath + Path.DirectorySeparatorChar + "ReadMe.txt", supportPath + "ReadMe.txt");
 
-			Process.Start (supportPath + "FAQ & Tutorial.txt");
+			if ( developmentMode == false )
+				Process.Start (supportPath + "FAQ & Tutorial.txt");
 		} else if(developmentMode == false)
 		{
 
