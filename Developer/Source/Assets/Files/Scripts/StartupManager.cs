@@ -22,6 +22,7 @@ public class StartupManager : MonoBehaviour
 	public GUIText connectionInformation;
 	bool errorInConnectionToInternet = false;
 	bool connectingToInternet = true;
+	bool startOMB = false;
 	bool u1 = true;
 
 	internal bool showUnderlay = false;
@@ -30,7 +31,6 @@ public class StartupManager : MonoBehaviour
 	OnlineMusicBrowser onlineMusicBrowser;
 	internal string[] allSongs;
 	
-	internal bool onMac;
 	static string mac = "/Users/" + Environment.UserName + "/Library/Application Support/2Cat Studios/UnityMusicPlayer";
 	static string windows = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\2Cat Studios\\UnityMusicPlayer";
 
@@ -48,8 +48,8 @@ public class StartupManager : MonoBehaviour
 
 	bool updateAvailable = false;
 
-	string macVersionLink;
-	string windowsVersionLink;
+	string websiteLink;
+	
 	
 	void Start ()
 	{    
@@ -65,12 +65,10 @@ public class StartupManager : MonoBehaviour
 		{
 
 			path = mac;
-			onMac = true;
 		} else
 		{
 
 			path = windows;
-			onMac = false;
 		}
 
 		supportPath = path + Path.DirectorySeparatorChar + "Support" + Path.DirectorySeparatorChar;
@@ -185,8 +183,11 @@ public class StartupManager : MonoBehaviour
 				Process.Start ( supportPath + "ReadMe.txt" );
 			}
 		}
+		
+		InvokeRepeating ( "CheckStartOnlineMusicBrowser", 0, 0.2F );
 	}
 
+	
 	void InternetConnections ()
 	{
 
@@ -199,15 +200,14 @@ public class StartupManager : MonoBehaviour
 			if(developmentMode == false)
 			{
 				allSongs = wClient.DownloadString ("http://raw.github.com/2CatStudios/UnityMusicPlayer/master/AllSongs.txt").Split ('\n');
-				applicationDownloads = wClient.DownloadString ("http://raw.github.com/2CatStudios/UnityMusicPlayer/master/ApplicationDownloads.txt").Split ('\n');
+				applicationDownloads = wClient.DownloadString ("https://raw.github.com/2CatStudios/UnityMusicPlayer/master/VersionInfo.txt").Split ('\n');
 
 			} else {
 				allSongs = wClient.DownloadString ("http://raw.github.com/2CatStudios/UnityMusicPlayer/master/Developer/AllSongs.txt").Split ('\n');
-				applicationDownloads = wClient.DownloadString ("http://raw.github.com/2CatStudios/UnityMusicPlayer/master/Developer/ApplicationDownloads.txt").Split ('\n');
+				applicationDownloads = wClient.DownloadString ("https://raw.github.com/2CatStudios/UnityMusicPlayer/master/Developer/VersionInfo.txt").Split ('\n');
 			}
 
-			macVersionLink = applicationDownloads[5];
-			windowsVersionLink = applicationDownloads[8];
+			websiteLink = applicationDownloads [4];
 			
 			newestVersion = Convert.ToSingle(applicationDownloads [1]);
 			if(runningVersion < newestVersion)
@@ -223,10 +223,23 @@ public class StartupManager : MonoBehaviour
 		}
 
 		if ( errorInConnectionToInternet == false )
-			onlineMusicBrowser.startOMB = true;
+			startOMB = true;
 
 		connectingToInternet = false;
 	}
+	
+	
+	void CheckStartOnlineMusicBrowser ()
+	{
+		
+		if ( startOMB == true )
+		{
+			
+			onlineMusicBrowser.SendMessage ( "StartOMB" );
+			CancelInvoke ( "CheckStartOnlineMusicBrowser" );
+		}
+	}
+	
 
 	void OnGUI ()
 	{
@@ -267,6 +280,7 @@ public class StartupManager : MonoBehaviour
 		}
 	}
 
+	
 	void DeveloperMode ( int pwid )
 	{
 
@@ -280,6 +294,7 @@ public class StartupManager : MonoBehaviour
 		}
 	}
 
+	
 	void NewVersion (int pwid)
 	{
 		
@@ -298,10 +313,8 @@ public class StartupManager : MonoBehaviour
 		if (GUI.Button (new Rect (210, 60, 70, 30), "Yes"))
 		{
 
-			if(onMac == true)
-				Process.Start (macVersionLink);
-			else
-				Process.Start (windowsVersionLink);
+			Process.Start ( websiteLink );
+
 			paneManager.popupBlocking = true;
 			updateAvailable = false;
 			showUnderlay = false;

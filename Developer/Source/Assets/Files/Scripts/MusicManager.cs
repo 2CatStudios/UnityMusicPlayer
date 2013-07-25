@@ -13,6 +13,8 @@ public class MusicManager : MonoBehaviour
 	public GUISkin guiskin;
 	StartupManager startupManager;
 	PaneManager paneManager;
+	
+	internal bool showMusicManager = false;
 	MusicViewer musicViewer;
 	
 	internal string currentDirectory;
@@ -70,8 +72,12 @@ public class MusicManager : MonoBehaviour
 	void OnGUI ()
 	{
 
-		GUI.skin = guiskin;
-		musicManagerPosition = GUI.Window ( 4, musicManagerPosition, MusicMakerPane, musicManagerTitle );
+		if ( showMusicManager == true )
+		{
+			
+			GUI.skin = guiskin;
+			musicManagerPosition = GUI.Window ( 4, musicManagerPosition, MusicMakerPane, musicManagerTitle );
+		}
 	}
 	
 
@@ -119,18 +125,18 @@ public class MusicManager : MonoBehaviour
 		GUILayout.Space ( 20 );
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 		
+		GUILayout.Box ( "All songs in " + currentDirectory.Substring ( startupManager.path.Length + 1 ));
+		GUILayout.Space ( 10 );
+		
 		if ( currentDirectoryFiles.Length > 0 )
 		{
 			
-			GUILayout.Box ( "Songs in current directory" );
-			GUILayout.Space ( 10 );
 			for ( int i = 0; i < currentDirectoryFiles.Length; i += 1 )
 			{
 				
 				GUILayout.Label ( currentDirectoryFiles[i].Substring ( currentDirectory.Length + 1 ));
 			}
-		} else if ( currentDirectoryDirectories.Length == 0 )
-		{
+		} else {
 			
 			GUILayout.Label ( "This folder is empty" );
 		}
@@ -141,7 +147,7 @@ public class MusicManager : MonoBehaviour
 		if ( GUILayout.Button ( "Set as active media directory" ))
 			SetMusicViewerMedia ();
 			
-		if ( GUILayout.Button ( "Open directory in default file manager" ))
+		if ( GUILayout.Button ( "Open current directory" ))
 			Process.Start ( currentDirectory );
 			
 		GUILayout.EndScrollView ();

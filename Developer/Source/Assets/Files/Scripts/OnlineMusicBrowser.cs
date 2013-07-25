@@ -88,6 +88,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 	public GUISkin skin;
 	public Texture2D underlay;
 	internal bool showUnderlay = false;
+	
+	internal bool showOnlineMusicBrowser = false;
 
 	StartupManager manager;
 	PaneManager paneManager;
@@ -100,7 +102,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 	
 	internal bool showDownloadList = false;
 	internal bool songInfoWindowOpen = false;
-	internal bool startOMB = false;
 
 	string[] allSongs;
 	List<Song> allRecentList = new List<Song>();
@@ -129,6 +130,14 @@ public class OnlineMusicBrowser : MonoBehaviour
 		onlineMusicBrowserPosition.x = onlineMusicBrowserPosition.width + onlineMusicBrowserPosition.width / 4;
 	}
 
+	void StartOMB ()
+	{
+		
+		allSongs = manager.allSongs;
+		Thread refreshThread = new Thread (SortAvailableDownloads);
+		refreshThread.Start();
+	}
+	
 	void SortAvailableDownloads()
 	{
 
@@ -204,18 +213,13 @@ public class OnlineMusicBrowser : MonoBehaviour
 	void OnGUI ()
 	{
 		
-		GUI.skin = skin;
-
-		if ( paneManager.loading == false )
-			onlineMusicBrowserPosition = GUI.Window ( 1, onlineMusicBrowserPosition, OnlineMusicBrowserPane, onlineMusicBrowserTitle );
-
-		if(startOMB == true)
+		if ( showOnlineMusicBrowser == true )
 		{
+			
+			GUI.skin = skin;
 
-			allSongs = manager.allSongs;
-			Thread refreshThread = new Thread (SortAvailableDownloads);
-			refreshThread.Start();
-			startOMB = false;
+			if ( paneManager.loading == false )
+				onlineMusicBrowserPosition = GUI.Window ( 1, onlineMusicBrowserPosition, OnlineMusicBrowserPane, onlineMusicBrowserTitle );
 		}
 	}
 
@@ -265,7 +269,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 
 		GUILayout.BeginHorizontal ();
 		GUILayout.FlexibleSpace ();
-		GUILayout.Label ( "Current Sort: " + currentPlace );
+//		GUILayout.Label ( "Current Sort: " + currentPlace );
+		GUILayout.Box ( "Current Sort: " + currentPlace );
 		GUILayout.FlexibleSpace ();
 		GUILayout.EndHorizontal ();
 

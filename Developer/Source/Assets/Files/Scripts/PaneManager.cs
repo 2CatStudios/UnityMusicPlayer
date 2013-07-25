@@ -51,6 +51,7 @@ public class PaneManager : MonoBehaviour
 				moving = true;
 				moveToMM = true;
 				musicManager.checkForChanges = true;
+				musicManager.showMusicManager = true;
 			}
 
 			if ( popupBlocking == false && Input.GetKey (KeyCode.RightArrow) && currentPane == pane.musicManager && moving == false )
@@ -59,6 +60,7 @@ public class PaneManager : MonoBehaviour
 				moving = true;
 				moveToMVfMM = true;
 				musicManager.checkForChanges = false;
+				musicViewer.showMusicViewer = true;
 			}
 
 			if ( popupBlocking == false && Input.GetKey (KeyCode.LeftArrow) && currentPane == pane.onlineMusicBrowser && moving == false )
@@ -66,6 +68,7 @@ public class PaneManager : MonoBehaviour
 			
 				moving = true;
 				moveToMVfOMB = true;
+				musicViewer.showMusicViewer = true;
 			}
 
 			if ( popupBlocking == false && Input.GetKey (KeyCode.RightArrow) && currentPane == pane.musicViewer && moving == false && loading == false )
@@ -73,6 +76,7 @@ public class PaneManager : MonoBehaviour
 
 				moving = true;
 				moveToOMB = true;
+				onlineMusicBrowser.showOnlineMusicBrowser = true;
 			}
 		}
 
@@ -97,6 +101,7 @@ public class PaneManager : MonoBehaviour
 				onlineMusicBrowser.onlineMusicBrowserPosition.x = 0;
 				musicViewer.musicViewerPosition.x = -onlineMusicBrowser.onlineMusicBrowserPosition.width + -onlineMusicBrowser.onlineMusicBrowserPosition.width / 4;
 
+				musicViewer.showMusicViewer = false;
 				moving = false;
 			}
 		}
@@ -124,6 +129,7 @@ public class PaneManager : MonoBehaviour
 
 				onlineMusicBrowser.sortBy = 0;
 				onlineMusicBrowser.currentPlace = "Name";
+				onlineMusicBrowser.showOnlineMusicBrowser = false;
 				moving = false;
 			}
 		}
@@ -149,6 +155,7 @@ public class PaneManager : MonoBehaviour
 				musicViewer.musicViewerPosition.x = 0;
 				musicManager.musicManagerPosition.x = -musicManager.musicManagerPosition.width + -musicManager.musicManagerPosition.width / 4;
 				
+				musicManager.showMusicManager = false;
 				moving = false;
 			}
 		}
@@ -173,7 +180,9 @@ public class PaneManager : MonoBehaviour
 				
 				musicViewer.musicViewerPosition.x = musicViewer.musicViewerPosition.width + musicViewer.musicViewerPosition.width / 4;
 				musicManager.musicManagerPosition.x = 0;
-
+				
+				
+				musicViewer.showMusicViewer = false;
 				moving = false;
 			}
 		}

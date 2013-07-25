@@ -21,6 +21,8 @@ public class MusicViewer : MonoBehaviour
 	PaneManager paneManager;
 	AudioVisualizerR audioVisualizerR;
 	AudioVisualizerL audioVisualizerL;
+	
+	internal bool showMusicViewer = true;
 
 //-------
 	
@@ -488,34 +490,38 @@ public class MusicViewer : MonoBehaviour
 
 	void OnGUI ()
 	{
-
-		if ( manager.audio.clip != null && showTimebar == true )
-			GUI.DrawTexture ( new Rect ( manager.audio.time * ( musicViewerPosition.width/manager.audio.clip.length ), -3, 10, 6 ), timebarMarker );
-
-		if ( showStreamingWindow == true )
+		
+		if ( showMusicViewer == true )
 		{
 
-			paneManager.popupBlocking = true;
-			GUI.skin.window.normal.background = popupWindowTexture;
-			GUI.Window ( 5, streamingWindowRect, StreamingWindow, "Web and Disk Streaming" );
-		}
+			if ( manager.audio.clip != null && showTimebar == true )
+				GUI.DrawTexture ( new Rect ( manager.audio.time * ( musicViewerPosition.width/manager.audio.clip.length ), -3, 10, 6 ), timebarMarker );
 
-		if ( showOptionsWindow == true )
-		{
+			if ( showStreamingWindow == true )
+			{
 
-			paneManager.popupBlocking = true;
-			GUI.skin.window.normal.background = popupWindowTexture;
-			GUI.Window ( 6, optionsWindowRect, OptionsWindow, "Options and Settings" );
-		}
+				paneManager.popupBlocking = true;
+				GUI.skin.window.normal.background = popupWindowTexture;
+				GUI.Window ( 5, streamingWindowRect, StreamingWindow, "Web and Disk Streaming" );
+			}
 
-		if ( slideshow == false )
-		{
+			if ( showOptionsWindow == true )
+			{
 
-			GUI.skin = GuiSkin;
-			musicViewerPosition = GUI.Window ( 0, musicViewerPosition, MusicViewerPane, musicViewerTitle );
+				paneManager.popupBlocking = true;
+				GUI.skin.window.normal.background = popupWindowTexture;
+				GUI.Window ( 6, optionsWindowRect, OptionsWindow, "Options and Settings" );
+			}
 
-			if ( GUI.Button ( new Rect ( musicViewerPosition.width - 75, musicViewerPosition.height - 50, 60, 30), "Quit" ))
-				Quit ();
+			if ( slideshow == false )
+			{
+
+				GUI.skin = GuiSkin;
+				musicViewerPosition = GUI.Window ( 0, musicViewerPosition, MusicViewerPane, musicViewerTitle );
+
+				if ( GUI.Button ( new Rect ( musicViewerPosition.width - 75, musicViewerPosition.height - 50, 60, 30), "Quit" ))
+					Quit ();
+			}
 		}
 	}
 
@@ -902,6 +908,9 @@ public class MusicViewer : MonoBehaviour
 		{
 
 			GUILayout.Box ( "System Commands" );
+			
+			if ( GUILayout.Button ( "Info" ))
+				UnityEngine.Debug.Log ( "Show info window" );
 
 			if ( GUILayout.Button ( "Options" ))
 				showOptionsWindow = true;
