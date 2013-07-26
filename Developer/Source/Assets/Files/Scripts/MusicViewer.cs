@@ -36,7 +36,7 @@ public class MusicViewer : MonoBehaviour
 
 	internal bool wasPlaying = false;
 
-	bool tempPreciseTimemark;
+	float tempPreciseTimemark;
 	internal bool preciseTimemark;
 	
 	internal GUIText timemark;
@@ -93,18 +93,24 @@ public class MusicViewer : MonoBehaviour
 	bool showOptionsWindow = false;
 	Rect optionsWindowRect = new Rect ( 0, 0, 350, 220 );
 	bool showTypes;
-	bool tempShowTypes;
+	float tempShowTypes;
 	float avcR = 0.9886364F;
 	float tempAVCR = 0.9886364F;
 	float avcG = 0.5227273F;
 	float tempAVCG = 0.5227273F;
 	float avcB = 0.1704545F;
 	float tempAVCB = 0.1704545F;
+	
+	float tempBloom = 0.0F;
 	bool bloom = false;
+	
+	float tempMotionBlur = 0.0F;
 	bool motionBlur = false;
+	
+	float tempSunShafts = 0.0F;
 	bool sunShafts = false;
 
-	bool tempSlideshow = false;
+	float tempSlideshow = 0;
 	internal bool slideshow = false;
 
 
@@ -136,7 +142,7 @@ public class MusicViewer : MonoBehaviour
 //-------
 
 	public Texture2D timebarMarker;
-	bool tempShowTimebar;
+	float tempShowTimebar;
 	internal bool showTimebar;
 
 #endregion
@@ -184,10 +190,10 @@ public class MusicViewer : MonoBehaviour
 		continuous = Convert.ToBoolean ( prefs [ 3 ] );
 
 		showTimebar = Convert.ToBoolean ( prefs [ 4 ] );
-		tempShowTimebar = showTimebar;
+		tempShowTimebar = Convert.ToSingle ( showTimebar );
 		showTypes = Convert.ToBoolean ( prefs [ 5 ] );
 		preciseTimemark = Convert.ToBoolean ( prefs [6 ] );
-		tempPreciseTimemark = preciseTimemark;
+		tempPreciseTimemark = Convert.ToSingle ( preciseTimemark );
 		volumeBarValue = Convert.ToSingle ( prefs [ 7 ] );
 
 		avcR = float.Parse ( prefs [ 8 ] );
@@ -195,8 +201,13 @@ public class MusicViewer : MonoBehaviour
 		avcB = float.Parse ( prefs [ 10 ] );
 
 		bloom = Convert.ToBoolean ( prefs [ 11 ] );	
+		tempBloom = Convert.ToSingle ( bloom );
+		
 		motionBlur = Convert.ToBoolean ( prefs [ 12 ] );
+		tempMotionBlur = Convert.ToSingle ( motionBlur );
+		
 		sunShafts = Convert.ToBoolean ( prefs [ 13 ] );
+		tempSunShafts = Convert.ToSingle ( sunShafts );
 
 		tempEchoDelay = prefs [ 14 ];
 		tempEchoDecayRate = prefs [ 15 ];
@@ -320,8 +331,12 @@ public class MusicViewer : MonoBehaviour
 			avcR = tempAVCR;
 			avcG = tempAVCG;
 			avcB = tempAVCB;
+			
+			bloom = Convert.ToBoolean ( tempBloom );
+			motionBlur = Convert.ToBoolean ( tempMotionBlur );
+			sunShafts = Convert.ToBoolean ( tempSunShafts );
 
-			showTimebar = tempShowTimebar;
+			showTimebar = Convert.ToBoolean ( tempShowTimebar );
 			if ( showTimebar == true )
 			{
 
@@ -337,9 +352,9 @@ public class MusicViewer : MonoBehaviour
 				musicManager.musicManagerTitle = "MusicManager";
 			}
 
-			showTypes = tempShowTypes;
+			showTypes = Convert.ToBoolean ( tempShowTypes );
 
-			preciseTimemark = tempPreciseTimemark;
+			preciseTimemark = Convert.ToBoolean ( tempPreciseTimemark );
 			if ( preciseTimemark == true )
 			{
 
@@ -389,7 +404,7 @@ public class MusicViewer : MonoBehaviour
 				}
 			}
 
-			if ( tempSlideshow == true )
+			if ( tempSlideshow == 1.0F )
 			{
 
 				manager.audio.Stop ();
@@ -421,28 +436,33 @@ public class MusicViewer : MonoBehaviour
 		tempAVCB = GUI.HorizontalSlider ( new Rect ( 25, 118, 100, 15), tempAVCB, 0.0F, 1.000F );
 
 		GUI.contentColor = new Color ( tempAVCR, tempAVCG, tempAVCB, 1.000F );
-		GUI.Label ( new Rect ( 35, 128, 80, 20 ), "Sample Color");
+		GUI.Label ( new Rect ( 35, 130, 80, 20 ), "Sample Color");
 		GUI.contentColor = Color.white;
 
-		bloom = GUI.Toggle ( new Rect ( 20, 150, 95, 20 ), bloom, "Toggle Bloom" );
+		
+		tempBloom = GUI.HorizontalSlider ( new Rect ( 20, 161, 20, 14 ), UnityEngine.Mathf.Round ( tempBloom ), 0, 1 );
+		GUI.Label ( new Rect ( 43, 153, 80, 22 ), "Toggle Bloom" );
 
-		motionBlur = GUI.Toggle ( new Rect ( 20, 170, 125, 20 ), motionBlur, "Toggle Motion Blur" );
+		tempMotionBlur = GUI.HorizontalSlider ( new Rect ( 20, 178, 20, 14 ), UnityEngine.Mathf.Round ( tempMotionBlur ), 0, 1 );
+		GUI.Label ( new Rect ( 36, 171, 125, 22 ), "Toggle Motion Blur" );
 
-		sunShafts = GUI.Toggle ( new Rect ( 20, 190, 120, 20 ), sunShafts, "Toggle Sun Shafts" );
+		tempSunShafts = GUI.HorizontalSlider ( new Rect ( 20, 195, 20, 14 ), UnityEngine.Mathf.Round ( tempSunShafts ), 0, 1 );
+		GUI.Label ( new Rect ( 38, 189, 120, 22 ), "Toggle Sun Shafts" );
 
 #endregion
 
-		GUI.Box ( new Rect ( 170, 20, 110, 22 ), "" );
-		tempSlideshow = GUI.Toggle ( new Rect ( 175, 20, 77, 20 ), tempSlideshow, new GUIContent ( "Slideshow", "Remains on until restart!" ));
+		GUI.Box ( new Rect ( 170, 20, 110, 20 ), "" );
+		tempSlideshow = GUI.HorizontalSlider ( new Rect ( 172, 24, 20, 14 ), UnityEngine.Mathf.Round ( tempSlideshow ), 0, 1 );
+		GUI.Label ( new Rect ( 172, 18, 100, 22 ), "Slideshow" );
+		
+		tempShowTimebar = GUI.HorizontalSlider ( new Rect ( 170, 54, 20, 14 ), UnityEngine.Mathf.Round ( tempShowTimebar ), 0, 1 );
+		GUI.Label ( new Rect ( 186, 47, 100, 22 ), "Show Timebar" );
 
-		mousePos = Event.current.mousePosition;
-		GUI.Label ( new Rect ( 175 - mousePos.x/20, 40 - mousePos.y/20, 200, 25 ), GUI.tooltip);
-
-		tempShowTimebar = GUI.Toggle ( new Rect ( 170, 44, 115, 15 ), tempShowTimebar, "Show Timembar" );
-
-		tempShowTypes = GUI.Toggle ( new Rect ( 170, 62, 120, 18 ), tempShowTypes, "Show audio types" );
-
-		tempPreciseTimemark = GUI.Toggle ( new Rect ( 170, 80, 160, 15 ), tempPreciseTimemark, "Show Precise Timemark" );
+		tempShowTypes = GUI.HorizontalSlider ( new Rect ( 170, 71, 20, 14 ), UnityEngine.Mathf.Round ( tempShowTypes ), 0, 1 );
+		GUI.Label ( new Rect ( 180, 65, 100, 22 ), "Show Types" );
+		
+		tempPreciseTimemark = GUI.HorizontalSlider ( new Rect ( 170, 88, 20, 22), UnityEngine.Mathf.Round ( tempPreciseTimemark ), 0, 1 );
+		GUI.Label ( new Rect ( 192, 83, 145, 22 ), "Show Precise Timemark" );
 
 #region AudioSettings
 
@@ -826,7 +846,7 @@ public class MusicViewer : MonoBehaviour
 		GUILayout.Space ( musicViewerPosition.width / 2 - 300 );
 		GUILayout.BeginVertical ();
 		GUILayout.Space ( musicViewerPosition.height / 4 + 25 );
-		scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  musicViewerPosition.height - ( musicViewerPosition.height / 4 + 56 )));
+		scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  musicViewerPosition.height - ( musicViewerPosition.height / 4 + 54 )));
 
 		if ( clipListEmpty == false )
 		{
@@ -899,7 +919,7 @@ public class MusicViewer : MonoBehaviour
 		{
 
 			GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-			GUILayout.Label ( "\nYou don't have any music to play!\n\nIf you have some songs on (.wav or .ogg), navigate\nto the MusicManager (press the left arrow key)." +
+			GUILayout.Label ( "\nYou don't have any music to play!\n\nIf you have some music (.wav or .ogg), navigate\nto the MusicManager (press the left arrow key)." +
 				"\n\nYou can also download music by navigating to the OnlineMusicBrowser (press the right arrow key),\nor stream music by clicking the 'Streaming' button bellow.\n" );
 			GUI.skin.label.alignment = TextAnchor.UpperLeft;
 		}
@@ -908,9 +928,6 @@ public class MusicViewer : MonoBehaviour
 		{
 
 			GUILayout.Box ( "System Commands" );
-			
-			if ( GUILayout.Button ( "Info" ))
-				UnityEngine.Debug.Log ( "Show info window" );
 
 			if ( GUILayout.Button ( "Options" ))
 				showOptionsWindow = true;
@@ -936,9 +953,9 @@ public class MusicViewer : MonoBehaviour
 			audioVisualizerL.topLine.material.color = new Color ( avcR, avcG, avcB, 255 );
 			audioVisualizerL.bottomLine.material.color = new Color ( avcR, avcG, avcB, 255 );
 
-			manager.GetComponent<BloomAndLensFlares>().enabled = bloom;
-			manager.GetComponent<MotionBlur>().enabled = motionBlur;
-			manager.GetComponent<SunShafts>().enabled = sunShafts;
+			manager.GetComponent<BloomAndLensFlares>().enabled = Convert.ToBoolean ( bloom );
+			manager.GetComponent<MotionBlur>().enabled = Convert.ToBoolean ( motionBlur );
+			manager.GetComponent<SunShafts>().enabled = Convert.ToBoolean ( sunShafts );
 		} else {
 
 			audioVisualizerR.showAV = showVisualizer;
