@@ -117,7 +117,7 @@ public class StartupManager : MonoBehaviour
 			using (FileStream createPrefs = File.Create(supportPath + "Preferences.umpp"))
 			{
 				
-				Byte[] preferences = new UTF8Encoding(true).GetBytes( path + Path.DirectorySeparatorChar + "Media" + Path.DirectorySeparatorChar + "Albums\nFalse\nFalse\nFalse\nFalse\nFalse\nFalse\n1.0\n0.373\n0.569\n1.000\nFalse\nFalse\nTrue\n100\n0.3\n0.8\n0.6\n0\n0\n0\n0\n0\n0\n0");
+				Byte[] preferences = new UTF8Encoding(true).GetBytes( mediaPath + "Albums\nFalse\nFalse\nFalse\nFalse\nFalse\nFalse\n1.0\n0.373\n0.569\n1.000\nFalse\nFalse\nTrue\n100\n0.3\n0.8\n0.6\n0\n0\n0\n0\n0\n0\n0");
 				createPrefs.Write(preferences, 0, preferences.Length);
 			}
 		}

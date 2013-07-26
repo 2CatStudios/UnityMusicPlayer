@@ -153,11 +153,11 @@ public class MusicViewer : MonoBehaviour
 
 		manager = GameObject.FindGameObjectWithTag ( "Manager" );
 		startupManager = manager.GetComponent <StartupManager> ();
+		mediaPath = startupManager.lastDirectory;
 		onlineMusicBrowser = GameObject.FindGameObjectWithTag ( "OnlineMusicBrowser" ).GetComponent <OnlineMusicBrowser>();
 		musicManager = GameObject.FindGameObjectWithTag ( "MusicManager" ).GetComponent <MusicManager>();
 		paneManager = manager.GetComponent <PaneManager> ();
 		loadingImage = GameObject.FindGameObjectWithTag ( "LoadingImage" ).GetComponent<LoadingImage>();
-		mediaPath = startupManager.mediaPath;
 		prefsLocation = startupManager.supportPath + "Preferences.umpp";
 		currentSlideshowImage = GameObject.FindGameObjectWithTag ( "SlideshowImage" ).GetComponent<GUITexture>();
 
@@ -176,7 +176,7 @@ public class MusicViewer : MonoBehaviour
 		timemark = GameObject.FindGameObjectWithTag ( "Timemark" ).GetComponent<GUIText> ();
 		GameObject.FindGameObjectWithTag ( "TimebarImage" ).guiTexture.pixelInset = new Rect ( -musicViewerPosition.width/2, musicViewerPosition.height/2 - 3, musicViewerPosition.width, 6 );
 
-		clipList = Directory.GetFiles ( startupManager.mediaPath, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
+		clipList = Directory.GetFiles ( mediaPath, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
 
 		if ( clipList.Length == 0 || clipList == null )
 			clipListEmpty = true;
@@ -928,12 +928,12 @@ public class MusicViewer : MonoBehaviour
 		{
 
 			GUILayout.Box ( "System Commands" );
+			
+			if ( GUILayout.Button ( "Streaming" ))
+				showStreamingWindow = true;
 
 			if ( GUILayout.Button ( "Options" ))
 				showOptionsWindow = true;
-
-			if ( GUILayout.Button ( "Streaming" ))
-				showStreamingWindow = true;
 		}
 		
 		GUI.EndScrollView();
@@ -1019,7 +1019,7 @@ public class MusicViewer : MonoBehaviour
 				if ( clipList [ currentSongNumber ].Substring ( clipList [ currentSongNumber ].Length - 7 ) == "unity3d" )
 				{
 	
-					string songName = clipList [ currentSongNumber ].Substring ( mediaPath.Length + 1 );
+					string songName = clipList [ currentSongNumber ].Substring ( mediaPath.Length );
 					StartCoroutine ( LoadAssetBundle ( "file://" + clipList [ currentSongNumber ], songName.Substring ( 0, songName.Length - 8 )));
 				} else
 
@@ -1046,7 +1046,7 @@ public class MusicViewer : MonoBehaviour
 					if ( clipList [ currentSongNumber ].Substring ( clipList [ currentSongNumber ].Length - 7 ) == "unity3d" )
 					{
 				
-						string songName = clipList [ currentSongNumber ].Substring ( mediaPath.Length + 1 );
+						string songName = clipList [ currentSongNumber ].Substring ( mediaPath.Length );
 						StartCoroutine ( LoadAssetBundle ( "file://" + clipList [ currentSongNumber ], songName.Substring ( 0, songName.Length - 8 )));
 					} else
 						StartCoroutine ( PlayAudio() );
@@ -1076,7 +1076,7 @@ public class MusicViewer : MonoBehaviour
 							if ( clipList [ currentSongNumber ].Substring ( clipList [ currentSongNumber ].Length - 7 ) == "unity3d" )
 							{
 
-								string songName = clipList [ currentSongNumber ].Substring ( mediaPath.Length + 1 );
+								string songName = clipList [ currentSongNumber ].Substring ( mediaPath.Length );
 								StartCoroutine ( LoadAssetBundle ( "file://" + clipList [ currentSongNumber ], songName.Substring ( 0, songName.Length - 8 )));
 							} else
 								StartCoroutine ( PlayAudio() );
@@ -1117,7 +1117,7 @@ public class MusicViewer : MonoBehaviour
 							if ( clipList [ currentSongNumber ].Substring ( clipList [ currentSongNumber ].Length - 7 ) == "unity3d" )
 							{
 
-								string songName = clipList [ currentSongNumber ].Substring ( mediaPath.Length + 1 );
+								string songName = clipList [ currentSongNumber ].Substring ( mediaPath.Length );
 								StartCoroutine ( LoadAssetBundle ( "file://" + clipList [ currentSongNumber ], songName.Substring ( 0, songName.Length - 8 )));
 							} else
 						
@@ -1155,7 +1155,7 @@ public class MusicViewer : MonoBehaviour
 				if ( clipList [ currentSongNumber ].Substring ( clipList [ currentSongNumber ].Length - 7 ) == "unity3d" )
 				{
 
-					string songName = clipList [ currentSongNumber ].Substring ( mediaPath.Length + 1 );
+					string songName = clipList [ currentSongNumber ].Substring ( mediaPath.Length );
 					StartCoroutine ( LoadAssetBundle ( "file://" + clipList [ currentSongNumber ], songName.Substring ( 0, songName.Length - 8 )));	
 				} else {
 				
@@ -1433,7 +1433,7 @@ public class MusicViewer : MonoBehaviour
 			if ( clipList [ currentSongNumber ].Substring ( clipList [ currentSongNumber ].Length - 7 ) == "unity3d" )
 			{
 
-				string songName = clipList [ currentSongNumber ].Substring ( mediaPath.Length + 1 );
+				string songName = clipList [ currentSongNumber ].Substring ( mediaPath.Length );
 				StartCoroutine ( LoadAssetBundle ( "file://" + clipList [ currentSongNumber ], songName.Substring ( 0, songName.Length - 8 )));
 			} else
 				StartCoroutine ( PlayAudio() );
@@ -1476,7 +1476,7 @@ public class MusicViewer : MonoBehaviour
 					if ( clipList [ currentSongNumber ].Substring ( clipList [ currentSongNumber ].Length - 7 ) == "unity3d" )
 					{
 
-						string songName = clipList [ currentSongNumber ].Substring ( mediaPath.Length + 1 );
+						string songName = clipList [ currentSongNumber ].Substring ( mediaPath.Length);
 						StartCoroutine ( LoadAssetBundle ( "file://" + clipList [ currentSongNumber ], songName.Substring ( 0, songName.Length - 8 )));
 					} else
 
