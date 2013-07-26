@@ -41,13 +41,13 @@ public class MusicManager : MonoBehaviour
 		musicManagerPosition.height = Screen.height;
 		musicManagerPosition.x = -musicManagerPosition.width + -musicManagerPosition.width / 4;
 		
-		currentDirectory = startupManager.mediaPath;
+		currentDirectory = startupManager.lastDirectory;
 		
-		string[] tempAvailableSorts = Directory.GetDirectories ( startupManager.path + Path.DirectorySeparatorChar + "Media" );
+		string[] tempAvailableSorts = Directory.GetDirectories ( startupManager.mediaPath );
 		foreach ( string directoryName in tempAvailableSorts )
 		{
 			
-			availableSorts.Add ( directoryName.Substring (( startupManager.path + Path.DirectorySeparatorChar + "Media" ).Length + 1 ));
+			availableSorts.Add ( directoryName.Substring ( startupManager.mediaPath.Length ));
 		}
 		
 		currentDirectoryDirectories = Directory.GetDirectories ( currentDirectory ).ToArray ();
@@ -95,7 +95,7 @@ public class MusicManager : MonoBehaviour
 			if ( GUILayout.Button ( directoryName ))
 			{
 				
-				currentDirectory = startupManager.path + Path.DirectorySeparatorChar + "Media" + Path.DirectorySeparatorChar + directoryName;
+				currentDirectory = startupManager.mediaPath + directoryName;
 				currentDirectoryDirectories = Directory.GetDirectories ( currentDirectory ).ToArray ();
 				currentDirectoryFiles = Directory.GetFiles ( currentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
 			}
@@ -125,7 +125,7 @@ public class MusicManager : MonoBehaviour
 		GUILayout.Space ( 20 );
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 		
-		GUILayout.Box ( "All songs in " + currentDirectory.Substring ( startupManager.path.Length + 1 ));
+		GUILayout.Box ( "All songs in " + currentDirectory.Substring ( startupManager.mediaPath.Length ));
 		GUILayout.Space ( 10 );
 		
 		if ( currentDirectoryFiles.Length > 0 )
@@ -138,7 +138,8 @@ public class MusicManager : MonoBehaviour
 			}
 		} else {
 			
-			GUILayout.Label ( "This folder is empty" );
+			GUILayout.Label ( "This folder is empty!\n\nIf you want to add some music to this folder,\nclick the 'Open current directory' button bellow." +
+				"\n\nThen, drop any .wav or .ogg files into the folder that will appear.\n\nTo listen to any of your music, navigate to the MusicViewer (press the right arrow key)." );
 		}
 		
 		GUI.skin.label.alignment = TextAnchor.UpperLeft;

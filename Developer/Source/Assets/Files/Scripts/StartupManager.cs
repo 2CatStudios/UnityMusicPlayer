@@ -31,13 +31,14 @@ public class StartupManager : MonoBehaviour
 	OnlineMusicBrowser onlineMusicBrowser;
 	internal string[] allSongs;
 	
-	static string mac = "/Users/" + Environment.UserName + "/Library/Application Support/2Cat Studios/UnityMusicPlayer";
-	static string windows = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\2Cat Studios\\UnityMusicPlayer";
+	static string mac = "/Users/" + Environment.UserName + "/Library/Application Support/2Cat Studios/UnityMusicPlayer/";
+	static string windows = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\2Cat Studios\\UnityMusicPlayer\\";
 
 	internal bool showFileTypes;
 
 	internal string path;
 	internal string mediaPath;
+	internal string lastDirectory;
 	internal string supportPath;
 	internal string	slideshowPath;
 	internal string tempPath;
@@ -71,27 +72,28 @@ public class StartupManager : MonoBehaviour
 			path = windows;
 		}
 
-		supportPath = path + Path.DirectorySeparatorChar + "Support" + Path.DirectorySeparatorChar;
-		slideshowPath = path + Path.DirectorySeparatorChar + "Slideshow";
-		tempPath = supportPath + "Temp";
+		mediaPath = path + "Media" + Path.DirectorySeparatorChar;
+		supportPath = path + "Support" + Path.DirectorySeparatorChar;
+		slideshowPath = path + "Slideshow" + Path.DirectorySeparatorChar;
+		tempPath = supportPath + "Temp" + Path.DirectorySeparatorChar;
 
-		if ( !Directory.Exists ( path + Path.DirectorySeparatorChar + "Media" ))
-			Directory.CreateDirectory ( path + Path.DirectorySeparatorChar + "Media" );
+		if ( !Directory.Exists ( mediaPath ))
+			Directory.CreateDirectory ( mediaPath );
 			
-		if ( !Directory.Exists ( path + Path.DirectorySeparatorChar + "Media" + Path.DirectorySeparatorChar + "Albums" ))
-			Directory.CreateDirectory ( path + Path.DirectorySeparatorChar + "Media" + Path.DirectorySeparatorChar + "Albums" );
+		if ( !Directory.Exists ( mediaPath + "Albums" ))
+			Directory.CreateDirectory ( mediaPath + "Albums" );
 			
-		if ( !Directory.Exists ( path + Path.DirectorySeparatorChar + "Media" + Path.DirectorySeparatorChar + "Artists" ))
-			Directory.CreateDirectory ( path + Path.DirectorySeparatorChar + "Media" + Path.DirectorySeparatorChar + "Artists" );
+		if ( !Directory.Exists ( mediaPath + "Artists" ))
+			Directory.CreateDirectory ( mediaPath + "Artists" );
 			
-		if ( !Directory.Exists ( path + Path.DirectorySeparatorChar + "Media" + Path.DirectorySeparatorChar + "Genres" ))
-			Directory.CreateDirectory ( path + Path.DirectorySeparatorChar + "Media" + Path.DirectorySeparatorChar + "Genres" );
+		if ( !Directory.Exists ( mediaPath + "Genres" ))
+			Directory.CreateDirectory ( mediaPath + "Genres" );
 			
-		if ( !Directory.Exists ( path + Path.DirectorySeparatorChar + "Media" + Path.DirectorySeparatorChar + "Playlists" ))
-			Directory.CreateDirectory ( path + Path.DirectorySeparatorChar + "Media" + Path.DirectorySeparatorChar + "Playlists" );
+		if ( !Directory.Exists ( mediaPath + "Playlists" ))
+			Directory.CreateDirectory ( mediaPath + "Playlists" );
 
 		if ( !Directory.Exists ( supportPath ))
-			Directory.CreateDirectory(supportPath);
+			Directory.CreateDirectory(supportPath );
 
 		if ( !Directory.Exists ( slideshowPath ))
 			Directory.CreateDirectory ( slideshowPath );
@@ -115,16 +117,16 @@ public class StartupManager : MonoBehaviour
 			using (FileStream createPrefs = File.Create(supportPath + "Preferences.umpp"))
 			{
 				
-				Byte[] preferences = new UTF8Encoding(true).GetBytes( path + Path.DirectorySeparatorChar + "Media\nFalse\nFalse\nFalse\nFalse\nFalse\nFalse\n1.0\n0.373\n0.569\n1.000\nFalse\nFalse\nTrue\n100\n0.3\n0.8\n0.6\n0\n0\n0\n0\n0\n0\n0");
+				Byte[] preferences = new UTF8Encoding(true).GetBytes( path + Path.DirectorySeparatorChar + "Media" + Path.DirectorySeparatorChar + "Albums\nFalse\nFalse\nFalse\nFalse\nFalse\nFalse\n1.0\n0.373\n0.569\n1.000\nFalse\nFalse\nTrue\n100\n0.3\n0.8\n0.6\n0\n0\n0\n0\n0\n0\n0");
 				createPrefs.Write(preferences, 0, preferences.Length);
 			}
 		}
 		
-		mediaPath = File.ReadAllLines ( supportPath + "Preferences.umpp" )[0];
-		if ( !Directory.Exists ( mediaPath ))
+		lastDirectory = File.ReadAllLines ( supportPath + "Preferences.umpp" )[0];
+		if ( !Directory.Exists ( lastDirectory ))
 		{
 			
-			mediaPath = path + Path.DirectorySeparatorChar + "Media";
+			lastDirectory = mediaPath + Path.DirectorySeparatorChar + "Albums";
 		}
 
 		Thread internetConnectionsThread = new Thread (InternetConnections);
@@ -137,8 +139,6 @@ public class StartupManager : MonoBehaviour
 			File.Copy (Application.streamingAssetsPath + Path.DirectorySeparatorChar + "FAQ & Tutorial.txt", supportPath + "FAQ & Tutorial.txt");
 			File.Copy (Application.streamingAssetsPath + Path.DirectorySeparatorChar + "ReadMe.txt", supportPath + "ReadMe.txt");
 
-			if ( developmentMode == false )
-				Process.Start (supportPath + "FAQ & Tutorial.txt");
 		} else if(developmentMode == false)
 		{
 
@@ -159,28 +159,24 @@ public class StartupManager : MonoBehaviour
 				
 					File.Delete ( supportPath + "FAQ & Tutorial.txt" );
 					File.Copy ( Application.streamingAssetsPath + Path.DirectorySeparatorChar + "FAQ & Tutorial.txt", supportPath + "FAQ & Tutorial.txt" );
-					Process.Start ( supportPath + "FAQ & Tutorial.txt" );
 				}
 				if ( float.Parse( readmeVersion, CultureInfo.InvariantCulture.NumberFormat ) < runningVersion )
 				{
 				
 					File.Delete ( supportPath + "ReadMe.txt" );
 					File.Copy ( Application.streamingAssetsPath + Path.DirectorySeparatorChar + "ReadMe.txt", supportPath + "ReadMe.txt" );
-					Process.Start ( supportPath + "ReadMe.txt" );
 				}
 			}
 			catch ( ArgumentOutOfRangeException error ) 
 			{
 
-				UnityEngine.Debug.Log ( "FAQ or ReadMe not formatted properly! " + error );
+				UnityEngine.Debug.Log ( "FAQ or ReadMe is not formatted properly! " + error );
 
 				File.Delete ( supportPath + "FAQ & Tutorial.txt" );
 				File.Copy ( Application.streamingAssetsPath + Path.DirectorySeparatorChar + "FAQ & Tutorial.txt", supportPath + "FAQ & Tutorial.txt" );
-				Process.Start ( supportPath + "FAQ & Tutorial.txt" );
 
 				File.Delete ( supportPath + "ReadMe.txt" );
 				File.Copy ( Application.streamingAssetsPath + Path.DirectorySeparatorChar + "ReadMe.txt", supportPath + "ReadMe.txt" );
-				Process.Start ( supportPath + "ReadMe.txt" );
 			}
 		}
 		
