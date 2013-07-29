@@ -42,6 +42,7 @@ public class PaneManager : MonoBehaviour
 */
 	void Update()
 	{
+		
 		if ( musicViewer.slideshow == false )
 		{
 

@@ -125,11 +125,13 @@ public class MusicManager : MonoBehaviour
 		GUILayout.Space ( 20 );
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 		
-		GUILayout.Box ( "All songs in " + currentDirectory.Substring ( startupManager.mediaPath.Length ));
-		GUILayout.Space ( 10 );
+		
 		
 		if ( currentDirectoryFiles.Length > 0 )
 		{
+			
+			GUILayout.Box ( "All songs in " + currentDirectory.Substring ( startupManager.mediaPath.Length ));
+			GUILayout.Space ( 10 );
 			
 			for ( int i = 0; i < currentDirectoryFiles.Length; i += 1 )
 			{
@@ -138,7 +140,8 @@ public class MusicManager : MonoBehaviour
 			}
 		} else {
 			
-			GUILayout.Label ( "This folder is empty!\n\nIf you want to add some music to this folder,\nclick the 'Open current directory' button bellow." +
+			GUILayout.Box ( "There are no songs in this directory!" );
+			GUILayout.Label ( "If you want to add some music to this folder,\nclick the 'Open current directory' button bellow." +
 				"\n\nThen, drop any .wav or .ogg files into the folder that will appear.\n\nTo listen to any of your music, navigate to the MusicViewer (press the right arrow key)." );
 		}
 		
