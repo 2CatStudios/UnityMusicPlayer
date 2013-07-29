@@ -532,16 +532,16 @@ public class MusicViewer : MonoBehaviour
 				GUI.skin.window.normal.background = popupWindowTexture;
 				GUI.Window ( 6, optionsWindowRect, OptionsWindow, "Options and Settings" );
 			}
+		}
+		
+		if ( slideshow == false )
+		{
 
-			if ( slideshow == false )
-			{
-
-				GUI.skin = GuiSkin;
-				musicViewerPosition = GUI.Window ( 0, musicViewerPosition, MusicViewerPane, musicViewerTitle );
-
-				if ( GUI.Button ( new Rect ( musicViewerPosition.width - 75, musicViewerPosition.height - 50, 60, 30), "Quit" ))
-					Quit ();
-			}
+			GUI.skin = GuiSkin;
+			musicViewerPosition = GUI.Window ( 0, musicViewerPosition, MusicViewerPane, musicViewerTitle );
+			
+			if ( GUI.Button ( new Rect ( musicViewerPosition.width - 75, musicViewerPosition.height - 50, 60, 30), "Quit" ))
+				Quit ();
 		}
 	}
 
