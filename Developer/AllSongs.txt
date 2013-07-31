@@ -105,7 +105,7 @@ Ambient
 wav
 http://ubuntuone.com/3O4KUeb3CbHxiGYLrom4PO
 http://soundcloud.com/blacktie-vivid
-N/A
+December 31, 2012
 
 Joking
 UMP Exclusive
@@ -150,7 +150,7 @@ Ambient
 wav
 http://ubuntuone.com/1Gz5btxAjxMa76xHD6Dg1A
 http://soundcloud.com/blacktie-vivid
-N/A
+April 28, 2013
 
 Space Invaders
 Pixel EP
@@ -195,7 +195,7 @@ Ambient
 wav
 http://ubuntuone.com/4NcYKbZmXrLRYn0KsJjQDp
 http://soundcloud.com/blacktie-vivid
-N/A
+June 4, 2013
 
 Darkest
 Darkest Mornings / Brightest Nights
@@ -204,4 +204,4 @@ Ambient
 wav
 http://ubuntuone.com/6KOf5GASHX7zuVpwl3ZmFi
 http://soundcloud.com/blacktie-vivid
-N/A
+June 1, 2013
