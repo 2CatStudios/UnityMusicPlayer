@@ -128,8 +128,8 @@ public class PaneManager : MonoBehaviour
 				musicViewer.musicViewerPosition.x = 0;
 				onlineMusicBrowser.onlineMusicBrowserPosition.x = onlineMusicBrowser.onlineMusicBrowserPosition.width + onlineMusicBrowser.onlineMusicBrowserPosition.width / 4;
 
-				onlineMusicBrowser.sortBy = 0;
-				onlineMusicBrowser.currentPlace = "Name";
+				onlineMusicBrowser.sortBy = 4;
+				onlineMusicBrowser.currentPlace = "Recent";
 				onlineMusicBrowser.showOnlineMusicBrowser = false;
 				moving = false;
 			}

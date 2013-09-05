@@ -18,6 +18,8 @@ public class DownloadManager : MonoBehaviour
 	OnlineMusicBrowser onlineMusicBrowser;
 	LoadingImage loadingImage;
 	PaneManager paneManager;
+	
+	public WebClient client;
 
 	string currentDownloadSize;
 	string currentDownloadPercentage;
@@ -35,6 +37,7 @@ public class DownloadManager : MonoBehaviour
 
 	bool cancelInvoke = false;
 
+	
 	void Start()
 	{
 
@@ -44,43 +47,46 @@ public class DownloadManager : MonoBehaviour
 		loadingImage = GameObject.FindGameObjectWithTag ( "LoadingImage" ).GetComponent<LoadingImage>();
 		paneManager = GameObject.FindGameObjectWithTag ( "Manager" ).GetComponent<PaneManager>();
 	}
+	
 
 	void GetInfo ()
 	{
 
-		currentDownloadPercentage = "0";
+		currentDownloadPercentage = "";
 
 		Thread getInfoThread = new Thread (GetInfoThread);
 		getInfoThread.Priority = System.Threading.ThreadPriority.AboveNormal;
 		getInfoThread.Start();
 	}
+	
 
 	void GetInfoThread ()
 	{
 
-		if(getDownloadSize == true)
+		if ( getDownloadSize == true )
 		{
 			
 			try
 			{
 				
-				System.Net.WebRequest req = System.Net.HttpWebRequest.Create(url);
+				System.Net.WebRequest req = System.Net.HttpWebRequest.Create ( url );
 				req.Method = "HEAD";
 				System.Net.WebResponse resp = req.GetResponse();
-				currentDownloadSize = Math.Round(float.Parse(resp.Headers.Get("Content-Length")) / 1024 / 1024, 2).ToString () + "MB";
+				currentDownloadSize = Math.Round ( float.Parse ( resp.Headers.Get ( "Content-Length" )) / 1024 / 1024, 2 ).ToString () + "MB";
 			}catch{}
 			getDownloadSize = false;
 		}
 
 		if ( song.supportLink == "NONE" )
-			downloadWindowY = 270;
+			downloadWindowY = 250;
 		else
-			downloadWindowY = 300;
+			downloadWindowY = 280;
 
 		onlineMusicBrowser.showUnderlay = true;
 		showSongInformation = true;
 		cancelInvoke = true;
 	}
+	
 
 	void OnGUI ()
 	{
@@ -96,6 +102,7 @@ public class DownloadManager : MonoBehaviour
 		}
 	}
 
+	
 	void DownloadInfo (int wid)
 	{
 
@@ -107,30 +114,46 @@ public class DownloadManager : MonoBehaviour
 		}
 		GUILayout.BeginHorizontal ();
 		GUILayout.BeginVertical ();
-		GUILayout.Space (10);
+		GUILayout.Space ( 5 );
 
-		if(downloading == false)
+		if ( downloading == false )
 		{
 
-			if(GUILayout.Button (downloadButtonText) && url != null)
+			if ( GUILayout.Button ( downloadButtonText ) && url != null )
 			{
 				
-				Thread downloadThread = new Thread (Download);
-				downloadThread.Priority = System.Threading.ThreadPriority.Highest;
-				downloadThread.Start();
-
+				currentDownloadPercentage = " - Processing";
+				
+				try
+				{
+					
+					using ( client = new WebClient ())
+					{
+	 
+		        		client.DownloadFileCompleted += new AsyncCompletedEventHandler ( DownloadFileCompleted );
+		
+		        		client.DownloadProgressChanged += new DownloadProgressChangedEventHandler( DownloadProgressCallback );
+						
+		        		client.DownloadFileAsync ( url, startupManager.tempPath + Path.DirectorySeparatorChar + song.name + "." + song.format );
+					}
+				} catch ( Exception error ) {
+					
+					UnityEngine.Debug.Log ( error );
+				}
+							
 				downloading = true;
+				
 				if ( song.supportLink == "NONE" )
-					downloadWindowY = 220;
+					downloadWindowY = 230;
 				else
 					downloadWindowY = 250;
 			}
 		}
 			
-		if(downloading == false)
+		if ( downloading == false )
 		{
 
-			if (GUILayout.Button ("Close"))
+			if ( GUILayout.Button ( "Close" ))
 			{
 
 				onlineMusicBrowser.showUnderlay = false;
@@ -141,10 +164,17 @@ public class DownloadManager : MonoBehaviour
 				GUI.FocusWindow ( 1 );
 				GUI.BringWindowToFront ( 1 );
 			}
+		} else {
+		
+			if ( GUILayout.Button ( "Cancel Download" ))
+			{
+				
+				client.CancelAsync ();
+			}
 		}
 			
-		GUILayout.Label ("Download size: ~" + currentDownloadSize + " - " + currentDownloadPercentage + "% Complete");
-		GUILayout.Space (31);
+		GUILayout.Label ( "Download size: ~" + currentDownloadSize + currentDownloadPercentage );
+//		GUILayout.Space ( 31 );
 
 		GUI.skin.label.alignment = TextAnchor.MiddleLeft;
 
@@ -153,14 +183,15 @@ public class DownloadManager : MonoBehaviour
 		GUILayout.Label ("Album: " + song.album.name);
 		GUILayout.Label ("Genre: " + song.genre.name);
 		GUILayout.Label ("Format: " + song.format);
+		GUILayout.Label ("Released: " + song.releaseDate);
 
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 
-		if(song.supportLink != "NONE")
+		if ( song.supportLink != "NONE" )
 		{
 			
-			if (GUILayout.Button ("Support Artist"))
-				Process.Start (song.supportLink);
+			if ( GUILayout.Button ( "Support Artist" ))
+				Process.Start ( song.supportLink );
 		}
 		
 		GUILayout.EndVertical();
@@ -168,38 +199,47 @@ public class DownloadManager : MonoBehaviour
 		
 		GUI.DragWindow();
 	}
+
 	
-	void Download ()
+	void DownloadFileCompleted ( object sender, AsyncCompletedEventArgs end )
 	{
 		
-		using (WebClient client = new WebClient())
-		try
+		if ( downloading == true )
 		{
+		
+			UnityEngine.Debug.Log ( "Download Completed" );
 			
-			client.DownloadFileCompleted += new AsyncCompletedEventHandler(DownloadFileCompleted);
+			if ( end.Cancelled == true )
+			{
+				
+				UnityEngine.Debug.Log ( "WAS cancelled" );
+				File.Delete ( startupManager.tempPath + Path.DirectorySeparatorChar + song.name + "." + song.format );
+			} else {
+				
+				UnityEngine.Debug.Log ( "Was NOT cancelled" );
+				
+				if ( File.Exists ( musicViewer.mediaPath + Path.DirectorySeparatorChar + song.name + "." + song.format ))
+					File.Delete ( musicViewer.mediaPath + Path.DirectorySeparatorChar + song.name + "." + song.format );
+					
+				File.Move ( startupManager.tempPath + Path.DirectorySeparatorChar + song.name + "." + song.format, musicViewer.mediaPath + Path.DirectorySeparatorChar + song.name + "." + song.format );
+			}
 			
-			client.DownloadProgressChanged += (start, end) => {  currentDownloadPercentage = end.ProgressPercentage.ToString(); };
-			
-			client.DownloadFileAsync (url, startupManager.tempPath + Path.DirectorySeparatorChar + song.name + "." + song.format);
-		} catch (Exception error)
-		{
-			
-			UnityEngine.Debug.Log (error);
+			currentDownloadPercentage = "";
+			onlineMusicBrowser.showUnderlay = false;
+			showSongInformation = false;
+			downloading = false;
+			onlineMusicBrowser.songInfoWindowOpen = false;
+			paneManager.popupBlocking = false;
+			getDownloadSize = true;
+			GUI.FocusWindow ( 1 );
+			GUI.BringWindowToFront ( 1 );
 		}
-	}
-	
-	void DownloadFileCompleted(object sender, AsyncCompletedEventArgs end)
-	{
-
-		File.Move ( startupManager.tempPath + Path.DirectorySeparatorChar + song.name + "." + song.format, musicViewer.mediaPath + Path.DirectorySeparatorChar + song.name + "." + song.format );
-		currentDownloadPercentage = "0%";
-		onlineMusicBrowser.showUnderlay = false;
-		showSongInformation = false;
-		downloading = false;
-		onlineMusicBrowser.songInfoWindowOpen = false;
-		paneManager.popupBlocking = false;
-		getDownloadSize = true;
-		GUI.FocusWindow ( 1 );
-		GUI.BringWindowToFront ( 1 );
 	}	
+	
+	
+	void DownloadProgressCallback ( object sender, DownloadProgressChangedEventArgs arg )
+	{
+	
+		currentDownloadPercentage = " - " + arg.ProgressPercentage.ToString () + "% Complete";
+	}
 }

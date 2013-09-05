@@ -16,7 +16,7 @@ public class StartupManager : MonoBehaviour
 
 	public bool developmentMode = false;
 
-	public float runningVersion;
+	public string runningVersion;
 	float newestVersion;
 
 	public GUIText connectionInformation;
@@ -154,13 +154,13 @@ public class StartupManager : MonoBehaviour
 				faq.Close();
 				readme.Close ();
 
-				if( float.Parse( faqVersion, CultureInfo.InvariantCulture.NumberFormat ) < runningVersion )
+				if( float.Parse( faqVersion, CultureInfo.InvariantCulture.NumberFormat ) < float.Parse ( runningVersion ))
 				{
 				
 					File.Delete ( supportPath + "FAQ & Tutorial.txt" );
 					File.Copy ( Application.streamingAssetsPath + Path.DirectorySeparatorChar + "FAQ & Tutorial.txt", supportPath + "FAQ & Tutorial.txt" );
 				}
-				if ( float.Parse( readmeVersion, CultureInfo.InvariantCulture.NumberFormat ) < runningVersion )
+				if ( float.Parse( readmeVersion, CultureInfo.InvariantCulture.NumberFormat ) < float.Parse ( runningVersion ))
 				{
 				
 					File.Delete ( supportPath + "ReadMe.txt" );
@@ -206,10 +206,14 @@ public class StartupManager : MonoBehaviour
 			websiteLink = applicationDownloads [4];
 			
 			newestVersion = Convert.ToSingle(applicationDownloads [1]);
-			if(runningVersion < newestVersion)
+			if ( developmentMode == false )
 			{
 				
-				updateAvailable = true;
+				if( Single.Parse ( runningVersion ) < newestVersion)
+				{
+				
+					updateAvailable = true;
+				}
 			}
 		} catch (Exception errorText)
 		{

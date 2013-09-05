@@ -125,8 +125,6 @@ public class MusicManager : MonoBehaviour
 		GUILayout.Space ( 20 );
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 		
-		
-		
 		if ( currentDirectoryFiles.Length > 0 )
 		{
 			

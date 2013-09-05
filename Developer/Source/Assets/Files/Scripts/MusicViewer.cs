@@ -92,7 +92,7 @@ public class MusicViewer : MonoBehaviour
 	string tempEchoDryMix = "0.6";
 
 	bool showOptionsWindow = false;
-	Rect optionsWindowRect = new Rect ( 0, 0, 350, 225 );
+	Rect optionsWindowRect = new Rect ( 0, 0, 350, 250 );
 	bool showTypes;
 	float tempShowTypes;
 	float avcR = 0.9886364F;
@@ -453,6 +453,8 @@ public class MusicViewer : MonoBehaviour
 		tempEchoDryMix = GUI.TextField ( new Rect ( 175, 194, 30, 20 ), tempEchoDryMix, 3 );
 
 #endregion
+
+		GUI.Box ( new Rect ( 5, 222, 340, 22 ), "UnityMusicPlayer Version " + startupManager.runningVersion );
 	}
 	
 

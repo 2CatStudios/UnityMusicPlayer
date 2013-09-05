@@ -18,6 +18,8 @@ public class Song
 	public String format;
 	public String downloadLink;
 	public String supportLink;
+	
+	public String releaseDate;
 }
 
 public class Album : IEquatable<Album>
@@ -146,11 +148,11 @@ public class OnlineMusicBrowser : MonoBehaviour
 		while (i < allSongs.Length)
 		{
 			
-			i += 8;
+			i += 9;
 			Song song = new Song();
-			song.name = allSongs [i - 7];
+			song.name = allSongs [i - 8];
 			
-			Album tempAlbum = new Album(allSongs [i - 6], new List<Song>());
+			Album tempAlbum = new Album(allSongs [i - 7], new List<Song>());
 			if(allAlbumsList.Contains (tempAlbum))
 			{
 				
@@ -164,7 +166,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 				song.album = tempAlbum;
 			}
 			
-			Artist tempArtist = new Artist(allSongs [i - 5], new List<Song>());
+			Artist tempArtist = new Artist(allSongs [i - 6], new List<Song>());
 			if(allArtistsList.Contains (tempArtist))
 			{
 				
@@ -178,7 +180,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 				song.artist = tempArtist;
 			}
 			
-			Genre tempGenre = new Genre(allSongs [i - 4], new List<Song>());
+			Genre tempGenre = new Genre(allSongs [i - 5], new List<Song>());
 			if(allGenresList.Contains (tempGenre))
 			{
 				
@@ -193,9 +195,10 @@ public class OnlineMusicBrowser : MonoBehaviour
 			}
 			
 			
-			song.format = allSongs [i - 3];
-			song.downloadLink = allSongs [i - 2];
-			song.supportLink = allSongs [i - 1];
+			song.format = allSongs [i - 4];
+			song.downloadLink = allSongs [i - 3];
+			song.supportLink = allSongs [i - 2];
+			song.releaseDate = allSongs [i - 1];
 			
 			allSongsList.Add ( song );
 			allRecentList.Add ( song );
@@ -265,13 +268,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 		}
 
 		GUILayout.EndHorizontal ();
-		GUILayout.Space(2);
-
-//		GUILayout.BeginHorizontal ();
-//		GUILayout.Box ( "Current Sort: " + currentPlace );
-//		GUILayout.EndHorizontal ();
-
-		GUILayout.Space(3);
+		GUILayout.Space ( 5 );
 		GUILayout.BeginHorizontal ();
 		GUILayout.Space ( onlineMusicBrowserPosition.width / 2 - 300  );
 
