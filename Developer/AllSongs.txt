@@ -1,4 +1,4 @@
---- -
+--- -Developer- ---
 Liberty
 Liberty - EP
 DJ Purify
@@ -259,3 +259,12 @@ wav
 http://ubuntuone.com/4RzjfkCXWq85MChUjV6FOx
 NONE
 September 3, 2013
+
+Hello, World
+Super Long Stupid Album Name That Is Only Useful For Testing GUILayout
+Gibson Bethke
+C# Programming
+trash
+NONE
+NONE
+N/A
