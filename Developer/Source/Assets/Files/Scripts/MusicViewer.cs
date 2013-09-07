@@ -742,7 +742,7 @@ public class MusicViewer : MonoBehaviour
 	
 			#region NextButton
 	
-			if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 - 70, musicViewerPosition.height/4 - 15, 55, 30), "Next" ))
+			if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 - 70, musicViewerPosition.height/4 - 15, 60, 30), "Next" ))
 				NextSong ();
 			
 			#endregion
@@ -750,7 +750,7 @@ public class MusicViewer : MonoBehaviour
 			
 			#region BackButton
 	
-			if ( GUI.Button (new Rect ( musicViewerPosition.width/2 - 125, musicViewerPosition.height/4 - 15, 55, 30), "Back" ))
+			if ( GUI.Button (new Rect ( musicViewerPosition.width/2 - 130, musicViewerPosition.height/4 - 15, 60, 30), "Back" ))
 				PreviousSong ();
 			
 			#endregion
