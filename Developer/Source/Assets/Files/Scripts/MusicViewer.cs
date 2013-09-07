@@ -454,7 +454,7 @@ public class MusicViewer : MonoBehaviour
 
 #endregion
 
-		GUI.Box ( new Rect ( 5, 222, 340, 22 ), "UnityMusicPlayer Version " + startupManager.runningVersion );
+		GUI.Box ( new Rect ( 10, 222, 330, 22 ), "UnityMusicPlayer Version " + startupManager.runningVersion );
 	}
 	
 
@@ -1080,7 +1080,22 @@ public class MusicViewer : MonoBehaviour
 						{
 
 							Resources.UnloadUnusedAssets ();
+							
+							int previousSongNumber = currentSongNumber;
 							currentSongNumber = UnityEngine.Random.Range ( 0, clipList.Length );
+					
+							if ( currentSongNumber == previousSongNumber && clipList.Length > 1 )
+							{
+								
+								bool shuffleOkay = false;
+								while ( shuffleOkay == false )
+								{
+									
+									currentSongNumber = UnityEngine.Random.Range ( 0, clipList.Length );
+									if ( currentSongNumber != previousSongNumber )
+										shuffleOkay = true;
+								}
+							}
 
 							previousSongs [ 0 ] = previousSongs [ 1 ];
 							previousSongs [ 1 ] = previousSongs [ 2 ];
@@ -1464,7 +1479,22 @@ public class MusicViewer : MonoBehaviour
 				{
 					
 					Resources.UnloadUnusedAssets ();
+					
+					int previousSongNumber = currentSongNumber;
 					currentSongNumber = UnityEngine.Random.Range ( 0, clipList.Length );
+					
+					if ( currentSongNumber == previousSongNumber && clipList.Length > 1 )
+					{
+						
+						bool shuffleOkay = false;
+						while ( shuffleOkay == false )
+						{
+							
+							currentSongNumber = UnityEngine.Random.Range ( 0, clipList.Length );
+							if ( currentSongNumber != previousSongNumber )
+								shuffleOkay = true;
+						}
+					}
 
 					previousSongs [ 0 ] = previousSongs [ 1 ];
 					previousSongs [ 1 ] = previousSongs [ 2 ];
