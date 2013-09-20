@@ -481,11 +481,11 @@ public class MusicViewer : MonoBehaviour
 	void OnGUI ()
 	{
 		
+		if ( manager.audio.clip != null && showTimebar == true )
+				GUI.DrawTexture ( new Rect ( manager.audio.time * ( musicViewerPosition.width/manager.audio.clip.length ), -3, 10, 6 ), timebarMarker );
+		
 		if ( showMusicViewer == true )
 		{
-
-			if ( manager.audio.clip != null && showTimebar == true )
-				GUI.DrawTexture ( new Rect ( manager.audio.time * ( musicViewerPosition.width/manager.audio.clip.length ), -3, 10, 6 ), timebarMarker );
 
 			if ( showStreamingWindow == true )
 			{

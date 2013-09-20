@@ -180,7 +180,7 @@ public class MusicManager : MonoBehaviour
 		if ( GUILayout.Button ( "New Folder" ))
 			showNewFolderWindow = true;
 		
-		if ( GUILayout.Button ( "Set as active media directory" ))
+		if ( GUILayout.Button ( "Set as active directory" ))
 			SetMusicViewerMedia ();
 			
 		if ( GUILayout.Button ( "Open current directory" ))
