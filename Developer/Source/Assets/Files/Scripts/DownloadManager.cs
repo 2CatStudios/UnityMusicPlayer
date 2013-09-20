@@ -146,7 +146,7 @@ public class DownloadManager : MonoBehaviour
 				if ( song.supportLink == "NONE" )
 					downloadWindowY = 230;
 				else
-					downloadWindowY = 250;
+					downloadWindowY = 255;
 			}
 		}
 			

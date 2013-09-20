@@ -26,12 +26,14 @@ public class StartupManager : MonoBehaviour
 	bool u1 = true;
 
 	internal bool showUnderlay = false;
+	public Texture2D underlay;
+	public Texture2D popupWindowTexture;
 
 	PaneManager paneManager;
 	OnlineMusicBrowser onlineMusicBrowser;
 	internal string[] allSongs;
 	
-	static string mac = "/Users/" + Environment.UserName + "/Library/Application Support/2Cat Studios/UnityMusicPlayer/";
+	static string mac = "/Users/" + Environment.UserName + "/Music/UnityMusicPlayer/";
 	static string windows = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\2Cat Studios\\UnityMusicPlayer\\";
 
 	internal bool showFileTypes;
@@ -96,7 +98,14 @@ public class StartupManager : MonoBehaviour
 			Directory.CreateDirectory(supportPath );
 
 		if ( !Directory.Exists ( slideshowPath ))
+		{
+			
 			Directory.CreateDirectory ( slideshowPath );
+				File.Copy ( Application.streamingAssetsPath + Path.DirectorySeparatorChar + "UnityMusicPlayerIcon.png", slideshowPath + "UnityMusicPlayerIcon.png", true );
+		}
+		
+		if ( !File.Exists ( slideshowPath + "UnityMusicPlayerIcon.png" ))
+			File.Copy ( Application.streamingAssetsPath + Path.DirectorySeparatorChar + "UnityMusicPlayerIcon.png", slideshowPath + "UnityMusicPlayerIcon.png", true );
 
 		if ( !Directory.Exists ( tempPath ))
 		{
@@ -126,18 +135,18 @@ public class StartupManager : MonoBehaviour
 		if ( !Directory.Exists ( lastDirectory ))
 		{
 			
-			lastDirectory = mediaPath + Path.DirectorySeparatorChar + "Albums";
+			lastDirectory = mediaPath + "Albums";
 		}
 
 		Thread internetConnectionsThread = new Thread (InternetConnections);
 		internetConnectionsThread.Priority = System.Threading.ThreadPriority.Highest;
 		internetConnectionsThread.Start();
 
-		if(!File.Exists (supportPath + "FAQ & Tutorial.txt") || !File.Exists (supportPath + "ReadMe.txt"))
+		if ( !File.Exists ( supportPath + "FAQ & Tutorial.txt" ) || !File.Exists ( supportPath + "ReadMe.txt" ))
 		{
 
-			File.Copy (Application.streamingAssetsPath + Path.DirectorySeparatorChar + "FAQ & Tutorial.txt", supportPath + "FAQ & Tutorial.txt");
-			File.Copy (Application.streamingAssetsPath + Path.DirectorySeparatorChar + "ReadMe.txt", supportPath + "ReadMe.txt");
+			File.Copy ( Application.streamingAssetsPath + Path.DirectorySeparatorChar + "FAQ & Tutorial.txt", supportPath + "FAQ & Tutorial.txt", true );
+			File.Copy ( Application.streamingAssetsPath + Path.DirectorySeparatorChar + "ReadMe.txt", supportPath + "ReadMe.txt",true  );
 
 		} else if(developmentMode == false)
 		{

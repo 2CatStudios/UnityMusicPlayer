@@ -88,12 +88,11 @@ public class OnlineMusicBrowser : MonoBehaviour
 	#region Variables
 
 	public GUISkin skin;
-	public Texture2D underlay;
 	internal bool showUnderlay = false;
 	
 	internal bool showOnlineMusicBrowser = false;
 
-	StartupManager manager;
+	StartupManager startupManager;
 	PaneManager paneManager;
 	LoadingImage loadingImage;
 	DownloadManager downloadManager;
@@ -121,7 +120,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	void Start ()
 	{
 
-		manager = GameObject.FindGameObjectWithTag ("Manager").GetComponent<StartupManager>();
+		startupManager = GameObject.FindGameObjectWithTag ( "Manager" ).GetComponent<StartupManager>();
 
 		downloadManager = GameObject.FindGameObjectWithTag ("DownloadManager").GetComponent<DownloadManager>();
 		loadingImage = GameObject.FindGameObjectWithTag ( "LoadingImage" ).GetComponent<LoadingImage>();
@@ -135,7 +134,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	void StartOMB ()
 	{
 		
-		allSongs = manager.allSongs;
+		allSongs = startupManager.allSongs;
 		Thread refreshThread = new Thread (SortAvailableDownloads);
 		refreshThread.Start();
 	}
@@ -440,6 +439,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 		GUILayout.EndHorizontal ();
 
 		if ( showUnderlay == true )
-			GUI.DrawTexture ( new Rect ( 0, 0, onlineMusicBrowserPosition.width, onlineMusicBrowserPosition.height ), underlay );
+			GUI.DrawTexture ( new Rect ( 0, 0, onlineMusicBrowserPosition.width, onlineMusicBrowserPosition.height ), startupManager.underlay );
 	}
 }

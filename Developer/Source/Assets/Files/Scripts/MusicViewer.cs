@@ -62,8 +62,6 @@ public class MusicViewer : MonoBehaviour
 
 //-------
 
-	public Texture2D underlay;
-
 	bool streaming = false;
 	bool showStreamingWindow = false;
 	Rect streamingWindowRect = new Rect ( 0, 0, 350, 70 );
@@ -73,8 +71,7 @@ public class MusicViewer : MonoBehaviour
 	bool dispose = false;
 
 	bool hideGUI = false;
-	public GUISkin GuiSkin;
-	public Texture2D popupWindowTexture;
+	public GUISkin guiSkin;
 	
 	int [ ] previousSongs = new int  [ 7 ] { 0, 0, 0, 0, 0, 0, 0 };
 	int psPlace = 6;
@@ -101,7 +98,6 @@ public class MusicViewer : MonoBehaviour
 	float tempAVCG = 0.5227273F;
 	float avcB = 0.1704545F;
 	float tempAVCB = 0.1704545F;
-	
 	float tempBloom = 0.0F;
 	bool bloom = false;
 	
@@ -495,7 +491,7 @@ public class MusicViewer : MonoBehaviour
 			{
 
 				paneManager.popupBlocking = true;
-				GUI.skin.window.normal.background = popupWindowTexture;
+				GUI.skin.window.normal.background = startupManager.popupWindowTexture;
 				GUI.Window ( 5, streamingWindowRect, StreamingWindow, "Web and Disk Streaming" );
 			}
 
@@ -503,7 +499,7 @@ public class MusicViewer : MonoBehaviour
 			{
 
 				paneManager.popupBlocking = true;
-				GUI.skin.window.normal.background = popupWindowTexture;
+				GUI.skin.window.normal.background = startupManager.popupWindowTexture;
 				GUI.Window ( 6, optionsWindowRect, OptionsWindow, "Options and Settings" );
 			}
 		}
@@ -542,7 +538,7 @@ public class MusicViewer : MonoBehaviour
 			}
 		}
 		
-		GUI.skin = GuiSkin;
+		GUI.skin = guiSkin;
 		musicViewerPosition = GUI.Window ( 0, musicViewerPosition, MusicViewerPane, musicViewerTitle );
 		
 		if ( GUI.Button ( new Rect ( musicViewerPosition.width - 75, musicViewerPosition.height - 40, 60, 30 ), "Quit" ))
@@ -960,7 +956,7 @@ public class MusicViewer : MonoBehaviour
 				manager.audio.pitch = 1.0F;
 	
 			if ( showOptionsWindow == true || showStreamingWindow == true || startupManager.showUnderlay == true )
-				GUI.DrawTexture ( new Rect ( 0, 0, musicViewerPosition.width, musicViewerPosition.height ), underlay );
+				GUI.DrawTexture ( new Rect ( 0, 0, musicViewerPosition.width, musicViewerPosition.height ), startupManager.underlay );
 		}
 	}
 

@@ -10,7 +10,7 @@ using System.Collections.Generic;
 public class MusicManager : MonoBehaviour
 {
 
-	public GUISkin guiskin;
+	public GUISkin guiSkin;
 	StartupManager startupManager;
 	PaneManager paneManager;
 	
@@ -23,7 +23,10 @@ public class MusicManager : MonoBehaviour
 	internal bool checkForChanges = false;
 	
 	Vector2 scrollPosition;
+	
+	bool showNewFolderWindow = false;
 
+	Rect newFolderWindowRect = new Rect ( 0, 0, 350, 70 );
 	internal Rect musicManagerPosition = new Rect (-1000, 0, 800, 600);
 	internal string musicManagerTitle;
 	
@@ -40,6 +43,9 @@ public class MusicManager : MonoBehaviour
 		musicManagerPosition.width = Screen.width;
 		musicManagerPosition.height = Screen.height;
 		musicManagerPosition.x = -musicManagerPosition.width + -musicManagerPosition.width / 4;
+		
+		newFolderWindowRect.x = musicManagerPosition.width/2 - newFolderWindowRect.width/2;
+		newFolderWindowRect.y = musicManagerPosition.height/2 - newFolderWindowRect.height/2;
 		
 		currentDirectory = startupManager.lastDirectory;
 		
@@ -63,8 +69,21 @@ public class MusicManager : MonoBehaviour
 		if ( paneManager.currentPane == PaneManager.pane.musicManager )
 		{
 			
-			currentDirectoryDirectories = Directory.GetDirectories ( currentDirectory ).ToArray ();
-			currentDirectoryFiles = Directory.GetFiles ( currentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
+			try
+			{
+				currentDirectoryDirectories = Directory.GetDirectories ( currentDirectory ).ToArray ();
+				currentDirectoryFiles = Directory.GetFiles ( currentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
+		
+			} catch ( Exception e ) {
+				
+				if ( startupManager.developmentMode == true )
+					UnityEngine.Debug.LogWarning ( e );
+					
+				currentDirectory = startupManager.mediaPath + "Albums";
+				
+				currentDirectoryDirectories = Directory.GetDirectories ( currentDirectory ).ToArray ();
+				currentDirectoryFiles = Directory.GetFiles ( currentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
+			}
 		}
 	}
 	
@@ -75,9 +94,21 @@ public class MusicManager : MonoBehaviour
 		if ( showMusicManager == true )
 		{
 			
-			GUI.skin = guiskin;
+			GUI.skin = guiSkin;
 			musicManagerPosition = GUI.Window ( 4, musicManagerPosition, MusicMakerPane, musicManagerTitle );
 		}
+		
+		if ( showNewFolderWindow == true )
+		{
+		
+			GUI.skin.window.normal.background = startupManager.popupWindowTexture;
+			GUI.Window ( 7, newFolderWindowRect, NewFolderWindow, "New Folder" );
+		} else {
+			
+			GUI.skin.window.normal.background = null;
+		}
+		
+		GUI.skin = guiSkin;
 	}
 	
 
@@ -146,6 +177,9 @@ public class MusicManager : MonoBehaviour
 		GUI.skin.label.alignment = TextAnchor.UpperLeft;
 		GUILayout.Space ( 20 );
 		
+		if ( GUILayout.Button ( "New Folder" ))
+			showNewFolderWindow = true;
+		
 		if ( GUILayout.Button ( "Set as active media directory" ))
 			SetMusicViewerMedia ();
 			
@@ -155,6 +189,38 @@ public class MusicManager : MonoBehaviour
 		GUILayout.EndScrollView ();
 		GUILayout.EndVertical ();
 		GUILayout.EndHorizontal ();
+		
+		if ( showNewFolderWindow == true )
+		{
+			
+			GUI.DrawTexture ( new Rect ( 0, 0, musicManagerPosition.width, musicManagerPosition.height ), startupManager.underlay );
+		}
+	}
+	
+	
+	void NewFolderWindow ( int wid )
+	{
+		
+		GUI.FocusWindow ( 7 );
+		GUI.BringWindowToFront ( 7 );
+		
+		if ( GUI.Button ( new Rect ( 275, 20, 55, 20 ), "Close" ))
+		{
+
+			GUI.FocusWindow ( 0 );
+			GUI.BringWindowToFront ( 0 );
+			paneManager.popupBlocking = false;
+			newFolderWindowRect.height = 70;
+			showNewFolderWindow = false;
+		}
+		
+		GUI.Label ( new Rect ( -36, 17, 340, 25 ), "Input the link to an audio file in the textfield." );
+		
+		if ( GUI.Button ( new Rect ( 6, 45, 35, 20 ), "Create" ))
+		{
+
+			
+		}
 	}
 	
 	

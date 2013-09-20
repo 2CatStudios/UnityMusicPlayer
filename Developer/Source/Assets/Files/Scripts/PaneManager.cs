@@ -38,6 +38,7 @@ public class PaneManager : MonoBehaviour
 	GUI.Window 4 is MusicManager
 	GUI.Window 5 is Streaming
 	GUI.Window 6 is Settings
+	GUI.Window 7 is NewFolder
 
 */
 	void Update()
