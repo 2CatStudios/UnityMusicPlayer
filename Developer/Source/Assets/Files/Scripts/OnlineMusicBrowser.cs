@@ -87,7 +87,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 
 	#region Variables
 
-	public GUISkin skin;
+	public GUISkin guiSkin;
+	public Texture2D guiHover;
 	internal bool showUnderlay = false;
 	
 	internal bool showOnlineMusicBrowser = false;
@@ -218,8 +219,13 @@ public class OnlineMusicBrowser : MonoBehaviour
 		if ( showOnlineMusicBrowser == true )
 		{
 			
-			GUI.skin = skin;
+			GUI.skin = guiSkin;
 
+			if ( songInfoWindowOpen == true )
+				GUI.skin.button.hover.background = null;
+			else
+				GUI.skin.button.hover.background = guiHover;
+			
 			if ( paneManager.loading == false )
 				onlineMusicBrowserPosition = GUI.Window ( 1, onlineMusicBrowserPosition, OnlineMusicBrowserPane, onlineMusicBrowserTitle );
 		}
@@ -278,20 +284,20 @@ public class OnlineMusicBrowser : MonoBehaviour
 		{
 
 			case 0:
-			if(allSongsList.Count != 0)
+			if ( allSongsList.Count != 0 )
 			{
 
-				foreach (Song song in allSongsList)
+				foreach ( Song song in allSongsList )
 				{
 				
-					if (GUILayout.Button (song.name))
+					if ( GUILayout.Button ( song.name ))
 					{
 					
-						if(songInfoWindowOpen == false)
+						if ( songInfoWindowOpen == false )
 						{
 
 							loadingImage.showLoadingImages = true;
-							loadingImage.InvokeRepeating ("LoadingImages", 0.25F, 0.25F);
+							loadingImage.InvokeRepeating ( "LoadingImages", 0.25F, 0.25F );
 							paneManager.popupBlocking = true;
 
 							downloadManager.song = song;
@@ -304,11 +310,11 @@ public class OnlineMusicBrowser : MonoBehaviour
 							} else if ( song.downloadLink.StartsWith ( "h" ) == true )
 							{
 
-								downloadManager.url = new Uri (song.downloadLink);
+								downloadManager.url = new Uri ( song.downloadLink );
 								downloadManager.downloadButtonText = "Download";
 							}
 								
-							downloadManager.SendMessage ("GetInfo");
+							downloadManager.SendMessage ( "GetInfo" );
 							songInfoWindowOpen = true;
 						}
 					}

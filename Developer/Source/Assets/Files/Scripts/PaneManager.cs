@@ -11,6 +11,8 @@ public class PaneManager : MonoBehaviour
 	public MusicManager musicManager;
 	public MusicViewer musicViewer;
 	public OnlineMusicBrowser onlineMusicBrowser;
+	
+	public GUISkin guiSkin;
 
 	internal bool popupBlocking = false;
 	
@@ -64,6 +66,14 @@ public class PaneManager : MonoBehaviour
 				musicManager.checkForChanges = false;
 				musicViewer.showMusicViewer = true;
 			}
+			
+			if ( popupBlocking == false && Input.GetKey (KeyCode.RightArrow) && currentPane == pane.musicViewer && moving == false && loading == false )
+			{
+
+				moving = true;
+				moveToOMB = true;
+				onlineMusicBrowser.showOnlineMusicBrowser = true;
+			}
 
 			if ( popupBlocking == false && Input.GetKey (KeyCode.LeftArrow) && currentPane == pane.onlineMusicBrowser && moving == false )
 			{
@@ -72,13 +82,60 @@ public class PaneManager : MonoBehaviour
 				moveToMVfOMB = true;
 				musicViewer.showMusicViewer = true;
 			}
+		}
+		
+		
+		//Move to MusicManager from MusicViewer
+		if ( moveToMM == true )
+		{
 
-			if ( popupBlocking == false && Input.GetKey (KeyCode.RightArrow) && currentPane == pane.musicViewer && moving == false && loading == false )
+			float smoothDampIn = Mathf.SmoothDamp ( musicManager.musicManagerPosition.x, 0.0F, ref moveVelocity, 0.1F, 4000 );
+			float smoothDampOut = Mathf.SmoothDamp ( musicViewer.musicViewerPosition.x, musicViewer.musicViewerPosition.width + musicViewer.musicViewerPosition.width / 4, ref moveVelocity, 0.1F, 4000 );
+
+			musicViewer.musicViewerPosition.x = smoothDampOut;
+			musicManager.musicManagerPosition.x = smoothDampIn;
+			
+			if ( musicManager.musicManagerPosition.x > -5 )
 			{
+				
+				moveVelocity = 0;
+				moveToMM = false;
 
-				moving = true;
-				moveToOMB = true;
-				onlineMusicBrowser.showOnlineMusicBrowser = true;
+				currentPane = pane.musicManager;
+				
+				musicViewer.musicViewerPosition.x = musicViewer.musicViewerPosition.width + musicViewer.musicViewerPosition.width / 4;
+				musicManager.musicManagerPosition.x = 0;
+				
+				
+				musicViewer.showMusicViewer = false;
+				moving = false;
+			}
+		}
+		
+		
+		//Move to MusicViewer from MusicManager
+		if ( moveToMVfMM == true )
+		{
+			
+			float smoothDampIn = Mathf.SmoothDamp ( musicViewer.musicViewerPosition.x, 0.0F, ref moveVelocity, 0.1F, 4000 );
+			float smoothDampOut = Mathf.SmoothDamp ( musicManager.musicManagerPosition.x, -musicManager.musicManagerPosition.width + -musicManager.musicManagerPosition.width / 4, ref moveVelocity, 0.1F, 4000 );
+			
+			musicViewer.musicViewerPosition.x = smoothDampIn;
+			musicManager.musicManagerPosition.x = smoothDampOut;
+			
+			if ( musicViewer.musicViewerPosition.x < 5 )
+			{
+				
+				moveVelocity = 0;
+				moveToMVfMM = false;
+				
+				currentPane = pane.musicViewer;
+				
+				musicViewer.musicViewerPosition.x = 0;
+				musicManager.musicManagerPosition.x = -musicManager.musicManagerPosition.width + -musicManager.musicManagerPosition.width / 4;
+				
+				musicManager.showMusicManager = false;
+				moving = false;
 			}
 		}
 
@@ -107,7 +164,7 @@ public class PaneManager : MonoBehaviour
 				moving = false;
 			}
 		}
-
+		
 		//Move to MusicViewer from OnlineMusicBrowser
 		if ( moveToMVfOMB == true )
 		{
@@ -135,59 +192,6 @@ public class PaneManager : MonoBehaviour
 				moving = false;
 			}
 		}
-
-		//Move to MusicViewer from MusicManager
-		if ( moveToMVfMM == true )
-		{
-			
-			float smoothDampIn = Mathf.SmoothDamp ( musicViewer.musicViewerPosition.x, 0.0F, ref moveVelocity, 0.1F, 4000 );
-			float smoothDampOut = Mathf.SmoothDamp ( musicManager.musicManagerPosition.x, -musicManager.musicManagerPosition.width + -musicManager.musicManagerPosition.width / 4, ref moveVelocity, 0.1F, 4000 );
-			
-			musicViewer.musicViewerPosition.x = smoothDampIn;
-			musicManager.musicManagerPosition.x = smoothDampOut;
-			
-			if ( musicViewer.musicViewerPosition.x < 5 )
-			{
-				
-				moveVelocity = 0;
-				moveToMVfMM = false;
-				
-				currentPane = pane.musicViewer;
-				
-				musicViewer.musicViewerPosition.x = 0;
-				musicManager.musicManagerPosition.x = -musicManager.musicManagerPosition.width + -musicManager.musicManagerPosition.width / 4;
-				
-				musicManager.showMusicManager = false;
-				moving = false;
-			}
-		}
-
-		//Move to MusicManager from MusicViewer
-		if ( moveToMM == true )
-		{
-
-			float smoothDampIn = Mathf.SmoothDamp ( musicManager.musicManagerPosition.x, 0.0F, ref moveVelocity, 0.1F, 4000 );
-			float smoothDampOut = Mathf.SmoothDamp ( musicViewer.musicViewerPosition.x, musicViewer.musicViewerPosition.width + musicViewer.musicViewerPosition.width / 4, ref moveVelocity, 0.1F, 4000 );
-
-			musicViewer.musicViewerPosition.x = smoothDampOut;
-			musicManager.musicManagerPosition.x = smoothDampIn;
-			
-			if ( musicManager.musicManagerPosition.x > -5 )
-			{
-				
-				moveVelocity = 0;
-				moveToMM = false;
-
-				currentPane = pane.musicManager;
-				
-				musicViewer.musicViewerPosition.x = musicViewer.musicViewerPosition.width + musicViewer.musicViewerPosition.width / 4;
-				musicManager.musicManagerPosition.x = 0;
-				
-				
-				musicViewer.showMusicViewer = false;
-				moving = false;
-			}
-		}
 	}
 
 
@@ -209,5 +213,9 @@ public class PaneManager : MonoBehaviour
 			GUI.FocusWindow ( 0 );
 			startup = false;
 		}
+		
+		GUI.skin = guiSkin;
+		if ( GUI.Button ( new Rect ( musicViewer.musicViewerPosition.width - 75, musicViewer.musicViewerPosition.height - 40, 60, 30 ), "Quit" ))
+			musicViewer.SendMessage ( "Quit" );
 	}
 }

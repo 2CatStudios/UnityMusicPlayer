@@ -11,6 +11,7 @@ public class MusicManager : MonoBehaviour
 {
 
 	public GUISkin guiSkin;
+	public Texture2D guiHover;
 	StartupManager startupManager;
 	PaneManager paneManager;
 	
@@ -25,6 +26,7 @@ public class MusicManager : MonoBehaviour
 	Vector2 scrollPosition;
 	
 	bool showNewFolderWindow = false;
+	string folderName = "";
 
 	Rect newFolderWindowRect = new Rect ( 0, 0, 350, 70 );
 	internal Rect musicManagerPosition = new Rect (-1000, 0, 800, 600);
@@ -90,25 +92,25 @@ public class MusicManager : MonoBehaviour
 
 	void OnGUI ()
 	{
-
-		if ( showMusicManager == true )
-		{
-			
-			GUI.skin = guiSkin;
-			musicManagerPosition = GUI.Window ( 4, musicManagerPosition, MusicMakerPane, musicManagerTitle );
-		}
 		
 		if ( showNewFolderWindow == true )
 		{
 		
-			GUI.skin.window.normal.background = startupManager.popupWindowTexture;
 			GUI.Window ( 7, newFolderWindowRect, NewFolderWindow, "New Folder" );
-		} else {
-			
-			GUI.skin.window.normal.background = null;
 		}
 		
-		GUI.skin = guiSkin;
+		if ( showMusicManager == true )
+		{
+			
+			GUI.skin = guiSkin;
+			
+			if ( showNewFolderWindow == true )
+				GUI.skin.button.hover.background = null;
+			else
+				GUI.skin.button.hover.background = guiHover;
+
+			musicManagerPosition = GUI.Window ( 4, musicManagerPosition, MusicMakerPane, musicManagerTitle );
+		}
 	}
 	
 
@@ -177,14 +179,14 @@ public class MusicManager : MonoBehaviour
 		GUI.skin.label.alignment = TextAnchor.UpperLeft;
 		GUILayout.Space ( 20 );
 		
-		if ( GUILayout.Button ( "New Folder" ))
-			showNewFolderWindow = true;
-		
 		if ( GUILayout.Button ( "Set as active directory" ))
 			SetMusicViewerMedia ();
 			
 		if ( GUILayout.Button ( "Open current directory" ))
 			Process.Start ( currentDirectory );
+			
+		if ( GUILayout.Button ( "New Folder" ))
+			showNewFolderWindow = true;
 			
 		GUILayout.EndScrollView ();
 		GUILayout.EndVertical ();
@@ -204,22 +206,36 @@ public class MusicManager : MonoBehaviour
 		GUI.FocusWindow ( 7 );
 		GUI.BringWindowToFront ( 7 );
 		
-		if ( GUI.Button ( new Rect ( 275, 20, 55, 20 ), "Close" ))
+		if ( GUI.Button ( new Rect ( 288, 20, 55, 20 ), "Cancel" ))
 		{
 
-			GUI.FocusWindow ( 0 );
-			GUI.BringWindowToFront ( 0 );
+			GUI.FocusWindow ( 4 );
+			GUI.BringWindowToFront ( 4 );
 			paneManager.popupBlocking = false;
 			newFolderWindowRect.height = 70;
 			showNewFolderWindow = false;
 		}
 		
-		GUI.Label ( new Rect ( -36, 17, 340, 25 ), "Input the link to an audio file in the textfield." );
+		GUI.Label ( new Rect ( -25, 17, 340, 25 ), "Enter a folder name and press 'Create'." );
 		
-		if ( GUI.Button ( new Rect ( 6, 45, 35, 20 ), "Create" ))
+		folderName = GUI.TextField ( new Rect ( 65, 45, 280, 20 ), folderName );
+		
+		if ( GUI.Button ( new Rect ( 10, 45, 50, 20 ), "Create" ) && String.IsNullOrEmpty ( folderName.Trim ()) == false )
 		{
 
-			
+			if ( !Directory.Exists ( currentDirectory + Path.DirectorySeparatorChar + folderName ))
+			{
+				
+				Directory.CreateDirectory ( currentDirectory + Path.DirectorySeparatorChar + folderName );
+				
+				UpdateDirectories ();
+				
+				GUI.FocusWindow ( 4 );
+				GUI.BringWindowToFront ( 4 );
+				paneManager.popupBlocking = false;
+				newFolderWindowRect.height = 70;
+				showNewFolderWindow = false;
+			}
 		}
 	}
 	

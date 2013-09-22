@@ -72,6 +72,7 @@ public class MusicViewer : MonoBehaviour
 
 	bool hideGUI = false;
 	public GUISkin guiSkin;
+	public Texture2D guiHover;
 	
 	int [ ] previousSongs = new int  [ 7 ] { 0, 0, 0, 0, 0, 0, 0 };
 	int psPlace = 6;
@@ -479,31 +480,11 @@ public class MusicViewer : MonoBehaviour
 
 
 	void OnGUI ()
-	{
+	{		
 		
 		if ( manager.audio.clip != null && showTimebar == true )
 				GUI.DrawTexture ( new Rect ( manager.audio.time * ( musicViewerPosition.width/manager.audio.clip.length ), -3, 10, 6 ), timebarMarker );
-		
-		if ( showMusicViewer == true )
-		{
-
-			if ( showStreamingWindow == true )
-			{
-
-				paneManager.popupBlocking = true;
-				GUI.skin.window.normal.background = startupManager.popupWindowTexture;
-				GUI.Window ( 5, streamingWindowRect, StreamingWindow, "Web and Disk Streaming" );
-			}
-
-			if ( showOptionsWindow == true )
-			{
-
-				paneManager.popupBlocking = true;
-				GUI.skin.window.normal.background = startupManager.popupWindowTexture;
-				GUI.Window ( 6, optionsWindowRect, OptionsWindow, "Options and Settings" );
-			}
-		}
-		
+				
 		if ( slideshow == true )
 		{
 			
@@ -538,11 +519,32 @@ public class MusicViewer : MonoBehaviour
 			}
 		}
 		
-		GUI.skin = guiSkin;
-		musicViewerPosition = GUI.Window ( 0, musicViewerPosition, MusicViewerPane, musicViewerTitle );
-		
-		if ( GUI.Button ( new Rect ( musicViewerPosition.width - 75, musicViewerPosition.height - 40, 60, 30 ), "Quit" ))
-			Quit ();
+		if ( showMusicViewer == true )
+		{
+
+			if ( showStreamingWindow == true )
+			{
+
+				paneManager.popupBlocking = true;
+				GUI.Window ( 5, streamingWindowRect, StreamingWindow, "Web and Disk Streaming" );
+			}
+
+			if ( showOptionsWindow == true )
+			{
+
+				paneManager.popupBlocking = true;
+				GUI.Window ( 6, optionsWindowRect, OptionsWindow, "Options and Settings" );
+			}
+			
+			GUI.skin = guiSkin;
+			
+			if ( showStreamingWindow == true || showOptionsWindow == true )
+				GUI.skin.button.hover.background = null;
+			else
+				GUI.skin.button.hover.background = guiHover;
+
+			musicViewerPosition = GUI.Window ( 0, musicViewerPosition, MusicViewerPane, musicViewerTitle );
+		}
 	}
 
 
@@ -801,7 +803,7 @@ public class MusicViewer : MonoBehaviour
 			GUILayout.Space ( musicViewerPosition.width / 2 - 300 );
 			GUILayout.BeginVertical ();
 			GUILayout.Space ( musicViewerPosition.height / 4 + 25 );
-			scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  musicViewerPosition.height - ( musicViewerPosition.height / 4 + 56 )));
+			scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  musicViewerPosition.height - ( musicViewerPosition.height / 4 + 53 )));
 	
 			if ( clipListEmpty == false )
 			{
