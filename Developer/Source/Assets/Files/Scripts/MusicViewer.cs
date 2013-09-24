@@ -456,14 +456,33 @@ public class MusicViewer : MonoBehaviour
 	
 
 	IEnumerator SlideshowIN ()
-	{
+	{		
+//		Thanks to http://andrew.hedges.name/experiments/aspect_ratio
 
 		slideshowImageLocations = Directory.GetFiles ( startupManager.slideshowPath, "*.*" ).Where ( s => s.EndsWith ( ".png" ) || s.EndsWith ( ".jpg" ) || s.EndsWith ( ".jpeg" )).ToArray ();
 
 		WWW wWw = new WWW ( "file://" + slideshowImageLocations [ slideshowImage ] );
 		yield return wWw;
-
-		newSlideshowImage = new Texture2D (( int ) musicViewerPosition.height, ( int ) musicViewerPosition.height, TextureFormat.ARGB32, false );
+		
+		Vector2 tempImageSize = new Vector2 ( wWw.texture.width, wWw.texture.height );
+		
+		if ( tempImageSize.x > musicViewerPosition.width )
+		{
+			
+			float tempSizeDifference = tempImageSize.x - musicViewerPosition.width;
+			tempImageSize = new Vector2 ( tempImageSize.x - tempSizeDifference, tempImageSize.y / tempImageSize.x * ( tempImageSize.x - tempSizeDifference ));
+		}
+		
+		if ( tempImageSize.y > musicViewerPosition.height )
+		{
+			
+			float tempSizeDifference = tempImageSize.y - musicViewerPosition.height;
+			tempImageSize = new Vector2 ( tempImageSize.x / tempImageSize.y * ( tempImageSize.y - tempSizeDifference ), tempImageSize.y - tempSizeDifference );
+		}
+		
+		currentSlideshowImage.pixelInset = new Rect (( tempImageSize.x / 2 ) * -1, ( tempImageSize.y / 2 ) * -1 ,  tempImageSize.x , tempImageSize.y );
+		
+		newSlideshowImage = new Texture2D (( int ) tempImageSize.x, ( int ) tempImageSize.y, TextureFormat.ARGB32, false );
 		wWw.LoadImageIntoTexture ( newSlideshowImage );
 		currentSlideshowImage.texture = newSlideshowImage;
 
