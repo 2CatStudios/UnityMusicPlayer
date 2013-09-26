@@ -34,6 +34,8 @@ public class MusicManager : MonoBehaviour
 	
 	List<string> availableSorts = new List<string>();
 	
+	string[] artworkImageLocations;
+	
 
 	void Start ()
 	{
@@ -61,7 +63,27 @@ public class MusicManager : MonoBehaviour
 		currentDirectoryDirectories = Directory.GetDirectories ( currentDirectory ).ToArray ();
 		currentDirectoryFiles = Directory.GetFiles ( currentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
 		
+		StartCoroutine ( "SetArtwork" );
 		InvokeRepeating ( "UpdateDirectories", 0, 2 );
+	}
+	
+	
+	IEnumerator SetArtwork ()
+	{
+		
+		artworkImageLocations = Directory.GetFiles ( currentDirectory, "Artwork.*" ).Where ( s => s.EndsWith ( ".png" ) || s.EndsWith ( ".jpg" ) || s.EndsWith ( ".jpeg" )).ToArray ();
+		
+		if ( artworkImageLocations.Length > 0 )
+		{
+
+			WWW wWw = new WWW ( "file://" + artworkImageLocations [ 0 ] );
+			yield return wWw;
+			
+			musicViewer.currentSlideshowImage.texture = wWw.texture;
+		} else {
+			
+			musicViewer.currentSlideshowImage.texture = null;
+		}
 	}
 	
 	
@@ -253,5 +275,7 @@ public class MusicManager : MonoBehaviour
 			Array.Clear( musicViewer.clipList, 0, musicViewer.clipList.Length);
 			musicViewer.clipListEmpty = true;
 		}
+		
+		StartCoroutine ( "SetArtwork" );
 	}
 }

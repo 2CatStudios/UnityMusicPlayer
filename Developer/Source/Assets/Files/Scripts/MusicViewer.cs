@@ -116,7 +116,7 @@ public class MusicViewer : MonoBehaviour
 
 
 	string[] slideshowImageLocations;
-	GUITexture currentSlideshowImage;
+	internal GUITexture currentSlideshowImage;
 	Texture2D newSlideshowImage;
 	float fadeVelocity = 0.0F;
 	bool fadeIn = false;
@@ -139,8 +139,7 @@ public class MusicViewer : MonoBehaviour
 	bool showVisualizer = false;
 	bool halfSpeed = false;
 	bool doubleSpeed = false;
-
-//-------
+	
 
 	public Texture2D timebarMarker;
 	float tempShowTimebar;
@@ -275,7 +274,6 @@ public class MusicViewer : MonoBehaviour
 			timemark.text = "0:00.000][0:00.000";
 		else
 			timemark.text = "0:00][0:00";
-
 
 		TextWriter savePrefs = new StreamWriter ( prefsLocation );
 		savePrefs.WriteLine ( mediaPath + "\n" + loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + showTimebar + "\n" + showQuickManage + "\n" + preciseTimemark + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + motionBlur + "\n" + sunShafts + 
@@ -458,6 +456,10 @@ public class MusicViewer : MonoBehaviour
 	IEnumerator SlideshowIN ()
 	{		
 //		Thanks to http://andrew.hedges.name/experiments/aspect_ratio
+		
+		Resources.UnloadUnusedAssets ();
+		
+		currentSlideshowImage.color = new Color ( 0.5f, 0.5f, 0.5f, 0 );
 
 		slideshowImageLocations = Directory.GetFiles ( startupManager.slideshowPath, "*.*" ).Where ( s => s.EndsWith ( ".png" ) || s.EndsWith ( ".jpg" ) || s.EndsWith ( ".jpeg" )).ToArray ();
 
@@ -503,15 +505,18 @@ public class MusicViewer : MonoBehaviour
 		
 		if ( manager.audio.clip != null && showTimebar == true )
 				GUI.DrawTexture ( new Rect ( manager.audio.time * ( musicViewerPosition.width/manager.audio.clip.length ), -3, 10, 6 ), timebarMarker );
-				
+		
+		
 		if ( slideshow == true )
 		{
 			
-			GUI.Box ( new Rect ( musicViewerPosition.width - 100, musicViewerPosition.height - 65, 90, 20 ), ""  );
-			slideshow = GUI.Toggle ( new Rect ( musicViewerPosition.width - 95, musicViewerPosition.height - 65, 80, 20 ), slideshow, "Slideshow" );
+			GUI.Box ( new Rect ( 6, musicViewerPosition.height - 25, 82, 20 ), ""  );
+			slideshow = GUI.Toggle ( new Rect ( 8, musicViewerPosition.height - 25, 80, 20 ), slideshow, "Slideshow" );
 			
 			if ( slideshow == false )
 			{
+				
+				musicManager.StartCoroutine ( "SetArtwork" );
 				
 				tempSlideshow = Convert.ToSingle ( slideshow );
 				if ( showTimebar == false )
@@ -532,9 +537,13 @@ public class MusicViewer : MonoBehaviour
 				
 				StopCoroutine ( "SlideshowIN" );
 				newSlideshowImage = null;
+				currentSlideshowImage.pixelInset = new Rect ( -300, -300, 600, 600 );
 				currentSlideshowImage.texture = null;
-				currentSlideshowImage.color = new Color ( 0.5F, 0.5F, 0.5F, 0.0F );
+				currentSlideshowImage.color = new Color ( 0.5f, 0.5f, 0.5f, 0.1f );
+				slideshowImage = 0;
 				fadeIn = false;
+				
+				Resources.UnloadUnusedAssets ();
 			}
 		}
 		
@@ -809,11 +818,11 @@ public class MusicViewer : MonoBehaviour
 			
 			if ( continuous = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 - 5, musicViewerPosition.height/4 - 5, 100, 20 ), continuous, "" ))
 				if ( continuous == true && shuffle == true || continuous == true && loop == true )
-			{
+				{
 				
-				shuffle = false;
-				loop = false;
-			}
+					shuffle = false;
+					loop = false;
+				}
 			
 			#endregion
 			
