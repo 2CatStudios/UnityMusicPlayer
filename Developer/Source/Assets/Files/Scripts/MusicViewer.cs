@@ -457,46 +457,51 @@ public class MusicViewer : MonoBehaviour
 	{		
 //		Thanks to http://andrew.hedges.name/experiments/aspect_ratio
 		
+		currentSlideshowImage.texture = null;
 		Resources.UnloadUnusedAssets ();
 		
-		currentSlideshowImage.color = new Color ( 0.5f, 0.5f, 0.5f, 0 );
-
 		slideshowImageLocations = Directory.GetFiles ( startupManager.slideshowPath, "*.*" ).Where ( s => s.EndsWith ( ".png" ) || s.EndsWith ( ".jpg" ) || s.EndsWith ( ".jpeg" )).ToArray ();
-
-		WWW wWw = new WWW ( "file://" + slideshowImageLocations [ slideshowImage ] );
-		yield return wWw;
 		
-		Vector2 tempImageSize = new Vector2 ( wWw.texture.width, wWw.texture.height );
-		
-		if ( tempImageSize.x > musicViewerPosition.width )
+		if ( slideshowImageLocations.Length > 0 )
 		{
 			
-			float tempSizeDifference = tempImageSize.x - musicViewerPosition.width;
-			tempImageSize = new Vector2 ( tempImageSize.x - tempSizeDifference, tempImageSize.y / tempImageSize.x * ( tempImageSize.x - tempSizeDifference ));
-		}
-		
-		if ( tempImageSize.y > musicViewerPosition.height )
-		{
+			currentSlideshowImage.color = new Color ( 0.5f, 0.5f, 0.5f, 0 );
+	
+			WWW wWw = new WWW ( "file://" + slideshowImageLocations [ slideshowImage ] );
+			yield return wWw;
 			
-			float tempSizeDifference = tempImageSize.y - musicViewerPosition.height;
-			tempImageSize = new Vector2 ( tempImageSize.x / tempImageSize.y * ( tempImageSize.y - tempSizeDifference ), tempImageSize.y - tempSizeDifference );
+			Vector2 tempImageSize = new Vector2 ( wWw.texture.width, wWw.texture.height );
+			
+			if ( tempImageSize.x > musicViewerPosition.width )
+			{
+				
+				float tempSizeDifference = tempImageSize.x - musicViewerPosition.width;
+				tempImageSize = new Vector2 ( tempImageSize.x - tempSizeDifference, tempImageSize.y / tempImageSize.x * ( tempImageSize.x - tempSizeDifference ));
+			}
+			
+			if ( tempImageSize.y > musicViewerPosition.height )
+			{
+				
+				float tempSizeDifference = tempImageSize.y - musicViewerPosition.height;
+				tempImageSize = new Vector2 ( tempImageSize.x / tempImageSize.y * ( tempImageSize.y - tempSizeDifference ), tempImageSize.y - tempSizeDifference );
+			}
+			
+			currentSlideshowImage.pixelInset = new Rect (( tempImageSize.x / 2 ) * -1, ( tempImageSize.y / 2 ) * -1 ,  tempImageSize.x , tempImageSize.y );
+			
+			newSlideshowImage = new Texture2D (( int ) tempImageSize.x, ( int ) tempImageSize.y, TextureFormat.ARGB32, false );
+			wWw.LoadImageIntoTexture ( newSlideshowImage );
+			currentSlideshowImage.texture = newSlideshowImage;
+	
+			fadeIn = true;
+	
+			yield return new WaitForSeconds ( 7 );
+	
+			slideshowImage += 1;
+			if ( slideshowImage == slideshowImageLocations.Length )
+				slideshowImage = 0;
+	
+			fadeOut = true;
 		}
-		
-		currentSlideshowImage.pixelInset = new Rect (( tempImageSize.x / 2 ) * -1, ( tempImageSize.y / 2 ) * -1 ,  tempImageSize.x , tempImageSize.y );
-		
-		newSlideshowImage = new Texture2D (( int ) tempImageSize.x, ( int ) tempImageSize.y, TextureFormat.ARGB32, false );
-		wWw.LoadImageIntoTexture ( newSlideshowImage );
-		currentSlideshowImage.texture = newSlideshowImage;
-
-		fadeIn = true;
-
-		yield return new WaitForSeconds ( 7 );
-
-		slideshowImage += 1;
-		if ( slideshowImage == slideshowImageLocations.Length )
-			slideshowImage = 0;
-
-		fadeOut = true;
 	}
 
 
@@ -505,47 +510,7 @@ public class MusicViewer : MonoBehaviour
 		
 		if ( manager.audio.clip != null && showTimebar == true )
 				GUI.DrawTexture ( new Rect ( manager.audio.time * ( musicViewerPosition.width/manager.audio.clip.length ), -3, 10, 6 ), timebarMarker );
-		
-		
-		if ( slideshow == true )
-		{
-			
-			GUI.Box ( new Rect ( 6, musicViewerPosition.height - 25, 82, 20 ), ""  );
-			slideshow = GUI.Toggle ( new Rect ( 8, musicViewerPosition.height - 25, 80, 20 ), slideshow, "Slideshow" );
-			
-			if ( slideshow == false )
-			{
-				
-				musicManager.StartCoroutine ( "SetArtwork" );
-				
-				tempSlideshow = Convert.ToSingle ( slideshow );
-				if ( showTimebar == false )
-					musicViewerTitle = "MusicViewer";
-				
-				timemark.enabled = true;
-				hideGUI = false;
-				
-				if ( manager.audio.clip != null )
-				{
-					
-					currentSong.text = clipList [ currentSongNumber ].Substring ( mediaPath.Length + 1, rawCurrentSong.Length -4  );
-					
-				} else {
-					
-					currentSong.text = "UnityMusicPlayer";
-				}
-				
-				StopCoroutine ( "SlideshowIN" );
-				newSlideshowImage = null;
-				currentSlideshowImage.pixelInset = new Rect ( -300, -300, 600, 600 );
-				currentSlideshowImage.texture = null;
-				currentSlideshowImage.color = new Color ( 0.5f, 0.5f, 0.5f, 0.1f );
-				slideshowImage = 0;
-				fadeIn = false;
-				
-				Resources.UnloadUnusedAssets ();
-			}
-		}
+
 		
 		if ( showMusicViewer == true )
 		{
@@ -1417,6 +1382,40 @@ public class MusicViewer : MonoBehaviour
 			}
 			
 		} else {
+			
+			if ( Input.GetKey ( KeyCode.Escape ))
+			{
+				
+				slideshow = false;
+				musicManager.StartCoroutine ( "SetArtwork" );
+				
+				tempSlideshow = Convert.ToSingle ( slideshow );
+				if ( showTimebar == false )
+					musicViewerTitle = "MusicViewer";
+				
+				timemark.enabled = true;
+				hideGUI = false;
+				
+				if ( manager.audio.clip != null )
+				{
+					
+					currentSong.text = clipList [ currentSongNumber ].Substring ( mediaPath.Length + 1, rawCurrentSong.Length -4  );
+					
+				} else {
+					
+					currentSong.text = "UnityMusicPlayer";
+				}
+				
+				StopCoroutine ( "SlideshowIN" );
+				newSlideshowImage = null;
+				currentSlideshowImage.pixelInset = new Rect ( -300, -300, 600, 600 );
+				currentSlideshowImage.texture = null;
+				currentSlideshowImage.color = new Color ( 0.5f, 0.5f, 0.5f, 0.1f );
+				slideshowImage = 0;
+				fadeIn = false;
+				
+				Resources.UnloadUnusedAssets ();
+			}
 
 			if ( fadeIn == true )
 			{
