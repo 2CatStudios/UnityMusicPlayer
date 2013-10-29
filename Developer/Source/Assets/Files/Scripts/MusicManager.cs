@@ -36,9 +36,13 @@ public class MusicManager : MonoBehaviour
 	
 	string[] artworkImageLocations;
 	
+	bool startup;
+	
 
 	void Start ()
 	{
+		
+		startup = true;
 
 		startupManager = GameObject.FindGameObjectWithTag ( "Manager" ).GetComponent<StartupManager>();
 		paneManager = GameObject.FindGameObjectWithTag ( "Manager" ).GetComponent<PaneManager>();
@@ -82,8 +86,11 @@ public class MusicManager : MonoBehaviour
 			musicViewer.currentSlideshowImage.texture = wWw.texture;
 		} else {
 			
-			musicViewer.currentSlideshowImage.texture = null;
+			if ( startup == false )
+				musicViewer.currentSlideshowImage.texture = null;
 		}
+		
+		startup = false;
 	}
 	
 	
