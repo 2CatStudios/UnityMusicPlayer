@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 //Written by Gibson Bethke
 //Thank you for saving me, Jesus!
 //Thank you for living in me, Spirit!
@@ -128,6 +129,13 @@ public class MusicViewer : MonoBehaviour
 //	String audioInput;
 //	bool pickInput;
 
+	
+	public static string RemoveChars ( string key )
+   	{
+				
+		return Regex.Replace ( key, "[^0-9.]", "" );
+	}
+	
 //-------
 
 	internal string mediaPath;
@@ -437,15 +445,19 @@ public class MusicViewer : MonoBehaviour
 
 		GUI.Label ( new Rect ( 200, 128, 80, 20 ), "Echo Delay" );
 		tempEchoDelay = GUI.TextField ( new Rect ( 175, 128, 30, 20 ), tempEchoDelay, 3 );
+		tempEchoDelay = RemoveChars ( tempEchoDelay );
 
 		GUI.Label ( new Rect ( 204, 150, 110, 20 ), "Echo Decay Rate" );
 		tempEchoDecayRate = GUI.TextField ( new Rect ( 175, 150, 30, 20 ), tempEchoDecayRate, 3 );
+		tempEchoDecayRate = RemoveChars ( tempEchoDecayRate );
 
 		GUI.Label ( new Rect ( 198, 172, 100, 20 ), "Echo Wet Mix" );
 		tempEchoWetMix = GUI.TextField ( new Rect ( 175, 172, 30, 20 ), tempEchoWetMix, 3 );
+		tempEchoWetMix = RemoveChars ( tempEchoWetMix );
 
 		GUI.Label ( new Rect ( 196, 194, 100, 20 ), "Echo Dry Mix" );
 		tempEchoDryMix = GUI.TextField ( new Rect ( 175, 194, 30, 20 ), tempEchoDryMix, 3 );
+		tempEchoDryMix = RemoveChars ( tempEchoDryMix );
 
 #endregion
 
