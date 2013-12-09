@@ -1,4 +1,4 @@
---- -Stable- ---
+--- -Developer- ---
 Liberty
 Liberty - EP
 DJ Purify
@@ -6,6 +6,7 @@ Trance
 wav
 http://ubuntuone.com/7BxIsjXjlxDY7rXFUvkGCA
 http://purify1.bandcamp.com/track/purify-liberty
+January 2, 2013
 
 You Are Like Me
 Act Of Love/You Are Like Me
@@ -14,6 +15,7 @@ Dubstep
 wav
 http://ubuntuone.com/7j5Tbjjm4GZyi4ztBSkgOa
 http://rchetype.bandcamp.com/track/you-are-like-me
+January 1, 2013
 
 Valley of the Shadows
 Physics
@@ -22,6 +24,7 @@ Dubstep
 wav
 http://ubuntuone.com/7GoxiBHbdbLajV2qa53Z5y
 http://wolfgun.bandcamp.com/album/physics
+January 1, 2013
 
 River (ft. Tim Bonvallet)
 SUNDISK
@@ -30,6 +33,7 @@ Trance
 wav
 http://ubuntuone.com/4ZEoCs1YL2WRazuwq1HylF
 http://wolfgun.bandcamp.com/album/sundisk
+January 1, 2013
 
 Pacific
 SUNDISK
@@ -38,6 +42,7 @@ Electronic
 wav
 http://ubuntuone.com/5miTx9iY7zvu26m40N0Gp6
 http://wolfgun.bandcamp.com/album/sundisk
+January 1, 2013
 
 Classic Tetris
 UMP Exclusive
@@ -46,6 +51,7 @@ VideoGame
 unity3d
 http://ubuntuone.com/7lXCnSmWjwLqBE7LMT2HyQ
 NONE
+August 20, 2012
 
 Epic Classic
 UMP Exclusive
@@ -54,6 +60,7 @@ Classical
 wav
 http://ubuntuone.com/7fw5QzTFScCtMCB4sSvhcL
 NONE
+August 20, 2012
 
 Blended
 it burns
@@ -62,6 +69,7 @@ Dubstep
 wav
 http://ubuntuone.com/3292zZJBkEBwnUR5DumLr1
 http://soundcloud.com/combustible-lemonade/2nd-dubstep-song
+November 28, 2012
 
 Quantum Realm
 Long Time
@@ -70,6 +78,7 @@ Dubstep
 wav
 http://ubuntuone.com/4Q18uccMDugja68nnIDx6F
 http://soundcloud.com/combustible-lemonade/quantum-realm
+November 28, 2012
 
 Ghosts
 Long Time
@@ -78,6 +87,7 @@ Dubstep
 wav
 http://ubuntuone.com/2ZZdKdY7BYwYPNuPztSEbl
 NONE
+November 28, 2012
 
 End of the World
 it burns
@@ -86,6 +96,7 @@ Dubstep
 wav
 http://ubuntuone.com/6gkJXzF1qC5Oygr1aMXTQT
 http://soundcloud.com/combustible-lemonade/combustible-lemonade-end-of
+December 21, 2012
 
 The Future of our Past
 Darkest Mornings / Brightest Nights
@@ -94,6 +105,7 @@ Ambient
 wav
 http://ubuntuone.com/3O4KUeb3CbHxiGYLrom4PO
 http://soundcloud.com/blacktie-vivid
+December 31, 2012
 
 Joking
 UMP Exclusive
@@ -101,7 +113,17 @@ BlackTie Vivid
 Trance
 wav
 http://ubuntuone.com/7FxPUdfJojsWQJQAfosAcJ
-NONE
+http://soundcloud.com/blacktie-vivid
+August 20, 2012
+
+Koi
+UMP Exclusive
+BlackTie Vivid
+Trance
+wav
+http://ubuntuone.com/3fBRctLFei5XNIJk1AyY0F
+http://soundcloud.com/blacktie-vivid
+August 20, 2012
 
 Catastrophic
 Get Outside
@@ -110,6 +132,7 @@ Trance
 unity3d
 http://ubuntuone.com/7fKMUHrE2XCPCzpQeGpFZa
 http://soundcloud.com/avelocity
+April 23, 2013
 
 Liquid Sunshine
 Get Outside
@@ -118,6 +141,7 @@ Trance
 unity3d
 http://ubuntuone.com/4Kba9YLDz46aDwukt9x8G3
 http://soundcloud.com/avelocity
+April 23, 2013
 
 Vibrance
 Vibrance - EP
@@ -126,6 +150,7 @@ Trance
 unity3d
 http://ubuntuone.com/5FhLmaobrtN2LhnWXPebwy
 http://soundcloud.com/avelocity
+April 23, 2013
 
 Background Sounds
 Darkest Mornings / Brightest Nights
@@ -134,6 +159,7 @@ Ambient
 wav
 http://ubuntuone.com/1Gz5btxAjxMa76xHD6Dg1A
 http://soundcloud.com/blacktie-vivid
+April 28, 2013
 
 Space Invaders
 Pixel EP
@@ -142,6 +168,7 @@ Electronic
 ogg
 http://ubuntuone.com/1MGY3Bci6OXzH0YibIJh13
 http://soundcloud.com/umcaruje
+April 27, 2013
 
 Fractal
 Pixel EP
@@ -150,6 +177,7 @@ Electronic
 ogg
 http://ubuntuone.com/6yXdt9BaVSMbu7KpdZms2W
 http://soundcloud.com/umcaruje
+April 27, 2013
 
 Maths (Umcaruje Cover)
 Maths - Single
@@ -158,6 +186,7 @@ Electronic
 ogg
 http://ubuntuone.com/4ljvKJfbfsB9qRbphRPQzm
 http://soundcloud.com/umcaruje
+April 27, 2013
 
 15 Inventions a 2 Voix IV
 UMP Exclusive
@@ -166,6 +195,7 @@ Classical
 wav
 http://ubuntuone.com/0T1cNERrJpDxj1nfpAQVyK
 NONE
+April 27, 2013
 
 Time
 Darkest Mornings / Brightest Nights
@@ -174,6 +204,7 @@ Ambient
 wav
 http://ubuntuone.com/4NcYKbZmXrLRYn0KsJjQDp
 http://soundcloud.com/blacktie-vivid
+June 4, 2013
 
 Darkest
 Darkest Mornings / Brightest Nights
@@ -182,6 +213,7 @@ Ambient
 wav
 http://ubuntuone.com/6KOf5GASHX7zuVpwl3ZmFi
 http://soundcloud.com/blacktie-vivid
+June 1, 2013
 
 Lost on Airport
 Lost on Airport / Flight
@@ -190,6 +222,7 @@ Chillout
 wav
 http://ubuntuone.com/4OnR5LrvlG0kMbQXQlk6AM
 http://umcaruje.bandcamp.com/album/lost-on-airport-flight
+September 2, 2013
 
 Flight
 Lost on Airport / Flight
@@ -198,6 +231,7 @@ Chillout
 wav
 http://ubuntuone.com/4IbmXV02Cnwr1H1rhee2Co
 http://umcaruje.bandcamp.com/album/lost-on-airport-flight
+September 2, 2013
 
 Lume
 Lume - Single
@@ -206,6 +240,7 @@ Chillout
 wav
 http://soundcloud.com/brian-amin
 http://ubuntuone.com/47PA87wRDThNSh2tEdAKrU
+September 2, 2013
 
 Brightest
 Darkest Mornings / Brightest Nights
@@ -214,6 +249,7 @@ Trance
 wav
 http://ubuntuone.com/7cwLP53DxHC7hFECzndt0s
 http://soundcloud.com/blacktie-vivid
+September 2, 2013
 
 Rhapsody on Linux
 it burns
@@ -222,3 +258,4 @@ Dubstep
 wav
 http://ubuntuone.com/4RzjfkCXWq85MChUjV6FOx
 NONE
+September 3, 2013
