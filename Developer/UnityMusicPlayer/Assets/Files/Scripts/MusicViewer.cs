@@ -387,6 +387,8 @@ public class MusicViewer : MonoBehaviour
 				currentSong.text = "";
 				hideGUI = true;
 				
+				manager.GetComponent<BlurEffect> ().enabled = true;
+				
 				StartCoroutine ( "SlideshowIN" );
 			}
 
@@ -1407,6 +1409,8 @@ public class MusicViewer : MonoBehaviour
 				
 				timemark.enabled = true;
 				hideGUI = false;
+				
+				manager.GetComponent<BlurEffect> ().enabled = false;
 				
 				if ( manager.audio.clip != null )
 				{
