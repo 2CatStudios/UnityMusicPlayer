@@ -152,17 +152,13 @@ public class MusicViewer : MonoBehaviour
 	internal GUITexture currentSlideshowImage;
 	Texture2D newSlideshowImage;
 	float fadeVelocity = 0.0F;
+	string displayTime = "7.0";
 	bool fadeIn = false;
 	bool fadeOut = false;
 
 	int slideshowImage = 0;
 	
 #endregion
-
-
-//	String audioInput;
-//	bool pickInput;
-
 	
 	public static string RemoveChars ( string key )
    	{
@@ -400,6 +396,10 @@ public class MusicViewer : MonoBehaviour
 			showQuickManage = Convert.ToBoolean ( tempShowQuickManage );
 			
 			preciseTimemark = Convert.ToBoolean ( tempPreciseTimemark );
+			
+			
+			if ( displayTime.Trim () == "" )
+				displayTime = "7.0";
 
 			slideshow = Convert.ToBoolean ( tempSlideshow );
 			autoAVOff = Convert.ToBoolean ( tempAutoAVOff );
@@ -502,13 +502,17 @@ public class MusicViewer : MonoBehaviour
 
 #region SlideshowSettings
 
-		GUI.Box ( new Rect ( 10, 226, 330, 90 ), "Slideshow Settings" );
+		GUI.Box ( new Rect ( 10, 226, 150, 90 ), "Slideshow Settings" );
 		
-		tempSlideshow = GUI.HorizontalSlider ( new Rect ( 15, 246, 20, 14 ), UnityEngine.Mathf.Round ( tempSlideshow ), 0, 1 );
-		GUI.Label ( new Rect ( 17, 240, 100, 22 ), "Slideshow" );
+		tempSlideshow = GUI.HorizontalSlider ( new Rect ( 15, 251, 20, 14 ), UnityEngine.Mathf.Round ( tempSlideshow ), 0, 1 );
+		GUI.Label ( new Rect ( 17, 245, 100, 22 ), "Slideshow" );
 		
-		tempAutoAVOff = GUI.HorizontalSlider ( new Rect ( 15, 266, 20, 14 ), UnityEngine.Mathf.Round ( tempAutoAVOff ), 0, 1 );
-		GUI.Label ( new Rect ( 25, 260, 100, 22 ), "Force AV Off" );
+		tempAutoAVOff = GUI.HorizontalSlider ( new Rect ( 15, 271, 20, 14 ), UnityEngine.Mathf.Round ( tempAutoAVOff ), 0, 1 );
+		GUI.Label ( new Rect ( 25, 265, 100, 22 ), "Force AV Off" );
+		
+		GUI.Label ( new Rect ( 45, 289, 80, 20 ), "Display Time" );
+		displayTime = GUI.TextField ( new Rect ( 15, 290, 30, 20 ), displayTime, 3 );
+		displayTime = RemoveChars ( displayTime );
 
 #endregion
 
@@ -557,12 +561,14 @@ public class MusicViewer : MonoBehaviour
 	
 			fadeIn = true;
 	
-			yield return new WaitForSeconds ( 7 );
+			float tempDisplayTime = Convert.ToSingle ( displayTime );
+			yield return new WaitForSeconds ( tempDisplayTime += 3 );
 	
 			slideshowImage += 1;
 			if ( slideshowImage == slideshowImageLocations.Length )
 				slideshowImage = 0;
 	
+			fadeIn = false;
 			fadeOut = true;
 		}
 	}
@@ -866,69 +872,70 @@ public class MusicViewer : MonoBehaviour
 		
 				if ( clipListEmpty == false )
 				{
-		
-	//				if ( hideGUI == false )
-	//				{
 					
-						for ( i = 0; i < clipList.Length; i ++ )
-						{
-						
-							string pathToFile = clipList [ i ];
-							string clipToPlay = clipList [ i ].Substring ( mediaPath.Length + 1 );
-							string songName;
+					for ( i = 0; i < clipList.Length; i ++ )
+					{
+					
+						string pathToFile = clipList [ i ];
+						string clipToPlay = clipList [ i ].Substring ( mediaPath.Length + 1 );
+						string songName;
 		
-							bool isAssetBundle;
-							if ( clipToPlay.Length > 8 )
+						bool isAssetBundle;
+						if ( clipToPlay.Length > 8 )
+						{
+		
+							if ( clipToPlay.Substring ( clipToPlay.Length - 7 ) == "unity3d" )
 							{
 		
-								if ( clipToPlay.Substring ( clipToPlay.Length - 7 ) == "unity3d" )
-								{
+								isAssetBundle = true;
+								songName = clipToPlay.Substring ( 0, clipToPlay.Length - 8 );
+							} else
+							{
 		
-									isAssetBundle = true;
-									songName = clipToPlay.Substring ( 0, clipToPlay.Length - 8 );
-								} else {
-		
-									isAssetBundle = false;
-									songName = clipToPlay.Substring ( 0, clipToPlay.Length - 4 );
-								}
-							} else {
 								isAssetBundle = false;
 								songName = clipToPlay.Substring ( 0, clipToPlay.Length - 4 );
 							}
+						} else
+						{
+							
+							isAssetBundle = false;
+							songName = clipToPlay.Substring ( 0, clipToPlay.Length - 4 );
+						}
 		
-							if ( showTypes == false )
-								clipToPlay = songName;
+						if ( showTypes == false )
+							clipToPlay = songName;
 		
-							if ( GUILayout.Button ( clipToPlay ))
+						if ( GUILayout.Button ( clipToPlay ))
+						{
+		
+							streaming = false;
+	
+							if ( isAssetBundle == true )
 							{
 		
-								streaming = false;
+								StartCoroutine ( LoadAssetBundle ( "file://" + pathToFile, songName));
+								loadingImage.showLoadingImages = true;
+								loadingImage.InvokeRepeating ("LoadingImages", 0.25F, 0.25F);
 		
-								if ( isAssetBundle == true )
-								{
+							} else
+							{
 		
-									StartCoroutine ( LoadAssetBundle ( "file://" + pathToFile, songName));
-									loadingImage.showLoadingImages = true;
-									loadingImage.InvokeRepeating ("LoadingImages", 0.25F, 0.25F);
-		
-								} else {
-		
-									currentSongNumber = i;
-									previousSongs [ 0 ] = previousSongs [ 1 ];
-									previousSongs [ 1 ] = previousSongs [ 2 ];
-									previousSongs [ 2 ] = previousSongs [ 3 ];
-									previousSongs [ 3 ] = previousSongs [ 4 ];
-									previousSongs [ 4 ] = previousSongs [ 5 ];
-									previousSongs [ 5 ] = previousSongs [ 6 ];
-									previousSongs [ 6 ] = i;
-									psPlace = 6;
+								currentSongNumber = i;
+								previousSongs [ 0 ] = previousSongs [ 1 ];
+								previousSongs [ 1 ] = previousSongs [ 2 ];
+								previousSongs [ 2 ] = previousSongs [ 3 ];
+								previousSongs [ 3 ] = previousSongs [ 4 ];
+								previousSongs [ 4 ] = previousSongs [ 5 ];
+								previousSongs [ 5 ] = previousSongs [ 6 ];
+								previousSongs [ 6 ] = i;
+								psPlace = 6;
 									
-									Resources.UnloadUnusedAssets ();
-									wasPlaying = false;
-									StartCoroutine ( PlayAudio());
-								}
+								Resources.UnloadUnusedAssets ();
+								wasPlaying = false;
+								StartCoroutine ( PlayAudio());
 							}
 						}
+					}
 				} else
 				{
 		
@@ -939,18 +946,18 @@ public class MusicViewer : MonoBehaviour
 				}
 	
 				GUILayout.Box ( "System Commands" );
-				
+					
 				if ( showQuickManage == true )
 					if ( GUILayout.Button ( "Open Media Folder" ))
 						Process.Start ( mediaPath );
-				
+					
 				if ( showStreaming == true )
 					if ( GUILayout.Button ( "Streaming" ))
 						showStreamingWindow = true;
-	
+		
 				if ( GUILayout.Button ( "Options" ))
 					showOptionsWindow = true;
-			
+				
 				GUI.EndScrollView();
 				GUILayout.EndVertical();
 				GUILayout.EndHorizontal();
@@ -1484,7 +1491,7 @@ public class MusicViewer : MonoBehaviour
 			if ( fadeIn == true )
 			{
 
-				float smoothDampIn = Mathf.SmoothDamp ( currentSlideshowImage.color.a, 1.0F, ref fadeVelocity, 2, 4000 );
+				float smoothDampIn = Mathf.SmoothDamp ( currentSlideshowImage.color.a, 1.0F, ref fadeVelocity, 2 );
 				currentSlideshowImage.color = new Color ( 0.5F, 0.5F, 0.5F, smoothDampIn );
 
 				if ( currentSlideshowImage.color.a > 0.98F )
@@ -1498,7 +1505,7 @@ public class MusicViewer : MonoBehaviour
 			if ( fadeOut == true )
 			{
 
-				float smoothDampOut = Mathf.SmoothDamp ( currentSlideshowImage.color.a, 0.0F, ref fadeVelocity, 2, 4000 );
+				float smoothDampOut = Mathf.SmoothDamp ( currentSlideshowImage.color.a, 0.0F, ref fadeVelocity, 2 );
 				currentSlideshowImage.color = new Color ( 0.5F, 0.5F, 0.5F, smoothDampOut );
 
 				if ( currentSlideshowImage.color.a < 0.02F )
