@@ -18,6 +18,7 @@ public class StartupManager : MonoBehaviour
 
 	public string runningVersion;
 	float newestVersion;
+	float devVersion;
 
 	public GUIText connectionInformation;
 	bool errorInConnectionToInternet = false;
@@ -42,14 +43,20 @@ public class StartupManager : MonoBehaviour
 	internal string mediaPath;
 	internal string lastDirectory;
 	internal string supportPath;
+	internal string prefsLocation;
 	internal string	slideshowPath;
 	internal string tempPath;
 
-	int linesInPrefs = 29;
+	internal string [] prefs;
+	int linesInPrefs = 31;
 
 	string[] applicationDownloads;
+	string[] devApplicationDownloads;
 
 	bool updateAvailable = false;
+	internal bool checkForUpdate = true;
+	
+	internal bool ombEnabled = true;
 
 	string websiteLink;
 	
@@ -57,10 +64,9 @@ public class StartupManager : MonoBehaviour
 	void Start ()
 	{    
 		
-		if(developmentMode == true)
+		if ( developmentMode == true )
 			UnityEngine.Debug.Log("Development Mode is ON");
-
-		connectionInformation.text = "Connecting to the OnlineMusicDatabase...";
+			
 		onlineMusicBrowser = GameObject.FindGameObjectWithTag ("OnlineMusicBrowser").GetComponent<OnlineMusicBrowser>();
 		paneManager = gameObject.GetComponent<PaneManager>();
 
@@ -134,7 +140,7 @@ public class StartupManager : MonoBehaviour
 				using ( FileStream createPrefs = File.Create ( supportPath + "Preferences.umpp" ))
 				{
 					
-					Byte[] preferences = new UTF8Encoding(true).GetBytes( mediaPath + "Albums\nFalse\nFalse\nFalse\nFalse\nFalse\nTrue\nFalse\nFalse\n1.0\n0.373\n0.569\n1.000\nFalse\nFalse\nTrue\n100\n0.3\n0.8\n0.6\nTrue\n7.0\n0\n0\n0\n0\n0\n0\n0");
+					Byte[] preferences = new UTF8Encoding(true).GetBytes( mediaPath + "Albums\nTrue\nTrue\nFalse\nFalse\nFalse\nFalse\nFalse\nTrue\nFalse\nFalse\n1.0\n0.373\n0.569\n1.000\nFalse\nFalse\nTrue\n100\n0.3\n0.8\n0.6\nTrue\n7.0\n0\n0\n0\n0\n0\n0\n0");
 					createPrefs.Write ( preferences, 0, preferences.Length );
 				}
 			}
@@ -146,11 +152,7 @@ public class StartupManager : MonoBehaviour
 			
 			lastDirectory = mediaPath + "Albums";
 		}
-
-		Thread internetConnectionsThread = new Thread (InternetConnections);
-		internetConnectionsThread.Priority = System.Threading.ThreadPriority.Highest;
-		internetConnectionsThread.Start();
-
+		
 		if ( !File.Exists ( supportPath + "FAQ & Tutorial.txt" ) || !File.Exists ( supportPath + "ReadMe.txt" ))
 		{
 
@@ -198,50 +200,92 @@ public class StartupManager : MonoBehaviour
 			}
 		}
 		
-		InvokeRepeating ( "CheckStartOnlineMusicBrowser", 0, 0.2F );
+		prefsLocation = supportPath + "Preferences.umpp";
+		prefs = File.ReadAllLines ( prefsLocation );
+		checkForUpdate = Convert.ToBoolean ( prefs [1] );
+		ombEnabled = Convert.ToBoolean ( prefs [2] );
+		
+		if ( checkForUpdate == true || ombEnabled == true )
+		{
+			
+			Thread internetConnectionsThread = new Thread (() => InternetConnections ( false ));
+//			internetConnectionsThread.Priority = System.Threading.ThreadPriority.Highest;
+			internetConnectionsThread.Start ();
+			
+			if ( ombEnabled == true )
+			{
+				
+				connectionInformation.text = "Connecting to the OnlineMusicDatabase...";
+				InvokeRepeating ( "CheckStartOnlineMusicBrowser", 0, 0.2F );
+			}
+		}
 	}
 
 	
-	void InternetConnections ()
+	void InternetConnections ( bool onlyUpdate )
 	{
 
-		ServicePointManager.ServerCertificateValidationCallback += delegate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) { return true; };
+		ServicePointManager.ServerCertificateValidationCallback += delegate ( object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors ) { return true; };
 		
-		using (WebClient wClient = new WebClient())
+		using ( WebClient wClient = new WebClient ())
 		try
 		{
 			
-			if(developmentMode == false)
-			{
-				allSongs = wClient.DownloadString ("http://raw.github.com/2CatStudios/UnityMusicPlayer/master/AllSongs.txt").Split ('\n');
-				applicationDownloads = wClient.DownloadString ("https://raw.github.com/2CatStudios/UnityMusicPlayer/master/VersionInfo.txt").Split ('\n');
-
-			} else {
-				allSongs = wClient.DownloadString ("http://raw.github.com/2CatStudios/UnityMusicPlayer/master/Developer/AllSongs.txt").Split ('\n');
-				applicationDownloads = wClient.DownloadString ("https://raw.github.com/2CatStudios/UnityMusicPlayer/master/Developer/VersionInfo.txt").Split ('\n');
-			}
-
-			websiteLink = applicationDownloads [4];
-			
-			newestVersion = Convert.ToSingle(applicationDownloads [1]);
 			if ( developmentMode == false )
 			{
 				
-				if( Single.Parse ( runningVersion ) < newestVersion)
-				{
+				if ( ombEnabled == true && onlyUpdate == false )
+					allSongs = wClient.DownloadString ("http://raw.github.com/2CatStudios/UnityMusicPlayer/master/AllSongs.txt").Split ('\n');
+					
+				if ( checkForUpdate == true )
+					applicationDownloads = wClient.DownloadString ("https://raw.github.com/2CatStudios/UnityMusicPlayer/master/VersionInfo.txt").Split ('\n');
+
+			} else {
 				
-					updateAvailable = true;
+				if ( ombEnabled == true && onlyUpdate == false )
+					allSongs = wClient.DownloadString ("http://raw.github.com/2CatStudios/UnityMusicPlayer/master/Developer/AllSongs.txt").Split ('\n');
+				
+				if ( checkForUpdate == true )
+				{
+					
+					devApplicationDownloads = wClient.DownloadString ("https://raw.github.com/2CatStudios/UnityMusicPlayer/master/Developer/VersionInfo.txt").Split ('\n');
+					applicationDownloads = wClient.DownloadString ("https://raw.github.com/2CatStudios/UnityMusicPlayer/master/VersionInfo.txt").Split ('\n');
 				}
 			}
-		} catch (Exception errorText)
+
+			if ( checkForUpdate == true )
+			{
+					
+				websiteLink = applicationDownloads [4];
+				
+				if ( developmentMode == false )
+				{
+					
+					newestVersion = Convert.ToSingle(applicationDownloads [1]);
+					if( Single.Parse ( runningVersion ) < newestVersion)
+					{
+					
+						updateAvailable = true;
+					}
+				} else {
+					
+					newestVersion = Convert.ToSingle ( applicationDownloads [1]);
+					devVersion = Convert.ToSingle ( devApplicationDownloads [1]);
+					UnityEngine.Debug.Log ( "Running version is: " + runningVersion + ". Dev-release release is: " + devVersion + ". Stable release is: " + newestVersion + "." );
+				}
+			}
+		} catch ( Exception errorText )
 		{
 			
-			UnityEngine.Debug.Log (errorText);
+			if ( developmentMode == true )
+				UnityEngine.Debug.Log (errorText);
+				
 			errorInConnectionToInternet = true;
 		}
 
-		if ( errorInConnectionToInternet == false )
-			startOMB = true;
+		if ( ombEnabled == true && onlyUpdate == false )
+			if ( errorInConnectionToInternet == false )
+				startOMB = true;
 
 		connectingToInternet = false;
 	}
@@ -339,6 +383,7 @@ public class StartupManager : MonoBehaviour
 			Application.Quit();
 		}
 	}
+	
 
 	IEnumerator UnableToConnectToOMB ()
 	{
@@ -347,5 +392,14 @@ public class StartupManager : MonoBehaviour
 
 		yield return new WaitForSeconds ( 10 );
 		connectionInformation.text = "";
+	}
+	
+	
+	void CheckForUpdate ()
+	{
+		
+		Thread internetConnectionsThread = new Thread (() => InternetConnections ( true ));
+		internetConnectionsThread.Priority = System.Threading.ThreadPriority.Highest;
+		internetConnectionsThread.Start ();
 	}
 }
