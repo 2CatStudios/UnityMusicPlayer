@@ -16,13 +16,13 @@ public class PaneManager : MonoBehaviour
 
 	internal bool popupBlocking = false;
 	
-	internal bool loading = true;
+	internal bool loading = false;
 	bool startup = true;
 
 	internal enum pane {musicManager, musicViewer, onlineMusicBrowser};
 	internal pane currentPane = pane.musicViewer;
 
-	internal bool moving = false;
+	bool moving = false;
 	internal bool moveToOMB = false;
 	bool moveToMM = false;
 
@@ -72,6 +72,7 @@ public class PaneManager : MonoBehaviour
 
 				moving = true;
 				moveToOMB = true;
+				
 				onlineMusicBrowser.showOnlineMusicBrowser = true;
 			}
 
@@ -168,6 +169,8 @@ public class PaneManager : MonoBehaviour
 		//Move to MusicViewer from OnlineMusicBrowser
 		if ( moveToMVfOMB == true )
 		{
+			
+			moving = true;
 
 			float smoothDampIn = Mathf.SmoothDamp ( musicViewer.musicViewerPosition.x, 0.0F, ref moveVelocity, 0.1F, 4000 );
 			float smoothDampOut = Mathf.SmoothDamp ( onlineMusicBrowser.onlineMusicBrowserPosition.x, onlineMusicBrowser.onlineMusicBrowserPosition.width + onlineMusicBrowser.onlineMusicBrowserPosition.width / 4, ref moveVelocity, 0.1F, 4000 );

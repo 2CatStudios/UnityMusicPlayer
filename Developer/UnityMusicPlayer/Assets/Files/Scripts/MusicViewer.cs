@@ -54,7 +54,7 @@ public class MusicViewer : MonoBehaviour
 
 	float betweenSongDelay = 0.5F;
 
-	internal String [ ] clipList;
+	internal String[] clipList;
 	internal bool clipListEmpty;
 	int currentSongNumber = -1;
 	int i;
@@ -83,7 +83,9 @@ public class MusicViewer : MonoBehaviour
 	public GUISkin guiSkin;
 	public Texture2D guiHover;
 	
-	int [ ] previousSongs = new int  [ 7 ] { 0, 0, 0, 0, 0, 0, 0 };
+	bool close = false;
+	
+	int[] previousSongs = new int  [ 7 ] { 0, 0, 0, 0, 0, 0, 0 };
 	int psPlace = 6;
 	
 	bool loop = false;
@@ -162,7 +164,7 @@ public class MusicViewer : MonoBehaviour
 #region Online Settings
 
 	float tempCheckForUpdates = 1.0F;
-	float tempEnableOMB = 1.0F;
+	internal float tempEnableOMB = 1.0F;
 
 #endregion
 	
@@ -353,7 +355,7 @@ public class MusicViewer : MonoBehaviour
 			showStreamingWindow = false;
 		}
 
-		if ( GUI.Button ( new Rect ( 290, 20, 50, 20 ), "Close" ))
+		if ( GUI.Button ( new Rect ( 290, 20, 50, 20 ), "Close" ) || close == true)
 		{
 
 			if ( echoDelay.Trim () == "" )
@@ -408,7 +410,7 @@ public class MusicViewer : MonoBehaviour
 			startupManager.checkForUpdate = Convert.ToBoolean ( tempCheckForUpdates );
 			
 			startupManager.ombEnabled = Convert.ToBoolean ( tempEnableOMB );
-			
+
 			
 			if ( displayTime.Trim () == "" )
 				displayTime = "7.0";
@@ -444,6 +446,7 @@ public class MusicViewer : MonoBehaviour
 			GUI.FocusWindow ( 0 );
 			GUI.BringWindowToFront ( 0 );
 			paneManager.popupBlocking = false;
+			close = false;
 			showOptionsWindow = false;
 		}
 
@@ -541,8 +544,11 @@ public class MusicViewer : MonoBehaviour
 		if ( GUI.Button ( new Rect ( 175, 288, 160, 22 ), "Check For New Version" ))
 		{
 			
-			UnityEngine.Debug.Log ( "Checking for update" );
 			startupManager.SendMessage ( "CheckForUpdate" );
+			
+			loadingImage.showLoadingImages = true;
+			loadingImage.InvokeRepeating ("LoadingImages", 0, 0.25F);
+			close = true;
 		}
 
 #endregion

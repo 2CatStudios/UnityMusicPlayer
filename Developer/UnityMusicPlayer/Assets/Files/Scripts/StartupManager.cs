@@ -23,14 +23,16 @@ public class StartupManager : MonoBehaviour
 	public GUIText connectionInformation;
 	bool errorInConnectionToInternet = false;
 	bool connectingToInternet = true;
-	bool startOMB = false;
+	internal bool startOMB = false;
 	bool u1 = true;
 
 	internal bool showUnderlay = false;
 	public Texture2D underlay;
 	public Texture2D popupWindowTexture;
 
+	MusicViewer musicViewer;
 	PaneManager paneManager;
+	LoadingImage loadingImage;
 	OnlineMusicBrowser onlineMusicBrowser;
 	internal string[] allSongs;
 	
@@ -57,6 +59,7 @@ public class StartupManager : MonoBehaviour
 	internal bool checkForUpdate = true;
 	
 	internal bool ombEnabled = true;
+	bool updateOMB = true;
 
 	string websiteLink;
 	
@@ -68,6 +71,8 @@ public class StartupManager : MonoBehaviour
 			UnityEngine.Debug.Log("Development Mode is ON");
 			
 		onlineMusicBrowser = GameObject.FindGameObjectWithTag ("OnlineMusicBrowser").GetComponent<OnlineMusicBrowser>();
+		loadingImage = GameObject.FindGameObjectWithTag ( "LoadingImage" ).GetComponent<LoadingImage>();
+		musicViewer = GameObject.FindGameObjectWithTag ( "MusicViewer" ).GetComponent<MusicViewer>();
 		paneManager = gameObject.GetComponent<PaneManager>();
 
 		if(Environment.OSVersion.ToString().Substring (0, 4) == "Unix")
@@ -209,12 +214,12 @@ public class StartupManager : MonoBehaviour
 		{
 			
 			Thread internetConnectionsThread = new Thread (() => InternetConnections ( false ));
-//			internetConnectionsThread.Priority = System.Threading.ThreadPriority.Highest;
 			internetConnectionsThread.Start ();
 			
 			if ( ombEnabled == true )
 			{
 				
+				paneManager.loading = true;
 				connectionInformation.text = "Connecting to the OnlineMusicDatabase...";
 				InvokeRepeating ( "CheckStartOnlineMusicBrowser", 0, 0.2F );
 			}
@@ -234,7 +239,7 @@ public class StartupManager : MonoBehaviour
 			if ( developmentMode == false )
 			{
 				
-				if ( ombEnabled == true && onlyUpdate == false )
+				if ( updateOMB == true && onlyUpdate == false )
 					allSongs = wClient.DownloadString ("http://raw.github.com/2CatStudios/UnityMusicPlayer/master/AllSongs.txt").Split ('\n');
 					
 				if ( checkForUpdate == true )
@@ -242,7 +247,7 @@ public class StartupManager : MonoBehaviour
 
 			} else {
 				
-				if ( ombEnabled == true && onlyUpdate == false )
+				if ( updateOMB == true && onlyUpdate == false )
 					allSongs = wClient.DownloadString ("http://raw.github.com/2CatStudios/UnityMusicPlayer/master/Developer/AllSongs.txt").Split ('\n');
 				
 				if ( checkForUpdate == true )
@@ -273,6 +278,8 @@ public class StartupManager : MonoBehaviour
 					devVersion = Convert.ToSingle ( devApplicationDownloads [1]);
 					UnityEngine.Debug.Log ( "Running version is: " + runningVersion + ". Dev-release release is: " + devVersion + ". Stable release is: " + newestVersion + "." );
 				}
+				
+				checkForUpdate = false;
 			}
 		} catch ( Exception errorText )
 		{
@@ -283,11 +290,16 @@ public class StartupManager : MonoBehaviour
 			errorInConnectionToInternet = true;
 		}
 
-		if ( ombEnabled == true && onlyUpdate == false )
+		if ( updateOMB == true && onlyUpdate == false )
 			if ( errorInConnectionToInternet == false )
 				startOMB = true;
-
-		connectingToInternet = false;
+		
+		if ( onlyUpdate == true )
+			loadingImage.showLoadingImages = false;
+		else
+			connectingToInternet = false;
+			
+		updateOMB = false;
 	}
 	
 	
@@ -376,11 +388,7 @@ public class StartupManager : MonoBehaviour
 		{
 
 			Process.Start ( websiteLink );
-
-			paneManager.popupBlocking = true;
-			updateAvailable = false;
-			showUnderlay = false;
-			Application.Quit();
+			musicViewer.SendMessage ( "Quit" );
 		}
 	}
 	
@@ -398,7 +406,27 @@ public class StartupManager : MonoBehaviour
 	void CheckForUpdate ()
 	{
 		
-		Thread internetConnectionsThread = new Thread (() => InternetConnections ( true ));
+		checkForUpdate = true;
+		
+		Thread internetConnectionsThread = new Thread (() => InternetConnections ( checkForUpdate ));
+		internetConnectionsThread.Priority = System.Threading.ThreadPriority.Highest;
+		internetConnectionsThread.Start ();
+	}
+	
+	
+	void RefreshOMB ()
+	{
+		
+		connectingToInternet = true;
+		u1 = true;
+		checkForUpdate = false;
+		updateOMB = true;
+		startOMB = true;
+		
+		connectionInformation.text = "Connecting to the OnlineMusicDatabase...";
+		InvokeRepeating ( "CheckStartOnlineMusicBrowser", 0, 0.2F );
+		
+		Thread internetConnectionsThread = new Thread (() => InternetConnections ( checkForUpdate ));
 		internetConnectionsThread.Priority = System.Threading.ThreadPriority.Highest;
 		internetConnectionsThread.Start ();
 	}
