@@ -200,18 +200,18 @@ public class MusicManager : MonoBehaviour
 			}
 		} else {
 			
-			GUILayout.Box ( "There are no songs in this directory!" );
-			GUILayout.Label ( "If you want to add some music to this folder,\nclick the 'Open current directory' button bellow." +
-				"\n\nThen, drop any .wav or .ogg files into the folder that will appear.\n\nTo listen to any of your music, navigate to the MusicViewer (press the right arrow key)." );
+			GUILayout.Box ( "There are no valid files in this directory!" );
+			GUILayout.Label ( "If you want to add some music to this folder,\nclick the 'Open Current Directory' button bellow." +
+				"\n\nDrop any .wav or .ogg files into the folder that will appear.\n\nThen, click 'Set as Active Directory' to see your songs in the MusicViewer.\n\nTo listen to any of your music, navigate to the MusicViewer\n(press the right arrow key), and click a song title." );
 		}
 		
 		GUI.skin.label.alignment = TextAnchor.UpperLeft;
 		GUILayout.Space ( 20 );
 		
-		if ( GUILayout.Button ( "Set as active directory" ))
+		if ( GUILayout.Button ( "Set as Active Directory" ))
 			SetMusicViewerMedia ();
 			
-		if ( GUILayout.Button ( "Open current directory" ))
+		if ( GUILayout.Button ( "Open Current Directory" ))
 			Process.Start ( currentDirectory );
 			
 		if ( GUILayout.Button ( "New Folder" ))

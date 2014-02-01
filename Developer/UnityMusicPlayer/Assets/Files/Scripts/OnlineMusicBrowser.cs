@@ -88,7 +88,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 	#region Variables
 
 	public GUISkin guiSkin;
-	GUIStyle guiStyle;
+	GUIStyle labelStyle;
+	GUIStyle buttonStyle;
 	public Texture2D guiHover;
 	internal bool showUnderlay = false;
 	
@@ -119,6 +120,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	internal string currentPlace = "Recent";
 
 	#endregion
+	
 
 	void Start ()
 	{
@@ -134,10 +136,17 @@ public class OnlineMusicBrowser : MonoBehaviour
 		onlineMusicBrowserPosition.height = Screen.height;
 		onlineMusicBrowserPosition.x = onlineMusicBrowserPosition.width + onlineMusicBrowserPosition.width / 4;
 		
-		guiStyle = new GUIStyle ();
-		guiStyle.alignment = TextAnchor.MiddleCenter;
-		guiStyle.fontSize = 32;
+		labelStyle = new GUIStyle ();
+		labelStyle.alignment = TextAnchor.MiddleCenter;
+		labelStyle.fontSize = 32;
+		
+		buttonStyle = new GUIStyle ();
+		buttonStyle.fontSize = 12;
+		buttonStyle.alignment = TextAnchor.MiddleCenter;
+		buttonStyle.border = new RectOffset ( 6, 6, 4, 4 );
+		buttonStyle.hover.background = guiHover;
 	}
+	
 
 	void StartOMB ()
 	{
@@ -146,6 +155,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 		Thread refreshThread = new Thread (SortAvailableDownloads);
 		refreshThread.Start();
 	}
+	
 	
 	void SortAvailableDownloads()
 	{
@@ -227,6 +237,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 		}
 	}
 	
+	
 	void OnGUI ()
 	{
 		
@@ -244,6 +255,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 				onlineMusicBrowserPosition = GUI.Window ( 1, onlineMusicBrowserPosition, OnlineMusicBrowserPane, onlineMusicBrowserTitle );
 		}
 	}
+	
 
 	void OnlineMusicBrowserPane (int wid)
 	{
@@ -458,14 +470,21 @@ public class OnlineMusicBrowser : MonoBehaviour
 				break;
 	
 			}
+			
 			GUILayout.EndScrollView ();
 			GUILayout.EndHorizontal ();
+			
+			if ( GUI.Button ( new Rect ( onlineMusicBrowserPosition.width/2 - 100, onlineMusicBrowserPosition.height - 40, 200, 30 ), "Refresh OMB", buttonStyle ))
+			{
+				
+				UnityEngine.Debug.Log ( "RefreshOMB" );
+			}
 	
 			if ( showUnderlay == true )
 				GUI.DrawTexture ( new Rect ( 0, 0, onlineMusicBrowserPosition.width, onlineMusicBrowserPosition.height ), startupManager.underlay );
 		} else {
 			
-			GUI.Label ( new Rect ( 10, onlineMusicBrowserPosition.height / 4, onlineMusicBrowserPosition.width - 20, 128 ), "The OnlineMusicBrowser has been disabled!", guiStyle );
+			GUI.Label ( new Rect ( 10, onlineMusicBrowserPosition.height / 4, onlineMusicBrowserPosition.width - 20, 128 ), "The OnlineMusicBrowser has been disabled!", labelStyle );
 			if ( GUI.Button ( new Rect ( onlineMusicBrowserPosition.width/2 - 160, onlineMusicBrowserPosition.height / 2, 320, 64 ), "Enable OnlineMusicBrowser" ))
 			{
 				

@@ -81,6 +81,7 @@ public class MusicViewer : MonoBehaviour
 
 	bool hideGUI = false;
 	public GUISkin guiSkin;
+	GUIStyle centerStyle;
 	public Texture2D guiHover;
 	
 	bool close = false;
@@ -173,6 +174,8 @@ public class MusicViewer : MonoBehaviour
 				
 		return Regex.Replace ( key, "[^0-9.]", "" );
 	}
+	
+	WWW wWw;
 
 #endregion
 
@@ -318,6 +321,9 @@ public class MusicViewer : MonoBehaviour
 		savePrefs.Close ();
 		
 		InvokeRepeating ( "Refresh", 0, 2 );
+		
+		centerStyle = new GUIStyle ();
+		centerStyle.alignment = TextAnchor.MiddleCenter;
 	}
 	
 	
@@ -431,6 +437,18 @@ public class MusicViewer : MonoBehaviour
 					manager.GetComponent<BloomAndLensFlares>().enabled = false;
 					manager.GetComponent<BlurEffect>().enabled = false;
 					manager.GetComponent<SunShafts>().enabled = false;
+				} else {
+					
+					audioVisualizerR.showAV = showVisualizer;
+					audioVisualizerL.showAV = showVisualizer;
+					audioVisualizerR.topLine.material.color = new Color ( avcR, avcG, avcB, 255 );
+					audioVisualizerR.bottomLine.material.color = new Color ( avcR, avcG, avcB, 255 );
+					audioVisualizerL.topLine.material.color = new Color ( avcR, avcG, avcB, 255 );
+					audioVisualizerL.bottomLine.material.color = new Color ( avcR, avcG, avcB, 255 );
+	
+					manager.GetComponent<BloomAndLensFlares>().enabled = Convert.ToBoolean ( bloom );
+					manager.GetComponent<BlurEffect>().enabled = Convert.ToBoolean ( blur );
+					manager.GetComponent<SunShafts>().enabled = Convert.ToBoolean ( sunShafts );
 				}
 
 				if ( showTimebar == false )
@@ -440,7 +458,7 @@ public class MusicViewer : MonoBehaviour
 				currentSong.text = "";
 				hideGUI = true;
 				
-				StartCoroutine ( "SlideshowIN" );
+				StartCoroutine ( "LoadSlideshow", true );
 			}
 
 			GUI.FocusWindow ( 0 );
@@ -556,6 +574,37 @@ public class MusicViewer : MonoBehaviour
 		GUI.Box ( new Rect ( 10, 322, 330, 22 ), "UnityMusicPlayer Version " + startupManager.runningVersion );
 	}
 	
+	
+	IEnumerator LoadSlideshow ( bool slideshowStart )
+	{
+		
+		slideshowImageLocations = Directory.GetFiles ( startupManager.slideshowPath, "*.*" ).Where ( s => s.EndsWith ( ".png" ) || s.EndsWith ( ".jpg" ) || s.EndsWith ( ".jpeg" )).ToArray ();
+		if ( slideshowImageLocations.Length > 0 )
+		{
+			
+			wWw = new WWW ( "file://" + slideshowImageLocations [ slideshowImage ] );
+			yield return wWw;
+			
+			slideshowImage += 1;
+			if ( slideshowImage >= slideshowImageLocations.Length )
+				slideshowImage = 0;
+		}
+		
+		if ( slideshowStart == false )
+		{
+		
+			float tempDisplayTime = Convert.ToSingle ( displayTime );
+			yield return new WaitForSeconds ( tempDisplayTime );
+			
+			fadeIn = false;
+			fadeOut = true;
+		} else {
+			
+			currentSlideshowImage.color = new Color ( 0.5F, 0.5F, 0.5F, 0.0F );
+			StartCoroutine ( "SlideshowIN" );
+		}
+	}
+	
 
 	IEnumerator SlideshowIN ()
 	{		
@@ -564,50 +613,30 @@ public class MusicViewer : MonoBehaviour
 		currentSlideshowImage.texture = null;
 		Resources.UnloadUnusedAssets ();
 		
-		slideshowImageLocations = Directory.GetFiles ( startupManager.slideshowPath, "*.*" ).Where ( s => s.EndsWith ( ".png" ) || s.EndsWith ( ".jpg" ) || s.EndsWith ( ".jpeg" )).ToArray ();
+		Vector2 tempImageSize = new Vector2 ( wWw.texture.width, wWw.texture.height );
 		
-		if ( slideshowImageLocations.Length > 0 )
+		if ( tempImageSize.x > musicViewerPosition.width )
 		{
 			
-			currentSlideshowImage.color = new Color ( 0.5f, 0.5f, 0.5f, 0 );
-	
-			WWW wWw = new WWW ( "file://" + slideshowImageLocations [ slideshowImage ] );
-			yield return wWw;
-			
-			Vector2 tempImageSize = new Vector2 ( wWw.texture.width, wWw.texture.height );
-			
-			if ( tempImageSize.x > musicViewerPosition.width )
-			{
-				
-				float tempSizeDifference = tempImageSize.x - musicViewerPosition.width;
-				tempImageSize = new Vector2 ( tempImageSize.x - tempSizeDifference, tempImageSize.y / tempImageSize.x * ( tempImageSize.x - tempSizeDifference ));
-			}
-			
-			if ( tempImageSize.y > musicViewerPosition.height )
-			{
-				
-				float tempSizeDifference = tempImageSize.y - musicViewerPosition.height;
-				tempImageSize = new Vector2 ( tempImageSize.x / tempImageSize.y * ( tempImageSize.y - tempSizeDifference ), tempImageSize.y - tempSizeDifference );
-			}
-			
-			currentSlideshowImage.pixelInset = new Rect (( tempImageSize.x / 2 ) * -1, ( tempImageSize.y / 2 ) * -1 ,  tempImageSize.x , tempImageSize.y );
-			
-			newSlideshowImage = new Texture2D (( int ) tempImageSize.x, ( int ) tempImageSize.y, TextureFormat.ARGB32, false );
-			wWw.LoadImageIntoTexture ( newSlideshowImage );
-			currentSlideshowImage.texture = newSlideshowImage;
-	
-			fadeIn = true;
-	
-			float tempDisplayTime = Convert.ToSingle ( displayTime );
-			yield return new WaitForSeconds ( tempDisplayTime += 3 );
-	
-			slideshowImage += 1;
-			if ( slideshowImage == slideshowImageLocations.Length )
-				slideshowImage = 0;
-	
-			fadeIn = false;
-			fadeOut = true;
+			float tempSizeDifference = tempImageSize.x - musicViewerPosition.width;
+			tempImageSize = new Vector2 ( tempImageSize.x - tempSizeDifference, tempImageSize.y / tempImageSize.x * ( tempImageSize.x - tempSizeDifference ));
 		}
+		
+		if ( tempImageSize.y > musicViewerPosition.height )
+		{
+			
+			float tempSizeDifference = tempImageSize.y - musicViewerPosition.height;
+			tempImageSize = new Vector2 ( tempImageSize.x / tempImageSize.y * ( tempImageSize.y - tempSizeDifference ), tempImageSize.y - tempSizeDifference );
+		}
+		
+		currentSlideshowImage.pixelInset = new Rect (( tempImageSize.x / 2 ) * -1, ( tempImageSize.y / 2 ) * -1 ,  tempImageSize.x , tempImageSize.y );
+		
+		newSlideshowImage = new Texture2D (( int ) tempImageSize.x, ( int ) tempImageSize.y, TextureFormat.ARGB32, false );
+		wWw.LoadImageIntoTexture ( newSlideshowImage );
+		currentSlideshowImage.texture = newSlideshowImage;
+
+		yield return new WaitForSeconds ( 1.0F );
+		fadeIn = true;
 	}
 
 
@@ -976,10 +1005,14 @@ public class MusicViewer : MonoBehaviour
 				} else
 				{
 		
-					GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 					GUILayout.Label ( "\nYou don't have any music to play!\n\nIf you have some music (.wav or .ogg), navigate\nto the MusicManager (press the left arrow key)." +
-						"\n\nYou can also download music by navigating to the OnlineMusicBrowser (press the right arrow key),\nor stream music by clicking the 'Streaming' button bellow.\n" );
-					GUI.skin.label.alignment = TextAnchor.UpperLeft;
+						"\n\nYou can also download music by navigating\nto the OnlineMusicBrowser (press the right arrow key).\n", centerStyle );
+						
+					if ( GUILayout.Button ( "View Help/Tutorial" ))
+					{
+						
+						UnityEngine.Debug.Log ( "Help!" );
+					}
 				}
 	
 				GUILayout.Box ( "System Commands" );
@@ -1514,7 +1547,7 @@ public class MusicViewer : MonoBehaviour
 					currentSong.text = "UnityMusicPlayer";
 				}
 				
-				StopCoroutine ( "SlideshowIN" );
+				StopCoroutine ( "LoadSlideshow" );
 				newSlideshowImage = null;
 				currentSlideshowImage.pixelInset = new Rect ( -300, -300, 600, 600 );
 				currentSlideshowImage.texture = null;
@@ -1536,6 +1569,8 @@ public class MusicViewer : MonoBehaviour
 
 					currentSlideshowImage.color = new Color ( 0.5F, 0.5F, 0.5F, 1.0F );
 					fadeIn = false;
+					
+					StartCoroutine ( "LoadSlideshow", false );
 				}
 			}
 
