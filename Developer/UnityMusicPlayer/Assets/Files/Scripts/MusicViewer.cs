@@ -1011,7 +1011,7 @@ public class MusicViewer : MonoBehaviour
 					if ( GUILayout.Button ( "View Help/Tutorial" ))
 					{
 						
-						UnityEngine.Debug.Log ( "Help!" );
+						Process.Start ( startupManager.helpPath );
 					}
 				}
 	

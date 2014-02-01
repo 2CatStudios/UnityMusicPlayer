@@ -45,6 +45,7 @@ public class StartupManager : MonoBehaviour
 	internal string mediaPath;
 	internal string lastDirectory;
 	internal string supportPath;
+	internal string helpPath;
 	internal string prefsLocation;
 	internal string	slideshowPath;
 	internal string tempPath;
@@ -87,6 +88,7 @@ public class StartupManager : MonoBehaviour
 
 		mediaPath = path + "Media" + Path.DirectorySeparatorChar;
 		supportPath = path + "Support" + Path.DirectorySeparatorChar;
+		helpPath = supportPath + Path.DirectorySeparatorChar + "FAQ & Tutorial.txt";
 		slideshowPath = path + "Slideshow" + Path.DirectorySeparatorChar;
 		tempPath = supportPath + "Temp" + Path.DirectorySeparatorChar;
 
