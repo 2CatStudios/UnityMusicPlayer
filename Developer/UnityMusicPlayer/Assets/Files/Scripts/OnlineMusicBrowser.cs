@@ -325,10 +325,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 							if ( songInfoWindowOpen == false )
 							{
 	
-								loadingImage.showLoadingImages = true;
-								loadingImage.InvokeRepeating ( "LoadingImages", 0.25F, 0.25F );
 								paneManager.popupBlocking = true;
-	
 								downloadManager.song = song;
 	
 								if ( song.downloadLink.StartsWith ( "|" ) == true )
@@ -406,10 +403,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 							if(songInfoWindowOpen == false)
 							{
 								
-								loadingImage.showLoadingImages = true;
-								loadingImage.InvokeRepeating ("LoadingImages", 0.25F, 0.25F);
 								paneManager.popupBlocking = true;
-								
 								downloadManager.song = song;
 								
 								if ( song.downloadLink.StartsWith ( "|" ) == true )
@@ -474,12 +468,12 @@ public class OnlineMusicBrowser : MonoBehaviour
 			GUILayout.EndScrollView ();
 			GUILayout.EndHorizontal ();
 			
-			if ( GUI.Button ( new Rect ( onlineMusicBrowserPosition.width/2 - 100, onlineMusicBrowserPosition.height - 40, 200, 30 ), "Refresh OMB", buttonStyle ))
+/*			if ( GUI.Button ( new Rect ( onlineMusicBrowserPosition.width/2 - 100, onlineMusicBrowserPosition.height - 40, 200, 30 ), "Refresh OMB", buttonStyle ))
 			{
 				
 				UnityEngine.Debug.Log ( "RefreshOMB" );
 			}
-	
+*/	
 			if ( showUnderlay == true )
 				GUI.DrawTexture ( new Rect ( 0, 0, onlineMusicBrowserPosition.width, onlineMusicBrowserPosition.height ), startupManager.underlay );
 		} else {

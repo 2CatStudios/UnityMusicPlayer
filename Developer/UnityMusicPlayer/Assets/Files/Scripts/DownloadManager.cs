@@ -16,7 +16,7 @@ public class DownloadManager : MonoBehaviour
 	StartupManager startupManager;
 	MusicViewer musicViewer;
 	OnlineMusicBrowser onlineMusicBrowser;
-	LoadingImage loadingImage;
+//	LoadingImage loadingImage;
 	PaneManager paneManager;
 	
 	public WebClient client;
@@ -35,8 +35,6 @@ public class DownloadManager : MonoBehaviour
 	internal Song song;
 	internal String downloadButtonText;
 
-	bool cancelInvoke = false;
-
 	
 	void Start()
 	{
@@ -44,7 +42,7 @@ public class DownloadManager : MonoBehaviour
 		startupManager = GameObject.FindGameObjectWithTag ( "Manager" ).GetComponent<StartupManager>();
 		musicViewer = GameObject.FindGameObjectWithTag ( "MusicViewer" ).GetComponent<MusicViewer>();
 		onlineMusicBrowser = GameObject.FindGameObjectWithTag ("OnlineMusicBrowser").GetComponent<OnlineMusicBrowser>();
-		loadingImage = GameObject.FindGameObjectWithTag ( "LoadingImage" ).GetComponent<LoadingImage>();
+//		loadingImage = GameObject.FindGameObjectWithTag ( "LoadingImage" ).GetComponent<LoadingImage>();
 		paneManager = GameObject.FindGameObjectWithTag ( "Manager" ).GetComponent<PaneManager>();
 	}
 	
@@ -53,6 +51,7 @@ public class DownloadManager : MonoBehaviour
 	{
 
 		currentDownloadPercentage = "";
+		currentDownloadSize = "Loading";
 
 		Thread getInfoThread = new Thread (GetInfoThread);
 		getInfoThread.Priority = System.Threading.ThreadPriority.AboveNormal;
@@ -62,6 +61,14 @@ public class DownloadManager : MonoBehaviour
 
 	void GetInfoThread ()
 	{
+		
+		if ( song.supportLink == "NONE" )
+			downloadWindowY = 250;
+		else
+			downloadWindowY = 280;
+
+		onlineMusicBrowser.showUnderlay = true;
+		showSongInformation = true;
 
 		if ( getDownloadSize == true )
 		{
@@ -76,15 +83,6 @@ public class DownloadManager : MonoBehaviour
 			}catch{}
 			getDownloadSize = false;
 		}
-
-		if ( song.supportLink == "NONE" )
-			downloadWindowY = 250;
-		else
-			downloadWindowY = 280;
-
-		onlineMusicBrowser.showUnderlay = true;
-		showSongInformation = true;
-		cancelInvoke = true;
 	}
 	
 
@@ -106,12 +104,6 @@ public class DownloadManager : MonoBehaviour
 	void DownloadInfo (int wid)
 	{
 
-		if ( cancelInvoke == true )
-		{
-
-			loadingImage.showLoadingImages = false;
-			cancelInvoke = false;
-		}
 		GUILayout.BeginHorizontal ();
 		GUILayout.BeginVertical ();
 		GUILayout.Space ( 5 );
