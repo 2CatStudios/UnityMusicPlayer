@@ -98,7 +98,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	StartupManager startupManager;
 	MusicViewer musicViewer;
 	PaneManager paneManager;
-	LoadingImage loadingImage;
+//	LoadingImage loadingImage;
 	DownloadManager downloadManager;
 
 	Vector2 scrollPosition;
@@ -128,8 +128,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 		startupManager = GameObject.FindGameObjectWithTag ( "Manager" ).GetComponent<StartupManager>();
 
 		musicViewer = GameObject.FindGameObjectWithTag ( "MusicViewer" ).GetComponent<MusicViewer>();
-		downloadManager = GameObject.FindGameObjectWithTag ("DownloadManager").GetComponent<DownloadManager>();
-		loadingImage = GameObject.FindGameObjectWithTag ( "LoadingImage" ).GetComponent<LoadingImage>();
+//		downloadManager = GameObject.FindGameObjectWithTag ("DownloadManager").GetComponent<DownloadManager>();
+//		loadingImage = GameObject.FindGameObjectWithTag ( "LoadingImage" ).GetComponent<LoadingImage>();
 		paneManager = GameObject.FindGameObjectWithTag ("Manager").GetComponent<PaneManager>();
 
 		onlineMusicBrowserPosition.width = Screen.width;
@@ -389,8 +389,17 @@ public class OnlineMusicBrowser : MonoBehaviour
 					}
 				}
 				break;
+				
+				case 4:
+				foreach (Song song in allRecentList)
+				{
+					
+					specificSort = allRecentList;
+					sortBy = 5;
+				}
+				break;
 	
-			case 4:
+/*				case 4:
 				if(allRecentList.Count != 0)
 				{
 					
@@ -425,7 +434,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 					}
 				}
 				break;
-	
+*/	
 				case 5:
 				foreach(Song song in specificSort)
 				{
@@ -436,8 +445,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 						if(songInfoWindowOpen == false)
 						{
 	
-							loadingImage.showLoadingImages = true;
-							loadingImage.InvokeRepeating ("LoadingImages", 0.25F, 0.25F);
 							paneManager.popupBlocking = true;
 	
 							downloadManager.song = song;
