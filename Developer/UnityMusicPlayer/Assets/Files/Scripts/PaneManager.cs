@@ -189,8 +189,6 @@ public class PaneManager : MonoBehaviour
 				musicViewer.musicViewerPosition.x = 0;
 				onlineMusicBrowser.onlineMusicBrowserPosition.x = onlineMusicBrowser.onlineMusicBrowserPosition.width + onlineMusicBrowser.onlineMusicBrowserPosition.width / 4;
 
-				onlineMusicBrowser.sortBy = 4;
-				onlineMusicBrowser.currentPlace = "Recent";
 				onlineMusicBrowser.showOnlineMusicBrowser = false;
 				moving = false;
 			}
@@ -218,6 +216,7 @@ public class PaneManager : MonoBehaviour
 		}
 		
 		GUI.skin = guiSkin;
+		
 		if ( GUI.Button ( new Rect ( musicViewer.musicViewerPosition.width - 75, musicViewer.musicViewerPosition.height - 40, 60, 30 ), "Quit" ))
 			musicViewer.SendMessage ( "Quit" );
 	}

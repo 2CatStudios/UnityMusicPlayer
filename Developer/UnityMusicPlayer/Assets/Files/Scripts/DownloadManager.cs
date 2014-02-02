@@ -150,7 +150,7 @@ public class DownloadManager : MonoBehaviour
 
 				onlineMusicBrowser.showUnderlay = false;
 				showSongInformation = false;
-				onlineMusicBrowser.songInfoWindowOpen = false;
+//				onlineMusicBrowser.songInfoWindowOpen = false;
 				paneManager.popupBlocking = false;
 				getDownloadSize = true;
 				GUI.FocusWindow ( 1 );
@@ -220,7 +220,7 @@ public class DownloadManager : MonoBehaviour
 			onlineMusicBrowser.showUnderlay = false;
 			showSongInformation = false;
 			downloading = false;
-			onlineMusicBrowser.songInfoWindowOpen = false;
+//			onlineMusicBrowser.songInfoWindowOpen = false;
 			paneManager.popupBlocking = false;
 			getDownloadSize = true;
 			GUI.FocusWindow ( 1 );

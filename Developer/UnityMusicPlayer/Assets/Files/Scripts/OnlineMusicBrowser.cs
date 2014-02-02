@@ -1,7 +1,11 @@
 using System;
+using System.IO;
 using System.Net;
 using UnityEngine;
 using System.Threading;
+using System.Diagnostics;
+using System.Collections;
+using System.ComponentModel;
 using System.Collections.Generic;
 //Written by GibsonBethke
 //Thank you for everything, Jesus, you are so awesome!
@@ -84,41 +88,68 @@ public class Genre : IEquatable<Genre>
 
 public class OnlineMusicBrowser : MonoBehaviour
 {
-
-	#region Variables
-
-	public GUISkin guiSkin;
-	GUIStyle labelStyle;
-	GUIStyle buttonStyle;
-	public Texture2D guiHover;
-	internal bool showUnderlay = false;
 	
-	internal bool showOnlineMusicBrowser = false;
-
 	StartupManager startupManager;
 	MusicViewer musicViewer;
 	PaneManager paneManager;
 //	LoadingImage loadingImage;
 	DownloadManager downloadManager;
 
+	#region OMBVariables
+
+	public GUISkin guiSkin;
+	GUIStyle labelStyle;
+	GUIStyle buttonStyle;
+	GUIStyle infoLabelStyle;
+	
+	public Texture2D guiHover;
+	internal bool showUnderlay = false;
+	
+	internal bool showOnlineMusicBrowser = false;
+	bool drawGUI = false;
+	bool drawOMB = false;
+
 	Vector2 scrollPosition;
 	internal Rect onlineMusicBrowserPosition = new Rect(0, 0, 800, 600);
 	internal string onlineMusicBrowserTitle;
 	
 	internal bool showDownloadList = false;
-	internal bool songInfoWindowOpen = false;
 
+	#region Lists
+	
 	string[] allSongs;
 	List<Song> allRecentList = new List<Song>();
 	List<Song> allSongsList = new List<Song>();
 	List<Album> allAlbumsList = new List<Album>();
 	List<Artist> allArtistsList = new List<Artist>();
 	List<Genre> allGenresList = new List<Genre>();
-	
-	internal int sortBy = 4;
 	List<Song> specificSort = new List<Song>();
-	internal string currentPlace = "Recent";
+	
+	#endregion
+	
+	int sortBy = 4;
+	string currentPlace = "Recent";
 
+	#endregion
+	
+	#region DownloadInformation
+	
+	Song songInfoOwner;
+	
+	public WebClient client;
+	
+	Uri url;
+	Song song;
+	string downloadButtonText;
+	
+	string currentDownloadSize;
+	string currentDownloadPercentage;
+	
+	bool showSongInformation = false;
+	bool downloading = false;
+	
+	Song downloadingSong;
+	
 	#endregion
 	
 
@@ -128,7 +159,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 		startupManager = GameObject.FindGameObjectWithTag ( "Manager" ).GetComponent<StartupManager>();
 
 		musicViewer = GameObject.FindGameObjectWithTag ( "MusicViewer" ).GetComponent<MusicViewer>();
-//		downloadManager = GameObject.FindGameObjectWithTag ("DownloadManager").GetComponent<DownloadManager>();
 //		loadingImage = GameObject.FindGameObjectWithTag ( "LoadingImage" ).GetComponent<LoadingImage>();
 		paneManager = GameObject.FindGameObjectWithTag ("Manager").GetComponent<PaneManager>();
 
@@ -140,8 +170,12 @@ public class OnlineMusicBrowser : MonoBehaviour
 		labelStyle.alignment = TextAnchor.MiddleCenter;
 		labelStyle.fontSize = 32;
 		
+		infoLabelStyle = new GUIStyle ();
+		infoLabelStyle.alignment = TextAnchor.MiddleLeft;
+		infoLabelStyle.fontSize = 16;
+		
 		buttonStyle = new GUIStyle ();
-		buttonStyle.fontSize = 12;
+		buttonStyle.fontSize = 16;
 		buttonStyle.alignment = TextAnchor.MiddleCenter;
 		buttonStyle.border = new RectOffset ( 6, 6, 4, 4 );
 		buttonStyle.hover.background = guiHover;
@@ -240,19 +274,23 @@ public class OnlineMusicBrowser : MonoBehaviour
 	
 	void OnGUI ()
 	{
+			
+		if ( drawGUI == true )
+		{
+		
+			GUI.skin = guiSkin;
+		
+			if ( paneManager.loading == false )
+				onlineMusicBrowserPosition = GUI.Window ( 1, onlineMusicBrowserPosition, OnlineMusicBrowserPane, onlineMusicBrowserTitle );
+		}
 		
 		if ( showOnlineMusicBrowser == true )
 		{
 			
-			GUI.skin = guiSkin;
-	
-			if ( songInfoWindowOpen == true )
-				GUI.skin.button.hover.background = null;
-			else
-				GUI.skin.button.hover.background = guiHover;
-				
-			if ( paneManager.loading == false )
-				onlineMusicBrowserPosition = GUI.Window ( 1, onlineMusicBrowserPosition, OnlineMusicBrowserPane, onlineMusicBrowserTitle );
+			drawGUI = true;
+		} else {
+			
+			drawGUI = false;
 		}
 	}
 	
@@ -260,7 +298,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	void OnlineMusicBrowserPane (int wid)
 	{
 		
-		if ( startupManager.ombEnabled == true )
+		if ( drawOMB == true )
 		{
 	
 			GUILayout.Space ( onlineMusicBrowserPosition.width / 8 );
@@ -310,49 +348,18 @@ public class OnlineMusicBrowser : MonoBehaviour
 			GUILayout.Box ( "Current Sort: " + currentPlace );
 			
 			switch (sortBy)
-			{
-	
+			{		
+				
 				case 0:
-				if ( allSongsList.Count != 0 )
-				{
-	
-					foreach ( Song song in allSongsList )
-					{
-					
-						if ( GUILayout.Button ( song.name ))
-						{
-						
-							if ( songInfoWindowOpen == false )
-							{
-	
-								paneManager.popupBlocking = true;
-								downloadManager.song = song;
-	
-								if ( song.downloadLink.StartsWith ( "|" ) == true )
-								{
-	
-									downloadManager.url = null;
-									downloadManager.downloadButtonText = song.downloadLink.Substring ( 1 );
-								} else if ( song.downloadLink.StartsWith ( "h" ) == true )
-								{
-	
-									downloadManager.url = new Uri ( song.downloadLink );
-									downloadManager.downloadButtonText = "Download";
-								}
-									
-								downloadManager.SendMessage ( "GetInfo" );
-								songInfoWindowOpen = true;
-							}
-						}
-					}
-				}
+				specificSort = allSongsList;
+				sortBy = 5;
 				break;
-	
+				
 				case 1:
-				foreach (Album album in allAlbumsList)
+				foreach ( Album album in allAlbumsList )
 				{
 	
-					if (GUILayout.Button (album.name))
+					if ( GUILayout.Button ( album.name ))
 					{
 	
 						specificSort = album.songs;
@@ -363,10 +370,10 @@ public class OnlineMusicBrowser : MonoBehaviour
 				break;
 	
 				case 2:
-				foreach (Artist artist in allArtistsList)
+				foreach ( Artist artist in allArtistsList )
 				{
 					
-					if (GUILayout.Button (artist.name))
+					if ( GUILayout.Button ( artist.name ))
 					{
 	
 						specificSort = artist.songs;
@@ -377,10 +384,10 @@ public class OnlineMusicBrowser : MonoBehaviour
 				break;
 	
 				case 3:
-				foreach (Genre genre in allGenresList)
+				foreach ( Genre genre in allGenresList )
 				{
 					
-					if (GUILayout.Button (genre.name))
+					if ( GUILayout.Button ( genre.name ))
 					{
 	
 						specificSort = genre.songs;
@@ -391,98 +398,128 @@ public class OnlineMusicBrowser : MonoBehaviour
 				break;
 				
 				case 4:
-				foreach (Song song in allRecentList)
-				{
-					
-					specificSort = allRecentList;
-					sortBy = 5;
-				}
+				specificSort = allRecentList;
+				sortBy = 5;
 				break;
-	
-/*				case 4:
-				if(allRecentList.Count != 0)
+				
+				case 5:
+				foreach ( Song song in specificSort )
 				{
 					
-					foreach (Song song in allRecentList)
+					if ( GUILayout.Button ( song.name ))
 					{
 						
-						if (GUILayout.Button (song.name))
+						if ( showSongInformation == false )
 						{
 							
-							if(songInfoWindowOpen == false)
-							{
-								
-								paneManager.popupBlocking = true;
-								downloadManager.song = song;
-								
-								if ( song.downloadLink.StartsWith ( "|" ) == true )
-								{
-									
-									downloadManager.url = null;
-									downloadManager.downloadButtonText = song.downloadLink.Substring ( 1 );
-								} else if ( song.downloadLink.StartsWith ( "h" ) == true )
-								{
-									
-									downloadManager.url = new Uri (song.downloadLink);
-									downloadManager.downloadButtonText = "Download";
-								}
-								
-								downloadManager.SendMessage ("GetInfo");
-								songInfoWindowOpen = true;
-							}
-						}
-					}
-				}
-				break;
-*/	
-				case 5:
-				foreach(Song song in specificSort)
-				{
-					
-					if(GUILayout.Button (song.name))
-					{
-	
-						if(songInfoWindowOpen == false)
-						{
-	
-							paneManager.popupBlocking = true;
-	
-							downloadManager.song = song;
 							if ( song.downloadLink.StartsWith ( "|" ) == true )
 							{
-								
-								downloadManager.url = null;
-								downloadManager.downloadButtonText = song.downloadLink.Substring ( 1 );
+									
+								url = null;
+								downloadButtonText = song.downloadLink.Substring ( 1 );
 							} else if ( song.downloadLink.StartsWith ( "h" ) == true )
 							{
-								
-								downloadManager.url = new Uri (song.downloadLink);
-								downloadManager.downloadButtonText = "Download";
+									
+								url = new Uri ( song.downloadLink );
+								downloadButtonText = "Download";
 							}
-	
-							downloadManager.SendMessage ("GetInfo");
-							songInfoWindowOpen = true;
+		
+							currentDownloadPercentage = "";
+							currentDownloadSize = "Loading";
+								
+							Thread getInfoThread = new Thread (GetInfoThread);
+							getInfoThread.Priority = System.Threading.ThreadPriority.AboveNormal;
+							getInfoThread.Start();
+							
+							showSongInformation = true;
+							songInfoOwner = song;
+						} else {
+							
+							showSongInformation = false;
+							GUI.FocusWindow ( 1 );
+							GUI.BringWindowToFront ( 1 );
 						}
 					}
-				}
+					
+					if ( showSongInformation == true )
+					{
+						
+						if ( songInfoOwner == song )
+						{
+						
+							if ( downloading == false )
+							{
+					
+								if ( GUILayout.Button ( downloadButtonText, buttonStyle ) && url != null )
+								{
+									
+									UnityEngine.Debug.Log ( "StartingDownload Stage 1" );
+									
+									downloadingSong = song;
+									
+									currentDownloadPercentage = " - Processing";
+									
+									try
+									{
+										
+										using ( client = new WebClient ())
+										{
+						 
+							        		client.DownloadFileCompleted += new AsyncCompletedEventHandler ( DownloadFileCompleted );
+							
+							        		client.DownloadProgressChanged += new DownloadProgressChangedEventHandler( DownloadProgressCallback );
+											
+							        		client.DownloadFileAsync ( url, startupManager.tempPath + Path.DirectorySeparatorChar + song.name + "." + song.format );
+										}
+									} catch ( Exception error ) {
+										
+										UnityEngine.Debug.Log ( error );
+									}
+												
+									downloading = true;
+
+								}
+							}
+							
+							if ( downloading == true )
+							{
+
+								if ( GUILayout.Button ( "Cancel Download", buttonStyle ))
+								{
+									
+									client.CancelAsync ();
+								}
+							}
+							
+							if ( song.supportLink != "NONE" )
+							{
+								
+								if ( GUILayout.Button ( "Support Artist", buttonStyle ))
+									Process.Start ( song.supportLink );
+							}
+								
+							GUILayout.Label ( "Download size: ~" + currentDownloadSize + currentDownloadPercentage );
+					
+							GUILayout.Label ("Name: " + song.name, infoLabelStyle );
+							GUILayout.Label ("Artist: " + song.artist.name, infoLabelStyle );
+							GUILayout.Label ("Album: " + song.album.name, infoLabelStyle );
+							GUILayout.Label ("Genre: " + song.genre.name, infoLabelStyle );
+							GUILayout.Label ("Format: " + song.format, infoLabelStyle );
+							GUILayout.Label ("Released: " + song.releaseDate, infoLabelStyle );
+						}
+					}
+				}		
+				
 				break;
-	
-			default:
+					
+				default:
 				break;
-	
+					
 			}
 			
 			GUILayout.EndScrollView ();
 			GUILayout.EndHorizontal ();
 			
-/*			if ( GUI.Button ( new Rect ( onlineMusicBrowserPosition.width/2 - 100, onlineMusicBrowserPosition.height - 40, 200, 30 ), "Refresh OMB", buttonStyle ))
-			{
-				
-				UnityEngine.Debug.Log ( "RefreshOMB" );
-			}
-*/	
-			if ( showUnderlay == true )
-				GUI.DrawTexture ( new Rect ( 0, 0, onlineMusicBrowserPosition.width, onlineMusicBrowserPosition.height ), startupManager.underlay );
 		} else {
 			
 			GUI.Label ( new Rect ( 10, onlineMusicBrowserPosition.height / 4, onlineMusicBrowserPosition.width - 20, 128 ), "The OnlineMusicBrowser has been disabled!", labelStyle );
@@ -492,5 +529,66 @@ public class OnlineMusicBrowser : MonoBehaviour
 				startupManager.SendMessage ( "RefreshOMB" );
 			}
 		}
+		
+		if ( startupManager.ombEnabled == true )
+		{
+			
+			drawOMB = true;
+		} else {
+			
+			drawOMB = false;
+		}
+	}
+	
+	void GetInfoThread ()
+	{
+	
+		try
+		{
+					
+			System.Net.WebRequest req = System.Net.HttpWebRequest.Create ( url );
+			req.Method = "HEAD";
+			System.Net.WebResponse resp = req.GetResponse();
+			currentDownloadSize = Math.Round ( float.Parse ( resp.Headers.Get ( "Content-Length" )) / 1024 / 1024, 2 ).ToString () + "MB";
+		} catch ( Exception e ) {
+			
+			UnityEngine.Debug.Log ( e );
+		}
+	}
+	
+	
+	void DownloadFileCompleted ( object sender, AsyncCompletedEventArgs end )
+	{
+		
+		if ( downloading == true )
+		{
+			
+			if ( end.Cancelled == true )
+			{
+				
+//				UnityEngine.Debug.Log ( "WAS cancelled" );
+				
+				File.Delete ( startupManager.tempPath + Path.DirectorySeparatorChar + downloadingSong.name + "." + downloadingSong.format );
+			} else {
+				
+//				UnityEngine.Debug.Log ( "Was NOT cancelled" );
+				
+				if ( File.Exists ( musicViewer.mediaPath + Path.DirectorySeparatorChar + downloadingSong.name + "." + downloadingSong.format ))
+					File.Delete ( musicViewer.mediaPath + Path.DirectorySeparatorChar + downloadingSong.name + "." + downloadingSong.format );
+				
+				File.Move ( startupManager.tempPath + Path.DirectorySeparatorChar + downloadingSong.name + "." + downloadingSong.format, musicViewer.mediaPath + Path.DirectorySeparatorChar + downloadingSong.name + "." + downloadingSong.format );
+			}
+
+			currentDownloadPercentage = "";
+			showSongInformation = false;
+			downloading = false;
+		}
+	}	
+	
+	
+	void DownloadProgressCallback ( object sender, DownloadProgressChangedEventArgs arg )
+	{
+	
+		currentDownloadPercentage = " - " + arg.ProgressPercentage.ToString () + "% Complete";
 	}
 }
