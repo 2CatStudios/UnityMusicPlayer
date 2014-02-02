@@ -99,15 +99,13 @@ public class OnlineMusicBrowser : MonoBehaviour
 
 	public GUISkin guiSkin;
 	GUIStyle labelStyle;
-	GUIStyle buttonStyle;
 	GUIStyle infoLabelStyle;
+	GUIStyle buttonStyle;
 	
 	public Texture2D guiHover;
 	internal bool showUnderlay = false;
 	
 	internal bool showOnlineMusicBrowser = false;
-	bool drawGUI = false;
-	bool drawOMB = false;
 
 	Vector2 scrollPosition;
 	internal Rect onlineMusicBrowserPosition = new Rect(0, 0, 800, 600);
@@ -127,7 +125,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	
 	#endregion
 	
-	int sortBy = 4;
+	int sortBy = 5;
 	string currentPlace = "Recent";
 
 	#endregion
@@ -261,6 +259,9 @@ public class OnlineMusicBrowser : MonoBehaviour
 		allGenresList.Sort (( a, b ) => a.name.CompareTo ( b.name ));
 		allRecentList.Reverse ();
 
+		specificSort = allRecentList;
+		currentPlace = "Recent";
+		
 		paneManager.loading = false;
 		
 		if ( paneManager.currentPane == PaneManager.pane.onlineMusicBrowser )
@@ -275,7 +276,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 	void OnGUI ()
 	{
 			
-		if ( drawGUI == true )
+//		if ( drawGUI == true )
+		if ( showOnlineMusicBrowser == true )
 		{
 		
 			GUI.skin = guiSkin;
@@ -283,22 +285,13 @@ public class OnlineMusicBrowser : MonoBehaviour
 			if ( paneManager.loading == false )
 				onlineMusicBrowserPosition = GUI.Window ( 1, onlineMusicBrowserPosition, OnlineMusicBrowserPane, onlineMusicBrowserTitle );
 		}
-		
-		if ( showOnlineMusicBrowser == true )
-		{
-			
-			drawGUI = true;
-		} else {
-			
-			drawGUI = false;
-		}
 	}
 	
 
-	void OnlineMusicBrowserPane (int wid)
+	void OnlineMusicBrowserPane ( int wid )
 	{
 		
-		if ( drawOMB == true )
+		if ( startupManager.ombEnabled == true )
 		{
 	
 			GUILayout.Space ( onlineMusicBrowserPosition.width / 8 );
@@ -528,15 +521,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 				
 				startupManager.SendMessage ( "RefreshOMB" );
 			}
-		}
-		
-		if ( startupManager.ombEnabled == true )
-		{
-			
-			drawOMB = true;
-		} else {
-			
-			drawOMB = false;
 		}
 	}
 	
