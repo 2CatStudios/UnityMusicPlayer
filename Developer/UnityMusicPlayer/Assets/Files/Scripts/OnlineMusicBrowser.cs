@@ -101,6 +101,9 @@ public class OnlineMusicBrowser : MonoBehaviour
 	GUIStyle labelStyle;
 	GUIStyle infoLabelStyle;
 	GUIStyle buttonStyle;
+	GUIStyle boxStyle;
+	
+	public Texture2D line;
 	
 	public Texture2D guiHover;
 	internal bool showUnderlay = false;
@@ -275,8 +278,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	
 	void OnGUI ()
 	{
-			
-//		if ( drawGUI == true )
+
 		if ( showOnlineMusicBrowser == true )
 		{
 		
@@ -399,6 +401,11 @@ public class OnlineMusicBrowser : MonoBehaviour
 				foreach ( Song song in specificSort )
 				{
 					
+					if ( songInfoOwner == song )
+						guiSkin.button.normal.background = guiHover;
+					else
+						guiSkin.button.normal.background = null;
+					
 					if ( GUILayout.Button ( song.name ))
 					{
 						
@@ -429,8 +436,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 						} else {
 							
 							showSongInformation = false;
-							GUI.FocusWindow ( 1 );
-							GUI.BringWindowToFront ( 1 );
+							songInfoOwner = null;
 						}
 					}
 					
@@ -445,8 +451,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 					
 								if ( GUILayout.Button ( downloadButtonText, buttonStyle ) && url != null )
 								{
-									
-									UnityEngine.Debug.Log ( "StartingDownload Stage 1" );
 									
 									downloadingSong = song;
 									
@@ -493,12 +497,13 @@ public class OnlineMusicBrowser : MonoBehaviour
 								
 							GUILayout.Label ( "Download size: ~" + currentDownloadSize + currentDownloadPercentage );
 					
-							GUILayout.Label ("Name: " + song.name, infoLabelStyle );
-							GUILayout.Label ("Artist: " + song.artist.name, infoLabelStyle );
-							GUILayout.Label ("Album: " + song.album.name, infoLabelStyle );
-							GUILayout.Label ("Genre: " + song.genre.name, infoLabelStyle );
-							GUILayout.Label ("Format: " + song.format, infoLabelStyle );
-							GUILayout.Label ("Released: " + song.releaseDate, infoLabelStyle );
+							GUILayout.Label ( "Name: " + song.name, infoLabelStyle );
+							GUILayout.Label ( "Artist: " + song.artist.name, infoLabelStyle );
+							GUILayout.Label ( "Album: " + song.album.name, infoLabelStyle );
+							GUILayout.Label ( "Genre: " + song.genre.name, infoLabelStyle );
+							GUILayout.Label ( "Format: " + song.format, infoLabelStyle );
+							GUILayout.Label ( "Released: " + song.releaseDate, infoLabelStyle );
+							GUILayout.Label ( "" );
 						}
 					}
 				}		

@@ -19,7 +19,7 @@ public class PaneManager : MonoBehaviour
 	internal bool loading = false;
 	bool startup = true;
 
-	internal enum pane {musicManager, musicViewer, onlineMusicBrowser};
+	internal enum pane { musicManager, musicViewer, onlineMusicBrowser };
 	internal pane currentPane = pane.musicViewer;
 
 	bool moving = false;
