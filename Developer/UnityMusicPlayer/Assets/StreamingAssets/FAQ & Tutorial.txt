@@ -52,6 +52,9 @@ and drop music files in there.
 (Q) How do I use Slideshow Mode?
 (A) Using Slideshow Mode is easy! All you have to do is toggle it from the options menu. To put your own pictures in the mix, place images in "2Cat Studios/UnityMusicPlayer/Slideshow". If your image is larger than the application size (default is 800x600), it will be scaled down to fit the window.
 
+(Q) Is it possible to exit Slideshow Mode without quitting the application?
+(A) Yes, to turn Slideshow Mode off, just press Escape.
+
 (Q) You mentioned that the default application size is 800x600, does that mean that it can be changed?
 (A) Yes, by holding down the option key while UnityMusicPlayer is starting, you will have access to the configuration window. Be advised, most of our development is done in the native 800x600 resolution, so things may not look completely normal in another size. If you notice something odd, please let us know!
 

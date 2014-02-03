@@ -102,6 +102,7 @@ public class MusicManager : MonoBehaviour
 			
 			try
 			{
+				
 				currentDirectoryDirectories = Directory.GetDirectories ( currentDirectory ).ToArray ();
 				currentDirectoryFiles = Directory.GetFiles ( currentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
 		
@@ -115,6 +116,14 @@ public class MusicManager : MonoBehaviour
 				currentDirectoryDirectories = Directory.GetDirectories ( currentDirectory ).ToArray ();
 				currentDirectoryFiles = Directory.GetFiles ( currentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
 			}
+		}
+		
+		string[] tempAvailableSorts = Directory.GetDirectories ( startupManager.mediaPath );
+		availableSorts.Clear ();
+		foreach ( string directoryName in tempAvailableSorts )
+		{
+			
+			availableSorts.Add ( directoryName.Substring ( startupManager.mediaPath.Length ));
 		}
 	}
 	
@@ -170,7 +179,7 @@ public class MusicManager : MonoBehaviour
 		GUILayout.Space ( musicManagerPosition.width / 2 - 300 );
 		GUILayout.BeginVertical ();
 		
-		scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  musicManagerPosition.height - ( musicManagerPosition.height / 6 + 56 )));
+		scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  musicManagerPosition.height - ( musicManagerPosition.height / 6 + 78 )));
 		
 		for ( int i = 0; i < currentDirectoryDirectories.Length; i += 1 )
 		{
@@ -273,14 +282,13 @@ public class MusicManager : MonoBehaviour
 	{
 		
 		musicViewer.mediaPath = currentDirectory;
-		if ( currentDirectoryFiles.Length > 0 )
+		if ( currentDirectoryFiles.Any ())
 		{
+			
 			musicViewer.clipList = Directory.GetFiles ( currentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
-			musicViewer.clipListEmpty = false;
 		} else {
 			
-			Array.Clear( musicViewer.clipList, 0, musicViewer.clipList.Length);
-			musicViewer.clipListEmpty = true;
+			musicViewer.clipList = new String[0];
 		}
 		
 		StartCoroutine ( "SetArtwork" );

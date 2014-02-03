@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Net;
 using UnityEngine;
+using System.Linq;
 using System.Threading;
 using System.Diagnostics;
 using System.Collections;
@@ -92,8 +93,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 	StartupManager startupManager;
 	MusicViewer musicViewer;
 	PaneManager paneManager;
-//	LoadingImage loadingImage;
-	DownloadManager downloadManager;
 
 	#region OMBVariables
 
@@ -103,10 +102,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 	GUIStyle buttonStyle;
 	GUIStyle boxStyle;
 	
-	public Texture2D line;
-	
 	public Texture2D guiHover;
-	internal bool showUnderlay = false;
+	public Texture2D guiActiveHover;
 	
 	internal bool showOnlineMusicBrowser = false;
 
@@ -158,9 +155,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	{
 
 		startupManager = GameObject.FindGameObjectWithTag ( "Manager" ).GetComponent<StartupManager>();
-
 		musicViewer = GameObject.FindGameObjectWithTag ( "MusicViewer" ).GetComponent<MusicViewer>();
-//		loadingImage = GameObject.FindGameObjectWithTag ( "LoadingImage" ).GetComponent<LoadingImage>();
 		paneManager = GameObject.FindGameObjectWithTag ("Manager").GetComponent<PaneManager>();
 
 		onlineMusicBrowserPosition.width = Screen.width;
@@ -402,9 +397,15 @@ public class OnlineMusicBrowser : MonoBehaviour
 				{
 					
 					if ( songInfoOwner == song )
+					{
+						
 						guiSkin.button.normal.background = guiHover;
-					else
+						guiSkin.button.hover.background = guiActiveHover;
+					} else {
+						
 						guiSkin.button.normal.background = null;
+						guiSkin.button.hover.background = guiHover;
+					}
 					
 					if ( GUILayout.Button ( song.name ))
 					{
@@ -555,19 +556,17 @@ public class OnlineMusicBrowser : MonoBehaviour
 			if ( end.Cancelled == true )
 			{
 				
-//				UnityEngine.Debug.Log ( "WAS cancelled" );
-				
 				File.Delete ( startupManager.tempPath + Path.DirectorySeparatorChar + downloadingSong.name + "." + downloadingSong.format );
 			} else {
-				
-//				UnityEngine.Debug.Log ( "Was NOT cancelled" );
 				
 				if ( File.Exists ( musicViewer.mediaPath + Path.DirectorySeparatorChar + downloadingSong.name + "." + downloadingSong.format ))
 					File.Delete ( musicViewer.mediaPath + Path.DirectorySeparatorChar + downloadingSong.name + "." + downloadingSong.format );
 				
 				File.Move ( startupManager.tempPath + Path.DirectorySeparatorChar + downloadingSong.name + "." + downloadingSong.format, musicViewer.mediaPath + Path.DirectorySeparatorChar + downloadingSong.name + "." + downloadingSong.format );
+				musicViewer.clipList = Directory.GetFiles ( musicViewer.mediaPath, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
 			}
 
+			songInfoOwner = null;
 			currentDownloadPercentage = "";
 			showSongInformation = false;
 			downloading = false;
