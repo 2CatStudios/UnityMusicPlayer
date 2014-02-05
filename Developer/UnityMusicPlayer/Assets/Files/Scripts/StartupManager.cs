@@ -38,6 +38,8 @@ public class StartupManager : MonoBehaviour
 	
 	static string mac = "/Users/" + Environment.UserName + "/Music/UnityMusicPlayer/";
 	static string windows = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\2Cat Studios\\UnityMusicPlayer\\";
+	
+	internal bool showTutorials = true;
 
 	internal bool showFileTypes;
 
