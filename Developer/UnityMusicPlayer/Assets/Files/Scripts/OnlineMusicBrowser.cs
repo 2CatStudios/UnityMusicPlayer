@@ -164,7 +164,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 		
 		labelStyle = new GUIStyle ();
 		labelStyle.alignment = TextAnchor.MiddleCenter;
-		labelStyle.fontSize = 32;
+		labelStyle.wordWrap = true;
 		
 		infoLabelStyle = new GUIStyle ();
 		infoLabelStyle.alignment = TextAnchor.MiddleLeft;
@@ -410,8 +410,15 @@ public class OnlineMusicBrowser : MonoBehaviour
 					if ( GUILayout.Button ( song.name ))
 					{
 						
-						if ( showSongInformation == false )
+						if ( showSongInformation == false || songInfoOwner != song )
 						{
+							
+							if ( songInfoOwner != song )
+							{
+								
+								showSongInformation = false;
+								songInfoOwner = null;
+							}
 							
 							if ( song.downloadLink.StartsWith ( "|" ) == true )
 							{
@@ -420,7 +427,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 								downloadButtonText = song.downloadLink.Substring ( 1 );
 							} else if ( song.downloadLink.StartsWith ( "h" ) == true )
 							{
-									
+								
 								url = new Uri ( song.downloadLink );
 								downloadButtonText = "Download";
 							}
@@ -428,9 +435,9 @@ public class OnlineMusicBrowser : MonoBehaviour
 							currentDownloadPercentage = "";
 							currentDownloadSize = "Loading";
 								
-							Thread getInfoThread = new Thread (GetInfoThread);
+							Thread getInfoThread = new Thread ( GetInfoThread );
 							getInfoThread.Priority = System.Threading.ThreadPriority.AboveNormal;
-							getInfoThread.Start();
+							getInfoThread.Start ();
 							
 							showSongInformation = true;
 							songInfoOwner = song;
@@ -477,14 +484,13 @@ public class OnlineMusicBrowser : MonoBehaviour
 									downloading = true;
 
 								}
-							}
-							
-							if ( downloading == true )
-							{
+							} else {
+									
+								GUILayout.Label ( "Downloading '" + downloadingSong.name + "'", labelStyle );
 
 								if ( GUILayout.Button ( "Cancel Download", buttonStyle ))
 								{
-									
+										
 									client.CancelAsync ();
 								}
 							}
@@ -492,11 +498,14 @@ public class OnlineMusicBrowser : MonoBehaviour
 							if ( song.supportLink != "NONE" )
 							{
 								
-								if ( GUILayout.Button ( "Support Artist", buttonStyle ))
+								if ( GUILayout.Button ( "Support " + song.artist.name, buttonStyle ))
 									Process.Start ( song.supportLink );
 							}
-								
-							GUILayout.Label ( "Download size: ~" + currentDownloadSize + currentDownloadPercentage );
+							
+							if ( downloadingSong == songInfoOwner )
+								GUILayout.Label ( "Download size: ~" + currentDownloadSize + currentDownloadPercentage );
+							else
+								GUILayout.Label ( "Download size: ~" + currentDownloadSize );
 					
 							GUILayout.Label ( "Name: " + song.name, infoLabelStyle );
 							GUILayout.Label ( "Artist: " + song.artist.name, infoLabelStyle );

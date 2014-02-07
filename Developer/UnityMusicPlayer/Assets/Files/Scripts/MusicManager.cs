@@ -215,6 +215,12 @@ public class MusicManager : MonoBehaviour
 				GUILayout.Box ( "There are no valid files in this directory!" );
 				GUILayout.Label ( "If you want to add some music to this folder,\nclick the 'Open Current Directory' button bellow." +
 					"\n\nDrop any .wav or .ogg files into the folder that will appear.\n\nThen, click 'Set as Active Directory' to see your songs in the MusicViewer.\n\nTo listen to any of your music, navigate to the MusicViewer\n(press the right arrow key), and click a song title." );
+					
+				if ( GUILayout.Button ( "Hide Tutorial Text" ))
+				{
+					
+					startupManager.showTutorials = false;
+				}
 			}
 		}
 		

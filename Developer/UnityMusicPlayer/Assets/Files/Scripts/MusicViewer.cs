@@ -96,12 +96,16 @@ public class MusicViewer : MonoBehaviour
 	
 	bool echo = false;
 	string echoDelay = "100";
+	string tempEchoDelay;
 	string echoDecayRate = "0.3";
+	string tempEchoDecayRate;
 	string echoWetMix = "0.8";
+	string tempEchoWetMix;
 	string echoDryMix = "0.6";
+	string tempEchoDryMix;
 
 	bool showOptionsWindow = false;
-	Rect optionsWindowRect = new Rect ( 0, 0, 350, 350 );
+	Rect optionsWindowRect = new Rect ( 0, 0, 350, 380 );
 	float avcR = 0.9886364F;
 	float tempAVCR = 0.9886364F;
 	float avcG = 0.5227273F;
@@ -117,6 +121,9 @@ public class MusicViewer : MonoBehaviour
 	
 	float tempSunShafts = 0.0F;
 	bool sunShafts = false;
+	
+	string blurIterations = "3";
+	string tempBlurIterations;
 	
 #region General Settings
 	
@@ -168,10 +175,16 @@ public class MusicViewer : MonoBehaviour
 
 #endregion
 	
-	public static string RemoveChars ( string key )
+	public static string StringToFloat ( string key )
    	{
 				
 		return Regex.Replace ( key, "[^0-9.]", "" );
+	}
+	
+	public static string StringToInt ( string key )
+   	{
+				
+		return Regex.Replace ( key, "[^0-9]", "" );
 	}
 	
 	WWW wWw;
@@ -211,79 +224,93 @@ public class MusicViewer : MonoBehaviour
 		tempCheckForUpdates = Convert.ToSingle ( startupManager.checkForUpdate );
 		tempEnableOMB = Convert.ToSingle ( startupManager.ombEnabled );
 			
-		loop = Convert.ToBoolean ( startupManager.prefs [ 3 ] );
-		shuffle = Convert.ToBoolean ( startupManager.prefs [ 4 ] );
-		continuous = Convert.ToBoolean ( startupManager.prefs [ 5 ] );
+		loop = Convert.ToBoolean ( startupManager.prefs [ 4 ] );
+		shuffle = Convert.ToBoolean ( startupManager.prefs [ 5 ] );
+		continuous = Convert.ToBoolean ( startupManager.prefs [ 6 ] );
 
-		showTypes = Convert.ToBoolean ( startupManager.prefs [ 6 ] );
+		showTypes = Convert.ToBoolean ( startupManager.prefs [ 7 ] );
 		
-		showTimebar = Convert.ToBoolean ( startupManager.prefs [ 7 ] );
+		showTimebar = Convert.ToBoolean ( startupManager.prefs [ 8 ] );
 		tempShowTimebar = Convert.ToSingle ( showTimebar );
 		
-		showStreaming = Convert.ToBoolean ( startupManager.prefs [ 8 ] );
+		showStreaming = Convert.ToBoolean ( startupManager.prefs [ 9 ] );
 		tempStreaming = Convert.ToSingle ( showStreaming );
 		
-		showQuickManage = Convert.ToBoolean ( startupManager.prefs [ 9 ] );
+		showQuickManage = Convert.ToBoolean ( startupManager.prefs [ 10 ] );
 		tempShowQuickManage = Convert.ToSingle ( showQuickManage );
 		
-		preciseTimemark = Convert.ToBoolean ( startupManager.prefs [ 10 ] );
+		preciseTimemark = Convert.ToBoolean ( startupManager.prefs [ 11 ] );
 		tempPreciseTimemark = Convert.ToSingle ( preciseTimemark );
 		
-		volumeBarValue = Convert.ToSingle ( startupManager.prefs [ 11 ] );
+		volumeBarValue = Convert.ToSingle ( startupManager.prefs [ 12 ] );
 
-		avcR = float.Parse ( startupManager.prefs [ 12 ] );
+		avcR = float.Parse ( startupManager.prefs [ 13 ] );
 		tempAVCR = avcR;
 		
-		avcG = float.Parse ( startupManager.prefs [ 13 ] );
+		avcG = float.Parse ( startupManager.prefs [ 14 ] );
 		tempAVCG = avcG;
 		
-		avcB = float.Parse ( startupManager.prefs [ 14 ] );
+		avcB = float.Parse ( startupManager.prefs [ 15 ] );
 		tempAVCB = avcB;
 
-		bloom = Convert.ToBoolean ( startupManager.prefs [ 15 ] );	
+		bloom = Convert.ToBoolean ( startupManager.prefs [ 16 ] );	
 		tempBloom = Convert.ToSingle ( bloom );
 		
-		blur = Convert.ToBoolean ( startupManager.prefs [ 16 ] );
+		blur = Convert.ToBoolean ( startupManager.prefs [ 17 ] );
 		tempBlur = Convert.ToSingle ( blur );
 		
-		sunShafts = Convert.ToBoolean ( startupManager.prefs [ 17 ] );
+		sunShafts = Convert.ToBoolean ( startupManager.prefs [ 18 ] );
 		tempSunShafts = Convert.ToSingle ( sunShafts );
-
-		echoDelay = startupManager.prefs [ 18 ];
-		echoDecayRate = startupManager.prefs [ 19 ];
-		echoWetMix = startupManager.prefs [ 20 ];
-		echoDryMix = startupManager.prefs [ 21 ];
 		
-		autoAVOff = Convert.ToBoolean ( startupManager.prefs [ 22 ] );
+		blurIterations = Convert.ToString ( startupManager.prefs [ 19 ] );
+		tempBlurIterations = blurIterations;
+		
+		manager.GetComponent<BlurEffect> ().iterations = Convert.ToInt16 ( blurIterations );
+
+		echoDelay = startupManager.prefs [ 20 ];
+		tempEchoDelay = echoDelay;
+		echoDecayRate = startupManager.prefs [ 21 ];
+		tempEchoDecayRate = echoDecayRate;
+		echoWetMix = startupManager.prefs [ 22 ];
+		tempEchoWetMix = echoWetMix;
+		echoDryMix = startupManager.prefs [ 23 ];
+		tempEchoDryMix = echoDryMix;
+		
+		manager.GetComponent<AudioEchoFilter> ().delay = Convert.ToSingle ( echoDelay );
+		manager.GetComponent<AudioEchoFilter> ().decayRatio = Convert.ToSingle ( echoDecayRate );
+		manager.GetComponent<AudioEchoFilter> ().wetMix = Convert.ToSingle ( echoWetMix );
+		manager.GetComponent<AudioEchoFilter> ().dryMix = Convert.ToSingle ( echoDryMix );
+		
+		autoAVOff = Convert.ToBoolean ( startupManager.prefs [ 24 ] );
 		tempAutoAVOff = Convert.ToSingle ( autoAVOff );
 		
-		displayTime = startupManager.prefs [ 23 ];
+		displayTime = startupManager.prefs [ 25 ];
 
-		previousSongs [ 0 ] = Convert.ToInt32 ( startupManager.prefs [ 24 ] );
+		previousSongs [ 0 ] = Convert.ToInt32 ( startupManager.prefs [ 26 ] );
 		if ( previousSongs [ 0 ] > clipList.Length )
 			previousSongs [ 0 ] = clipList.Length;
 		
-		previousSongs [ 1 ] = Convert.ToInt32 ( startupManager.prefs [ 25 ] );
+		previousSongs [ 1 ] = Convert.ToInt32 ( startupManager.prefs [ 27 ] );
 		if ( previousSongs [ 1 ] > clipList.Length )
 			previousSongs [ 1 ] = clipList.Length;
 		
-		previousSongs [ 2 ] = Convert.ToInt32 ( startupManager.prefs [ 26 ] );
+		previousSongs [ 2 ] = Convert.ToInt32 ( startupManager.prefs [ 28 ] );
 		if ( previousSongs [ 2 ] > clipList.Length )
 			previousSongs [ 2 ] = clipList.Length;
 		
-		previousSongs [ 3 ] = Convert.ToInt32 ( startupManager.prefs [ 27 ] );
+		previousSongs [ 3 ] = Convert.ToInt32 ( startupManager.prefs [ 29 ] );
 		if ( previousSongs [ 3 ] > clipList.Length )
 			previousSongs [ 3 ] = clipList.Length;
 		
-		previousSongs [ 4 ] = Convert.ToInt32 ( startupManager.prefs [ 28 ] );
+		previousSongs [ 4 ] = Convert.ToInt32 ( startupManager.prefs [ 30 ] );
 		if ( previousSongs [ 4 ] > clipList.Length )
 			previousSongs [ 4 ] = clipList.Length;
 		
-		previousSongs [ 5 ] = Convert.ToInt32 ( startupManager.prefs [ 29 ] );
+		previousSongs [ 5 ] = Convert.ToInt32 ( startupManager.prefs [ 31 ] );
 		if ( previousSongs [ 5 ] > clipList.Length )
 			previousSongs [ 5 ] = clipList.Length;
 		
-		previousSongs [ 6 ] = Convert.ToInt32 ( startupManager.prefs [ 30 ] );
+		previousSongs [ 6 ] = Convert.ToInt32 ( startupManager.prefs [ 32 ] );
 		if ( previousSongs [ 6 ] > clipList.Length )
 			previousSongs [ 6 ] = clipList.Length;
 
@@ -310,8 +337,8 @@ public class MusicViewer : MonoBehaviour
 			timemark.text = "0:00][0:00";
 
 		TextWriter savePrefs = new StreamWriter ( startupManager.prefsLocation );
-		savePrefs.WriteLine ( mediaPath + "\n" + startupManager.checkForUpdate + "\n" + startupManager.ombEnabled + "\n" + loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + showTimebar + "\n" + showStreaming + "\n" + showQuickManage + "\n" + preciseTimemark + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + blur + "\n" + sunShafts + 
-		                     "\n" + echoDelay + "\n" + echoDecayRate + "\n" + echoWetMix + "\n" + echoDryMix + "\n" + autoAVOff + "\n" + displayTime + "\n" + previousSongs [ 0 ] + "\n" + previousSongs [ 1 ] + "\n" + previousSongs [ 2 ] + "\n" + previousSongs [ 3 ] + "\n" + previousSongs [ 4 ] + "\n" + previousSongs [ 5 ] + "\n" + previousSongs [ 6 ] );
+		savePrefs.WriteLine ( mediaPath + "\n" + startupManager.checkForUpdate + "\n" + startupManager.ombEnabled + "\n" + startupManager.showTutorials + "\n" + loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + showTimebar + "\n" + showStreaming + "\n" + showQuickManage + "\n" + preciseTimemark + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + blur + "\n" + sunShafts + 
+		                     "\n" + blurIterations + "\n" + echoDelay + "\n" + echoDecayRate + "\n" + echoWetMix + "\n" + echoDryMix + "\n" + autoAVOff + "\n" + displayTime + "\n" + previousSongs [ 0 ] + "\n" + previousSongs [ 1 ] + "\n" + previousSongs [ 2 ] + "\n" + previousSongs [ 3 ] + "\n" + previousSongs [ 4 ] + "\n" + previousSongs [ 5 ] + "\n" + previousSongs [ 6 ] );
 		savePrefs.Close ();
 		
 		InvokeRepeating ( "Refresh", 0, 2 );
@@ -357,17 +384,25 @@ public class MusicViewer : MonoBehaviour
 		if ( GUI.Button ( new Rect ( 290, 20, 50, 20 ), "Close" ) || close == true)
 		{
 
-			if ( echoDelay.Trim () == "" )
-				echoDelay = "20";
+			if ( tempEchoDelay.Trim () == "" )
+				tempEchoDelay = "100";
+				
+			echoDelay = tempEchoDelay;
 
-			if ( echoDecayRate.Trim () == "" )
-				echoDecayRate = "0.1";
+			if ( tempEchoDecayRate.Trim () == "" )
+				tempEchoDecayRate = "0.3";
+				
+			echoDecayRate = tempEchoDecayRate;
 
-			if ( echoWetMix.Trim () == "" )
-				echoWetMix = "0.1";
+			if ( tempEchoWetMix.Trim () == "" )
+				tempEchoWetMix = "0.8";
+				
+			echoWetMix = tempEchoWetMix;
 
-			if ( echoDryMix.Trim () == "" )
-				echoDryMix = "0.1";
+			if ( tempEchoDryMix.Trim () == "" )
+				tempEchoDryMix = "0.6";
+				
+			echoDryMix = tempEchoDryMix;
 
 			manager.GetComponent<AudioEchoFilter> ().delay = Convert.ToSingle ( echoDelay );
 			manager.GetComponent<AudioEchoFilter> ().decayRatio = Convert.ToSingle ( echoDecayRate );
@@ -381,6 +416,13 @@ public class MusicViewer : MonoBehaviour
 			bloom = Convert.ToBoolean ( tempBloom );
 			blur = Convert.ToBoolean ( tempBlur );
 			sunShafts = Convert.ToBoolean ( tempSunShafts );
+			
+			if ( tempBlurIterations.Trim () == "" )
+				tempBlurIterations = "3";
+				
+			blurIterations = tempBlurIterations;
+				
+			manager.GetComponent<BlurEffect> ().iterations = Convert.ToInt16 ( blurIterations );
 
 			showTypes = Convert.ToBoolean ( tempShowTypes );
 			
@@ -412,7 +454,7 @@ public class MusicViewer : MonoBehaviour
 
 			
 			if ( displayTime.Trim () == "" )
-				displayTime = "7.0";
+				displayTime = "2.0";
 
 			slideshow = Convert.ToBoolean ( tempSlideshow );
 			autoAVOff = Convert.ToBoolean ( tempAutoAVOff );
@@ -460,10 +502,31 @@ public class MusicViewer : MonoBehaviour
 			close = false;
 			showOptionsWindow = false;
 		}
+		
+		tempShowTypes = GUI.HorizontalSlider ( new Rect ( 170, 22, 20, 14 ), UnityEngine.Mathf.Round ( tempShowTypes ), 0, 1 );
+		GUI.Label ( new Rect ( 179, 15, 100, 22 ), "Show Types" );
+		
+		tempShowTimebar = GUI.HorizontalSlider ( new Rect ( 170, 39, 20, 14 ), UnityEngine.Mathf.Round ( tempShowTimebar ), 0, 1 );
+		GUI.Label ( new Rect ( 186, 33, 100, 22 ), "Show Timebar" );
+		
+		tempStreaming = GUI.HorizontalSlider ( new Rect ( 170, 56, 20, 14 ), UnityEngine.Mathf.Round ( tempStreaming ), 0, 1 );
+		GUI.Label ( new Rect ( 190, 50, 100, 22 ), "Show Streaming" );
+		
+		tempShowQuickManage = GUI.HorizontalSlider ( new Rect ( 170, 73, 20, 14 ), UnityEngine.Mathf.Round ( tempShowQuickManage ), 0, 1 );
+		GUI.Label ( new Rect ( 195, 67, 116, 22 ), "Show QuickManage" );
+		
+		tempPreciseTimemark = GUI.HorizontalSlider ( new Rect ( 170, 90, 20, 22), UnityEngine.Mathf.Round ( tempPreciseTimemark ), 0, 1 );
+		GUI.Label ( new Rect ( 192, 84, 145, 22 ), "Show Precise Timemark" );
+		
+		if ( GUI.Button ( new Rect ( 170, 108, 168, 22 ), "Reset Tutorials" ))
+		{
+			
+			startupManager.showTutorials = true;
+		}
 
 #region AudioVisualizerSettings
 
-		GUI.Box ( new Rect ( 10, 20, 150, 198 ), "AudioVisualizer Settings" );
+		GUI.Box ( new Rect ( 10, 20, 150, 224 ), "AudioVisualizer Settings" );
 
 		GUI.Label ( new Rect ( 65, 39, 40, 30 ), "Red" );
 		tempAVCR = GUI.HorizontalSlider ( new Rect ( 35, 62, 100, 15), tempAVCR, 0.0F, 1.000F );
@@ -482,77 +545,66 @@ public class MusicViewer : MonoBehaviour
 		GUI.Label ( new Rect ( 43, 157, 80, 22 ), "Toggle Bloom" );
 
 		tempBlur = GUI.HorizontalSlider ( new Rect ( 20, 182, 20, 14 ), UnityEngine.Mathf.Round ( tempBlur ), 0, 1 );
-		GUI.Label ( new Rect ( 14, 175, 125, 22 ), "Toggle Blur" );
+		GUI.Label ( new Rect ( 36, 175, 80, 22 ), "Toggle Blur" );
 
 		tempSunShafts = GUI.HorizontalSlider ( new Rect ( 20, 199, 20, 14 ), UnityEngine.Mathf.Round ( tempSunShafts ), 0, 1 );
 		GUI.Label ( new Rect ( 38, 193, 120, 22 ), "Toggle Sun Shafts" );
+		
+		GUI.Label ( new Rect ( 34, 220, 100, 20 ), "Blur Iterations" );
+		tempBlurIterations = GUI.TextField ( new Rect ( 22, 220, 15, 20 ), tempBlurIterations, 1 );
+		tempBlurIterations = StringToInt ( tempBlurIterations );
 
 #endregion
-		
-		tempShowTypes = GUI.HorizontalSlider ( new Rect ( 170, 22, 20, 14 ), UnityEngine.Mathf.Round ( tempShowTypes ), 0, 1 );
-		GUI.Label ( new Rect ( 179, 15, 100, 22 ), "Show Types" );
-		
-		tempShowTimebar = GUI.HorizontalSlider ( new Rect ( 170, 39, 20, 14 ), UnityEngine.Mathf.Round ( tempShowTimebar ), 0, 1 );
-		GUI.Label ( new Rect ( 186, 33, 100, 22 ), "Show Timebar" );
-		
-		tempStreaming = GUI.HorizontalSlider ( new Rect ( 170, 56, 20, 14 ), UnityEngine.Mathf.Round ( tempStreaming ), 0, 1 );
-		GUI.Label ( new Rect ( 190, 50, 100, 22 ), "Show Streaming" );
-		
-		tempShowQuickManage = GUI.HorizontalSlider ( new Rect ( 170, 73, 20, 14 ), UnityEngine.Mathf.Round ( tempShowQuickManage ), 0, 1 );
-		GUI.Label ( new Rect ( 195, 67, 116, 22 ), "Show QuickManage" );
-		
-		tempPreciseTimemark = GUI.HorizontalSlider ( new Rect ( 170, 90, 20, 22), UnityEngine.Mathf.Round ( tempPreciseTimemark ), 0, 1 );
-		GUI.Label ( new Rect ( 192, 84, 145, 22 ), "Show Precise Timemark" );
 
 #region AudioSettings
 
-		GUI.Box ( new Rect ( 170, 108, 170, 110 ), "Audio Echo Settings" );
+		GUI.Box ( new Rect ( 170, 134, 170, 110 ), "Audio Echo Settings" );
 
-		GUI.Label ( new Rect ( 200, 128, 80, 20 ), "Echo Delay" );
-		echoDelay = GUI.TextField ( new Rect ( 175, 128, 30, 20 ), echoDelay, 3 );
-		echoDelay = RemoveChars ( echoDelay );
+		GUI.Label ( new Rect ( 200, 154, 80, 20 ), "Echo Delay" );
+		tempEchoDelay = GUI.TextField ( new Rect ( 175, 154, 30, 20 ), tempEchoDelay, 3 );
+		tempEchoDelay = StringToFloat ( tempEchoDelay );
 
-		GUI.Label ( new Rect ( 204, 150, 110, 20 ), "Echo Decay Rate" );
-		echoDecayRate = GUI.TextField ( new Rect ( 175, 150, 30, 20 ), echoDecayRate, 3 );
-		echoDecayRate = RemoveChars ( echoDecayRate );
+		GUI.Label ( new Rect ( 204, 176, 110, 20 ), "Echo Decay Rate" );
+		tempEchoDecayRate = GUI.TextField ( new Rect ( 175, 176, 30, 20 ), tempEchoDecayRate, 3 );
+		tempEchoDecayRate = StringToFloat ( tempEchoDecayRate );
 
-		GUI.Label ( new Rect ( 198, 172, 100, 20 ), "Echo Wet Mix" );
-		echoWetMix = GUI.TextField ( new Rect ( 175, 172, 30, 20 ), echoWetMix, 3 );
-		echoWetMix = RemoveChars ( echoWetMix );
+		GUI.Label ( new Rect ( 198, 198, 100, 20 ), "Echo Wet Mix" );
+		tempEchoWetMix = GUI.TextField ( new Rect ( 175, 198, 30, 20 ), tempEchoWetMix, 3 );
+		tempEchoWetMix = StringToFloat ( tempEchoWetMix );
 
-		GUI.Label ( new Rect ( 196, 194, 100, 20 ), "Echo Dry Mix" );
-		echoDryMix = GUI.TextField ( new Rect ( 175, 194, 30, 20 ), echoDryMix, 3 );
-		echoDryMix = RemoveChars ( echoDryMix );
+		GUI.Label ( new Rect ( 196, 220, 100, 20 ), "Echo Dry Mix" );
+		tempEchoDryMix = GUI.TextField ( new Rect ( 175, 220, 30, 20 ), tempEchoDryMix, 3 );
+		tempEchoDryMix = StringToFloat ( tempEchoDryMix );
 
 #endregion
 
 #region SlideshowSettings
 
-		GUI.Box ( new Rect ( 10, 226, 150, 90 ), "Slideshow Settings" );
+		GUI.Box ( new Rect ( 10, 252, 150, 90 ), "Slideshow Settings" );
 		
-		tempSlideshow = GUI.HorizontalSlider ( new Rect ( 15, 251, 20, 14 ), UnityEngine.Mathf.Round ( tempSlideshow ), 0, 1 );
-		GUI.Label ( new Rect ( 17, 245, 100, 22 ), "Slideshow" );
+		tempSlideshow = GUI.HorizontalSlider ( new Rect ( 15, 277, 20, 14 ), UnityEngine.Mathf.Round ( tempSlideshow ), 0, 1 );
+		GUI.Label ( new Rect ( 17, 271, 100, 22 ), "Slideshow" );
 		
-		tempAutoAVOff = GUI.HorizontalSlider ( new Rect ( 15, 271, 20, 14 ), UnityEngine.Mathf.Round ( tempAutoAVOff ), 0, 1 );
-		GUI.Label ( new Rect ( 25, 265, 100, 22 ), "Force AV Off" );
+		tempAutoAVOff = GUI.HorizontalSlider ( new Rect ( 15, 297, 20, 14 ), UnityEngine.Mathf.Round ( tempAutoAVOff ), 0, 1 );
+		GUI.Label ( new Rect ( 25, 291, 100, 22 ), "Force AV Off" );
 		
-		GUI.Label ( new Rect ( 45, 289, 80, 20 ), "Display Time" );
-		displayTime = GUI.TextField ( new Rect ( 15, 290, 30, 20 ), displayTime, 3 );
-		displayTime = RemoveChars ( displayTime );
+		GUI.Label ( new Rect ( 45, 315, 80, 20 ), "Display Time" );
+		displayTime = GUI.TextField ( new Rect ( 15, 316, 30, 20 ), displayTime, 3 );
+		displayTime = StringToFloat ( displayTime );
 
 #endregion
 
 #region Online Settings
 
-		GUI.Box ( new Rect ( 170, 226, 170, 90 ), "Online Settings" );
+		GUI.Box ( new Rect ( 170, 252, 170, 90 ), "Online Settings" );
 		
-		tempCheckForUpdates = GUI.HorizontalSlider ( new Rect ( 175, 251, 20, 14 ), UnityEngine.Mathf.Round ( tempCheckForUpdates ), 0, 1 );
-		GUI.Label ( new Rect ( 200, 245, 115, 22 ), "Check For Updates" );
+		tempCheckForUpdates = GUI.HorizontalSlider ( new Rect ( 175, 277, 20, 14 ), UnityEngine.Mathf.Round ( tempCheckForUpdates ), 0, 1 );
+		GUI.Label ( new Rect ( 200, 271, 115, 22 ), "Check For Updates" );
 		
-		tempEnableOMB = GUI.HorizontalSlider ( new Rect ( 175, 271, 20, 14 ), UnityEngine.Mathf.Round ( tempEnableOMB ), 0, 1 );
-		GUI.Label ( new Rect ( 201, 264, 120, 22 ), "Enable Online Store" );
+		tempEnableOMB = GUI.HorizontalSlider ( new Rect ( 175, 297, 20, 14 ), UnityEngine.Mathf.Round ( tempEnableOMB ), 0, 1 );
+		GUI.Label ( new Rect ( 201, 290, 120, 22 ), "Enable Online Store" );
 		
-		if ( GUI.Button ( new Rect ( 175, 288, 160, 22 ), "Check For New Version" ))
+		if ( GUI.Button ( new Rect ( 175, 314, 160, 22 ), "Check For New Version" ))
 		{
 			
 			startupManager.SendMessage ( "CheckForUpdate" );
@@ -564,7 +616,7 @@ public class MusicViewer : MonoBehaviour
 
 #endregion
 
-		GUI.Box ( new Rect ( 10, 322, 330, 22 ), "UnityMusicPlayer Version " + startupManager.runningVersion );
+		GUI.Box ( new Rect ( 10, 350, 330, 22 ), "UnityMusicPlayer Version " + startupManager.runningVersion );
 	}
 	
 	
@@ -1043,6 +1095,8 @@ public class MusicViewer : MonoBehaviour
 				manager.GetComponent<BloomAndLensFlares>().enabled = Convert.ToBoolean ( bloom );
 				manager.GetComponent<BlurEffect>().enabled = Convert.ToBoolean ( blur );
 				manager.GetComponent<SunShafts>().enabled = Convert.ToBoolean ( sunShafts );
+				
+				manager.GetComponent<BlurEffect> ().iterations = Convert.ToInt16 ( blurIterations );
 			} else {
 	
 				audioVisualizerR.showAV = showVisualizer;
@@ -1719,8 +1773,8 @@ public class MusicViewer : MonoBehaviour
 		Resources.UnloadUnusedAssets ();
 
 		TextWriter savePrefs = new StreamWriter ( startupManager.prefsLocation );
-		savePrefs.WriteLine ( mediaPath + "\n" + startupManager.checkForUpdate + "\n" + startupManager.ombEnabled + "\n" + loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + showTimebar + "\n" + showStreaming + "\n" + showQuickManage + "\n" + preciseTimemark + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + blur + "\n" + sunShafts + 
-		                     "\n" + echoDelay + "\n" + echoDecayRate + "\n" + echoWetMix + "\n" + echoDryMix + "\n" + autoAVOff + "\n" + displayTime + "\n" + previousSongs [ 0 ] + "\n" + previousSongs [ 1 ] + "\n" + previousSongs [ 2 ] + "\n" + previousSongs [ 3 ] + "\n" + previousSongs [ 4 ] + "\n" + previousSongs [ 5 ] + "\n" + previousSongs [ 6 ] );
+		savePrefs.WriteLine ( mediaPath + "\n" + startupManager.checkForUpdate + "\n" + startupManager.ombEnabled + "\n" + startupManager.showTutorials + "\n" + loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + showTimebar + "\n" + showStreaming + "\n" + showQuickManage + "\n" + preciseTimemark + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + blur + "\n" + sunShafts + 
+		                     "\n" + blurIterations + "\n" + echoDelay + "\n" + echoDecayRate + "\n" + echoWetMix + "\n" + echoDryMix + "\n" + autoAVOff + "\n" + displayTime + "\n" + previousSongs [ 0 ] + "\n" + previousSongs [ 1 ] + "\n" + previousSongs [ 2 ] + "\n" + previousSongs [ 3 ] + "\n" + previousSongs [ 4 ] + "\n" + previousSongs [ 5 ] + "\n" + previousSongs [ 6 ] );
 		savePrefs.Close ();
 
 		if ( Application.isEditor == true )
