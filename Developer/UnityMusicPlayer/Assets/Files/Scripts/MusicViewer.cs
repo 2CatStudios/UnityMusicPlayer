@@ -845,7 +845,6 @@ public class MusicViewer : MonoBehaviour
 					for ( i = 0; i < clipList.Length; i ++ )
 					{
 					
-						string pathToFile = clipList [ i ];
 						string clipToPlay = clipList [ i ].Substring ( mediaPath.Length + 1 );
 						string songName;
 		
@@ -877,29 +876,34 @@ public class MusicViewer : MonoBehaviour
 						if ( GUILayout.Button ( clipToPlay ))
 						{
 	
+							Resources.UnloadUnusedAssets ();
+							
+							currentSongNumber = i;
+							previousSongs [ 0 ] = previousSongs [ 1 ];
+							previousSongs [ 1 ] = previousSongs [ 2 ];
+							previousSongs [ 2 ] = previousSongs [ 3 ];
+							previousSongs [ 3 ] = previousSongs [ 4 ];
+							previousSongs [ 4 ] = previousSongs [ 5 ];
+							previousSongs [ 5 ] = previousSongs [ 6 ];
+							previousSongs [ 6 ] = i;
+							psPlace = 6;
+							
+							wasPlaying = false;
+							
 							if ( isAssetBundle == true )
 							{
 		
-								StartCoroutine ( LoadAssetBundle ( "file://" + pathToFile, songName));
 								loadingImage.showLoadingImages = true;
-								loadingImage.InvokeRepeating ("LoadingImages", 0.25F, 0.25F);
+								loadingImage.InvokeRepeating ( "LoadingImages", 0.25F, 0.25F );
+								
+								songName = clipList [ currentSongNumber ].Substring ( mediaPath.Length + 1 );
+								StartCoroutine ( LoadAssetBundle ( "file://" + clipList [ currentSongNumber ], songName.Substring ( 0, songName.Length - 8 )));	
 		
 							} else
 							{
-		
-								currentSongNumber = i;
-								previousSongs [ 0 ] = previousSongs [ 1 ];
-								previousSongs [ 1 ] = previousSongs [ 2 ];
-								previousSongs [ 2 ] = previousSongs [ 3 ];
-								previousSongs [ 3 ] = previousSongs [ 4 ];
-								previousSongs [ 4 ] = previousSongs [ 5 ];
-								previousSongs [ 5 ] = previousSongs [ 6 ];
-								previousSongs [ 6 ] = i;
-								psPlace = 6;
 									
-								Resources.UnloadUnusedAssets ();
-								wasPlaying = false;
-								StartCoroutine ( PlayAudio());
+								StartCoroutine ( PlayAudio ());
+								loadingImage.showLoadingImages = false;
 							}
 						}
 					}
@@ -1179,7 +1183,7 @@ public class MusicViewer : MonoBehaviour
 				if ( clipList [ currentSongNumber ].Substring ( clipList [ currentSongNumber ].Length - 7 ) == "unity3d" )
 				{
 
-					string songName = clipList [ currentSongNumber ].Substring ( mediaPath.Length );
+					string songName = clipList [ currentSongNumber ].Substring ( mediaPath.Length + 1 );
 					StartCoroutine ( LoadAssetBundle ( "file://" + clipList [ currentSongNumber ], songName.Substring ( 0, songName.Length - 8 )));	
 				} else {
 				
@@ -1300,10 +1304,18 @@ public class MusicViewer : MonoBehaviour
 	{
 
 		if ( Input.GetKeyUp ( KeyCode.DownArrow ))
+		{
+			
 			NextSong ();
+			loadingImage.showLoadingImages = true;
+		}
 
 		if ( Input.GetKeyUp ( KeyCode.UpArrow ))
+		{
+			
 			PreviousSong ();
+			loadingImage.showLoadingImages = true;
+		}
 
 		if ( Input.GetKeyUp ( KeyCode.Space ))			
 		{
@@ -1510,7 +1522,7 @@ public class MusicViewer : MonoBehaviour
 			if ( clipList [ currentSongNumber ].Substring ( clipList [ currentSongNumber ].Length - 7 ) == "unity3d" )
 			{
 
-				string songName = clipList [ currentSongNumber ].Substring ( mediaPath.Length );
+				string songName = clipList [ currentSongNumber ].Substring ( mediaPath.Length + 1 );
 				StartCoroutine ( LoadAssetBundle ( "file://" + clipList [ currentSongNumber ], songName.Substring ( 0, songName.Length - 8 )));
 			} else
 				StartCoroutine ( PlayAudio() );
@@ -1567,7 +1579,7 @@ public class MusicViewer : MonoBehaviour
 					if ( clipList [ currentSongNumber ].Substring ( clipList [ currentSongNumber ].Length - 7 ) == "unity3d" )
 					{
 
-						string songName = clipList [ currentSongNumber ].Substring ( mediaPath.Length);
+						string songName = clipList [ currentSongNumber ].Substring ( mediaPath.Length+ 1 );
 						StartCoroutine ( LoadAssetBundle ( "file://" + clipList [ currentSongNumber ], songName.Substring ( 0, songName.Length - 8 )));
 					} else
 
