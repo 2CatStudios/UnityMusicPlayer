@@ -401,6 +401,10 @@ public class OnlineMusicBrowser : MonoBehaviour
 						
 						guiSkin.button.normal.background = guiHover;
 						guiSkin.button.hover.background = guiActiveHover;
+					} else {
+						
+						guiSkin.button.normal.background = null;
+						guiSkin.button.hover.background = guiHover;
 					}
 					
 					if ( GUILayout.Button ( song.name ))
@@ -421,23 +425,26 @@ public class OnlineMusicBrowser : MonoBehaviour
 									
 								url = null;
 								downloadButtonText = song.downloadLink.Substring ( 1 );
+								
+								currentDownloadPercentage = "";
+								currentDownloadSize = "Unreleased";
 							} else if ( song.downloadLink.StartsWith ( "h" ) == true )
 							{
 								
 								url = new Uri ( song.downloadLink );
 								downloadButtonText = "Download";
-							}
-		
-							currentDownloadPercentage = "";
-							currentDownloadSize = "Loading";
 								
-							Thread getInfoThread = new Thread ( GetInfoThread );
-							getInfoThread.Priority = System.Threading.ThreadPriority.AboveNormal;
-							getInfoThread.Start ();
-							
-							showSongInformation = true;
-							songInfoOwner = song;
-						} else {
+								currentDownloadPercentage = "";
+								currentDownloadSize = "Loading";
+									
+								Thread getInfoThread = new Thread ( GetInfoThread );
+								getInfoThread.Priority = System.Threading.ThreadPriority.AboveNormal;
+								getInfoThread.Start ();
+								}
+								
+								showSongInformation = true;
+								songInfoOwner = song;
+							} else {
 							
 							showSongInformation = false;
 							songInfoOwner = null;
