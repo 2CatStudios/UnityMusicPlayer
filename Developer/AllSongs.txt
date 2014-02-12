@@ -4,7 +4,7 @@ Liberty - EP
 DJ Purify
 Trance
 wav
-http://ubuntuone.com/7BxIsjXjlxDY7rXFUvkGCA
+http://ubuntuone.com/2CFgC79n7BFIagLavxbmUf
 http://purify1.bandcamp.com/track/purify-liberty
 January 2, 2013
 
@@ -13,7 +13,7 @@ Act Of Love/You Are Like Me
 Wolfgun
 Dubstep
 wav
-http://ubuntuone.com/7j5Tbjjm4GZyi4ztBSkgOa
+http://ubuntuone.com/7FFHqeulGdjNA6r0HrYRJ3
 http://rchetype.bandcamp.com/track/you-are-like-me
 January 1, 2013
 
@@ -22,7 +22,7 @@ Physics
 Wolfgun
 Dubstep
 wav
-http://ubuntuone.com/7GoxiBHbdbLajV2qa53Z5y
+http://ubuntuone.com/4p5yRtndhmRqSWj6SCnu9N
 http://wolfgun.bandcamp.com/album/physics
 January 1, 2013
 
@@ -30,8 +30,8 @@ River (ft. Tim Bonvallet)
 SUNDISK
 Wolfgun
 Trance
-wav
-http://ubuntuone.com/4ZEoCs1YL2WRazuwq1HylF
+ogg
+http://ubuntuone.com/1GEhkJTYFPTPk759MPaSni
 http://wolfgun.bandcamp.com/album/sundisk
 January 1, 2013
 
@@ -40,7 +40,7 @@ SUNDISK
 Wolfgun
 Electronic
 wav
-http://ubuntuone.com/5miTx9iY7zvu26m40N0Gp6
+http://ubuntuone.com/62onbXXfk9Q0fIH1BMNDin
 http://wolfgun.bandcamp.com/album/sundisk
 January 1, 2013
 
@@ -49,7 +49,7 @@ UMP Exclusive
 Combustible Lemonade
 VideoGame
 unity3d
-http://ubuntuone.com/7lXCnSmWjwLqBE7LMT2HyQ
+http://ubuntuone.com/4hm6EF1ZJBy7red7JNtYe7
 NONE
 August 20, 2012
 
@@ -58,7 +58,7 @@ UMP Exclusive
 Combustible Lemonade
 Classical
 wav
-http://ubuntuone.com/7fw5QzTFScCtMCB4sSvhcL
+http://ubuntuone.com/7SvO1UUIZJlGWFzPYkYMXu
 NONE
 August 20, 2012
 
@@ -67,7 +67,7 @@ it burns
 Combustible Lemonade
 Dubstep
 wav
-http://ubuntuone.com/3292zZJBkEBwnUR5DumLr1
+http://ubuntuone.com/3jYTv6bfb4r1v3ndQ1k8LT
 http://soundcloud.com/combustible-lemonade/2nd-dubstep-song
 November 28, 2012
 
@@ -76,7 +76,7 @@ it burns
 Combustible Lemonade
 Dubstep
 wav
-http://ubuntuone.com/4Q18uccMDugja68nnIDx6F
+http://ubuntuone.com/4IXWJvT2v9VVhzEz8PMjRo
 http://soundcloud.com/combustible-lemonade/quantum-realm
 November 28, 2012
 
@@ -85,7 +85,7 @@ it burns
 Combustible Lemonade
 Dubstep
 wav
-http://ubuntuone.com/2ZZdKdY7BYwYPNuPztSEbl
+http://ubuntuone.com/3F05TgRB5YfCZM1qyn5n7e
 NONE
 November 28, 2012
 
@@ -94,7 +94,7 @@ it burns
 Combustible Lemonade
 Dubstep
 wav
-http://ubuntuone.com/6gkJXzF1qC5Oygr1aMXTQT
+http://ubuntuone.com/7hqvSIn4DZac8tFU4OpYum
 http://soundcloud.com/combustible-lemonade/combustible-lemonade-end-of
 December 21, 2012
 
@@ -103,7 +103,7 @@ Darkest Mornings / Brightest Nights
 BlackTie Vivid
 Ambient
 wav
-http://ubuntuone.com/3O4KUeb3CbHxiGYLrom4PO
+http://ubuntuone.com/2TavmXAXvKXPReU2wDOl7u
 http://soundcloud.com/blacktie-vivid
 December 31, 2012
 
@@ -112,7 +112,7 @@ UMP Exclusive
 BlackTie Vivid
 Trance
 wav
-http://ubuntuone.com/7FxPUdfJojsWQJQAfosAcJ
+http://ubuntuone.com/0wTHxxbNWHHXNHsErw114P
 http://soundcloud.com/blacktie-vivid
 August 20, 2012
 
@@ -121,7 +121,7 @@ UMP Exclusive
 BlackTie Vivid
 Trance
 wav
-http://ubuntuone.com/3fBRctLFei5XNIJk1AyY0F
+http://ubuntuone.com/4uUGRYrSTKw12vGv8Y300P
 http://soundcloud.com/blacktie-vivid
 August 20, 2012
 
@@ -130,7 +130,7 @@ Synergy EP
 Avelocity
 Trance
 unity3d
-http://ubuntuone.com/7fKMUHrE2XCPCzpQeGpFZa
+http://ubuntuone.com/0hLPPKkfplBnbt3QnXmgI7
 http://soundcloud.com/avelocity
 April 23, 2013
 
@@ -139,7 +139,7 @@ Synergy EP
 Avelocity
 Trance
 unity3d
-http://ubuntuone.com/4Kba9YLDz46aDwukt9x8G3
+http://ubuntuone.com/0yg3zQMmbXN1DzRAb7MVOU
 http://soundcloud.com/avelocity
 April 23, 2013
 
@@ -148,7 +148,7 @@ Synergy EP
 Avelocity
 Trance
 unity3d
-http://ubuntuone.com/5FhLmaobrtN2LhnWXPebwy
+http://ubuntuone.com/5j16mNYaBNiIVwYXknJVx2
 http://soundcloud.com/avelocity
 April 23, 2013
 
@@ -157,7 +157,7 @@ Darkest Mornings / Brightest Nights
 BlackTie Vivid
 Ambient
 wav
-http://ubuntuone.com/1Gz5btxAjxMa76xHD6Dg1A
+http://ubuntuone.com/1i4AYnAUlhtSvdtbluTsqn
 http://soundcloud.com/blacktie-vivid
 April 28, 2013
 
@@ -166,7 +166,7 @@ UMP Exclusive
 Umcaruje
 Electronic
 ogg
-http://ubuntuone.com/1MGY3Bci6OXzH0YibIJh13
+http://ubuntuone.com/2kjgW6GAYmy5SjDMBKGy72
 http://soundcloud.com/umcaruje
 April 27, 2013
 
@@ -175,7 +175,7 @@ Fractal - Single
 Umcaruje
 Electronic
 ogg
-http://ubuntuone.com/6yXdt9BaVSMbu7KpdZms2W
+http://ubuntuone.com/1tuP20y6D7XfSK3bVZME1A
 http://soundcloud.com/umcaruje
 April 27, 2013
 
@@ -184,7 +184,7 @@ Maths - Single
 Umcaruje
 Electronic
 ogg
-http://ubuntuone.com/4ljvKJfbfsB9qRbphRPQzm
+http://ubuntuone.com/6ysPfLdNbM5dSQ8ctcYvns
 http://soundcloud.com/umcaruje
 April 27, 2013
 
@@ -193,7 +193,7 @@ UMP Exclusive
 Combustible Lemonade
 Classical
 wav
-http://ubuntuone.com/0T1cNERrJpDxj1nfpAQVyK
+http://ubuntuone.com/7TLIcB2xun4RcOy6VljoUC
 NONE
 April 27, 2013
 
@@ -202,7 +202,7 @@ Darkest Mornings / Brightest Nights
 BlackTie Vivid
 Ambient
 wav
-http://ubuntuone.com/4NcYKbZmXrLRYn0KsJjQDp
+http://ubuntuone.com/2l5tGLL8329bxtwsUq3odD
 http://soundcloud.com/blacktie-vivid
 June 4, 2013
 
@@ -211,7 +211,7 @@ Darkest Mornings / Brightest Nights
 BlackTie Vivid
 Ambient
 wav
-http://ubuntuone.com/6KOf5GASHX7zuVpwl3ZmFi
+http://ubuntuone.com/6jmbxXDLJ5aYNauGZ7hTMa
 http://soundcloud.com/blacktie-vivid
 June 1, 2013
 
@@ -238,7 +238,7 @@ Lume - Single
 ManiaRib
 Chillout
 wav
-http://ubuntuone.com/47PA87wRDThNSh2tEdAKrU
+http://ubuntuone.com/06MPUPIotskOM2QuOtdnvK
 http://soundcloud.com/brian-amin
 September 2, 2013
 
@@ -247,7 +247,7 @@ Darkest Mornings / Brightest Nights
 BlackTie Vivid
 Trance
 wav
-http://ubuntuone.com/7cwLP53DxHC7hFECzndt0s
+http://ubuntuone.com/0PoCB9R4PsCfD5LZPzSqSl
 http://soundcloud.com/blacktie-vivid
 September 2, 2013
 
@@ -256,7 +256,7 @@ it burns
 Combustible Lemonade
 Dubstep
 wav
-http://ubuntuone.com/4RzjfkCXWq85MChUjV6FOx
+http://ubuntuone.com/3ArE9LcjxyDqhG6Xd788Px
 NONE
 September 3, 2013
 
@@ -265,7 +265,7 @@ Darkest Mornings / Brightest Nights
 BlackTie Vivid
 Ambient
 wav
-http://ubuntuone.com/355nfvAEogqms1BcOExHGI
+http://ubuntuone.com/04h2KEidUA8hhUJGhmBgcc
 http://soundcloud.com/blacktie-vivid
 January 2, 2014
 
@@ -274,7 +274,7 @@ Synergy EP
 Avelocity
 Drum and Bass
 wav
-|February 14, 2014
+http://ubuntuone.com/0cVpCTlONRdIdMEafKZQQr
 http://soundcloud.com/avelocity
 February 14, 2014
 
@@ -283,7 +283,7 @@ Synergy EP
 Avelocity
 House
 wav
-|February 14, 2014
+http://ubuntuone.com/6OEwc5CTjYKtwl683rxBSv
 http://soundcloud.com/avelocity
 February 14, 2014
 
@@ -292,7 +292,7 @@ Synergy EP
 Avelocity
 Dubstep
 wav
-|February 14, 2014
+http://ubuntuone.com/7btfpUL826dKXdHmwVfZ1c
 http://soundcloud.com/avelocity
 February 14, 2014
 
