@@ -70,14 +70,6 @@ public class MusicViewer : MonoBehaviour
 
 //-------
 
-	bool streaming = false;
-	bool showStreamingWindow = false;
-	Rect streamingWindowRect = new Rect ( 0, 0, 350, 70 );
-	bool streamingConnectionError = false;
-	string streamingConnectionErrorText = "";
-	string streamingLink = "";
-	bool dispose = false;
-
 	bool hideGUI = false;
 	public GUISkin guiSkin;
 	GUIStyle centerStyle;
@@ -133,8 +125,8 @@ public class MusicViewer : MonoBehaviour
 	float tempShowTimebar = 0.0F;
 	internal bool showTimebar = false;
 	
-	float tempStreaming = 1.0F;
-	bool showStreaming = true;
+	float tempArtwork = 0.0F;
+	bool showArtwork = false;
 	
 	float tempShowQuickManage = 0.0F;
 	bool showQuickManage = false;
@@ -207,9 +199,6 @@ public class MusicViewer : MonoBehaviour
 		musicViewerPosition.width = Screen.width;
 		musicViewerPosition.height = Screen.height;
 
-		streamingWindowRect.x = musicViewerPosition.width/2 - streamingWindowRect.width/2;
-		streamingWindowRect.y = musicViewerPosition.height/2 - streamingWindowRect.height/2;
-
 		optionsWindowRect.x = musicViewerPosition.width/2 - optionsWindowRect.width/2;
 		optionsWindowRect.y = musicViewerPosition.height/2 - optionsWindowRect.height/2;
 
@@ -233,8 +222,8 @@ public class MusicViewer : MonoBehaviour
 		showTimebar = Convert.ToBoolean ( startupManager.prefs [ 8 ] );
 		tempShowTimebar = Convert.ToSingle ( showTimebar );
 		
-		showStreaming = Convert.ToBoolean ( startupManager.prefs [ 9 ] );
-		tempStreaming = Convert.ToSingle ( showStreaming );
+		showArtwork = Convert.ToBoolean ( startupManager.prefs [ 9 ] );
+		tempArtwork = Convert.ToSingle ( showArtwork );
 		
 		showQuickManage = Convert.ToBoolean ( startupManager.prefs [ 10 ] );
 		tempShowQuickManage = Convert.ToSingle ( showQuickManage );
@@ -337,7 +326,7 @@ public class MusicViewer : MonoBehaviour
 			timemark.text = "0:00][0:00";
 
 		TextWriter savePrefs = new StreamWriter ( startupManager.prefsLocation );
-		savePrefs.WriteLine ( mediaPath + "\n" + startupManager.checkForUpdate + "\n" + startupManager.ombEnabled + "\n" + startupManager.showTutorials + "\n" + loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + showTimebar + "\n" + showStreaming + "\n" + showQuickManage + "\n" + preciseTimemark + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + blur + "\n" + sunShafts + 
+		savePrefs.WriteLine ( mediaPath + "\n" + startupManager.checkForUpdate + "\n" + startupManager.ombEnabled + "\n" + startupManager.showTutorials + "\n" + loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + showTimebar + "\n" + showArtwork + "\n" + showQuickManage + "\n" + preciseTimemark + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + blur + "\n" + sunShafts + 
 		                     "\n" + blurIterations + "\n" + echoDelay + "\n" + echoDecayRate + "\n" + echoWetMix + "\n" + echoDryMix + "\n" + autoAVOff + "\n" + displayTime + "\n" + previousSongs [ 0 ] + "\n" + previousSongs [ 1 ] + "\n" + previousSongs [ 2 ] + "\n" + previousSongs [ 3 ] + "\n" + previousSongs [ 4 ] + "\n" + previousSongs [ 5 ] + "\n" + previousSongs [ 6 ] );
 		savePrefs.Close ();
 		
@@ -368,18 +357,6 @@ public class MusicViewer : MonoBehaviour
 
 		GUI.FocusWindow ( 6 );
 		GUI.BringWindowToFront ( 6 );
-
-		if ( showStreamingWindow == true )
-		{
-
-			GUI.FocusWindow ( 0 );
-			GUI.BringWindowToFront ( 0 );
-			paneManager.popupBlocking = false;
-			streamingWindowRect.height = 70;
-			streamingConnectionError = false;
-			streamingConnectionErrorText = "";
-			showStreamingWindow = false;
-		}
 
 		if ( GUI.Button ( new Rect ( 290, 20, 50, 20 ), "Close" ) || close == true)
 		{
@@ -442,7 +419,7 @@ public class MusicViewer : MonoBehaviour
 				musicManager.musicManagerTitle = "MusicManager";
 			}
 			
-			showStreaming = Convert.ToBoolean ( tempStreaming );
+			showArtwork = Convert.ToBoolean ( tempArtwork );
 
 			showQuickManage = Convert.ToBoolean ( tempShowQuickManage );
 			
@@ -506,11 +483,11 @@ public class MusicViewer : MonoBehaviour
 		tempShowTypes = GUI.HorizontalSlider ( new Rect ( 170, 22, 20, 14 ), UnityEngine.Mathf.Round ( tempShowTypes ), 0, 1 );
 		GUI.Label ( new Rect ( 179, 15, 100, 22 ), "Show Types" );
 		
-		tempShowTimebar = GUI.HorizontalSlider ( new Rect ( 170, 39, 20, 14 ), UnityEngine.Mathf.Round ( tempShowTimebar ), 0, 1 );
-		GUI.Label ( new Rect ( 186, 33, 100, 22 ), "Show Timebar" );
-		
-		tempStreaming = GUI.HorizontalSlider ( new Rect ( 170, 56, 20, 14 ), UnityEngine.Mathf.Round ( tempStreaming ), 0, 1 );
-		GUI.Label ( new Rect ( 190, 50, 100, 22 ), "Show Streaming" );
+		tempArtwork = GUI.HorizontalSlider ( new Rect ( 170, 39, 20, 14 ), UnityEngine.Mathf.Round ( tempArtwork ), 0, 1 );
+		GUI.Label ( new Rect ( 185, 33, 100, 22 ), "Show Artwork" );
+	
+		tempShowTimebar = GUI.HorizontalSlider ( new Rect ( 170, 56, 20, 14 ), UnityEngine.Mathf.Round ( tempShowTimebar ), 0, 1 );
+		GUI.Label ( new Rect ( 186, 50, 100, 22 ), "Show Timebar" );
 		
 		tempShowQuickManage = GUI.HorizontalSlider ( new Rect ( 170, 73, 20, 14 ), UnityEngine.Mathf.Round ( tempShowQuickManage ), 0, 1 );
 		GUI.Label ( new Rect ( 195, 67, 116, 22 ), "Show QuickManage" );
@@ -695,13 +672,6 @@ public class MusicViewer : MonoBehaviour
 		if ( showMusicViewer == true )
 		{
 
-			if ( showStreamingWindow == true )
-			{
-
-				paneManager.popupBlocking = true;
-				GUI.Window ( 5, streamingWindowRect, StreamingWindow, "Web and Disk Streaming" );
-			}
-
 			if ( showOptionsWindow == true )
 			{
 
@@ -711,131 +681,12 @@ public class MusicViewer : MonoBehaviour
 			
 			GUI.skin = guiSkin;
 			
-			if ( showStreamingWindow == true || showOptionsWindow == true )
+			if ( showOptionsWindow == true )
 				GUI.skin.button.hover.background = null;
 			else
 				GUI.skin.button.hover.background = guiHover;
 
 			musicViewerPosition = GUI.Window ( 0, musicViewerPosition, MusicViewerPane, musicViewerTitle );
-		}
-	}
-
-
-	void StreamingWindow ( int wid )
-	{
-		
-		GUI.FocusWindow ( 5 );
-		GUI.BringWindowToFront ( 5 );
-		
-		if ( GUI.Button ( new Rect ( 275, 20, 55, 20 ), "Close" ))
-		{
-
-			GUI.FocusWindow ( 0 );
-			GUI.BringWindowToFront ( 0 );
-			dispose = true;
-			loadingImage.showLoadingImages = false;
-			paneManager.popupBlocking = false;
-			streamingWindowRect.height = 70;
-			streamingConnectionError = false;
-			streamingConnectionErrorText = "";
-			streamingLink = "";
-			showStreamingWindow = false;
-		}
-		
-		GUI.Label ( new Rect ( -36, 17, 340, 25 ), "Input the link to an audio file in the textfield." );
-		
-		streamingLink = GUI.TextField ( new Rect ( 45, 45, 300, 20 ), streamingLink.Trim ());
-		
-		if ( GUI.Button ( new Rect ( 6, 45, 35, 20 ), "Go" ))
-		{
-
-			minutes = 0;
-			seconds = 0;
-			rtMinutes = 0;
-			rtSeconds = 0;
-			if ( !streamingLink.StartsWith ( "http://" ))
-				streamingLink = streamingLink.Insert ( 0, "file://" );
-
-			dispose = false;
-			StartCoroutine ( GetStreamingClip ( streamingLink ));
-		}
-
-		if ( streamingConnectionError == true )
-			GUI.Label ( new Rect ( 0, 65, 300, 25 ), streamingConnectionErrorText );
-	}
-
-
-	IEnumerator GetStreamingClip ( string link )
-	{
-
-		loadingImage.showLoadingImages = true;
-		loadingImage.InvokeRepeating ("LoadingImages", 0.25F, 0.25F);
-
-		WWW www = new WWW ( link );
-		AudioClip clip = www.GetAudioClip ( false, true, AudioType.WAV );
-		yield return www;
-
-		if ( dispose == false )
-		{
-
-			if ( www.error != null )
-			{
-
-				loadingImage.showLoadingImages = false;
-
-				UnityEngine.Debug.Log ( www.error );
-				streamingWindowRect.height = 90;
-
-				if ( !String.IsNullOrEmpty ( www.error ))
-				{
-
-					streamingConnectionErrorText = "Error: " + www.error;
-					UnityEngine.Debug.Log ( www.error );
-				} else
-					streamingConnectionErrorText = "Error: There was an error streaming your file.";
-
-				streamingConnectionError = true;
-			} else {
-
-				loadingImage.showLoadingImages = false;
-				showStreamingWindow = false;
-				streamingWindowRect.height = 70;
-				streamingConnectionError = false;
-				streamingConnectionErrorText = "";
-				dispose = false;
-			
-				if ( manager.audio.clip.isReadyToPlay )
-				{
-					
-					currentSong.text = "UnityMusicPlayer";
-					timemark.text = "Streaming][Streaming";
-				
-					manager.audio.clip = clip;
-
-					minutes = 0;
-					seconds = 0;
-					rtMinutes = 00;
-					rtSeconds = 00;
-
-					streaming = true;
-					manager.audio.Play ();
-					wasPlaying = true;
-					isPaused = false;
-					
-					Resources.UnloadUnusedAssets ();
-				
-					if ( startupManager.developmentMode == true )
-						UnityEngine.Debug.Log ( "Playing audio" );
-				}
-			
-			if ( www.error != null )
-				UnityEngine.Debug.Log ( www.error );
-			}
-		} else {
-
-			www.Dispose();
-			Resources.UnloadUnusedAssets ();
-			dispose = false;
 		}
 	}
 
@@ -1018,8 +869,6 @@ public class MusicViewer : MonoBehaviour
 		
 						if ( GUILayout.Button ( clipToPlay ))
 						{
-		
-							streaming = false;
 	
 							if ( isAssetBundle == true )
 							{
@@ -1065,11 +914,7 @@ public class MusicViewer : MonoBehaviour
 				if ( showQuickManage == true )
 					if ( GUILayout.Button ( "Open Media Folder" ))
 						Process.Start ( mediaPath );
-					
-				if ( showStreaming == true )
-					if ( GUILayout.Button ( "Streaming" ))
-						showStreamingWindow = true;
-		
+							
 				if ( GUILayout.Button ( "Options" ))
 					showOptionsWindow = true;
 				
@@ -1136,7 +981,7 @@ public class MusicViewer : MonoBehaviour
 			if ( halfSpeed == false && doubleSpeed == false )
 				manager.audio.pitch = 1.0F;
 	
-			if ( showOptionsWindow == true || showStreamingWindow == true || startupManager.showUnderlay == true )
+			if ( showOptionsWindow == true || startupManager.showUnderlay == true )
 				GUI.DrawTexture ( new Rect ( 0, 0, musicViewerPosition.width, musicViewerPosition.height ), startupManager.underlay );
 		}
 	}
@@ -1384,25 +1229,17 @@ public class MusicViewer : MonoBehaviour
 				if ( manager.audio.isPlaying == true )
 				{
 	
-					if ( streaming == false )
+					rtSeconds = manager.audio.time;
+					seconds = manager.audio.clip.length;
+	
+					if ( seconds >= 60 )
 					{
-	
-						rtSeconds = manager.audio.time;
-						seconds = manager.audio.clip.length;
-	
-						if ( seconds >= 60 )
-						{
-	
-							minutes = ( int ) Math.Round ( seconds )/60;
-							seconds -= minutes*60;
-						}
-	
-						timemark.text = rtMinutes + ":" + String.Format ( "{0:00.000}", rtSeconds ) + "][" + minutes + ":" + String.Format ( "{0:00.000}", seconds );
-					} else
-					{
-					
-						timemark.text = "Streaming][Streaming";
+		
+						minutes = ( int ) Math.Round ( seconds )/60;
+						seconds -= minutes*60;
 					}
+	
+					timemark.text = rtMinutes + ":" + String.Format ( "{0:00.000}", rtSeconds ) + "][" + minutes + ":" + String.Format ( "{0:00.000}", seconds );
 				} else
 				{
 	
@@ -1522,21 +1359,17 @@ public class MusicViewer : MonoBehaviour
 		if ( manager.audio.isPlaying == true )
 		{
 				
-			if ( streaming == false )
+			if ( manager.audio.time >= manager.audio.clip.length )	
 			{
-				
-				if ( manager.audio.time >= manager.audio.clip.length )
-				{
+					
+				if ( startupManager.developmentMode == true )
+					UnityEngine.Debug.Log ( manager.audio.time + "  :  " + manager.audio.clip.length );
 
-					if ( startupManager.developmentMode == true )
-						UnityEngine.Debug.Log ( manager.audio.time + "  :  " + manager.audio.clip.length );
-
-					wasPlaying = false;
-					if ( continuous == true )
-						SongEnd ();
-					else
-						Invoke ( "SongEnd", betweenSongDelay );
-				}
+				wasPlaying = false;
+				if ( continuous == true )
+					SongEnd ();
+				else
+					Invoke ( "SongEnd", betweenSongDelay );
 			}
 		} else {
 				
@@ -1565,39 +1398,35 @@ public class MusicViewer : MonoBehaviour
 			
 			if ( manager.audio.clip != null )
 			{
-				
-				if ( streaming == false )
+
+				if ( manager.audio.isPlaying == true )
 				{
-					
-					if ( manager.audio.isPlaying == true )
-					{
 						
-						if ( preciseTimemark == true )
-						{
+					if ( preciseTimemark == true )
+					{
 		
-							rtSeconds = manager.audio.time;
+						rtSeconds = manager.audio.time;
 
-							if ( rtSeconds >= 60 )
-							{
+						if ( rtSeconds >= 60 )
+						{
 					
-								rtMinutes = ( int ) Math.Round ( rtSeconds )/60;
-								rtSeconds -= rtMinutes*60;
-							}
-
-							timemark.text = rtMinutes + ":" + String.Format ( "{0:00.000}", rtSeconds ) + "][" + minutes + ":" + String.Format ( "{0:00.000}", seconds );
-						} else {
-							
-							rtSeconds = ( int ) Math.Round ( manager.audio.time );
-
-							if ( rtSeconds >= 60 )
-							{
-					
-								rtMinutes = ( int ) Math.Round ( rtSeconds )/60;
-								rtSeconds -= rtMinutes*60;
-							}
-
-							timemark.text = rtMinutes + ":" + String.Format ( "{0:00}", rtSeconds ) + "][" + minutes + ":" + String.Format ( "{0:00}", seconds);
+							rtMinutes = ( int ) Math.Round ( rtSeconds )/60;
+							rtSeconds -= rtMinutes*60;
 						}
+
+						timemark.text = rtMinutes + ":" + String.Format ( "{0:00.000}", rtSeconds ) + "][" + minutes + ":" + String.Format ( "{0:00.000}", seconds );
+					} else {
+							
+						rtSeconds = ( int ) Math.Round ( manager.audio.time );
+
+						if ( rtSeconds >= 60 )
+						{
+				
+							rtMinutes = ( int ) Math.Round ( rtSeconds )/60;
+							rtSeconds -= rtMinutes*60;
+						}
+
+						timemark.text = rtMinutes + ":" + String.Format ( "{0:00}", rtSeconds ) + "][" + minutes + ":" + String.Format ( "{0:00}", seconds);
 					}
 				}
 			} else {
@@ -1773,7 +1602,7 @@ public class MusicViewer : MonoBehaviour
 		Resources.UnloadUnusedAssets ();
 
 		TextWriter savePrefs = new StreamWriter ( startupManager.prefsLocation );
-		savePrefs.WriteLine ( mediaPath + "\n" + startupManager.checkForUpdate + "\n" + startupManager.ombEnabled + "\n" + startupManager.showTutorials + "\n" + loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + showTimebar + "\n" + showStreaming + "\n" + showQuickManage + "\n" + preciseTimemark + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + blur + "\n" + sunShafts + 
+		savePrefs.WriteLine ( mediaPath + "\n" + startupManager.checkForUpdate + "\n" + startupManager.ombEnabled + "\n" + startupManager.showTutorials + "\n" + loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + showTimebar + "\n" + showArtwork + "\n" + showQuickManage + "\n" + preciseTimemark + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + blur + "\n" + sunShafts + 
 		                     "\n" + blurIterations + "\n" + echoDelay + "\n" + echoDecayRate + "\n" + echoWetMix + "\n" + echoDryMix + "\n" + autoAVOff + "\n" + displayTime + "\n" + previousSongs [ 0 ] + "\n" + previousSongs [ 1 ] + "\n" + previousSongs [ 2 ] + "\n" + previousSongs [ 3 ] + "\n" + previousSongs [ 4 ] + "\n" + previousSongs [ 5 ] + "\n" + previousSongs [ 6 ] );
 		savePrefs.Close ();
 

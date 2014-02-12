@@ -38,7 +38,7 @@ public class PaneManager : MonoBehaviour
 	GUI.Window 2 is DownloadInfo
 	GUI.Window 3 is UpdateAvailable
 	GUI.Window 4 is MusicManager
-	GUI.Window 5 is Streaming
+	GUI.Window 5 is -NOTHING-
 	GUI.Window 6 is Settings
 	GUI.Window 7 is NewFolder
 
