@@ -396,19 +396,13 @@ public class OnlineMusicBrowser : MonoBehaviour
 				foreach ( Song song in specificSort )
 				{
 					
-					guiSkin.button.normal.background = null;
-					guiSkin.button.hover.background = guiHover;
 					if ( songInfoOwner == song )
 					{
 						
 						guiSkin.button.normal.background = guiHover;
 						guiSkin.button.hover.background = guiActiveHover;
-					}/* else {
-						
-						guiSkin.button.normal.background = null;
-						guiSkin.button.hover.background = guiHover;
 					}
-*/					
+					
 					if ( GUILayout.Button ( song.name ))
 					{
 						
@@ -524,8 +518,10 @@ public class OnlineMusicBrowser : MonoBehaviour
 					
 				default:
 				break;
-					
 			}
+			
+			guiSkin.button.normal.background = null;
+			guiSkin.button.hover.background = guiHover;
 			
 			GUILayout.EndScrollView ();
 			GUILayout.EndHorizontal ();
