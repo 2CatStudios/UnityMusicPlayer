@@ -75,22 +75,26 @@ public class MusicManager : MonoBehaviour
 	IEnumerator SetArtwork ()
 	{
 		
-		artworkImageLocations = Directory.GetFiles ( currentDirectory, "Artwork.*" ).Where ( s => s.EndsWith ( ".png" ) || s.EndsWith ( ".jpg" ) || s.EndsWith ( ".jpeg" )).ToArray ();
-		
-		if ( artworkImageLocations.Length > 0 )
+		if ( musicViewer.showArtwork == true )
 		{
-
-			WWW wWw = new WWW ( "file://" + artworkImageLocations [ 0 ] );
-			yield return wWw;
 			
-			musicViewer.currentSlideshowImage.texture = wWw.texture;
-		} else {
+			artworkImageLocations = Directory.GetFiles ( currentDirectory, "Artwork.*" ).Where ( s => s.EndsWith ( ".png" ) || s.EndsWith ( ".jpg" ) || s.EndsWith ( ".jpeg" )).ToArray ();
 			
-			if ( startup == false )
-				musicViewer.currentSlideshowImage.texture = null;
+			if ( artworkImageLocations.Length > 0 )
+			{
+	
+				WWW wWw = new WWW ( "file://" + artworkImageLocations [ 0 ] );
+				yield return wWw;
+				
+				musicViewer.currentSlideshowImage.texture = wWw.texture;
+			} else {
+				
+				if ( startup == false )
+					musicViewer.currentSlideshowImage.texture = null;
+			}
+			
+			startup = false;
 		}
-		
-		startup = false;
 	}
 	
 	

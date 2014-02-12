@@ -126,7 +126,7 @@ public class MusicViewer : MonoBehaviour
 	internal bool showTimebar = false;
 	
 	float tempArtwork = 0.0F;
-	bool showArtwork = false;
+	internal bool showArtwork = false;
 	
 	float tempShowQuickManage = 0.0F;
 	bool showQuickManage = false;
@@ -324,6 +324,8 @@ public class MusicViewer : MonoBehaviour
 			timemark.text = "0:00.000][0:00.000";
 		else
 			timemark.text = "0:00][0:00";
+			
+		musicManager.SendMessage ( "SetArtwork" );
 
 		TextWriter savePrefs = new StreamWriter ( startupManager.prefsLocation );
 		savePrefs.WriteLine ( mediaPath + "\n" + startupManager.checkForUpdate + "\n" + startupManager.ombEnabled + "\n" + startupManager.showTutorials + "\n" + loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + showTimebar + "\n" + showArtwork + "\n" + showQuickManage + "\n" + preciseTimemark + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + blur + "\n" + sunShafts + 
@@ -420,6 +422,11 @@ public class MusicViewer : MonoBehaviour
 			}
 			
 			showArtwork = Convert.ToBoolean ( tempArtwork );
+			
+			if ( showArtwork == true )
+				musicManager.SendMessage ( "SetArtwork" );
+			else
+				currentSlideshowImage.texture = null;
 
 			showQuickManage = Convert.ToBoolean ( tempShowQuickManage );
 			
