@@ -1,5 +1,5 @@
 Current Version
-1.01
-NOTE: This update is necessary!
+1.11
+NOTE: This update is suggested!
 
 http://2catstudios.wikispaces.com/UnityMusicPlayer
