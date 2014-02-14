@@ -255,7 +255,14 @@ public class StartupManager : MonoBehaviour
 				if ( updateOMB == true && onlyUpdate == false )
 				{
 					
-					allSongs = wClient.DownloadString ("http://raw.github.com/2CatStudios/UnityMusicPlayer/master/Developer/AllSongs.txt").Split ('\n');
+					try
+					{
+						
+						allSongs = wClient.DownloadString ("http://raw.github.com/2CatStudios/UnityMusicPlayer/master/Developer/AllSongs.txt").Split ('\n');
+					} catch {
+					
+						allSongs = wClient.DownloadString ("http://raw.github.com/2CatStudios/UnityMusicPlayer/master/AllSongs.txt").Split ('\n');
+					}
 				}
 				
 				if ( checkForUpdate == true )
