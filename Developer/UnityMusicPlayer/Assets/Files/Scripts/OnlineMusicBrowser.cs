@@ -57,14 +57,7 @@ public class Album
 	public List<Song> songs;
 	
 	public Album () {}
-	
-/*	public Album (String Name, List<Song> Songs)
-	{
-		
-		this.name = Name;
-		this.songs = Songs;
-	}
-*/}
+}
 
 public class Artist
 {
@@ -73,14 +66,7 @@ public class Artist
 	public List<Song> songs;
 	
 	public Artist () {}
-
-/*	public Artist (String Name, List<Song> Songs)
-	{
-
-		this.name = Name;
-		this.songs = Songs;
-	}
-*/}
+}
 
 public class Genre
 {
@@ -89,14 +75,7 @@ public class Genre
 	public List<Song> songs;
 	
 	public Genre () {}
-
-/*	public Genre (String Name, List<Song> Songs)
-	{
-		
-		this.name = Name;
-		this.songs = Songs;
-	}	
-*/}
+}
 
 public class OnlineMusicBrowser : MonoBehaviour
 {
