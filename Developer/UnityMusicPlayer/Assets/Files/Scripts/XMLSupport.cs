@@ -12,13 +12,10 @@ public static class XMLSupport
 		if( xml != null )
 		{
 			
-			UnityEngine.Debug.Log ( "xml != null" );
 	        var s = new XmlSerializer (typeof(T));
-			UnityEngine.Debug.Log ( "New Serializer" );
 	        using (var m = new MemoryStream (Encoding.UTF8.GetBytes (xml)))
 			{
 				
-				UnityEngine.Debug.Log ( "Step 1" );
 				return (T)s.Deserialize (m);
 			}
 		}
@@ -28,7 +25,7 @@ public static class XMLSupport
     }
 	
  
-	public static object DeserializeXml(this string xml, Type tp) 
+/*	public static object DeserializeXml(this string xml, Type tp) 
     {
 		
 		UnityEngine.Debug.Log ( "2" );
@@ -52,9 +49,6 @@ public static class XMLSupport
          s.Serialize (m, item);
          m.Flush ();
          return Encoding.UTF8.GetString (m.GetBuffer ());
-       }
- 
- 
+		}
     }
- 
-}
+*/}

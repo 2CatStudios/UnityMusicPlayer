@@ -18,7 +18,7 @@ public class SongCollection
 {
 	
 	[XmlElement("Song")]
-	public Song[] Songs;
+	public Song[] songs;
 }
 
 
@@ -50,65 +50,53 @@ public class Link
 }
 
 
-public class Album : IEquatable<Album>
+public class Album
 {
 	
 	public String name;
 	public List<Song> songs;
 	
-	public Album (String Name, List<Song> Songs)
+	public Album () {}
+	
+/*	public Album (String Name, List<Song> Songs)
 	{
 		
 		this.name = Name;
 		this.songs = Songs;
 	}
-	
-	public bool Equals(Album other)
-	{
-		if (other == null) return false;
-		return (this.name.Equals(other.name));
-	}
-}
+*/}
 
-public class Artist : IEquatable<Artist>
+public class Artist
 {
 	
 	public String name;
 	public List<Song> songs;
+	
+	public Artist () {}
 
-	public Artist (String Name, List<Song> Songs)
+/*	public Artist (String Name, List<Song> Songs)
 	{
 
 		this.name = Name;
 		this.songs = Songs;
 	}
+*/}
 
-	public bool Equals(Artist other)
-	{
-		if (other == null) return false;
-		return (this.name.Equals(other.name));
-	}
-}
-
-public class Genre : IEquatable<Genre>
+public class Genre
 {
 
 	public String name;
 	public List<Song> songs;
+	
+	public Genre () {}
 
-	public Genre (String Name, List<Song> Songs)
+/*	public Genre (String Name, List<Song> Songs)
 	{
 		
 		this.name = Name;
 		this.songs = Songs;
-	}
-	
-	public bool Equals(Genre other)
-	{
-		if (other == null) return false;
-		return (this.name.Equals(other.name));
 	}	
-}
+*/}
 
 public class OnlineMusicBrowser : MonoBehaviour
 {
@@ -436,22 +424,23 @@ public class OnlineMusicBrowser : MonoBehaviour
 		allGenresList.Sort (( a, b ) => a.name.CompareTo ( b.name ));
 		allRecentList.Reverse ();
 */
-		
-//		XmlReader.Create ( new StringReader( someString ))
-//		XmlReader reader = XmlReader.Create ( new StringReader ( startupManager.supportPath + Path.DirectorySeparatorChar + "Downloads.xml" ));
-		
-		UnityEngine.Debug.Log ( "Reading File" );
+
 		System.IO.StreamReader streamReader = new System.IO.StreamReader ( startupManager.supportPath + Path.DirectorySeparatorChar + "Downloads.xml" );
 		string xml = streamReader.ReadToEnd();
 		streamReader.Close();
 		
-		UnityEngine.Debug.Log ( xml );
-		
 		SongCollection songCollection = xml.DeserializeXml<SongCollection>();
 			
-		UnityEngine.Debug.Log ( "Read" );
-		UnityEngine.Debug.Log ( songCollection );
 		UnityEngine.Debug.Log ( "Done" );
+		
+		int i = 0;
+		while ( i <= songCollection.songs.Length )
+		{
+			
+			
+			UnityEngine.Debug.Log ( "Song " + i + " is " + songCollection.songs[i].name + "."  );
+			i+= 1;
+		}
 		
 		
 		
@@ -469,7 +458,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 		}
 	}
 
-	
+
 	void OnGUI ()
 	{
 
@@ -482,7 +471,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 				onlineMusicBrowserPosition = GUI.Window ( 1, onlineMusicBrowserPosition, OnlineMusicBrowserPane, onlineMusicBrowserTitle );
 		}
 	}
-	
+
 
 	void OnlineMusicBrowserPane ( int wid )
 	{
@@ -714,7 +703,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 								if ( GUILayout.Button ( "Support " + song.artist.name, buttonStyle ))
 									Process.Start ( song.supportLink );
 							}
-*/							GUILayout.Label ( "" );
+						*/	GUILayout.Label ( "" );
 						}
 					}
 				}		
