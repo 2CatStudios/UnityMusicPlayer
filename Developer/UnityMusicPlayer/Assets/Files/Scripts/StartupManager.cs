@@ -266,12 +266,14 @@ public class StartupManager : MonoBehaviour
 						if ( File.Exists ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" ))
 							File.Delete ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" );
 						
-//						Uri url = new Uri ( "http://raw2.github.com/2CatStudios/UnityMusicPlayer/master/Developer/Downloads.xml" );
-						Uri url = new Uri ( "http://raw2.github.com/2CatStudios/UnityMusicPlayer/master/Downloads.xml" );
+						Uri url = new Uri ( "http://raw2.github.com/2CatStudios/UnityMusicPlayer/master/Developer/Downloads.xml" );
+//						Uri url = new Uri ( "http://raw2.github.com/2CatStudios/UnityMusicPlayer/master/Downloads.xml" );
 						using ( client = new WebClient ())
 						{
 							
 							client.DownloadFile ( url, supportPath + Path.DirectorySeparatorChar + "Downloads.xml" );
+							url = new Uri ( "http://raw2.github.com/2CatStudios/UnityMusicPlayer/master/Downloads.xml" );
+							client.DownloadFile ( url, supportPath + Path.DirectorySeparatorChar + "Downloads2.xml" );
 							startOMB = true;
 						}
 					} catch {
