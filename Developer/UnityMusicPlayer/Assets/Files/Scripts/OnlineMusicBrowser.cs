@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Xml;
 using System.Net;
 using UnityEngine;
 using System.Linq;
@@ -22,7 +23,8 @@ public class Song
 
 	public String format;
 	public String downloadLink;
-	public String supportLink;
+	public List<String> supportLinkNames;
+	public List<String> supportLinks;
 	
 	public String releaseDate;
 }
@@ -137,7 +139,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	public WebClient client;
 	
 	Uri url;
-	Song song;
+//	Song song;
 	string downloadButtonText;
 	
 	string currentDownloadSize;
@@ -182,14 +184,14 @@ public class OnlineMusicBrowser : MonoBehaviour
 	{
 		
 		allSongs = null;
-		allRecentList = new List<Song>();
-		allSongsList = new List<Song>();
-		allAlbumsList = new List<Album>();
-		allArtistsList = new List<Artist>();
-		allGenresList = new List<Genre>();
-		specificSort = new List<Song>();
+		allRecentList = new List<Song> ();
+		allSongsList = new List<Song> ();
+		allAlbumsList = new List<Album> ();
+		allArtistsList = new List<Artist> ();
+		allGenresList = new List<Genre> ();
+		specificSort = new List<Song> ();
 		
-		Thread refreshThread = new Thread (SortAvailableDownloads);
+		Thread refreshThread = new Thread ( SortAvailableDownloads );
 		refreshThread.Start();
 	}
 	
@@ -197,9 +199,9 @@ public class OnlineMusicBrowser : MonoBehaviour
 	void SortAvailableDownloads()
 	{
 		
-		allSongs = startupManager.allSongs;
+//		allSongs = startupManager.allSongs;
 
-		int i = 0;
+/*		int i = 0;
 
 		while (i < allSongs.Length)
 		{
@@ -259,12 +261,153 @@ public class OnlineMusicBrowser : MonoBehaviour
 			allSongsList.Add ( song );
 			allRecentList.Add ( song );
 		}
+*/
+		Song tempSong = new Song ();
+		Album tempAlbum;
+		Artist tempArtist;
+		Genre tempGenre;
+		using (XmlReader reader = XmlReader.Create ( startupManager.supportPath + Path.DirectorySeparatorChar + "Downloads.xml" ))
+		{
+			
+		    while (reader.Read ())
+		    {
+				
+//				if ( reader.IsStartElement ())
+				if ( reader.IsEmptyElement == false )
+				{
+					
+					switch (reader.Name)
+					{
 
+						case "Name":
+							if (reader.Read ())
+							{
+						
+								tempSong = new Song ();
+								
+								tempSong.name = reader.Value.Trim ();
+								UnityEngine.Debug.Log ( tempSong.name );
+							}
+					    break;
+						case "Album":
+							if (reader.Read ())
+							{
+						
+								tempAlbum = new Album ( reader.Value.Trim (), new List<Song> ());
+								
+								if ( allAlbumsList.Contains ( tempAlbum ))
+								{
+									
+//									UnityEngine.Debug.Log ( "Album Exists!" );
+									Album addToAlbum = allAlbumsList.Find ( Album => Album.name == tempAlbum.name );
+									addToAlbum.songs.Add ( tempSong );
+									tempSong.album = tempAlbum;
+								} else {
+									
+//									UnityEngine.Debug.Log ( "Album Does Not Exist!" );
+									tempAlbum.songs.Add ( tempSong );
+									allAlbumsList.Add ( tempAlbum );
+									tempSong.album = tempAlbum;
+								}
+								
+								UnityEngine.Debug.Log ( tempSong.album.name );
+							}
+					    break;
+						case "Artist":
+							if (reader.Read ())
+							{
+								
+								tempArtist = new Artist ( reader.Value.Trim (), new List<Song> ());
+								
+								if ( allArtistsList.Contains ( tempArtist ))
+								{
+									
+									Artist addToArtist = allArtistsList.Find ( Artist => Artist.name == tempArtist.name );
+									addToArtist.songs.Add ( tempSong );
+									tempSong.artist = tempArtist;
+								} else {
+									
+									tempArtist.songs.Add ( tempSong );
+									allArtistsList.Add ( tempArtist );
+									tempSong.artist = tempArtist;
+								}
+								
+								UnityEngine.Debug.Log ( tempSong.artist.name );
+							}
+					    break;
+						case "Genre":
+							if (reader.Read ())
+							{
+								
+								tempGenre = new Genre ( reader.Value.Trim (), new List<Song> ());
+						
+								if ( allGenresList.Contains ( tempGenre ))
+								{
+									
+									Genre addToGenre = allGenresList.Find ( Genre => Genre.name == tempGenre.name );
+									addToGenre.songs.Add ( tempSong );
+									tempSong.genre = tempGenre;
+								} else {
+									
+									tempGenre.songs.Add ( tempSong );
+									allGenresList.Add ( tempGenre );
+									tempSong.genre = tempGenre;
+								}
+								
+								UnityEngine.Debug.Log ( tempSong.genre.name );
+							}
+					    break;
+						case "Format":
+							if (reader.Read())
+							{
+						
+								tempSong.format = reader.Value.Trim();
+								UnityEngine.Debug.Log ( tempSong.format );
+							}
+					    break;
+						case "Download":
+							if (reader.Read())
+							{
+						
+								tempSong.downloadLink = reader.Value.Trim();
+								UnityEngine.Debug.Log ( tempSong.downloadLink );
+							}
+					    break;
+						case "Link":
+							if (reader.Read())
+							{
+								
+//								if ( reader.HasAttributes )
+									UnityEngine.Debug.Log ( "Read Attribute" );
+								
+//								UnityEngine.Debug.Log ( "Attributes of <" + reader.GetAttribute ( 0 ) + ">" );
+						
+							//	tempSong.supportLinks.Add ( reader.Value.Trim ());
+							//	tempSong.supportLinkNames.Add ( reader.Name.Trim ());
+								
+							//	UnityEngine.Debug.Log ( tempSong.supportLinks.Count ());
+							}
+						break;
+						case "Release":
+							if (reader.Read())
+							{
+						
+								tempSong.releaseDate = reader.Value.Trim();
+								UnityEngine.Debug.Log ( tempSong.releaseDate );
+							}
+						break;
+				    }
+				}
+			}
+		}
+		
+		UnityEngine.Debug.Log ( "Done" );
+		
 		allSongsList.Sort (( a, b ) => a.name.CompareTo ( b.name ));
 		allAlbumsList.Sort (( a, b ) => a.name.CompareTo ( b.name ));
 		allArtistsList.Sort (( a, b ) => a.name.CompareTo ( b.name ));
 		allGenresList.Sort (( a, b ) => a.name.CompareTo ( b.name ));
-		allRecentList.Reverse ();
+//		allRecentList.Reverse ();
 
 		specificSort = allRecentList;
 		currentPlace = "Recent";
@@ -518,13 +661,13 @@ public class OnlineMusicBrowser : MonoBehaviour
 							GUILayout.Label ( "Genre: " + song.genre.name, infoLabelStyle );
 							GUILayout.Label ( "Format: " + song.format, infoLabelStyle );
 							GUILayout.Label ( "Released: " + song.releaseDate, infoLabelStyle );
-							if ( song.supportLink != "NONE" )
+/*							if ( song.supportLink != "NONE" )
 							{
 								
 								if ( GUILayout.Button ( "Support " + song.artist.name, buttonStyle ))
 									Process.Start ( song.supportLink );
 							}
-							GUILayout.Label ( "" );
+*/							GUILayout.Label ( "" );
 						}
 					}
 				}		
