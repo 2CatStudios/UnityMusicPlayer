@@ -36,8 +36,8 @@ public class StartupManager : MonoBehaviour
 	OnlineMusicBrowser onlineMusicBrowser;
 	internal string[] allSongs;
 	
-	static string mac = "/Users/" + Environment.UserName + "/Music/UnityMusicPlayer/";
-	static string windows = Environment.GetFolderPath ( Environment.SpecialFolder.ApplicationData ) + "\\2Cat Studios\\UnityMusicPlayer\\";
+	static string mac = Path.DirectorySeparatorChar + "Users" + Path.DirectorySeparatorChar  + Environment.UserName + Path.DirectorySeparatorChar + "Music" + Path.DirectorySeparatorChar  + "UnityMusicPlayer" + Path.DirectorySeparatorChar;
+	static string windows = Environment.GetFolderPath ( Environment.SpecialFolder.MyMusic ) + Path.DirectorySeparatorChar  + "UnityMusicPlayer" + Path.DirectorySeparatorChar;
 	
 	internal bool showTutorials = true;
 
@@ -68,7 +68,9 @@ public class StartupManager : MonoBehaviour
 	
 	
 	void Start ()
-	{    
+	{
+		
+		ServicePointManager.ServerCertificateValidationCallback += delegate ( object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors ) { return true; };
 		
 		if ( developmentMode == true )
 			UnityEngine.Debug.Log("Development Mode is ON");
@@ -234,8 +236,6 @@ public class StartupManager : MonoBehaviour
 	
 	void InternetConnections ( bool onlyUpdate )
 	{
-
-		ServicePointManager.ServerCertificateValidationCallback += delegate ( object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors ) { return true; };
 		
 		using ( WebClient wClient = new WebClient ())
 		try
@@ -432,11 +432,13 @@ public class StartupManager : MonoBehaviour
 	void RefreshOMB ()
 	{
 		
+		allSongs = null;
+		
 		connectingToInternet = true;
 		u1 = true;
 		checkForUpdate = false;
 		updateOMB = true;
-		startOMB = true;
+		startOMB = false;
 		
 		connectionInformation.text = "Connecting to the OnlineMusicDatabase...";
 		InvokeRepeating ( "CheckStartOnlineMusicBrowser", 0, 0.2F );

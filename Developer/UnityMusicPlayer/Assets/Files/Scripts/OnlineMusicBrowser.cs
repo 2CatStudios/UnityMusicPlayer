@@ -116,12 +116,12 @@ public class OnlineMusicBrowser : MonoBehaviour
 	#region Lists
 	
 	string[] allSongs;
-	List<Song> allRecentList = new List<Song>();
-	List<Song> allSongsList = new List<Song>();
-	List<Album> allAlbumsList = new List<Album>();
-	List<Artist> allArtistsList = new List<Artist>();
-	List<Genre> allGenresList = new List<Genre>();
-	List<Song> specificSort = new List<Song>();
+	List<Song> allRecentList;
+	List<Song> allSongsList;
+	List<Album> allAlbumsList;
+	List<Artist> allArtistsList;
+	List<Genre> allGenresList;
+	List<Song> specificSort;
 	
 	#endregion
 	
@@ -181,7 +181,14 @@ public class OnlineMusicBrowser : MonoBehaviour
 	void StartOMB ()
 	{
 		
-		allSongs = startupManager.allSongs;
+		allSongs = null;
+		allRecentList = new List<Song>();
+		allSongsList = new List<Song>();
+		allAlbumsList = new List<Album>();
+		allArtistsList = new List<Artist>();
+		allGenresList = new List<Genre>();
+		specificSort = new List<Song>();
+		
 		Thread refreshThread = new Thread (SortAvailableDownloads);
 		refreshThread.Start();
 	}
@@ -189,6 +196,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 	
 	void SortAvailableDownloads()
 	{
+		
+		allSongs = startupManager.allSongs;
 
 		int i = 0;
 
