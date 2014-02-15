@@ -8,6 +8,7 @@ using System.Collections;
 using System.Diagnostics;
 using System.Net.Security;
 using System.Globalization;
+using System.ComponentModel;
 using System.Security.Cryptography.X509Certificates;
 //Written by GibsonBethke
 //Thank you for your ∞ mercy, Jesus!
@@ -57,6 +58,7 @@ public class StartupManager : MonoBehaviour
 
 	string[] applicationDownloads;
 	string[] devApplicationDownloads;
+	public WebClient client;
 
 	bool updateAvailable = false;
 	internal bool checkForUpdate = true;
@@ -227,14 +229,14 @@ public class StartupManager : MonoBehaviour
 			{
 				
 				paneManager.loading = true;
-				connectionInformation.text = "Connecting to the OnlineMusicDatabase...";
+				connectionInformation.text = "Connecting to the OnlineMusicDatabase[0]";
 				InvokeRepeating ( "CheckStartOnlineMusicBrowser", 0, 0.2F );
 			}
 		}
 	}
 
 	
-	void InternetConnections ( bool onlyUpdate )
+/*	void InternetConnections ( bool onlyUpdate )
 	{
 		
 		using ( WebClient wClient = new WebClient ())
@@ -258,9 +260,24 @@ public class StartupManager : MonoBehaviour
 					try
 					{
 						
-						allSongs = wClient.DownloadString ("http://raw.github.com/2CatStudios/UnityMusicPlayer/master/Developer/AllSongs.txt").Split ('\n');
+//						allSongs = wClient.DownloadString ("http://raw.github.com/2CatStudios/UnityMusicPlayer/master/Developer/AllSongs.txt").Split ('\n');
+						
+						if ( File.Exists ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" ))
+							File.Delete ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" );
+						
+						Uri url = new Uri ( "http://raw.github.com/2CatStudios/UnityMusicPlayer/master/Developer/Downloads.xml" );
+						using ( client = new WebClient ())
+						{
+						 
+							client.DownloadFileCompleted += new AsyncCompletedEventHandler ( DownloadFileCompleted );
+
+							client.DownloadProgressChanged += new DownloadProgressChangedEventHandler( DownloadProgressCallback );
+							
+							client.DownloadFileAsync ( url, supportPath + Path.DirectorySeparatorChar + "Downloads.xml" );
+						}
 					} catch {
 					
+						UnityEngine.Debug.Log ( "Unable to download XML file!" );
 						allSongs = wClient.DownloadString ("http://raw.github.com/2CatStudios/UnityMusicPlayer/master/AllSongs.txt").Split ('\n');
 					}
 				}
@@ -308,6 +325,103 @@ public class StartupManager : MonoBehaviour
 		if ( updateOMB == true && onlyUpdate == false )
 			if ( errorInConnectionToInternet == false )
 				startOMB = true;
+		
+		if ( onlyUpdate == true )
+			loadingImage.showLoadingImages = false;
+		else
+			connectingToInternet = false;
+			
+		updateOMB = false;
+	}
+*/	
+	
+	void InternetConnections ( bool onlyUpdate )
+	{
+		
+		using ( WebClient wClient = new WebClient ())
+		try
+		{
+			
+			if ( developmentMode == false )
+			{
+				
+				if ( updateOMB == true && onlyUpdate == false )
+					allSongs = wClient.DownloadString ("http://raw.github.com/2CatStudios/UnityMusicPlayer/master/AllSongs.txt").Split ('\n');
+					
+				if ( checkForUpdate == true )
+					applicationDownloads = wClient.DownloadString ("https://raw.github.com/2CatStudios/UnityMusicPlayer/master/VersionInfo.txt").Split ('\n');
+
+			} else {
+				
+				if ( updateOMB == true && onlyUpdate == false )
+				{
+					
+					try
+					{
+						
+//						allSongs = wClient.DownloadString ("http://raw.github.com/2CatStudios/UnityMusicPlayer/master/Developer/AllSongs.txt").Split ('\n');
+						
+						UnityEngine.Debug.Log ( "Deleting Old File" );
+						if ( File.Exists ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" ))
+							File.Delete ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" );
+						
+						Uri url = new Uri ( "http://raw2.github.com/2CatStudios/UnityMusicPlayer/master/Developer/Downloads.xml" );
+						using ( client = new WebClient ())
+						{
+							
+							UnityEngine.Debug.Log ( "Starting Download" );
+							client.DownloadFile ( url, supportPath + Path.DirectorySeparatorChar + "Downloads.xml" );
+							
+							UnityEngine.Debug.Log ( "Download Completed" );
+							startOMB = true;
+						}
+					} catch {
+					
+						UnityEngine.Debug.Log ( "Unable to download XML file!" );
+						allSongs = wClient.DownloadString ("http://raw.github.com/2CatStudios/UnityMusicPlayer/master/AllSongs.txt").Split ('\n');
+					}
+				}
+				
+				if ( checkForUpdate == true )
+				{
+					
+					devApplicationDownloads = wClient.DownloadString ("https://raw.github.com/2CatStudios/UnityMusicPlayer/master/Developer/VersionInfo.txt").Split ('\n');
+					applicationDownloads = wClient.DownloadString ("https://raw.github.com/2CatStudios/UnityMusicPlayer/master/VersionInfo.txt").Split ('\n');
+				}
+			}
+
+			if ( checkForUpdate == true )
+			{
+					
+				websiteLink = applicationDownloads [4];
+				
+				if ( developmentMode == false )
+				{
+					
+					newestVersion = Convert.ToSingle(applicationDownloads [1]);
+					if( Single.Parse ( runningVersion ) < newestVersion)
+					{
+					
+						updateAvailable = true;
+					}
+				} else {
+					
+					newestVersion = Convert.ToSingle ( applicationDownloads [1]);
+					devVersion = Convert.ToSingle ( devApplicationDownloads [1]);
+					UnityEngine.Debug.Log ( "Running version is: " + runningVersion + ". Dev-release release is: " + devVersion + ". Stable release is: " + newestVersion + "." );
+				}
+				
+				checkForUpdate = false;
+			}
+		} catch ( Exception errorText )
+		{
+			
+			if ( developmentMode == true )
+				UnityEngine.Debug.Log (errorText);
+				
+			errorInConnectionToInternet = true;
+		}
+		
 		
 		if ( onlyUpdate == true )
 			loadingImage.showLoadingImages = false;

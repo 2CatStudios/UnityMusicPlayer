@@ -507,13 +507,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 								}
 							}
 							
-							if ( song.supportLink != "NONE" )
-							{
-								
-								if ( GUILayout.Button ( "Support " + song.artist.name, buttonStyle ))
-									Process.Start ( song.supportLink );
-							}
-							
 							if ( downloadingSong == songInfoOwner )
 								GUILayout.Label ( "Download size: ~" + currentDownloadSize + currentDownloadPercentage );
 							else
@@ -525,6 +518,12 @@ public class OnlineMusicBrowser : MonoBehaviour
 							GUILayout.Label ( "Genre: " + song.genre.name, infoLabelStyle );
 							GUILayout.Label ( "Format: " + song.format, infoLabelStyle );
 							GUILayout.Label ( "Released: " + song.releaseDate, infoLabelStyle );
+							if ( song.supportLink != "NONE" )
+							{
+								
+								if ( GUILayout.Button ( "Support " + song.artist.name, buttonStyle ))
+									Process.Start ( song.supportLink );
+							}
 							GUILayout.Label ( "" );
 						}
 					}
