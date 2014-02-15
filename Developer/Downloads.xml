@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?> 
-
 <Songs>
 	<Song>
 		<Name>Liberty</Name>
@@ -9,7 +8,7 @@
 		<Format>ogg</Format>
 		<Download>http://ubuntuone.com/1j3FCp94e1bGjYA2ENE7XL</Download>
 		<Link new='iTunes'>iTunesLinkHere</Link>
-		<Link new='GooglePlay'>GoogleLinkzah</Link>
+		<Link new='GooglePlay'>GoogleLinkHere</Link>
 		<Link new='Bandcamp'>http://purify1.bandcamp.com/track/purify-liberty</Link>
 		<Release>January 2, 2013</Release>
 	</Song>

@@ -4,13 +4,23 @@ using System.Xml;
 using System.Net;
 using UnityEngine;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Diagnostics;
 using System.Collections;
 using System.ComponentModel;
+using System.Xml.Serialization;
 using System.Collections.Generic;
 //Written by GibsonBethke
-//Thank you for everything, Jesus, you are so awesome!
+//THanks to Mike Talbot
+[XmlRoot("Songs")]
+public class SongCollection
+{
+	
+	[XmlElement("Song")]
+	public Song[] Songs;
+}
+
 
 public class Song
 {
@@ -23,11 +33,22 @@ public class Song
 
 	public String format;
 	public String downloadLink;
-	public List<String> supportLinkNames;
-	public List<String> supportLinks;
+	[XmlElement("Link")]
+         public Link[] Links;
 	
 	public String releaseDate;
 }
+
+
+public class Link
+{
+	
+	[XmlAttribute]
+	public string name;
+	[XmlText]
+	public string link;
+}
+
 
 public class Album : IEquatable<Album>
 {
@@ -117,7 +138,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 
 	#region Lists
 	
-	string[] allSongs;
 	List<Song> allRecentList;
 	List<Song> allSongsList;
 	List<Album> allAlbumsList;
@@ -183,7 +203,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	void StartOMB ()
 	{
 		
-		allSongs = null;
+//		allSongs = null;
 		allRecentList = new List<Song> ();
 		allSongsList = new List<Song> ();
 		allAlbumsList = new List<Album> ();
@@ -199,9 +219,9 @@ public class OnlineMusicBrowser : MonoBehaviour
 	void SortAvailableDownloads()
 	{
 		
-//		allSongs = startupManager.allSongs;
+/*		allSongs = startupManager.allSongs;
 
-/*		int i = 0;
+		int i = 0;
 
 		while (i < allSongs.Length)
 		{
@@ -262,7 +282,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 			allRecentList.Add ( song );
 		}
 */
-		Song tempSong = new Song ();
+		
+/*		Song tempSong = new Song ();
 		Album tempAlbum;
 		Artist tempArtist;
 		Genre tempGenre;
@@ -272,8 +293,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 		    while (reader.Read ())
 		    {
 				
-//				if ( reader.IsStartElement ())
-				if ( reader.IsEmptyElement == false )
+				if ( reader.IsStartElement ())
 				{
 					
 					switch (reader.Name)
@@ -298,13 +318,11 @@ public class OnlineMusicBrowser : MonoBehaviour
 								if ( allAlbumsList.Contains ( tempAlbum ))
 								{
 									
-//									UnityEngine.Debug.Log ( "Album Exists!" );
 									Album addToAlbum = allAlbumsList.Find ( Album => Album.name == tempAlbum.name );
 									addToAlbum.songs.Add ( tempSong );
 									tempSong.album = tempAlbum;
 								} else {
 									
-//									UnityEngine.Debug.Log ( "Album Does Not Exist!" );
 									tempAlbum.songs.Add ( tempSong );
 									allAlbumsList.Add ( tempAlbum );
 									tempSong.album = tempAlbum;
@@ -377,15 +395,26 @@ public class OnlineMusicBrowser : MonoBehaviour
 							if (reader.Read())
 							{
 								
-//								if ( reader.HasAttributes )
-									UnityEngine.Debug.Log ( "Read Attribute" );
+//								reader.MoveToAttribute ( 0 );
+								UnityEngine.Debug.Log ( "1 " + reader.ReadAttributeValue ());
+//								reader.MoveToElement(); 
+								UnityEngine.Debug.Log ( "2 " + reader.Value );
+
+								reader.MoveToAttribute( 0 );
+								UnityEngine.Debug.Log ( "3 " + reader.Name);
+								UnityEngine.Debug.Log ( "4 " + reader.Value);
+								reader.MoveToElement(); 
+							
+								UnityEngine.Debug.Log ( "Read Attribute" );
+								reader.MoveToAttribute ( 0 );
+								UnityEngine.Debug.Log ( "Moved to attribute" );
 								
-//								UnityEngine.Debug.Log ( "Attributes of <" + reader.GetAttribute ( 0 ) + ">" );
+								UnityEngine.Debug.Log ( "Attributes of <" + reader.GetAttribute ( 0 ) + ">" );
 						
-							//	tempSong.supportLinks.Add ( reader.Value.Trim ());
-							//	tempSong.supportLinkNames.Add ( reader.Name.Trim ());
+								tempSong.supportLinks.Add ( reader.Value.Trim ());
+								tempSong.supportLinkNames.Add ( reader.Name.Trim ());
 								
-							//	UnityEngine.Debug.Log ( tempSong.supportLinks.Count ());
+								UnityEngine.Debug.Log ( tempSong.supportLinks.Count ());
 							}
 						break;
 						case "Release":
@@ -401,14 +430,32 @@ public class OnlineMusicBrowser : MonoBehaviour
 			}
 		}
 		
-		UnityEngine.Debug.Log ( "Done" );
-		
 		allSongsList.Sort (( a, b ) => a.name.CompareTo ( b.name ));
 		allAlbumsList.Sort (( a, b ) => a.name.CompareTo ( b.name ));
 		allArtistsList.Sort (( a, b ) => a.name.CompareTo ( b.name ));
 		allGenresList.Sort (( a, b ) => a.name.CompareTo ( b.name ));
-//		allRecentList.Reverse ();
-
+		allRecentList.Reverse ();
+*/
+		
+//		XmlReader.Create ( new StringReader( someString ))
+//		XmlReader reader = XmlReader.Create ( new StringReader ( startupManager.supportPath + Path.DirectorySeparatorChar + "Downloads.xml" ));
+		
+		UnityEngine.Debug.Log ( "Reading File" );
+		System.IO.StreamReader streamReader = new System.IO.StreamReader ( startupManager.supportPath + Path.DirectorySeparatorChar + "Downloads.xml" );
+		string xml = streamReader.ReadToEnd();
+		streamReader.Close();
+		
+		UnityEngine.Debug.Log ( xml );
+		
+		SongCollection songCollection = xml.DeserializeXml<SongCollection>();
+			
+		UnityEngine.Debug.Log ( "Read" );
+		UnityEngine.Debug.Log ( songCollection );
+		UnityEngine.Debug.Log ( "Done" );
+		
+		
+		
+		
 		specificSort = allRecentList;
 		currentPlace = "Recent";
 		
@@ -421,7 +468,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 			startupManager.ombEnabled = true;
 		}
 	}
-	
+
 	
 	void OnGUI ()
 	{

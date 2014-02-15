@@ -263,7 +263,6 @@ public class StartupManager : MonoBehaviour
 					try
 					{
 						
-						UnityEngine.Debug.Log ( "Deleting Old File" );
 						if ( File.Exists ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" ))
 							File.Delete ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" );
 						
@@ -271,10 +270,7 @@ public class StartupManager : MonoBehaviour
 						using ( client = new WebClient ())
 						{
 							
-							UnityEngine.Debug.Log ( "Starting Download" );
 							client.DownloadFile ( url, supportPath + Path.DirectorySeparatorChar + "Downloads.xml" );
-							
-							UnityEngine.Debug.Log ( "Download Completed" );
 							startOMB = true;
 						}
 					} catch {
