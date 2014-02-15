@@ -183,7 +183,7 @@ public class MusicManager : MonoBehaviour
 		GUILayout.Space ( musicManagerPosition.width / 2 - 300 );
 		GUILayout.BeginVertical ();
 		
-		scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  musicManagerPosition.height - ( musicManagerPosition.height / 6 + 78 )));
+		scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  musicManagerPosition.height - ( musicManagerPosition.height / 6 + 96 )));
 		
 		for ( int i = 0; i < currentDirectoryDirectories.Length; i += 1 )
 		{
