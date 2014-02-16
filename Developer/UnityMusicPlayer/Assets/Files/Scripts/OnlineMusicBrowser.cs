@@ -26,15 +26,19 @@ public class Song
 {
 	
 	public String name;
+	
+	public String album;
+	public String artist;
+	public String genre;
 
-	public Album album;
+/*	public Album album;
 	public Artist artist;
 	public Genre genre;
-
+*/
 	public String format;
 	public String downloadLink;
-	[XmlElement("Link")]
-         public Link[] Links;
+	[XmlElement("link")]
+         public Link[] links;
 	
 	public String releaseDate;
 }
@@ -170,7 +174,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 	void StartOMB ()
 	{
 		
-//		allSongs = null;
 		allRecentList = new List<Song> ();
 		allSongsList = new List<Song> ();
 		allAlbumsList = new List<Album> ();
@@ -191,8 +194,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 		streamReader.Close();
 		
 		SongCollection songCollection = xml.DeserializeXml<SongCollection>();
-			
-		UnityEngine.Debug.Log ( "XML Deserialized" );
 		
 		int i = 0;
 		while ( i <= songCollection.songs.Length )
@@ -205,6 +206,12 @@ public class OnlineMusicBrowser : MonoBehaviour
 			UnityEngine.Debug.Log ( "Song Genre " + i + " is " + songCollection.songs[i].genre + "."  );
 			UnityEngine.Debug.Log ( "Song Format " + i + " is " + songCollection.songs[i].format + "."  );
 			UnityEngine.Debug.Log ( "Song Download " + i + " is " + songCollection.songs[i].downloadLink + "."  );
+			foreach ( Link currentLink in songCollection.songs[i].links )
+			{
+				
+				
+				UnityEngine.Debug.Log ( currentLink );
+			}
 			UnityEngine.Debug.Log ( "Song Release " + i + " is " + songCollection.songs[i].releaseDate + "."  );
 			i+= 1;
 		}
@@ -459,10 +466,13 @@ public class OnlineMusicBrowser : MonoBehaviour
 								GUILayout.Label ( "Download size: ~" + currentDownloadSize );
 					
 							GUILayout.Label ( "Name: " + song.name, infoLabelStyle );
-							GUILayout.Label ( "Artist: " + song.artist.name, infoLabelStyle );
+							GUILayout.Label ( "Album: " + song.album, infoLabelStyle );
+							GUILayout.Label ( "Artist: " + song.artist, infoLabelStyle );
+							GUILayout.Label ( "Genre: " + song.genre, infoLabelStyle );
+/*							GUILayout.Label ( "Artist: " + song.artist.name, infoLabelStyle );
 							GUILayout.Label ( "Album: " + song.album.name, infoLabelStyle );
 							GUILayout.Label ( "Genre: " + song.genre.name, infoLabelStyle );
-							GUILayout.Label ( "Format: " + song.format, infoLabelStyle );
+*/							GUILayout.Label ( "Format: " + song.format, infoLabelStyle );
 							GUILayout.Label ( "Released: " + song.releaseDate, infoLabelStyle );
 /*							if ( song.supportLink != "NONE" )
 							{

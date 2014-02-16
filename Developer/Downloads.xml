@@ -8,9 +8,9 @@
 		<genre>Trance</genre>
 		<format>ogg</format>
 		<downloadLink>http://ubuntuone.com/1j3FCp94e1bGjYA2ENE7XL</downloadLink>
-		<link new='iTunes'>iTuneslinkHere</link>
-		<link new='GooglePlay'>GooglelinkHere</link>
-		<link new='Bandcamp'>http://purify1.bandcamp.com/track/purify-liberty</link>
+		<link name='iTunes'>iTuneslinkHere</link>
+		<link name='GooglePlay'>GooglelinkHere</link>
+		<link name='Bandcamp'>http://purify1.bandcamp.com/track/purify-liberty</link>
 		<releaseDate>January 2, 2013</releaseDate>
 	</Song>
 	<Song>
