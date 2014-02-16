@@ -50,7 +50,7 @@ public class Link
 	[XmlAttribute]
 	public string name;
 	[XmlText]
-	public string link;
+	public string address;
 }
 
 
@@ -109,8 +109,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 
 	#region Lists
 	
-	List<Song> allRecentList;
 	List<Song> allSongsList;
+	List<Song> allRecentList;
 	List<Album> allAlbumsList;
 	List<Artist> allArtistsList;
 	List<Genre> allGenresList;
@@ -175,7 +175,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 	{
 		
 		allRecentList = new List<Song> ();
-		allSongsList = new List<Song> ();
 		allAlbumsList = new List<Album> ();
 		allArtistsList = new List<Artist> ();
 		allGenresList = new List<Genre> ();
@@ -194,9 +193,10 @@ public class OnlineMusicBrowser : MonoBehaviour
 		streamReader.Close();
 		
 		SongCollection songCollection = xml.DeserializeXml<SongCollection>();
+		allSongsList = songCollection.songs.ToList ();
 		
-		int i = 0;
-		while ( i <= songCollection.songs.Length )
+/*		int i = 0;
+		while ( i < songCollection.songs.Length )
 		{
 			
 			
@@ -206,24 +206,25 @@ public class OnlineMusicBrowser : MonoBehaviour
 			UnityEngine.Debug.Log ( "Song Genre " + i + " is " + songCollection.songs[i].genre + "."  );
 			UnityEngine.Debug.Log ( "Song Format " + i + " is " + songCollection.songs[i].format + "."  );
 			UnityEngine.Debug.Log ( "Song Download " + i + " is " + songCollection.songs[i].downloadLink + "."  );
-			foreach ( Link currentLink in songCollection.songs[i].links )
+			if ( songCollection.songs[i].links != null )
 			{
 				
-				
-				UnityEngine.Debug.Log ( currentLink );
+				foreach ( Link currentLink in songCollection.songs[i].links )
+				{
+					
+					
+					UnityEngine.Debug.Log ( currentLink.name + " " + currentLink.address );
+				}
 			}
 			UnityEngine.Debug.Log ( "Song Release " + i + " is " + songCollection.songs[i].releaseDate + "."  );
 			i+= 1;
 		}
-		
-		
-		
+*/				
 		
 		specificSort = allRecentList;
 		currentPlace = "Recent";
 		
-		paneManager.loading = false;
-		
+		paneManager.loading = false;	
 		if ( paneManager.currentPane == PaneManager.pane.onlineMusicBrowser )
 		{
 			
@@ -469,18 +470,19 @@ public class OnlineMusicBrowser : MonoBehaviour
 							GUILayout.Label ( "Album: " + song.album, infoLabelStyle );
 							GUILayout.Label ( "Artist: " + song.artist, infoLabelStyle );
 							GUILayout.Label ( "Genre: " + song.genre, infoLabelStyle );
-/*							GUILayout.Label ( "Artist: " + song.artist.name, infoLabelStyle );
-							GUILayout.Label ( "Album: " + song.album.name, infoLabelStyle );
-							GUILayout.Label ( "Genre: " + song.genre.name, infoLabelStyle );
-*/							GUILayout.Label ( "Format: " + song.format, infoLabelStyle );
+							GUILayout.Label ( "Format: " + song.format, infoLabelStyle );
 							GUILayout.Label ( "Released: " + song.releaseDate, infoLabelStyle );
-/*							if ( song.supportLink != "NONE" )
+							if ( song.links != null )
 							{
 								
-								if ( GUILayout.Button ( "Support " + song.artist.name, buttonStyle ))
-									Process.Start ( song.supportLink );
+								foreach ( Link currentLink in song.links )
+								{
+									
+									if ( GUILayout.Button ( currentLink.name, buttonStyle ))
+										Process.Start ( currentLink.address );
+								}
 							}
-						*/	GUILayout.Label ( "" );
+							GUILayout.Label ( "" );
 						}
 					}
 				}		
@@ -507,7 +509,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 			}
 		}
 	}
-	
+
+							
 	void GetInfoThread ()
 	{
 	

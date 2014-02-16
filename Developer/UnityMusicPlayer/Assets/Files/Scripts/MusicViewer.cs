@@ -357,8 +357,8 @@ public class MusicViewer : MonoBehaviour
 	void OptionsWindow ( int wid )
 	{
 
-		GUI.FocusWindow ( 6 );
-		GUI.BringWindowToFront ( 6 );
+		GUI.FocusWindow ( 5 );
+		GUI.BringWindowToFront ( 5 );
 
 		if ( GUI.Button ( new Rect ( 290, 20, 50, 20 ), "Close" ) || close == true)
 		{
@@ -683,7 +683,7 @@ public class MusicViewer : MonoBehaviour
 			{
 
 				paneManager.popupBlocking = true;
-				GUI.Window ( 6, optionsWindowRect, OptionsWindow, "Options and Settings" );
+				GUI.Window ( 5, optionsWindowRect, OptionsWindow, "Options and Settings" );
 			}
 			
 			GUI.skin = guiSkin;

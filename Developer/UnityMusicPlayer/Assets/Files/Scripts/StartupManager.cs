@@ -260,7 +260,7 @@ public class StartupManager : MonoBehaviour
 				if ( updateOMB == true && onlyUpdate == false )
 				{
 					
-					try
+/*					try
 					{
 						
 						if ( File.Exists ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" ))
@@ -277,7 +277,8 @@ public class StartupManager : MonoBehaviour
 					
 						UnityEngine.Debug.Log ( "Unable to download XML file!" );
 					}
-				}
+*/				}
+				startOMB = true;
 				
 				if ( checkForUpdate == true )
 				{

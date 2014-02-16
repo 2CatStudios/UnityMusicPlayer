@@ -138,7 +138,7 @@ public class MusicManager : MonoBehaviour
 		if ( showNewFolderWindow == true )
 		{
 		
-			GUI.Window ( 7, newFolderWindowRect, NewFolderWindow, "New Folder" );
+			GUI.Window ( 6, newFolderWindowRect, NewFolderWindow, "New Folder" );
 		}
 		
 		if ( showMusicManager == true )
@@ -255,8 +255,8 @@ public class MusicManager : MonoBehaviour
 	void NewFolderWindow ( int wid )
 	{
 		
-		GUI.FocusWindow ( 7 );
-		GUI.BringWindowToFront ( 7 );
+		GUI.FocusWindow ( 6 );
+		GUI.BringWindowToFront ( 6 );
 		
 		if ( GUI.Button ( new Rect ( 288, 20, 55, 20 ), "Cancel" ))
 		{
