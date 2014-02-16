@@ -23,32 +23,4 @@ public static class XMLSupport
 		UnityEngine.Debug.LogError ( "A wild error has apperaed!" );
 		return null;
     }
-	
- 
-/*	public static object DeserializeXml(this string xml, Type tp) 
-    {
-		
-		UnityEngine.Debug.Log ( "2" );
-		
-       var s = new XmlSerializer (tp);
-       using (var m = new MemoryStream (Encoding.UTF8.GetBytes (xml)))
-       {
-		
-         return s.Deserialize (m);
-       }
-    }
- 
- 
-    public static string SerializeXml (this object item)
-    {
-		
-       var s = new XmlSerializer (item.GetType ());
-       using (var m = new MemoryStream())
-       {
-		
-         s.Serialize (m, item);
-         m.Flush ();
-         return Encoding.UTF8.GetString (m.GetBuffer ());
-		}
-    }
-*/}
+}

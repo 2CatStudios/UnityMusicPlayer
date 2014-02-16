@@ -185,224 +185,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 	
 	void SortAvailableDownloads()
 	{
-		
-/*		allSongs = startupManager.allSongs;
-
-		int i = 0;
-
-		while (i < allSongs.Length)
-		{
-			
-			i += 9;
-			Song song = new Song();
-			song.name = allSongs [i - 8];
-			
-			Album tempAlbum = new Album(allSongs [i - 7], new List<Song>());
-			if(allAlbumsList.Contains (tempAlbum))
-			{
-				
-				Album addToAlbum = allAlbumsList.Find(Album => Album.name == tempAlbum.name);
-				addToAlbum.songs.Add (song);
-				song.album = tempAlbum;
-			} else {
-				
-				tempAlbum.songs.Add (song);
-				allAlbumsList.Add (tempAlbum);
-				song.album = tempAlbum;
-			}
-			
-			Artist tempArtist = new Artist(allSongs [i - 6], new List<Song>());
-			if(allArtistsList.Contains (tempArtist))
-			{
-				
-				Artist addToArtist = allArtistsList.Find(Artist => Artist.name == tempArtist.name);
-				addToArtist.songs.Add (song);
-				song.artist = tempArtist;
-			} else {
-				
-				tempArtist.songs.Add (song);
-				allArtistsList.Add (tempArtist);
-				song.artist = tempArtist;
-			}
-			
-			Genre tempGenre = new Genre(allSongs [i - 5], new List<Song>());
-			if(allGenresList.Contains (tempGenre))
-			{
-				
-				Genre addToGenre = allGenresList.Find(Genre => Genre.name == tempGenre.name);
-				addToGenre.songs.Add (song);
-				song.genre = tempGenre;
-			} else {
-				
-				tempGenre.songs.Add (song);
-				allGenresList.Add (tempGenre);
-				song.genre = tempGenre;
-			}
-			
-			
-			song.format = allSongs [i - 4];
-			song.downloadLink = allSongs [i - 3];
-			song.supportLink = allSongs [i - 2];
-			song.releaseDate = allSongs [i - 1];
-			
-			allSongsList.Add ( song );
-			allRecentList.Add ( song );
-		}
-*/
-		
-/*		Song tempSong = new Song ();
-		Album tempAlbum;
-		Artist tempArtist;
-		Genre tempGenre;
-		using (XmlReader reader = XmlReader.Create ( startupManager.supportPath + Path.DirectorySeparatorChar + "Downloads.xml" ))
-		{
-			
-		    while (reader.Read ())
-		    {
-				
-				if ( reader.IsStartElement ())
-				{
-					
-					switch (reader.Name)
-					{
-
-						case "Name":
-							if (reader.Read ())
-							{
-						
-								tempSong = new Song ();
-								
-								tempSong.name = reader.Value.Trim ();
-								UnityEngine.Debug.Log ( tempSong.name );
-							}
-					    break;
-						case "Album":
-							if (reader.Read ())
-							{
-						
-								tempAlbum = new Album ( reader.Value.Trim (), new List<Song> ());
-								
-								if ( allAlbumsList.Contains ( tempAlbum ))
-								{
-									
-									Album addToAlbum = allAlbumsList.Find ( Album => Album.name == tempAlbum.name );
-									addToAlbum.songs.Add ( tempSong );
-									tempSong.album = tempAlbum;
-								} else {
-									
-									tempAlbum.songs.Add ( tempSong );
-									allAlbumsList.Add ( tempAlbum );
-									tempSong.album = tempAlbum;
-								}
-								
-								UnityEngine.Debug.Log ( tempSong.album.name );
-							}
-					    break;
-						case "Artist":
-							if (reader.Read ())
-							{
-								
-								tempArtist = new Artist ( reader.Value.Trim (), new List<Song> ());
-								
-								if ( allArtistsList.Contains ( tempArtist ))
-								{
-									
-									Artist addToArtist = allArtistsList.Find ( Artist => Artist.name == tempArtist.name );
-									addToArtist.songs.Add ( tempSong );
-									tempSong.artist = tempArtist;
-								} else {
-									
-									tempArtist.songs.Add ( tempSong );
-									allArtistsList.Add ( tempArtist );
-									tempSong.artist = tempArtist;
-								}
-								
-								UnityEngine.Debug.Log ( tempSong.artist.name );
-							}
-					    break;
-						case "Genre":
-							if (reader.Read ())
-							{
-								
-								tempGenre = new Genre ( reader.Value.Trim (), new List<Song> ());
-						
-								if ( allGenresList.Contains ( tempGenre ))
-								{
-									
-									Genre addToGenre = allGenresList.Find ( Genre => Genre.name == tempGenre.name );
-									addToGenre.songs.Add ( tempSong );
-									tempSong.genre = tempGenre;
-								} else {
-									
-									tempGenre.songs.Add ( tempSong );
-									allGenresList.Add ( tempGenre );
-									tempSong.genre = tempGenre;
-								}
-								
-								UnityEngine.Debug.Log ( tempSong.genre.name );
-							}
-					    break;
-						case "Format":
-							if (reader.Read())
-							{
-						
-								tempSong.format = reader.Value.Trim();
-								UnityEngine.Debug.Log ( tempSong.format );
-							}
-					    break;
-						case "Download":
-							if (reader.Read())
-							{
-						
-								tempSong.downloadLink = reader.Value.Trim();
-								UnityEngine.Debug.Log ( tempSong.downloadLink );
-							}
-					    break;
-						case "Link":
-							if (reader.Read())
-							{
-								
-//								reader.MoveToAttribute ( 0 );
-								UnityEngine.Debug.Log ( "1 " + reader.ReadAttributeValue ());
-//								reader.MoveToElement(); 
-								UnityEngine.Debug.Log ( "2 " + reader.Value );
-
-								reader.MoveToAttribute( 0 );
-								UnityEngine.Debug.Log ( "3 " + reader.Name);
-								UnityEngine.Debug.Log ( "4 " + reader.Value);
-								reader.MoveToElement(); 
-							
-								UnityEngine.Debug.Log ( "Read Attribute" );
-								reader.MoveToAttribute ( 0 );
-								UnityEngine.Debug.Log ( "Moved to attribute" );
-								
-								UnityEngine.Debug.Log ( "Attributes of <" + reader.GetAttribute ( 0 ) + ">" );
-						
-								tempSong.supportLinks.Add ( reader.Value.Trim ());
-								tempSong.supportLinkNames.Add ( reader.Name.Trim ());
-								
-								UnityEngine.Debug.Log ( tempSong.supportLinks.Count ());
-							}
-						break;
-						case "Release":
-							if (reader.Read())
-							{
-						
-								tempSong.releaseDate = reader.Value.Trim();
-								UnityEngine.Debug.Log ( tempSong.releaseDate );
-							}
-						break;
-				    }
-				}
-			}
-		}
-		
-		allSongsList.Sort (( a, b ) => a.name.CompareTo ( b.name ));
-		allAlbumsList.Sort (( a, b ) => a.name.CompareTo ( b.name ));
-		allArtistsList.Sort (( a, b ) => a.name.CompareTo ( b.name ));
-		allGenresList.Sort (( a, b ) => a.name.CompareTo ( b.name ));
-		allRecentList.Reverse ();
-*/
 
 		System.IO.StreamReader streamReader = new System.IO.StreamReader ( startupManager.supportPath + Path.DirectorySeparatorChar + "Downloads.xml" );
 		string xml = streamReader.ReadToEnd();
@@ -410,14 +192,20 @@ public class OnlineMusicBrowser : MonoBehaviour
 		
 		SongCollection songCollection = xml.DeserializeXml<SongCollection>();
 			
-		UnityEngine.Debug.Log ( "Done" );
+		UnityEngine.Debug.Log ( "XML Deserialized" );
 		
 		int i = 0;
 		while ( i <= songCollection.songs.Length )
 		{
 			
 			
-			UnityEngine.Debug.Log ( "Song " + i + " is " + songCollection.songs[i].name + "."  );
+			UnityEngine.Debug.Log ( "Song Name " + i + " is " + songCollection.songs[i].name + "."  );
+			UnityEngine.Debug.Log ( "Song Album " + i + " is " + songCollection.songs[i].album + "."  );
+			UnityEngine.Debug.Log ( "Song Artist " + i + " is " + songCollection.songs[i].artist + "."  );
+			UnityEngine.Debug.Log ( "Song Genre " + i + " is " + songCollection.songs[i].genre + "."  );
+			UnityEngine.Debug.Log ( "Song Format " + i + " is " + songCollection.songs[i].format + "."  );
+			UnityEngine.Debug.Log ( "Song Download " + i + " is " + songCollection.songs[i].downloadLink + "."  );
+			UnityEngine.Debug.Log ( "Song Release " + i + " is " + songCollection.songs[i].releaseDate + "."  );
 			i+= 1;
 		}
 		

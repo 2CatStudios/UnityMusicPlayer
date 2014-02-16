@@ -7,11 +7,11 @@
 		<artist>DJ Purify</artist>
 		<genre>Trance</genre>
 		<format>ogg</format>
-		<Download>http://ubuntuone.com/1j3FCp94e1bGjYA2ENE7XL</Download>
+		<downloadLink>http://ubuntuone.com/1j3FCp94e1bGjYA2ENE7XL</downloadLink>
 		<link new='iTunes'>iTuneslinkHere</link>
 		<link new='GooglePlay'>GooglelinkHere</link>
 		<link new='Bandcamp'>http://purify1.bandcamp.com/track/purify-liberty</link>
-		<release>January 2, 2013</release>
+		<releaseDate>January 2, 2013</releaseDate>
 	</Song>
 	<Song>
 		<name>You Are Like Me</name>
@@ -19,9 +19,9 @@
 		<artist>Wolfgun</artist>
 		<genre>Dubstep</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/7FFHqeulGdjNA6r0HrYRJ3</Download>
+		<downloadLink>http://ubuntuone.com/7FFHqeulGdjNA6r0HrYRJ3</downloadLink>
 		<link name='Bandcamp'>http://rchetype.bandcamp.com/track/you-are-like-me</link>
-		<release>January 1, 2013</release>
+		<releaseDate>January 1, 2013</releaseDate>
 	</Song>
 	<Song>
 		<name>Valley of the Shadows</name>
@@ -29,9 +29,9 @@
 		<artist>Wolfgun</artist>
 		<genre>Dubstep</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/4p5yRtndhmRqSWj6SCnu9N</Download>
+		<downloadLink>http://ubuntuone.com/4p5yRtndhmRqSWj6SCnu9N</downloadLink>
 		<link name='Bandcamp'>http://wolfgun.bandcamp.com/album/physics</link>
-		<release>January 1, 2013</release>
+		<releaseDate>January 1, 2013</releaseDate>
 	</Song>
 	<Song>
 		<name>River (ft. Tim Bonvallet)</name>
@@ -39,9 +39,9 @@
 		<artist>Wolfgun</artist>
 		<genre>Trance</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/1GEhkJTYFPTPk759MPaSni</Download>
+		<downloadLink>http://ubuntuone.com/1GEhkJTYFPTPk759MPaSni</downloadLink>
 		<link name='Bandcamp'>http://wolfgun.bandcamp.com/album/sundisk</link>
-		<release>January 1, 2013</release>
+		<releaseDate>January 1, 2013</releaseDate>
 	</Song>
 	<Song>
 		<name>Pacific</name>
@@ -49,9 +49,9 @@
 		<artist>Wolfgun</artist>
 		<genre>Electronic</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/62onbXXfk9Q0fIH1BMNDin</Download>
+		<downloadLink>http://ubuntuone.com/62onbXXfk9Q0fIH1BMNDin</downloadLink>
 		<link name='Bandcamp'>http://wolfgun.bandcamp.com/album/sundisk</link>
-		<release>January 1, 2013</release>
+		<releaseDate>January 1, 2013</releaseDate>
 	</Song>
 	<Song>
 		<name>Classic Tetris</name>
@@ -59,8 +59,8 @@
 		<artist>Combustible Lemonade</artist>
 		<genre>Soundtrack</genre>
 		<format>unity3d</format>
-		<Download>http://ubuntuone.com/4hm6EF1ZJBy7red7JNtYe7</Download>
-		<release>August 20, 2012</release>
+		<downloadLink>http://ubuntuone.com/4hm6EF1ZJBy7red7JNtYe7</downloadLink>
+		<releaseDate>August 20, 2012</releaseDate>
 	</Song>
 	<Song>
 		<name>Epic Classic</name>
@@ -68,8 +68,8 @@
 		<artist>Combustible Lemonade</artist>
 		<genre>Classical</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/7SvO1UUIZJlGWFzPYkYMXu</Download>
-		<release>August 20, 2012</release>
+		<downloadLink>http://ubuntuone.com/7SvO1UUIZJlGWFzPYkYMXu</downloadLink>
+		<releaseDate>August 20, 2012</releaseDate>
 	</Song>
 	<Song>
 		<name>Blended</name>
@@ -77,9 +77,9 @@
 		<artist>Combustible Lemonade</artist>
 		<genre>Dubstep</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/3jYTv6bfb4r1v3ndQ1k8LT</Download>
+		<downloadLink>http://ubuntuone.com/3jYTv6bfb4r1v3ndQ1k8LT</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/combustible-lemonade/2nd-dubstep-song</link>
-		<release>November 28, 2012</release>
+		<releaseDate>November 28, 2012</releaseDate>
 	</Song>
 	<Song>
 		<name>Quantum Realm</name>
@@ -87,9 +87,9 @@
 		<artist>Combustible Lemonade</artist>
 		<genre>Dubstep</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/4IXWJvT2v9VVhzEz8PMjRo</Download>
+		<downloadLink>http://ubuntuone.com/4IXWJvT2v9VVhzEz8PMjRo</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/combustible-lemonade/quantum-realm</link>
-		<release>November 28, 2012</release>
+		<releaseDate>November 28, 2012</releaseDate>
 	</Song>
 	<Song>
 		<name>Ghosts</name>
@@ -97,8 +97,8 @@
 		<artist>Combustible Lemonade</artist>
 		<genre>Dubstep</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/3F05TgRB5YfCZM1qyn5n7e</Download>
-		<release>November 28, 2012</release>
+		<downloadLink>http://ubuntuone.com/3F05TgRB5YfCZM1qyn5n7e</downloadLink>
+		<releaseDate>November 28, 2012</releaseDate>
 	</Song>
 	<Song>
 		<name>End of the World</name>
@@ -106,9 +106,9 @@
 		<artist>Combustible Lemonade</artist>
 		<genre>Dubstep</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/7hqvSIn4DZac8tFU4OpYum</Download>
+		<downloadLink>http://ubuntuone.com/7hqvSIn4DZac8tFU4OpYum</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/combustible-lemonade/combustible-lemonade-end-of</link>
-		<release>December 21, 2012</release>
+		<releaseDate>December 21, 2012</releaseDate>
 	</Song>
 	<Song>
 		<name>The Future of our Past</name>
@@ -116,9 +116,9 @@
 		<artist>BlackTie Vivid</artist>
 		<genre>Ambient</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/2TavmXAXvKXPReU2wDOl7u</Download>
+		<downloadLink>http://ubuntuone.com/2TavmXAXvKXPReU2wDOl7u</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/blacktie-vivid</link>
-		<release>December 31, 2012</release>
+		<releaseDate>December 31, 2012</releaseDate>
 	</Song>
 	<Song>
 		<name>Joking</name>
@@ -126,9 +126,9 @@
 		<artist>BlackTie Vivid</artist>
 		<genre>Trance</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/0wTHxxbNWHHXNHsErw114P</Download>
+		<downloadLink>http://ubuntuone.com/0wTHxxbNWHHXNHsErw114P</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/blacktie-vivid</link>
-		<release>August 20, 2012</release>
+		<releaseDate>August 20, 2012</releaseDate>
 	</Song>
 	<Song>
 		<name>Koi</name>
@@ -136,9 +136,9 @@
 		<artist>BlackTie Vivide</artist>
 		<genre>Trance</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/4uUGRYrSTKw12vGv8Y300P</Download>
+		<downloadLink>http://ubuntuone.com/4uUGRYrSTKw12vGv8Y300P</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/blacktie-vivid</link>
-		<release>August 20, 2012</release>
+		<releaseDate>August 20, 2012</releaseDate>
 	</Song>
 	<Song>
 		<name>Catastrophic</name>
@@ -146,9 +146,9 @@
 		<artist>Avelocity</artist>
 		<genre>Trance</genre>
 		<format>unity3d</format>
-		<Download>http://ubuntuone.com/0hLPPKkfplBnbt3QnXmgI7</Download>
+		<downloadLink>http://ubuntuone.com/0hLPPKkfplBnbt3QnXmgI7</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
-		<release>April 23, 2013</release>
+		<releaseDate>April 23, 2013</releaseDate>
 	</Song>
 	<Song>
 		<name>Liquid Sunshine</name>
@@ -156,9 +156,9 @@
 		<artist>Avelocity</artist>
 		<genre>Trance</genre>
 		<format>unity3d</format>
-		<Download>http://ubuntuone.com/0yg3zQMmbXN1DzRAb7MVOU</Download>
+		<downloadLink>http://ubuntuone.com/0yg3zQMmbXN1DzRAb7MVOU</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
-		<release>April 23, 2013</release>
+		<releaseDate>April 23, 2013</releaseDate>
 	</Song>
 	<Song>
 		<name>Vibrance</name>
@@ -166,9 +166,9 @@
 		<artist>Avelocity</artist>
 		<genre>Trance</genre>
 		<format>unity3d</format>
-		<Download>http://ubuntuone.com/5j16mNYaBNiIVwYXknJVx2</Download>
+		<downloadLink>http://ubuntuone.com/5j16mNYaBNiIVwYXknJVx2</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
-		<release>April 23, 2013</release>
+		<releaseDate>April 23, 2013</releaseDate>
 	</Song>
 	<Song>
 		<name>Background Sounds</name>
@@ -176,9 +176,9 @@
 		<artist>BlackTie Vivid</artist>
 		<genre>Ambient</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/1i4AYnAUlhtSvdtbluTsqn</Download>
+		<downloadLink>http://ubuntuone.com/1i4AYnAUlhtSvdtbluTsqn</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/blacktie-vivid</link>
-		<release>April 28, 2013</release>
+		<releaseDate>April 28, 2013</releaseDate>
 	</Song>
 	<Song>
 		<name>Space Invaders</name>
@@ -186,9 +186,9 @@
 		<artist>Umcaruje</artist>
 		<genre>Electronic</genre>
 		<format>ogg</format>
-		<Download>http://ubuntuone.com/2kjgW6GAYmy5SjDMBKGy72</Download>
+		<downloadLink>http://ubuntuone.com/2kjgW6GAYmy5SjDMBKGy72</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/umcaruje</link>
-		<release>April 27, 2013</release>
+		<releaseDate>April 27, 2013</releaseDate>
 	</Song>
 	<Song>
 		<name>Fractal</name>
@@ -196,9 +196,9 @@
 		<artist>Umcaruje</artist>
 		<genre>Electronic</genre>
 		<format>ogg</format>
-		<Download>http://ubuntuone.com/1tuP20y6D7XfSK3bVZME1A</Download>
+		<downloadLink>http://ubuntuone.com/1tuP20y6D7XfSK3bVZME1A</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/umcaruje</link>
-		<release>April 27, 2013</release>
+		<releaseDate>April 27, 2013</releaseDate>
 	</Song>
 	<Song>
 		<name>Maths</name>
@@ -206,9 +206,9 @@
 		<artist>Umcaruje</artist>
 		<genre>Electronic</genre>
 		<format>ogg</format>
-		<Download>http://ubuntuone.com/6ysPfLdNbM5dSQ8ctcYvns</Download>
+		<downloadLink>http://ubuntuone.com/6ysPfLdNbM5dSQ8ctcYvns</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/umcaruje</link>
-		<release>April 27, 2013</release>
+		<releaseDate>April 27, 2013</releaseDate>
 	</Song>
 	<Song>
 		<name>15 Inventions a 2 Voix IV</name>
@@ -216,8 +216,8 @@
 		<artist>Combustible Lemonade</artist>
 		<genre>Classical</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/7TLIcB2xun4RcOy6VljoUC</Download>
-		<release>April 27, 2013</release>
+		<downloadLink>http://ubuntuone.com/7TLIcB2xun4RcOy6VljoUC</downloadLink>
+		<releaseDate>April 27, 2013</releaseDate>
 	</Song>
 	<Song>
 		<name>Time</name>
@@ -225,9 +225,9 @@
 		<artist>BlackTie Vivid</artist>
 		<genre>Ambient</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/2l5tGLL8329bxtwsUq3odD</Download>
+		<downloadLink>http://ubuntuone.com/2l5tGLL8329bxtwsUq3odD</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/blacktie-vivid</link>
-		<release>June 4, 2013</release>
+		<releaseDate>June 4, 2013</releaseDate>
 	</Song>
 	<Song>
 		<name>Darkest</name>
@@ -235,9 +235,9 @@
 		<artist>BlackTie Vivid</artist>
 		<genre>Ambient</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/6jmbxXDLJ5aYNauGZ7hTMa</Download>
+		<downloadLink>http://ubuntuone.com/6jmbxXDLJ5aYNauGZ7hTMa</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/blacktie-vivid</link>
-		<release>June 1, 2013</release>
+		<releaseDate>June 1, 2013</releaseDate>
 	</Song>
 	<Song>
 		<name>Lost on Airport</name>
@@ -245,9 +245,9 @@
 		<artist>Umcaruje</artist>
 		<genre>Chillout</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/4OnR5LrvlG0kMbQXQlk6AM</Download>
+		<downloadLink>http://ubuntuone.com/4OnR5LrvlG0kMbQXQlk6AM</downloadLink>
 		<link name='Bandcamp'>http://umcaruje.bandcamp.com/album/lost-on-airport-flight</link>
-		<release>September 2, 2013</release>
+		<releaseDate>September 2, 2013</releaseDate>
 	</Song>
 	<Song>
 		<name>Flight</name>
@@ -255,9 +255,9 @@
 		<artist>Umcaruje</artist>
 		<genre>Chillout</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/4IbmXV02Cnwr1H1rhee2Co</Download>
+		<downloadLink>http://ubuntuone.com/4IbmXV02Cnwr1H1rhee2Co</downloadLink>
 		<link name='Bandcamp'>http://umcaruje.bandcamp.com/album/lost-on-airport-flight</link>
-		<release>September 2, 2013</release>
+		<releaseDate>September 2, 2013</releaseDate>
 	</Song>
 	<Song>
 		<name>Lume</name>
@@ -265,9 +265,9 @@
 		<artist>ManiaRib</artist>
 		<genre>Chillout</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/06MPUPIotskOM2QuOtdnvK</Download>
+		<downloadLink>http://ubuntuone.com/06MPUPIotskOM2QuOtdnvK</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/brian-amin</link>
-		<release>September 2, 2013</release>
+		<releaseDate>September 2, 2013</releaseDate>
 	</Song>
 	<Song>
 		<name>Brightest</name>
@@ -275,9 +275,9 @@
 		<artist>BlackTie Vivid</artist>
 		<genre>Ambient</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/0PoCB9R4PsCfD5LZPzSqSl</Download>
+		<downloadLink>http://ubuntuone.com/0PoCB9R4PsCfD5LZPzSqSl</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/blacktie-vivid</link>
-		<release>September 2, 2013</release>
+		<releaseDate>September 2, 2013</releaseDate>
 	</Song>
 	<Song>
 		<name>Rhapsody on Linux</name>
@@ -285,8 +285,8 @@
 		<artist>Combustible Lemonade</artist>
 		<genre>Dubstep</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/3ArE9LcjxyDqhG6Xd788Px</Download>
-		<release>September 3, 2013</release>
+		<downloadLink>http://ubuntuone.com/3ArE9LcjxyDqhG6Xd788Px</downloadLink>
+		<releaseDate>September 3, 2013</releaseDate>
 	</Song>
 	<Song>
 		<name>Paradoxical</name>
@@ -294,9 +294,9 @@
 		<artist>BlackTie Vivid</artist>
 		<genre>Ambient</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/04h2KEidUA8hhUJGhmBgcc</Download>
+		<downloadLink>http://ubuntuone.com/04h2KEidUA8hhUJGhmBgcc</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/blacktie-vivid</link>
-		<release>January 2, 2014</release>
+		<releaseDate>January 2, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Seaside</name>
@@ -304,9 +304,9 @@
 		<artist>Avelocity</artist>
 		<genre>Drum and Bass</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/0cVpCTlONRdIdMEafKZQQr</Download>
+		<downloadLink>http://ubuntuone.com/0cVpCTlONRdIdMEafKZQQr</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
-		<release>February 14, 2014</release>
+		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Sonar</name>
@@ -314,9 +314,9 @@
 		<artist>Avelocity</artist>
 		<genre>House</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/6OEwc5CTjYKtwl683rxBSv</Download>
+		<downloadLink>http://ubuntuone.com/6OEwc5CTjYKtwl683rxBSv</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
-		<release>February 14, 2014</release>
+		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Dinolazor Fluxcar</name>
@@ -324,9 +324,9 @@
 		<artist>Avelocity</artist>
 		<genre>Dubstep</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/7btfpUL826dKXdHmwVfZ1c</Download>
+		<downloadLink>http://ubuntuone.com/7btfpUL826dKXdHmwVfZ1c</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
-		<release>February 14, 2014</release>
+		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>One More</name>
@@ -334,9 +334,9 @@
 		<artist>Abludo</artist>
 		<genre>Dubstep</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/4XC1aSkDmw9TKelpxCVvCl</Download>
+		<downloadLink>http://ubuntuone.com/4XC1aSkDmw9TKelpxCVvCl</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/abludomusic</link>
-		<release>February 13, 2014</release>
+		<releaseDate>February 13, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Reality</name>
@@ -344,9 +344,9 @@
 		<artist>Abludo</artist>
 		<genre>Trance</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/19loEmSqNNexVUM88ICtfK</Download>
+		<downloadLink>http://ubuntuone.com/19loEmSqNNexVUM88ICtfK</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/abludomusic</link>
-		<release>February 13, 2014</release>
+		<releaseDate>February 13, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Blue</name>
@@ -354,9 +354,9 @@
 		<artist>Abludo</artist>
 		<genre>House</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/16dH3WI3xgskCewEYAX7OQ</Download>
+		<downloadLink>http://ubuntuone.com/16dH3WI3xgskCewEYAX7OQ</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/abludomusic</link>
-		<release>February 13, 2014</release>
+		<releaseDate>February 13, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Soar</name>
@@ -364,9 +364,9 @@
 		<artist>Abludo</artist>
 		<genre>Drum and Bass</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/75IBIubZFPHeGeyKXxAzRO</Download>
+		<downloadLink>http://ubuntuone.com/75IBIubZFPHeGeyKXxAzRO</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/abludomusic</link>
-		<release>February 13, 2014</release>
+		<releaseDate>February 13, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Starlight (Greippi's mix)</name>
@@ -374,9 +374,9 @@
 		<artist>Avelocity</artist>
 		<genre>House</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/6fUTapn0FsQUHb7UbXCCIZ</Download>
+		<downloadLink>http://ubuntuone.com/6fUTapn0FsQUHb7UbXCCIZ</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
-		<release>February 14, 2014</release>
+		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Starlight (Raptor Remix)</name>
@@ -384,9 +384,9 @@
 		<artist>Avelocity</artist>
 		<genre>House</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/6EZ8uhkw2y6ArzRTEzL1rd</Download>
+		<downloadLink>http://ubuntuone.com/6EZ8uhkw2y6ArzRTEzL1rd</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
-		<release>February 14, 2014</release>
+		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Starlight (Ten of Eleven Remix)</name>
@@ -394,9 +394,9 @@
 		<artist>Avelocity</artist>
 		<genre>House</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/3frAsneCV2AuDapiyXPRer</Download>
+		<downloadLink>http://ubuntuone.com/3frAsneCV2AuDapiyXPRer</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
-		<release>February 14, 2014</release>
+		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Starlight (Umcaruje's wreck the dancehall mix)</name>
@@ -404,9 +404,9 @@
 		<artist>Avelocity</artist>
 		<genre>House</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/6XOoM9oxh8updB1MKMLlz0</Download>
+		<downloadLink>http://ubuntuone.com/6XOoM9oxh8updB1MKMLlz0</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
-		<release>February 14, 2014</release>
+		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Starlight</name>
@@ -414,9 +414,9 @@
 		<artist>Avelocity</artist>
 		<genre>House</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/219s6CGBhDuAGdtisnbLtB</Download>
+		<downloadLink>http://ubuntuone.com/219s6CGBhDuAGdtisnbLtB</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
-		<release>February 14, 2014</release>
+		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Artic Dream</name>
@@ -424,9 +424,9 @@
 		<artist>DJ Purify</artist>
 		<genre>Trance</genre>
 		<format>ogg</format>
-		<Download>http://ubuntuone.com/6ND519vdjX5EUe840u5gE7</Download>
+		<downloadLink>http://ubuntuone.com/6ND519vdjX5EUe840u5gE7</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
-		<release>February 14, 2014</release>
+		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Club Mix 2011</name>
@@ -434,9 +434,9 @@
 		<artist>DJ Purify</artist>
 		<genre>Trance</genre>
 		<format>ogg</format>
-		<Download>http://ubuntuone.com/5JbHgwNlHFDCo6HaPMhJLs</Download>
+		<downloadLink>http://ubuntuone.com/5JbHgwNlHFDCo6HaPMhJLs</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
-		<release>February 14, 2014</release>
+		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Eletectronica</name>
@@ -444,9 +444,9 @@
 		<artist>DJ Purify</artist>
 		<genre>Trance</genre>
 		<format>ogg</format>
-		<Download>http://ubuntuone.com/6XltJ9CM2whVYlJ7R0emYy</Download>
+		<downloadLink>http://ubuntuone.com/6XltJ9CM2whVYlJ7R0emYy</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
-		<release>February 14, 2014</release>
+		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Fairy</name>
@@ -454,9 +454,9 @@
 		<artist>DJ Purify</artist>
 		<genre>Trance</genre>
 		<format>ogg</format>
-		<Download>http://ubuntuone.com/1bDOklMECk0mhvzr7iq2wy</Download>
+		<downloadLink>http://ubuntuone.com/1bDOklMECk0mhvzr7iq2wy</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
-		<release>February 14, 2014</release>
+		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Falling</name>
@@ -464,9 +464,9 @@
 		<artist>DJ Purify</artist>
 		<genre>Trance</genre>
 		<format>ogg</format>
-		<Download>http://ubuntuone.com/0kFBHrHP34Gr1vMaGLPSAE</Download>
+		<downloadLink>http://ubuntuone.com/0kFBHrHP34Gr1vMaGLPSAE</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
-		<release>February 14, 2014</release>
+		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Into your world Remix</name>
@@ -474,9 +474,9 @@
 		<artist>DJ Purify</artist>
 		<genre>Trance</genre>
 		<format>ogg</format>
-		<Download>http://ubuntuone.com/3refXF5WEbCDxj4J5cTLhi</Download>
+		<downloadLink>http://ubuntuone.com/3refXF5WEbCDxj4J5cTLhi</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
-		<release>February 14, 2014</release>
+		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Lapis Blue (Purify Remix)</name>
@@ -484,9 +484,9 @@
 		<artist>DJ Purify</artist>
 		<genre>Trance</genre>
 		<format>ogg</format>
-		<Download>http://ubuntuone.com/5XjLtHzkBXkp12qajLDNJ7</Download>
+		<downloadLink>http://ubuntuone.com/5XjLtHzkBXkp12qajLDNJ7</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
-		<release>February 14, 2014</release>
+		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Love (Purify Remix)</name>
@@ -494,9 +494,9 @@
 		<artist>DJ Purify</artist>
 		<genre>Trance</genre>
 		<format>ogg</format>
-		<Download>http://ubuntuone.com/4owoujbVQVEu1GXzhJGV1C</Download>
+		<downloadLink>http://ubuntuone.com/4owoujbVQVEu1GXzhJGV1C</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
-		<release>February 14, 2014</release>
+		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Moon</name>
@@ -504,9 +504,9 @@
 		<artist>DJ Purify</artist>
 		<genre>Trance</genre>
 		<format>ogg</format>
-		<Download>http://ubuntuone.com/6KHq8RC3al6k8v19DRh2OA</Download>
+		<downloadLink>http://ubuntuone.com/6KHq8RC3al6k8v19DRh2OA</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
-		<release>February 14, 2014</release>
+		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Natural</name>
@@ -514,9 +514,9 @@
 		<artist>DJ Purify</artist>
 		<genre>Trance</genre>
 		<format>ogg</format>
-		<Download>http://ubuntuone.com/5W3JkbXwHR2c1WqzrhG2zg</Download>
+		<downloadLink>http://ubuntuone.com/5W3JkbXwHR2c1WqzrhG2zg</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
-		<release>February 14, 2014</release>
+		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Perfect Story</name>
@@ -524,9 +524,9 @@
 		<artist>DJ Purify</artist>
 		<genre>Trance</genre>
 		<format>ogg</format>
-		<Download>http://ubuntuone.com/0kPk6dh2GUEKiiTywuwIBq</Download>
+		<downloadLink>http://ubuntuone.com/0kPk6dh2GUEKiiTywuwIBq</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
-		<release>February 14, 2014</release>
+		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Sample</name>
@@ -534,9 +534,9 @@
 		<artist>DJ Purify</artist>
 		<genre>Trance</genre>
 		<format>ogg</format>
-		<Download>http://ubuntuone.com/0FQKyidi5qd6cRGh8lCYfa</Download>
+		<downloadLink>http://ubuntuone.com/0FQKyidi5qd6cRGh8lCYfa</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
-		<release>February 14, 2014</release>
+		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Silence [Summer Club Mix 2012]</name>
@@ -544,9 +544,9 @@
 		<artist>DJ Purify</artist>
 		<genre>Trance</genre>
 		<format>ogg</format>
-		<Download>http://ubuntuone.com/79W9CsOkDR1MImAhQlpJej</Download>
+		<downloadLink>http://ubuntuone.com/79W9CsOkDR1MImAhQlpJej</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
-		<release>February 14, 2014</release>
+		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Silent Shore</name>
@@ -554,9 +554,9 @@
 		<artist>DJ Purify</artist>
 		<genre>Trance</genre>
 		<format>ogg</format>
-		<Download>http://ubuntuone.com/2FUharkNw9B03arrpFp9tg</Download>
+		<downloadLink>http://ubuntuone.com/2FUharkNw9B03arrpFp9tg</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
-		<release>February 14, 2014</release>
+		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Stevia</name>
@@ -564,9 +564,9 @@
 		<artist>DJ Purify</artist>
 		<genre>Trance</genre>
 		<format>ogg</format>
-		<Download>http://ubuntuone.com/7iZsH9MIt9wKPTIPqI9YoO</Download>
+		<downloadLink>http://ubuntuone.com/7iZsH9MIt9wKPTIPqI9YoO</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
-		<release>February 14, 2014</release>
+		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Choices</name>
@@ -574,9 +574,9 @@
 		<artist>Face of Flynn</artist>
 		<genre>Soundtrack</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/4rI8qaGX9tXkWIc1oE7spr</Download>
+		<downloadLink>http://ubuntuone.com/4rI8qaGX9tXkWIc1oE7spr</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/faceoflynn</link>
-		<release>February 14, 2014</release>
+		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Essence</name>
@@ -584,9 +584,9 @@
 		<artist>Face of Flynn</artist>
 		<genre>Soundtrack</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/4rI8qaGX9tXkWIc1oE7spr</Download>
+		<downloadLink>http://ubuntuone.com/4rI8qaGX9tXkWIc1oE7spr</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/faceoflynn</link>
-		<release>February 14, 2014</release>
+		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Regret</name>
@@ -594,9 +594,9 @@
 		<artist>Face of Flynn</artist>
 		<genre>Soundtrack</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/1lZpMqwhZheJtpaV2dpo1A</Download>
+		<downloadLink>http://ubuntuone.com/1lZpMqwhZheJtpaV2dpo1A</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/faceoflynn</link>
-		<release>February 14, 2014</release>
+		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
 		<name>Unknown</name>
@@ -604,8 +604,8 @@
 		<artist>Face of Flynn</artist>
 		<genre>Soundtrack</genre>
 		<format>wav</format>
-		<Download>http://ubuntuone.com/2mf22bAFFtskvgBWqex9bl</Download>
+		<downloadLink>http://ubuntuone.com/2mf22bAFFtskvgBWqex9bl</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/faceoflynn</link>
-		<release>February 14, 2014</release>
+		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 </Songs>
