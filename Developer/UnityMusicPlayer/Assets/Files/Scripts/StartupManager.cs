@@ -247,7 +247,19 @@ public class StartupManager : MonoBehaviour
 			{
 				
 				if ( updateOMB == true && onlyUpdate == false )
-					allSongs = wClient.DownloadString ("http://raw.github.com/2CatStudios/UnityMusicPlayer/master/AllSongs.txt").Split ('\n');
+				{
+					
+					if ( File.Exists ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" ))
+						File.Delete ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" );
+						
+					Uri url = new Uri ( "http://raw2.github.com/2CatStudios/UnityMusicPlayer/master/Downloads.xml" );
+					using ( client = new WebClient ())
+					{
+							
+						client.DownloadFile ( url, supportPath + Path.DirectorySeparatorChar + "Downloads.xml" );
+						startOMB = true;
+					}
+				}
 					
 				if ( checkForUpdate == true )
 					applicationDownloads = wClient.DownloadString ("https://raw.github.com/2CatStudios/UnityMusicPlayer/master/VersionInfo.txt").Split ('\n');
@@ -272,8 +284,14 @@ public class StartupManager : MonoBehaviour
 						}
 					} catch {
 					
-						UnityEngine.Debug.Log ( "Unable to download XML file!" );
-						/*Try downloading normal file*/
+						UnityEngine.Debug.Log ( "Unable to download XML file! Downloading regular file instead." );
+						Uri url = new Uri ( "http://raw2.github.com/2CatStudios/UnityMusicPlayer/master/Downloads.xml" );
+						using ( client = new WebClient ())
+						{
+							
+							client.DownloadFile ( url, supportPath + Path.DirectorySeparatorChar + "Downloads.xml" );
+							startOMB = true;
+						}
 					}
 				}
 				startOMB = true;

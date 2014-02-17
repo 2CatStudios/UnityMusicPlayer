@@ -36,12 +36,6 @@ public class Song
          public Link[] links;
 	
 	public String releaseDate;
-	
-/*	[NonSerialized]
-	public Album albumObject;
-	public Artist artistObject;
-	public Genre genreObject;
-*/
 }
 
 
@@ -81,6 +75,7 @@ public class Genre
 	
 	public Genre () {}
 }
+
 
 public class OnlineMusicBrowser : MonoBehaviour
 {
