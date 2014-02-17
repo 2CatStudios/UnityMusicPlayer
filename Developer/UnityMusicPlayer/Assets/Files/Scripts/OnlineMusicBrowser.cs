@@ -11,6 +11,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Xml.Serialization;
 using System.Collections.Generic;
+//using System.Collections.Specialized;
 //Written by GibsonBethke
 //THanks to Mike Talbot
 [XmlRoot("Songs")]
@@ -109,9 +110,9 @@ public class OnlineMusicBrowser : MonoBehaviour
 	List<Song> allRecentlyAddedList;
 	List<Song> specificSort;
 	
-	Dictionary<string, Album> albums = new Dictionary<string, Album>();
-	Dictionary<string, Artist> artists = new Dictionary<string, Artist>();
-	Dictionary<string, Genre> genres = new Dictionary<string, Genre>();
+	SortedDictionary<string, Album> albums = new SortedDictionary<string, Album>();
+	SortedDictionary<string, Artist> artists = new SortedDictionary<string, Artist>();
+	SortedDictionary<string, Genre> genres = new SortedDictionary<string, Genre>();
 	
 	#endregion
 	
@@ -186,8 +187,11 @@ public class OnlineMusicBrowser : MonoBehaviour
 		
 		SongCollection songCollection = xml.DeserializeXml<SongCollection>();
 		allSongsList = songCollection.songs.ToList ();
-		allRecentlyAddedList = allSongsList;
+		allSongsList.Sort (( a, b ) => a.name.CompareTo ( b.name ));
+		
+		allRecentlyAddedList = songCollection.songs.ToList ();;
 		allRecentlyAddedList.Reverse ();
+		
 		
 		Album tempAlbum;
 		Artist tempArtist;
@@ -237,7 +241,11 @@ public class OnlineMusicBrowser : MonoBehaviour
 			}
 			
 		}
-
+		
+//		albums.Values..Sort (( a, b ) => a.name.CompareTo ( b.name ));
+//		allArtistsList.Sort (( a, b ) => a.name.CompareTo ( b.name ));
+//		allGenresList.Sort (( a, b ) => a.name.CompareTo ( b.name ));
+		
 		specificSort = allRecentlyAddedList;
 		currentPlace = "Recently Added";
 		

@@ -299,8 +299,8 @@ public class StartupManager : MonoBehaviour
 				if ( checkForUpdate == true )
 				{
 					
-					devApplicationDownloads = wClient.DownloadString ("https://raw.github.com/2CatStudios/UnityMusicPlayer/master/Developer/VersionInfo.txt").Split ('\n');
-					applicationDownloads = wClient.DownloadString ("https://raw.github.com/2CatStudios/UnityMusicPlayer/master/VersionInfo.txt").Split ('\n');
+					devApplicationDownloads = wClient.DownloadString ("http://raw.github.com/2CatStudios/UnityMusicPlayer/master/Developer/VersionInfo.txt").Split ('\n');
+					applicationDownloads = wClient.DownloadString ("http://raw.github.com/2CatStudios/UnityMusicPlayer/master/VersionInfo.txt").Split ('\n');
 				}
 			}
 
