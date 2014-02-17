@@ -149,13 +149,13 @@ public class StartupManager : MonoBehaviour
 					UnityEngine.Debug.LogWarning ( "Preference file does not exist!" );
 				else
 					UnityEngine.Debug.LogWarning ( "Preference file is outdated! There are " + File.ReadAllLines ( supportPath + "Preferences.umpp" ).Length + " lines. There should be " + linesInPrefs + " lines." );
-	
-				using ( FileStream createPrefs = File.Create ( supportPath + "Preferences.umpp" ))
-				{
+			}
+			
+			using ( FileStream createPrefs = File.Create ( supportPath + "Preferences.umpp" ))
+			{
 					
-					Byte[] preferences = new UTF8Encoding(true).GetBytes( mediaPath + "Albums\nTrue\nTrue\nTrue\nFalse\nFalse\nFalse\nFalse\nFalse\nTrue\nFalse\nFalse\n1.0\n0.373\n0.569\n1.000\nFalse\nFalse\nTrue\n3\n100\n0.3\n0.8\n0.6\nTrue\n2.0\n0\n0\n0\n0\n0\n0\n0");
-					createPrefs.Write ( preferences, 0, preferences.Length );
-				}
+				Byte[] preferences = new UTF8Encoding(true).GetBytes( mediaPath + "Albums\nTrue\nTrue\nTrue\nFalse\nFalse\nFalse\nFalse\nFalse\nTrue\nFalse\nFalse\n1.0\n0.373\n0.569\n1.000\nFalse\nFalse\nTrue\n3\n100\n0.3\n0.8\n0.6\nTrue\n2.0\n0\n0\n0\n0\n0\n0\n0");
+				createPrefs.Write ( preferences, 0, preferences.Length );
 			}
 		}
 		
@@ -262,7 +262,7 @@ public class StartupManager : MonoBehaviour
 				}
 					
 				if ( checkForUpdate == true )
-					applicationDownloads = wClient.DownloadString ("http://raw.github.com/2CatStudios/UnityMusicPlayer/master/VersionInfo.txt").Split ('\n');
+					applicationDownloads = wClient.DownloadString ( "http://raw.github.com/2CatStudios/UnityMusicPlayer/master/VersionInfo.txt" ).Split ('\n');
 
 			} else {
 				
@@ -308,17 +308,16 @@ public class StartupManager : MonoBehaviour
 			{
 					
 				websiteLink = applicationDownloads [4];
-				
-				if ( developmentMode == false )
+					
+				newestVersion = Convert.ToSingle(applicationDownloads [1]);
+				if( Single.Parse ( runningVersion ) < newestVersion)
 				{
-					
-					newestVersion = Convert.ToSingle(applicationDownloads [1]);
-					if( Single.Parse ( runningVersion ) < newestVersion)
-					{
-					
-						updateAvailable = true;
-					}
-				} else {
+						
+					updateAvailable = true;
+				}
+				
+				if ( developmentMode == true )
+				{
 					
 					newestVersion = Convert.ToSingle ( applicationDownloads [1]);
 					devVersion = Convert.ToSingle ( devApplicationDownloads [1]);
