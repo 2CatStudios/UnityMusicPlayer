@@ -229,7 +229,7 @@ public class StartupManager : MonoBehaviour
 			{
 				
 				paneManager.loading = true;
-				connectionInformation.text = "Connecting to the OnlineMusicDatabase[0]";
+				connectionInformation.text = "Connecting to the OnlineMusicDatabase";
 				InvokeRepeating ( "CheckStartOnlineMusicBrowser", 0, 0.2F );
 			}
 		}
@@ -252,7 +252,7 @@ public class StartupManager : MonoBehaviour
 					if ( File.Exists ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" ))
 						File.Delete ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" );
 						
-					Uri url = new Uri ( "http://raw2.github.com/2CatStudios/UnityMusicPlayer/master/Downloads.xml" );
+					Uri url = new Uri ( "http://raw.github.com/2CatStudios/UnityMusicPlayer/master/Downloads.xml" );
 					using ( client = new WebClient ())
 					{
 							
@@ -262,7 +262,7 @@ public class StartupManager : MonoBehaviour
 				}
 					
 				if ( checkForUpdate == true )
-					applicationDownloads = wClient.DownloadString ("https://raw.github.com/2CatStudios/UnityMusicPlayer/master/VersionInfo.txt").Split ('\n');
+					applicationDownloads = wClient.DownloadString ("http://raw.github.com/2CatStudios/UnityMusicPlayer/master/VersionInfo.txt").Split ('\n');
 
 			} else {
 				
@@ -275,7 +275,7 @@ public class StartupManager : MonoBehaviour
 						if ( File.Exists ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" ))
 							File.Delete ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" );
 						
-						Uri url = new Uri ( "http://raw2.github.com/2CatStudios/UnityMusicPlayer/master/Developer/Downloads.xml" );
+						Uri url = new Uri ( "http://raw.github.com/2CatStudios/UnityMusicPlayer/master/Developer/Downloads.xml" );
 						using ( client = new WebClient ())
 						{
 							
@@ -285,7 +285,7 @@ public class StartupManager : MonoBehaviour
 					} catch {
 					
 						UnityEngine.Debug.Log ( "Unable to download XML file! Downloading regular file instead." );
-						Uri url = new Uri ( "http://raw2.github.com/2CatStudios/UnityMusicPlayer/master/Downloads.xml" );
+						Uri url = new Uri ( "http://raw.github.com/2CatStudios/UnityMusicPlayer/master/Downloads.xml" );
 						using ( client = new WebClient ())
 						{
 							

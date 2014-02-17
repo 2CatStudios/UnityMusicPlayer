@@ -1,4 +1,4 @@
-UnityMusicPlayer 1.1
+UnityMusicPlayer 1.12
 
 
 UnityMusicPlayer has been developed by
