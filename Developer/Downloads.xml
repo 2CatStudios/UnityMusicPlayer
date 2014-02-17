@@ -8,8 +8,6 @@
 		<genre>Trance</genre>
 		<format>ogg</format>
 		<downloadLink>http://ubuntuone.com/1j3FCp94e1bGjYA2ENE7XL</downloadLink>
-		<link name='iTunes'>iTuneslinkHere</link>
-		<link name='GooglePlay'>GooglelinkHere</link>
 		<link name='Bandcamp'>http://purify1.bandcamp.com/track/purify-liberty</link>
 		<releaseDate>January 2, 2013</releaseDate>
 	</Song>
@@ -267,6 +265,7 @@
 		<format>wav</format>
 		<downloadLink>http://ubuntuone.com/06MPUPIotskOM2QuOtdnvK</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/brian-amin</link>
+		<link name='Blogspot'>http://brian-amin.blogspot.com</link>
 		<releaseDate>September 2, 2013</releaseDate>
 	</Song>
 	<Song>
@@ -576,6 +575,8 @@
 		<format>wav</format>
 		<downloadLink>http://ubuntuone.com/4rI8qaGX9tXkWIc1oE7spr</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/faceoflynn</link>
+		<link name='Facebook'>http://www.facebook.com/Raptor980</link>
+		<link name='Bandcamp'>http://faceoflynn.bandcamp.com/</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
@@ -586,6 +587,8 @@
 		<format>wav</format>
 		<downloadLink>http://ubuntuone.com/4rI8qaGX9tXkWIc1oE7spr</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/faceoflynn</link>
+		<link name='Facebook'>http://www.facebook.com/Raptor980</link>
+		<link name='Bandcamp'>http://faceoflynn.bandcamp.com/</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
@@ -596,6 +599,8 @@
 		<format>wav</format>
 		<downloadLink>http://ubuntuone.com/1lZpMqwhZheJtpaV2dpo1A</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/faceoflynn</link>
+		<link name='Facebook'>http://www.facebook.com/Raptor980</link>
+		<link name='Bandcamp'>http://faceoflynn.bandcamp.com/</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song>
@@ -606,6 +611,18 @@
 		<format>wav</format>
 		<downloadLink>http://ubuntuone.com/2mf22bAFFtskvgBWqex9bl</downloadLink>
 		<link name='Soundcloud'>http://soundcloud.com/faceoflynn</link>
+		<link name='Facebook'>http://www.facebook.com/Raptor980</link>
+		<link name='Bandcamp'>http://faceoflynn.bandcamp.com/</link>
 		<releaseDate>February 14, 2014</releaseDate>
+	</Song>
+	<Song>
+		<name>Solar Eclipse</name>
+		<album>Solar Eclipse - Single</album>
+		<artist>Second Flight</artist>
+		<genre>Drum and Bass</genre>
+		<format>wav</format>
+		<downloadLink>http://ubuntuone.com/5nPjUNdIlxDVNROe9ln0g0</downloadLink>
+		<link name='Soundcloud'>http://soundcloud.com/second_flight/</link>
+		<releaseDate>February 16, 2014</releaseDate>
 	</Song>
 </Songs>

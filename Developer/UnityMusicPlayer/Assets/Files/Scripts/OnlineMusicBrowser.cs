@@ -30,17 +30,18 @@ public class Song
 	public String album;
 	public String artist;
 	public String genre;
-
-/*	public Album album;
-	public Artist artist;
-	public Genre genre;
-*/
 	public String format;
 	public String downloadLink;
 	[XmlElement("link")]
          public Link[] links;
 	
 	public String releaseDate;
+	
+/*	[NonSerialized]
+	public Album albumObject;
+	public Artist artistObject;
+	public Genre genreObject;
+*/
 }
 
 
@@ -58,7 +59,7 @@ public class Album
 {
 	
 	public String name;
-	public List<Song> songs;
+	public List<Song> songs = new List<Song>();
 	
 	public Album () {}
 }
@@ -67,7 +68,7 @@ public class Artist
 {
 	
 	public String name;
-	public List<Song> songs;
+	public List<Song> songs = new List<Song>();
 	
 	public Artist () {}
 }
@@ -76,7 +77,7 @@ public class Genre
 {
 
 	public String name;
-	public List<Song> songs;
+	public List<Song> songs = new List<Song>();
 	
 	public Genre () {}
 }
@@ -110,11 +111,12 @@ public class OnlineMusicBrowser : MonoBehaviour
 	#region Lists
 	
 	List<Song> allSongsList;
-	List<Song> allRecentList;
-	List<Album> allAlbumsList;
-	List<Artist> allArtistsList;
-	List<Genre> allGenresList;
+	List<Song> allRecentlyAddedList;
 	List<Song> specificSort;
+	
+	Dictionary<string, Album> albums = new Dictionary<string, Album>();
+	Dictionary<string, Artist> artists = new Dictionary<string, Artist>();
+	Dictionary<string, Genre> genres = new Dictionary<string, Genre>();
 	
 	#endregion
 	
@@ -125,12 +127,9 @@ public class OnlineMusicBrowser : MonoBehaviour
 	
 	#region DownloadInformation
 	
-	Song songInfoOwner;
-	
 	public WebClient client;
 	
 	Uri url;
-//	Song song;
 	string downloadButtonText;
 	
 	string currentDownloadSize;
@@ -139,6 +138,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	bool showSongInformation = false;
 	bool downloading = false;
 	
+	Song songInfoOwner;
 	Song downloadingSong;
 	
 	#endregion
@@ -174,10 +174,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	void StartOMB ()
 	{
 		
-		allRecentList = new List<Song> ();
-		allAlbumsList = new List<Album> ();
-		allArtistsList = new List<Artist> ();
-		allGenresList = new List<Genre> ();
+		allRecentlyAddedList = new List<Song> ();
 		specificSort = new List<Song> ();
 		
 		Thread refreshThread = new Thread ( SortAvailableDownloads );
@@ -194,35 +191,60 @@ public class OnlineMusicBrowser : MonoBehaviour
 		
 		SongCollection songCollection = xml.DeserializeXml<SongCollection>();
 		allSongsList = songCollection.songs.ToList ();
+		allRecentlyAddedList = allSongsList;
+		allRecentlyAddedList.Reverse ();
 		
-/*		int i = 0;
-		while ( i < songCollection.songs.Length )
+		Album tempAlbum;
+		Artist tempArtist;
+		Genre tempGenre;
+
+		foreach ( Song song in songCollection.songs )
 		{
 			
+			tempAlbum = new Album ();
+			tempAlbum.name = song.album;
+			tempAlbum.songs.Add ( song );
 			
-			UnityEngine.Debug.Log ( "Song Name " + i + " is " + songCollection.songs[i].name + "."  );
-			UnityEngine.Debug.Log ( "Song Album " + i + " is " + songCollection.songs[i].album + "."  );
-			UnityEngine.Debug.Log ( "Song Artist " + i + " is " + songCollection.songs[i].artist + "."  );
-			UnityEngine.Debug.Log ( "Song Genre " + i + " is " + songCollection.songs[i].genre + "."  );
-			UnityEngine.Debug.Log ( "Song Format " + i + " is " + songCollection.songs[i].format + "."  );
-			UnityEngine.Debug.Log ( "Song Download " + i + " is " + songCollection.songs[i].downloadLink + "."  );
-			if ( songCollection.songs[i].links != null )
+			if ( !albums.ContainsKey ( tempAlbum.name ))
 			{
-				
-				foreach ( Link currentLink in songCollection.songs[i].links )
-				{
-					
-					
-					UnityEngine.Debug.Log ( currentLink.name + " " + currentLink.address );
-				}
+
+				albums[tempAlbum.name] = tempAlbum;
+			} else {
+			
+				albums[song.album].songs.Add ( song );
 			}
-			UnityEngine.Debug.Log ( "Song Release " + i + " is " + songCollection.songs[i].releaseDate + "."  );
-			i+= 1;
+
+			tempArtist = new Artist ();
+			tempArtist.name = song.artist;
+			tempArtist.songs.Add ( song );
+			
+			if ( !artists.ContainsKey ( tempArtist.name ))
+			{
+
+				artists[tempArtist.name] = tempArtist;
+			} else {
+			
+				artists[song.artist].songs.Add ( song );
+			}
+			
+			
+			tempGenre = new Genre ();
+			tempGenre.name = song.genre;
+			tempGenre.songs.Add ( song );
+			
+			if ( !genres.ContainsKey ( tempGenre.name ))
+			{
+
+				genres[tempGenre.name] = tempGenre;
+			} else {
+			
+				genres[song.genre].songs.Add ( song );
+			}
+			
 		}
-*/				
-		
-		specificSort = allRecentList;
-		currentPlace = "Recent";
+
+		specificSort = allRecentlyAddedList;
+		currentPlace = "Recently Added";
 		
 		paneManager.loading = false;	
 		if ( paneManager.currentPane == PaneManager.pane.onlineMusicBrowser )
@@ -289,7 +311,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 			{
 	
 				sortBy = 4;
-				currentPlace = "Recent";
+				currentPlace = "Recently Added";
 			}
 	
 			GUILayout.EndHorizontal ();
@@ -309,7 +331,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 				break;
 				
 				case 1:
-				foreach ( Album album in allAlbumsList )
+				foreach ( Album album in albums.Values )
 				{
 	
 					if ( GUILayout.Button ( album.name ))
@@ -323,7 +345,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 				break;
 	
 				case 2:
-				foreach ( Artist artist in allArtistsList )
+				foreach ( Artist artist in artists.Values )
 				{
 					
 					if ( GUILayout.Button ( artist.name ))
@@ -337,7 +359,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 				break;
 	
 				case 3:
-				foreach ( Genre genre in allGenresList )
+				foreach ( Genre genre in genres.Values )
 				{
 					
 					if ( GUILayout.Button ( genre.name ))
@@ -351,7 +373,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 				break;
 				
 				case 4:
-				specificSort = allRecentList;
+				specificSort = allRecentlyAddedList;
 				sortBy = 5;
 				break;
 				

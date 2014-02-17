@@ -243,7 +243,7 @@ public class StartupManager : MonoBehaviour
 		try
 		{
 			
-/*			if ( developmentMode == false )
+			if ( developmentMode == false )
 			{
 				
 				if ( updateOMB == true && onlyUpdate == false )
@@ -253,14 +253,11 @@ public class StartupManager : MonoBehaviour
 					applicationDownloads = wClient.DownloadString ("https://raw.github.com/2CatStudios/UnityMusicPlayer/master/VersionInfo.txt").Split ('\n');
 
 			} else {
-*/
-			if ( developmentMode == true )
-			{
 				
 				if ( updateOMB == true && onlyUpdate == false )
 				{
 					
-/*					try
+					try
 					{
 						
 						if ( File.Exists ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" ))
@@ -276,8 +273,9 @@ public class StartupManager : MonoBehaviour
 					} catch {
 					
 						UnityEngine.Debug.Log ( "Unable to download XML file!" );
+						/*Try downloading normal file*/
 					}
-*/				}
+				}
 				startOMB = true;
 				
 				if ( checkForUpdate == true )
