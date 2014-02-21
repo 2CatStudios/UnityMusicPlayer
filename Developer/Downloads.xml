@@ -117,8 +117,8 @@
 		<downloadURL>http://ubuntuone.com/2TavmXAXvKXPReU2wDOl7u</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/blacktie-vivid</link>
 		<releaseDate>December 31, 2012</releaseDate>
-		<largeArtwork>http://ubuntuone.com/4A3RwHfUQsFTsscY68uzTT</largeArtwork>
-		<smallArtwork>http://ubuntuone.com/4kwgVh4sI5sZWnlVV37N5j</smallArtwork>
+		<largeArtworkURL>http://ubuntuone.com/4A3RwHfUQsFTsscY68uzTT</largeArtworkURL>
+		<smallArtworkURL>http://ubuntuone.com/4kwgVh4sI5sZWnlVV37N5j</smallArtworkURL>
 	</Song>
 	<Song featured='false'>
 		<name>Joking</name>

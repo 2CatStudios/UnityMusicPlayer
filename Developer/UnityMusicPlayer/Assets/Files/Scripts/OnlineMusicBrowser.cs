@@ -40,8 +40,8 @@ public class Song
          public Link[] links;
 	
 	public String releaseDate;
-	public String largeArtwork;
-	public String smallArtwork;
+	public String largeArtworkURL;
+	public String smallArtworkURL;
 }
 
 
@@ -141,11 +141,10 @@ public class OnlineMusicBrowser : MonoBehaviour
 	
 	bool showSongInformation = false;
 	bool downloading = false;
+	bool downloadArtwork = false;
 	
 	Song songInfoOwner;
 	Song downloadingSong;
-	
-	public Texture2D artworkSmall;
 	
 	#endregion
 	
@@ -189,6 +188,9 @@ public class OnlineMusicBrowser : MonoBehaviour
 		
 		Thread refreshThread = new Thread ( SortAvailableDownloads );
 		refreshThread.Start();
+		
+		downloadArtwork = false;
+		StartCoroutine ( "DownloadFeatured" );
 	}
 	
 	
@@ -258,12 +260,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 			}
 		}
 		
-/*		foreach ( Song song in featuredList )
-		{
-			
-			
-		}
-*/		
 		specificSort = allRecentlyAddedList;
 		currentPlace = "Recently Added";
 		
@@ -274,6 +270,29 @@ public class OnlineMusicBrowser : MonoBehaviour
 			musicViewer.tempEnableOMB = 1.0F;
 			startupManager.ombEnabled = true;
 		}
+		
+		downloadArtwork = true;
+	}
+	
+	
+	IEnumerator DownloadFeatured ()
+	{
+		
+		yield return downloadArtwork;
+		
+		foreach ( Song song in featuredList )
+		{
+			
+			WWW featuredArtworkWWW = new WWW ( song.smallArtworkURL );
+			yield return featuredArtworkWWW;
+			
+			Texture2D tempArtwork = new Texture2D ( 256, 256 );
+			featuredArtworkWWW.LoadImageIntoTexture ( tempArtwork );
+			featuredArtwork.Add ( tempArtwork );
+		}
+		
+		UnityEngine.Debug.Log ( featuredArtwork.Count );
+		downloadArtwork = false;
 	}
 
 
