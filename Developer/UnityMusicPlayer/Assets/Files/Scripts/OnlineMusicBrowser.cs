@@ -35,7 +35,7 @@ public class Song
 	public String artist;
 	public String genre;
 	public String format;
-	public String downloadLink;
+	public String downloadURL;
 	[XmlElement("link")]
          public Link[] links;
 	
@@ -116,6 +116,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 	List<Song> specificSort;
 	List<Song> featuredList;
 	
+	List<Texture2D> featuredArtwork;
+	
 	SortedDictionary<string, Album> albums = new SortedDictionary<string, Album>();
 	SortedDictionary<string, Artist> artists = new SortedDictionary<string, Artist>();
 	SortedDictionary<string, Genre> genres = new SortedDictionary<string, Genre>();
@@ -178,8 +180,12 @@ public class OnlineMusicBrowser : MonoBehaviour
 	void StartOMB ()
 	{
 		
+		allSongsList = new List<Song> ();
 		allRecentlyAddedList = new List<Song> ();
 		specificSort = new List<Song> ();
+		featuredList = new List<Song> ();
+		
+		featuredArtwork = new List<Texture2D> ();
 		
 		Thread refreshThread = new Thread ( SortAvailableDownloads );
 		refreshThread.Start();
@@ -209,7 +215,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 		{
 			
 			if ( song.featured == "true" )
-				UnityEngine.Debug.Log ( "Featured Song: " + song.name );
+				featuredList.Add ( song );
 			
 			tempAlbum = new Album ();
 			tempAlbum.name = song.album;
@@ -250,9 +256,14 @@ public class OnlineMusicBrowser : MonoBehaviour
 			
 				genres[song.genre].songs.Add ( song );
 			}
-			
 		}
 		
+/*		foreach ( Song song in featuredList )
+		{
+			
+			
+		}
+*/		
 		specificSort = allRecentlyAddedList;
 		currentPlace = "Recently Added";
 		
@@ -370,18 +381,18 @@ public class OnlineMusicBrowser : MonoBehaviour
 								songInfoOwner = null;
 							}
 							
-							if ( song.downloadLink.StartsWith ( "|" ) == true )
+							if ( song.downloadURL.StartsWith ( "|" ) == true )
 							{
-									
+
 								url = null;
-								downloadButtonText = song.downloadLink.Substring ( 1 );
+								downloadButtonText = song.downloadURL.Substring ( 1 );
 								
 								currentDownloadPercentage = "";
 								currentDownloadSize = "Unreleased";
-							} else if ( song.downloadLink.StartsWith ( "h" ) == true )
+							} else if ( song.downloadURL.StartsWith ( "h" ) == true )
 							{
 								
-								url = new Uri ( song.downloadLink );
+								url = new Uri ( song.downloadURL );
 								downloadButtonText = "Download";
 								
 								currentDownloadPercentage = "";

@@ -1,5 +1,17 @@
 UnityMusicPlayer
 ===============
-Version 1.1 DevRelease
+Version 1.14 DevRelease
 
-I don't like the way GitHub formats stuff, so I'm going to leave this blank.
+What we're working on for 1.2 release:
+    • Improved ease of use
+    • Featured tab
+    • Artwork downloading
+    • MusicViewer and MusicManager merge
+    • Refresh OMB button
+    • Change sort to different directory, on desktop for example
+    
+What we're working on for later releases:
+    • Socket server
+    • Gesture support
+    • LeapMotion support
+    • DJ Mode

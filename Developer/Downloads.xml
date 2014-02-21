@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?> 
 
 <Songs>
-	<Song>
+	<Song featured='false'>
 		<name>Liberty</name>
 		<album>Silent Room</album>
 		<artist>DJ Purify</artist>
@@ -11,7 +11,7 @@
 		<link name='Bandcamp'>http://purify1.bandcamp.com/track/purify-liberty</link>
 		<releaseDate>January 2, 2013</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>You Are Like Me</name>
 		<album>Act Of Love/You Are Like Me</album>
 		<artist>Wolfgun</artist>
@@ -21,7 +21,7 @@
 		<link name='Bandcamp'>http://rchetype.bandcamp.com/track/you-are-like-me</link>
 		<releaseDate>January 1, 2013</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Valley of the Shadows</name>
 		<album>Physics</album>
 		<artist>Wolfgun</artist>
@@ -31,7 +31,7 @@
 		<link name='Bandcamp'>http://wolfgun.bandcamp.com/album/physics</link>
 		<releaseDate>January 1, 2013</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>River (ft. Tim Bonvallet)</name>
 		<album>SUNDISK</album>
 		<artist>Wolfgun</artist>
@@ -41,7 +41,7 @@
 		<link name='Bandcamp'>http://wolfgun.bandcamp.com/album/sundisk</link>
 		<releaseDate>January 1, 2013</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Pacific</name>
 		<album>SUNDISK</album>
 		<artist>Wolfgun</artist>
@@ -51,7 +51,7 @@
 		<link name='Bandcamp'>http://wolfgun.bandcamp.com/album/sundisk</link>
 		<releaseDate>January 1, 2013</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Classic Tetris</name>
 		<album>UMP Exclusive</album>
 		<artist>Combustible Lemonade</artist>
@@ -60,7 +60,7 @@
 		<downloadURL>http://ubuntuone.com/4hm6EF1ZJBy7red7JNtYe7</downloadURL>
 		<releaseDate>August 20, 2012</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Epic Classic</name>
 		<album>UMP Exclusive</album>
 		<artist>Combustible Lemonade</artist>
@@ -69,7 +69,7 @@
 		<downloadURL>http://ubuntuone.com/7SvO1UUIZJlGWFzPYkYMXu</downloadURL>
 		<releaseDate>August 20, 2012</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Blended</name>
 		<album>it burns</album>
 		<artist>Combustible Lemonade</artist>
@@ -79,7 +79,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/combustible-lemonade/2nd-dubstep-song</link>
 		<releaseDate>November 28, 2012</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Quantum Realm</name>
 		<album>it burns</album>
 		<artist>Combustible Lemonade</artist>
@@ -89,7 +89,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/combustible-lemonade/quantum-realm</link>
 		<releaseDate>November 28, 2012</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Ghosts</name>
 		<album>it burns</album>
 		<artist>Combustible Lemonade</artist>
@@ -98,7 +98,7 @@
 		<downloadURL>http://ubuntuone.com/3F05TgRB5YfCZM1qyn5n7e</downloadURL>
 		<releaseDate>November 28, 2012</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>End of the World</name>
 		<album>it burns</album>
 		<artist>Combustible Lemonade</artist>
@@ -120,7 +120,7 @@
 		<largeArtwork>http://ubuntuone.com/4A3RwHfUQsFTsscY68uzTT</largeArtwork>
 		<smallArtwork>http://ubuntuone.com/4kwgVh4sI5sZWnlVV37N5j</smallArtwork>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Joking</name>
 		<album>UMP Exclusive</album>
 		<artist>BlackTie Vivid</artist>
@@ -130,7 +130,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/blacktie-vivid</link>
 		<releaseDate>August 20, 2012</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Koi</name>
 		<album>UMP Exclusive</album>
 		<artist>BlackTie Vivid</artist>
@@ -140,37 +140,37 @@
 		<link name='Soundcloud'>http://soundcloud.com/blacktie-vivid</link>
 		<releaseDate>August 20, 2012</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Catastrophic</name>
 		<album>Synergy EP</album>
 		<artist>Avelocity</artist>
 		<genre>Trance</genre>
 		<format>unity3d</format>
-		<downloadURL>http://ubuntuone.com/0hLPPKkfplBnbt3QnXmgI7</downloadURL>
+		<downloadURL>http://ubuntuone.com/7BioCbT36rE76YzmlEPPUB</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
 		<releaseDate>April 23, 2013</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Liquid Sunshine</name>
 		<album>Synergy EP</album>
 		<artist>Avelocity</artist>
 		<genre>Trance</genre>
 		<format>unity3d</format>
-		<downloadURL>http://ubuntuone.com/0yg3zQMmbXN1DzRAb7MVOU</downloadURL>
+		<downloadURL>http://ubuntuone.com/67rba9CgW6LvuA4HG6A1J0</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
 		<releaseDate>April 23, 2013</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Vibrance</name>
 		<album>Synergy EP</album>
 		<artist>Avelocity</artist>
 		<genre>Trance</genre>
 		<format>unity3d</format>
-		<downloadURL>http://ubuntuone.com/5j16mNYaBNiIVwYXknJVx2</downloadURL>
+		<downloadURL>http://ubuntuone.com/2QMYzuZoSemRvxcTsdTXjj</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
 		<releaseDate>April 23, 2013</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Background Sounds</name>
 		<album>Darkest Mornings / Brightest Nights</album>
 		<artist>BlackTie Vivid</artist>
@@ -180,7 +180,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/blacktie-vivid</link>
 		<releaseDate>April 28, 2013</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Space Invaders</name>
 		<album>UMP Exclusive</album>
 		<artist>Umcaruje</artist>
@@ -190,7 +190,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/umcaruje</link>
 		<releaseDate>April 27, 2013</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Fractal</name>
 		<album>Fractal - Single</album>
 		<artist>Umcaruje</artist>
@@ -200,7 +200,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/umcaruje</link>
 		<releaseDate>April 27, 2013</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Maths</name>
 		<album>Maths - Single</album>
 		<artist>Umcaruje</artist>
@@ -210,7 +210,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/umcaruje</link>
 		<releaseDate>April 27, 2013</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>15 Inventions a 2 Voix IV</name>
 		<album>UMP Exclusive</album>
 		<artist>Combustible Lemonade</artist>
@@ -219,7 +219,7 @@
 		<downloadURL>http://ubuntuone.com/7TLIcB2xun4RcOy6VljoUC</downloadURL>
 		<releaseDate>April 27, 2013</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Time</name>
 		<album>Darkest Mornings / Brightest Nights</album>
 		<artist>BlackTie Vivid</artist>
@@ -229,7 +229,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/blacktie-vivid</link>
 		<releaseDate>June 4, 2013</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Darkest</name>
 		<album>Darkest Mornings / Brightest Nights</album>
 		<artist>BlackTie Vivid</artist>
@@ -239,7 +239,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/blacktie-vivid</link>
 		<releaseDate>June 1, 2013</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Lost on Airport</name>
 		<album>Lost on Airport/Flight</album>
 		<artist>Umcaruje</artist>
@@ -249,7 +249,7 @@
 		<link name='Bandcamp'>http://umcaruje.bandcamp.com/album/lost-on-airport-flight</link>
 		<releaseDate>September 2, 2013</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Flight</name>
 		<album>Lost on Airport/Flight</album>
 		<artist>Umcaruje</artist>
@@ -259,7 +259,7 @@
 		<link name='Bandcamp'>http://umcaruje.bandcamp.com/album/lost-on-airport-flight</link>
 		<releaseDate>September 2, 2013</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Lume</name>
 		<album>Lume - Single</album>
 		<artist>ManiaRib</artist>
@@ -270,7 +270,7 @@
 		<link name='Blogspot'>http://brian-amin.blogspot.com</link>
 		<releaseDate>September 2, 2013</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Brightest</name>
 		<album>Darkest Mornings / Brightest Nights</album>
 		<artist>BlackTie Vivid</artist>
@@ -280,7 +280,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/blacktie-vivid</link>
 		<releaseDate>September 2, 2013</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Rhapsody on Linux</name>
 		<album>it burns</album>
 		<artist>Combustible Lemonade</artist>
@@ -289,7 +289,7 @@
 		<downloadURL>http://ubuntuone.com/3ArE9LcjxyDqhG6Xd788Px</downloadURL>
 		<releaseDate>September 3, 2013</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Paradoxical</name>
 		<album>Darkest Mornings / Brightest Nights</album>
 		<artist>BlackTie Vivid</artist>
@@ -299,37 +299,37 @@
 		<link name='Soundcloud'>http://soundcloud.com/blacktie-vivid</link>
 		<releaseDate>January 2, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Seaside</name>
 		<album>Synergy EP</album>
 		<artist>Avelocity</artist>
 		<genre>Drum and Bass</genre>
-		<format>wav</format>
-		<downloadURL>|Syncing</downloadURL>
+		<format>unity3d</format>
+		<downloadURL>http://ubuntuone.com/6WjxnFnnNvTNHP2aqkjBsu</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Sonar</name>
 		<album>Synergy EP</album>
 		<artist>Avelocity</artist>
 		<genre>House</genre>
-		<format>wav</format>
-		<downloadURL>|Syncing</downloadURL>
+		<format>unity3d</format>
+		<downloadURL>http://ubuntuone.com/0SSFOiQpm0vMXMgzKQkVnV</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Dinolazor Fluxcar</name>
 		<album>Synergy EP</album>
 		<artist>Avelocity</artist>
 		<genre>Dubstep</genre>
-		<format>wav</format>
-		<downloadURL>|Syncing</downloadURL>
+		<format>unity3d</format>
+		<downloadURL>http://ubuntuone.com/5b4JxRkCKdwcMr4KPxi4kj</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>One More</name>
 		<album>Reality - EP</album>
 		<artist>Abludo</artist>
@@ -339,7 +339,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/abludomusic</link>
 		<releaseDate>February 13, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Reality</name>
 		<album>Reality - EP</album>
 		<artist>Abludo</artist>
@@ -349,7 +349,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/abludomusic</link>
 		<releaseDate>February 13, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Blue</name>
 		<album>Reality - EP</album>
 		<artist>Abludo</artist>
@@ -359,7 +359,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/abludomusic</link>
 		<releaseDate>February 13, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Soar</name>
 		<album>Reality - EP</album>
 		<artist>Abludo</artist>
@@ -369,57 +369,57 @@
 		<link name='Soundcloud'>http://soundcloud.com/abludomusic</link>
 		<releaseDate>February 13, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Starlight (Greippi's mix)</name>
 		<album>Starlight</album>
 		<artist>Avelocity</artist>
 		<genre>House</genre>
-		<format>wav</format>
-		<downloadURL>http://ubuntuone.com/6fUTapn0FsQUHb7UbXCCIZ</downloadURL>
+		<format>unity3d</format>
+		<downloadURL>http://ubuntuone.com/3Sc3q4vidITxsaR6i9D2Dm</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Starlight (Raptor Remix)</name>
 		<album>Starlight</album>
 		<artist>Avelocity</artist>
 		<genre>House</genre>
-		<format>wav</format>
-		<downloadURL>http://ubuntuone.com/6EZ8uhkw2y6ArzRTEzL1rd</downloadURL>
+		<format>unity3d</format>
+		<downloadURL>http://ubuntuone.com/2hA4oZc0LQ5AozlkDkRLb9</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Starlight (Ten of Eleven Remix)</name>
 		<album>Starlight</album>
 		<artist>Avelocity</artist>
 		<genre>House</genre>
-		<format>wav</format>
-		<downloadURL>http://ubuntuone.com/3frAsneCV2AuDapiyXPRer</downloadURL>
+		<format>unity3d</format>
+		<downloadURL>http://ubuntuone.com/45umgYPonEG1eXjmfbyY4a</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Starlight (Umcaruje's wreck the dancehall mix)</name>
 		<album>Starlight</album>
 		<artist>Avelocity</artist>
 		<genre>House</genre>
-		<format>wav</format>
-		<downloadURL>http://ubuntuone.com/6XOoM9oxh8updB1MKMLlz0</downloadURL>
+		<format>unity3d</format>
+		<downloadURL>http://ubuntuone.com/6iWYc3cOvwAhjzxAFZtmsl</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Starlight</name>
 		<album>Starlight</album>
 		<artist>Avelocity</artist>
 		<genre>House</genre>
-		<format>wav</format>
-		<downloadURL>http://ubuntuone.com/219s6CGBhDuAGdtisnbLtB</downloadURL>
+		<format>unity3d</format>
+		<downloadURL>http://ubuntuone.com/6UXAWj7BP5uc6knBV6ffkk</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Artic Dream</name>
 		<album>Silent Room</album>
 		<artist>DJ Purify</artist>
@@ -429,7 +429,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Club Mix 2011</name>
 		<album>Silent Room</album>
 		<artist>DJ Purify</artist>
@@ -439,7 +439,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Eletectronica</name>
 		<album>Silent Room</album>
 		<artist>DJ Purify</artist>
@@ -449,7 +449,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Fairy</name>
 		<album>Silent Room</album>
 		<artist>DJ Purify</artist>
@@ -459,7 +459,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Falling</name>
 		<album>Silent Room</album>
 		<artist>DJ Purify</artist>
@@ -469,7 +469,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Into your world Remix</name>
 		<album>Silent Room</album>
 		<artist>DJ Purify</artist>
@@ -479,7 +479,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Lapis Blue (Purify Remix)</name>
 		<album>Silent Room</album>
 		<artist>DJ Purify</artist>
@@ -489,7 +489,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Love (Purify Remix)</name>
 		<album>Silent Room</album>
 		<artist>DJ Purify</artist>
@@ -499,7 +499,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Moon</name>
 		<album>Silent Room</album>
 		<artist>DJ Purify</artist>
@@ -509,7 +509,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Natural</name>
 		<album>Silent Room</album>
 		<artist>DJ Purify</artist>
@@ -519,7 +519,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Perfect Story</name>
 		<album>Silent Room</album>
 		<artist>DJ Purify</artist>
@@ -529,7 +529,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Sample</name>
 		<album>Silent Room</album>
 		<artist>DJ Purify</artist>
@@ -539,7 +539,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Silence [Summer Club Mix 2012]</name>
 		<album>Silent Room</album>
 		<artist>DJ Purify</artist>
@@ -549,7 +549,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Silent Shore</name>
 		<album>Silent Room</album>
 		<artist>DJ Purify</artist>
@@ -559,7 +559,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Stevia</name>
 		<album>Silent Room</album>
 		<artist>DJ Purify</artist>
@@ -569,7 +569,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Choices</name>
 		<album>Doorways EP</album>
 		<artist>Face of Flynn</artist>
@@ -581,7 +581,7 @@
 		<link name='Bandcamp'>http://faceoflynn.bandcamp.com/</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Essence</name>
 		<album>Doorways EP</album>
 		<artist>Face of Flynn</artist>
@@ -593,7 +593,7 @@
 		<link name='Bandcamp'>http://faceoflynn.bandcamp.com/</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Regret</name>
 		<album>Doorways EP</album>
 		<artist>Face of Flynn</artist>
@@ -605,7 +605,7 @@
 		<link name='Bandcamp'>http://faceoflynn.bandcamp.com/</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Unknown</name>
 		<album>Doorways EP</album>
 		<artist>Face of Flynn</artist>
@@ -617,7 +617,7 @@
 		<link name='Bandcamp'>http://faceoflynn.bandcamp.com/</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song>
+	<Song featured='false'>
 		<name>Solar Eclipse</name>
 		<album>Solar Eclipse - Single</album>
 		<artist>Second Flight</artist>

@@ -1,6 +1,7 @@
 UnityMusicPlayer
 OnlineMusicBrowser
 Song classification table
+NOTE: Encrypted audio must be uncompressed!
 
 Title
 Album

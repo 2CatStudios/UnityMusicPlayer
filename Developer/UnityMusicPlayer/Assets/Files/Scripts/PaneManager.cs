@@ -221,52 +221,56 @@ public class PaneManager : MonoBehaviour
 		if ( musicViewer.slideshow == false )
 		{
 			
-			if ( currentPane == pane.musicViewer || currentPane == pane.onlineMusicBrowser )
+			if ( musicViewer.showArrows == true )
 			{
 				
-				if ( GUI.Button ( new Rect ( 25, 25, 40, 40 ), leftArrow ))
+				if ( currentPane == pane.musicViewer || currentPane == pane.onlineMusicBrowser )
 				{
 					
-					if ( currentPane == pane.musicViewer )
+					if ( GUI.Button ( new Rect ( 25, 25, 40, 40 ), leftArrow ))
 					{
 						
-						moving = true;
-						moveToMM = true;
-						musicManager.checkForChanges = true;
-						musicManager.showMusicManager = true;
-					}
-					
-					if ( currentPane == pane.onlineMusicBrowser )
-					{
+						if ( currentPane == pane.musicViewer )
+						{
+							
+							moving = true;
+							moveToMM = true;
+							musicManager.checkForChanges = true;
+							musicManager.showMusicManager = true;
+						}
 						
-						moving = true;
-						moveToMVfOMB = true;
-						musicViewer.showMusicViewer = true;
+						if ( currentPane == pane.onlineMusicBrowser )
+						{
+							
+							moving = true;
+							moveToMVfOMB = true;
+							musicViewer.showMusicViewer = true;
+						}
 					}
 				}
-			}
-			
-			if ( currentPane == pane.musicViewer || currentPane == pane.musicManager )
-			{
 				
-				if ( GUI.Button ( new Rect ( musicViewer.musicViewerPosition.width - 65, 25, 40, 40 ), rightArrow ))
+				if ( currentPane == pane.musicViewer || currentPane == pane.musicManager )
 				{
 					
-					if ( currentPane == pane.musicViewer )
+					if ( GUI.Button ( new Rect ( musicViewer.musicViewerPosition.width - 65, 25, 40, 40 ), rightArrow ))
 					{
 						
-						moving = true;
-						moveToOMB = true;
-						onlineMusicBrowser.showOnlineMusicBrowser = true;
-					}
-					
-					if ( currentPane == pane.musicManager )
-					{
+						if ( currentPane == pane.musicViewer )
+						{
+							
+							moving = true;
+							moveToOMB = true;
+							onlineMusicBrowser.showOnlineMusicBrowser = true;
+						}
 						
-						moving = true;
-						moveToMVfMM = true;
-						musicManager.checkForChanges = false;
-						musicViewer.showMusicViewer = true;
+						if ( currentPane == pane.musicManager )
+						{
+							
+							moving = true;
+							moveToMVfMM = true;
+							musicManager.checkForChanges = false;
+							musicViewer.showMusicViewer = true;
+						}
 					}
 				}
 			}
