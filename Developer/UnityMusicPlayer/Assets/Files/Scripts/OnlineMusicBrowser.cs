@@ -278,7 +278,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	IEnumerator DownloadFeatured ()
 	{
 		
-		yield return downloadArtwork;
+		while ( downloadArtwork == false ) {}
 		
 		foreach ( Song song in featuredList )
 		{
@@ -506,7 +506,17 @@ public class OnlineMusicBrowser : MonoBehaviour
 				break;
 				
 				case 1:
-				
+				GUILayout.EndScrollView ();
+				GUILayout.EndHorizontal ();
+				GUILayout.BeginArea ( new Rect ( 0, 100, onlineMusicBrowserPosition.width, onlineMusicBrowserPosition.height - 100 ));
+				foreach ( Texture2D artwork in featuredArtwork )
+				{
+					
+					GUILayout.FlexibleSpace ();
+					GUILayout.Button ( artwork );
+					GUILayout.FlexibleSpace ();
+				}
+				GUILayout.EndArea ();
 				break;
 	
 				case 2:
@@ -571,8 +581,12 @@ public class OnlineMusicBrowser : MonoBehaviour
 			guiSkin.button.normal.background = null;
 			guiSkin.button.hover.background = guiHover;
 			
-			GUILayout.EndScrollView ();
-			GUILayout.EndHorizontal ();
+			if ( sortBy != 1 )
+			{
+				
+				GUILayout.EndScrollView ();
+				GUILayout.EndHorizontal ();
+			}
 			
 		} else {
 			
