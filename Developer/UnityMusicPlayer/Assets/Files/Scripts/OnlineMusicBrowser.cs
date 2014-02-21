@@ -82,6 +82,13 @@ public class Genre
 	public Genre () {}
 }
 
+public class Featured
+{
+	
+	public Song song;
+	public Texture2D artwork;
+}
+
 
 public class OnlineMusicBrowser : MonoBehaviour
 {
@@ -114,9 +121,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	List<Song> allSongsList;
 	List<Song> allRecentlyAddedList;
 	List<Song> specificSort;
-	List<Song> featuredList;
-	
-	List<Texture2D> featuredArtwork;
+	List<Featured> featuredList;
 	
 	SortedDictionary<string, Album> albums = new SortedDictionary<string, Album>();
 	SortedDictionary<string, Artist> artists = new SortedDictionary<string, Artist>();
@@ -182,9 +187,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 		allSongsList = new List<Song> ();
 		allRecentlyAddedList = new List<Song> ();
 		specificSort = new List<Song> ();
-		featuredList = new List<Song> ();
-		
-		featuredArtwork = new List<Texture2D> ();
+		featuredList = new List<Featured> ();
 		
 		Thread refreshThread = new Thread ( SortAvailableDownloads );
 		refreshThread.Start();
@@ -215,9 +218,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 
 		foreach ( Song song in songCollection.songs )
 		{
-			
-			if ( song.featured == "true" )
-				featuredList.Add ( song );
 			
 			tempAlbum = new Album ();
 			tempAlbum.name = song.album;
@@ -280,18 +280,27 @@ public class OnlineMusicBrowser : MonoBehaviour
 		
 		while ( downloadArtwork == false ) {}
 		
-		foreach ( Song song in featuredList )
+		foreach ( Song song in allSongsList )
 		{
 			
-			WWW featuredArtworkWWW = new WWW ( song.smallArtworkURL );
-			yield return featuredArtworkWWW;
+			if ( song.featured == "true" )
+			{
 			
-			Texture2D tempArtwork = new Texture2D ( 256, 256 );
-			featuredArtworkWWW.LoadImageIntoTexture ( tempArtwork );
-			featuredArtwork.Add ( tempArtwork );
+				WWW featuredArtworkWWW = new WWW ( song.smallArtworkURL );
+				yield return featuredArtworkWWW;
+				
+				Texture2D tempArtwork = new Texture2D ( 256, 256 );
+				featuredArtworkWWW.LoadImageIntoTexture ( tempArtwork );
+				
+				Featured tempFeatured = new Featured ();
+				tempFeatured.song = song;
+				tempFeatured.artwork = tempArtwork;
+	
+				featuredList.Add ( tempFeatured );
+			}
 		}
 		
-		UnityEngine.Debug.Log ( featuredArtwork.Count );
+		UnityEngine.Debug.Log ( featuredList.Count );
 		downloadArtwork = false;
 	}
 
@@ -366,9 +375,11 @@ public class OnlineMusicBrowser : MonoBehaviour
 			GUILayout.BeginHorizontal ();
 			GUILayout.Space ( onlineMusicBrowserPosition.width / 2 - 300  );
 	
-			scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  onlineMusicBrowserPosition.height - ( onlineMusicBrowserPosition.height / 4 + 53 )));
-			GUILayout.Box ( "Current Sort: " + currentPlace );
+			if ( sortBy != 1 )
+				scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  onlineMusicBrowserPosition.height - ( onlineMusicBrowserPosition.height / 4 + 53 )));
 			
+			GUILayout.Box ( "Current Sort: " + currentPlace, GUILayout.MaxWidth ( 600 ));
+				
 			switch ( sortBy )
 			{
 				
@@ -506,17 +517,16 @@ public class OnlineMusicBrowser : MonoBehaviour
 				break;
 				
 				case 1:
-				GUILayout.EndScrollView ();
 				GUILayout.EndHorizontal ();
-				GUILayout.BeginArea ( new Rect ( 0, 100, onlineMusicBrowserPosition.width, onlineMusicBrowserPosition.height - 100 ));
-				foreach ( Texture2D artwork in featuredArtwork )
+				GUILayout.BeginVertical ();
+				GUILayout.BeginHorizontal ();
+				foreach ( Featured featured in featuredList )
 				{
 					
-					GUILayout.FlexibleSpace ();
-					GUILayout.Button ( artwork );
-					GUILayout.FlexibleSpace ();
+					GUILayout.Button ( featured.artwork, GUILayout.MaxWidth ( 256 ));
+//					GUILayout.Label ( featured.song.name );
 				}
-				GUILayout.EndArea ();
+				GUILayout.EndVertical ();
 				break;
 	
 				case 2:
@@ -582,11 +592,9 @@ public class OnlineMusicBrowser : MonoBehaviour
 			guiSkin.button.hover.background = guiHover;
 			
 			if ( sortBy != 1 )
-			{
-				
 				GUILayout.EndScrollView ();
-				GUILayout.EndHorizontal ();
-			}
+				
+			GUILayout.EndHorizontal ();
 			
 		} else {
 			

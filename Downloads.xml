@@ -380,8 +380,10 @@
 		<downloadURL>http://ubuntuone.com/3Sc3q4vidITxsaR6i9D2Dm</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
 		<releaseDate>February 14, 2014</releaseDate>
+		<largeArtworkURL>http://ubuntuone.com/0Cea0cD6kVUDl8Pdyv0FsT</largeArtworkURL>
+		<smallArtworkURL>http://ubuntuone.com/3D80TF3iR1UQRvmjzCFcF2</smallArtworkURL>
 	</Song>
-	<Song featured='false'>
+	<Song featured='true'>
 		<name>Starlight (Raptor Remix)</name>
 		<album>Starlight</album>
 		<artist>Avelocity</artist>
@@ -389,6 +391,8 @@
 		<format>unity3d</format>
 		<downloadURL>http://ubuntuone.com/2hA4oZc0LQ5AozlkDkRLb9</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
+		<largeArtworkURL>http://ubuntuone.com/0Cea0cD6kVUDl8Pdyv0FsT</largeArtworkURL>
+		<smallArtworkURL>http://ubuntuone.com/3D80TF3iR1UQRvmjzCFcF2</smallArtworkURL>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
 	<Song featured='false'>
@@ -400,6 +404,8 @@
 		<downloadURL>http://ubuntuone.com/45umgYPonEG1eXjmfbyY4a</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
 		<releaseDate>February 14, 2014</releaseDate>
+		<largeArtworkURL>http://ubuntuone.com/0Cea0cD6kVUDl8Pdyv0FsT</largeArtworkURL>
+		<smallArtworkURL>http://ubuntuone.com/3D80TF3iR1UQRvmjzCFcF2</smallArtworkURL>
 	</Song>
 	<Song featured='false'>
 		<name>Starlight (Umcaruje's wreck the dancehall mix)</name>
@@ -410,6 +416,8 @@
 		<downloadURL>http://ubuntuone.com/6iWYc3cOvwAhjzxAFZtmsl</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
 		<releaseDate>February 14, 2014</releaseDate>
+		<largeArtworkURL>http://ubuntuone.com/0Cea0cD6kVUDl8Pdyv0FsT</largeArtworkURL>
+		<smallArtworkURL>http://ubuntuone.com/3D80TF3iR1UQRvmjzCFcF2</smallArtworkURL>
 	</Song>
 	<Song featured='false'>
 		<name>Starlight</name>
@@ -420,6 +428,8 @@
 		<downloadURL>http://ubuntuone.com/6UXAWj7BP5uc6knBV6ffkk</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
 		<releaseDate>February 14, 2014</releaseDate>
+		<largeArtworkURL>http://ubuntuone.com/0Cea0cD6kVUDl8Pdyv0FsT</largeArtworkURL>
+		<smallArtworkURL>http://ubuntuone.com/3D80TF3iR1UQRvmjzCFcF2</smallArtworkURL>
 	</Song>
 	<Song featured='false'>
 		<name>Artic Dream</name>
