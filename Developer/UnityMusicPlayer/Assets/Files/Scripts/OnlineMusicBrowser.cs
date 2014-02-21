@@ -26,6 +26,9 @@ public class SongCollection
 public class Song
 {
 	
+	[XmlAttribute]
+	public String featured;
+	
 	public String name;
 	
 	public String album;
@@ -37,6 +40,8 @@ public class Song
          public Link[] links;
 	
 	public String releaseDate;
+	public String largeArtwork;
+	public String smallArtwork;
 }
 
 
@@ -109,6 +114,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	List<Song> allSongsList;
 	List<Song> allRecentlyAddedList;
 	List<Song> specificSort;
+	List<Song> featuredList;
 	
 	SortedDictionary<string, Album> albums = new SortedDictionary<string, Album>();
 	SortedDictionary<string, Artist> artists = new SortedDictionary<string, Artist>();
@@ -116,8 +122,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 	
 	#endregion
 	
-	int sortBy = 5;
-	string currentPlace = "Recent";
+	int sortBy = 0;
+	string currentPlace;
 
 	#endregion
 	
@@ -136,6 +142,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 	
 	Song songInfoOwner;
 	Song downloadingSong;
+	
+	public Texture2D artworkSmall;
 	
 	#endregion
 	
@@ -200,6 +208,9 @@ public class OnlineMusicBrowser : MonoBehaviour
 		foreach ( Song song in songCollection.songs )
 		{
 			
+			if ( song.featured == "true" )
+				UnityEngine.Debug.Log ( "Featured Song: " + song.name );
+			
 			tempAlbum = new Album ();
 			tempAlbum.name = song.album;
 			tempAlbum.songs.Add ( song );
@@ -242,10 +253,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 			
 		}
 		
-//		albums.Values..Sort (( a, b ) => a.name.CompareTo ( b.name ));
-//		allArtistsList.Sort (( a, b ) => a.name.CompareTo ( b.name ));
-//		allGenresList.Sort (( a, b ) => a.name.CompareTo ( b.name ));
-		
 		specificSort = allRecentlyAddedList;
 		currentPlace = "Recently Added";
 		
@@ -281,40 +288,47 @@ public class OnlineMusicBrowser : MonoBehaviour
 	
 			GUILayout.Space ( onlineMusicBrowserPosition.width / 8 );
 			GUILayout.BeginHorizontal ();
+			
+			if ( GUILayout.Button ( "Featured" ))
+			{
+				
+				sortBy = 1;
+				currentPlace = "Featured";
+			}
+			
+			if (GUILayout.Button ("Recent"))
+			{
+	
+				sortBy = 2;
+				currentPlace = "Recently Added";
+			}
 	
 			if (GUILayout.Button ("Name"))
 			{
 	
-				sortBy = 0;
+				sortBy = 3;
 				currentPlace = "Name";
 			}
 	
 			if (GUILayout.Button ("Albums"))
 			{
 	
-				sortBy = 1;
+				sortBy = 4;
 				currentPlace = "Albums";
 			}
 	
 			if (GUILayout.Button ("Artists"))
 			{
 	
-				sortBy = 2;
+				sortBy = 5;
 				currentPlace = "Artists";
 			}
 	
 			if (GUILayout.Button ("Genres"))
 			{
 	
-				sortBy = 3;
+				sortBy = 6;
 				currentPlace = "Genres";
-			}
-	
-			if (GUILayout.Button ("Recent"))
-			{
-	
-				sortBy = 4;
-				currentPlace = "Recently Added";
 			}
 	
 			GUILayout.EndHorizontal ();
@@ -325,62 +339,10 @@ public class OnlineMusicBrowser : MonoBehaviour
 			scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  onlineMusicBrowserPosition.height - ( onlineMusicBrowserPosition.height / 4 + 53 )));
 			GUILayout.Box ( "Current Sort: " + currentPlace );
 			
-			switch (sortBy)
-			{		
+			switch ( sortBy )
+			{
 				
 				case 0:
-				specificSort = allSongsList;
-				sortBy = 5;
-				break;
-				
-				case 1:
-				foreach ( Album album in albums.Values )
-				{
-	
-					if ( GUILayout.Button ( album.name ))
-					{
-	
-						specificSort = album.songs;
-						currentPlace = "Albums > " + album.name;
-						sortBy = 5;
-					}
-				}
-				break;
-	
-				case 2:
-				foreach ( Artist artist in artists.Values )
-				{
-					
-					if ( GUILayout.Button ( artist.name ))
-					{
-	
-						specificSort = artist.songs;
-						currentPlace = "Artists > " + artist.name;
-						sortBy = 5;
-					}
-				}
-				break;
-	
-				case 3:
-				foreach ( Genre genre in genres.Values )
-				{
-					
-					if ( GUILayout.Button ( genre.name ))
-					{
-	
-						specificSort = genre.songs;
-						currentPlace = "Genres > " + genre.name;
-						sortBy = 5;
-					}
-				}
-				break;
-				
-				case 4:
-				specificSort = allRecentlyAddedList;
-				sortBy = 5;
-				break;
-				
-				case 5:
 				foreach ( Song song in specificSort )
 				{
 					
@@ -511,7 +473,65 @@ public class OnlineMusicBrowser : MonoBehaviour
 						}
 					}
 				}		
+				break;
 				
+				case 1:
+				
+				break;
+	
+				case 2:
+				specificSort = allRecentlyAddedList;
+				sortBy = 0;
+				break;
+	
+				case 3:
+				specificSort = allSongsList;
+				sortBy = 0;
+				break;
+				
+				case 4:
+				foreach ( Album album in albums.Values )
+				{
+	
+					if ( GUILayout.Button ( album.name ))
+					{
+	
+						specificSort = album.songs;
+						currentPlace = "Albums > " + album.name;
+						sortBy = 0;
+					}
+				}
+				break;
+				
+				case 5:
+				foreach ( Artist artist in artists.Values )
+				{
+					
+					if ( GUILayout.Button ( artist.name ))
+					{
+	
+						specificSort = artist.songs;
+						currentPlace = "Artists > " + artist.name;
+						sortBy = 0;
+					}
+				}
+				break;
+				
+				case 6:
+				foreach ( Genre genre in genres.Values )
+				{
+					
+					if ( GUILayout.Button ( genre.name ))
+					{
+	
+						specificSort = genre.songs;
+						currentPlace = "Genres > " + genre.name;
+						sortBy = 0;
+					}
+				}
+				break;
+				
+				case 7:
 				break;
 					
 				default:

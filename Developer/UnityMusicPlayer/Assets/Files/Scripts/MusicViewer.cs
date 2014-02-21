@@ -673,8 +673,7 @@ public class MusicViewer : MonoBehaviour
 	{		
 		
 		if ( manager.audio.clip != null && showTimebar == true )
-				GUI.DrawTexture ( new Rect ( manager.audio.time * ( musicViewerPosition.width/manager.audio.clip.length ), -3, 10, 6 ), timebarMarker );
-
+			GUI.DrawTexture ( new Rect ( manager.audio.time * ( musicViewerPosition.width/manager.audio.clip.length ), -3, 10, 6 ), timebarMarker );
 		
 		if ( showMusicViewer == true )
 		{
@@ -704,18 +703,16 @@ public class MusicViewer : MonoBehaviour
 		if ( startupManager.developmentMode == true )
 			UnityEngine.Debug.Log ( assetBundleToOpen + " | " + absongName );
 
-		WWW wwwClient = WWW.LoadFromCacheOrDownload ( assetBundleToOpen, 1 );
+		WWW wwwClient = WWW.LoadFromCacheOrDownload ( assetBundleToOpen, 0 );
 		yield return wwwClient;
 		
-		AssetBundle bundle = wwwClient.assetBundle;
-		
-		AssetBundleRequest request = bundle.LoadAsync ( absongName, typeof ( AudioClip ));
+		AssetBundleRequest request = wwwClient.assetBundle.LoadAsync ( absongName, typeof ( AudioClip ));
 		yield return request;
-
+		
 		AudioClip aClip = request.asset as AudioClip;
-		bundle.Unload ( false );
-
 		manager.audio.clip = aClip;
+		
+		wwwClient.assetBundle.Unload ( false );
 		Resources.UnloadUnusedAssets ();
 
 			
@@ -752,6 +749,7 @@ public class MusicViewer : MonoBehaviour
 		
 		if ( wwwClient.error != null )
 			UnityEngine.Debug.Log ( wwwClient.error );
+
 	}
 
 
