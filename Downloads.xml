@@ -11,7 +11,7 @@
 		<link name='Bandcamp'>http://purify1.bandcamp.com/track/purify-liberty</link>
 		<releaseDate>January 2, 2013</releaseDate>
 	</Song>
-	<Song featured='true'>
+	<Song featured='false'>
 		<name>You Are Like Me</name>
 		<album>Act Of Love/You Are Like Me</album>
 		<artist>Wolfgun</artist>
@@ -638,5 +638,18 @@
 		<downloadURL>http://ubuntuone.com/5nPjUNdIlxDVNROe9ln0g0</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/second_flight/</link>
 		<releaseDate>February 16, 2014</releaseDate>
+	</Song>
+	<Song featured='true'>
+		<name>Act Of Love</name>
+		<album>Act Of Love/You Are Like Me</album>
+		<artist>Rchetype</artist>
+		<genre>Dubstep</genre>
+		<format>unity3d</format>
+		<downloadURL>http://ubuntuone.com/7CtFHRSAvTRfwXZe0BdHYv</downloadURL>
+		<link name='Bandcamp'>http://rchetype.bandcamp.com/track/you-are-like-me</link>
+		<link name='Facebook'>http://www.facebook.com/Rchetype</link>
+		<releaseDate>February 22, 2014</releaseDate>
+		<largeArtworkURL>http://ubuntuone.com/25Ff5fzfYzjRcSllSdGqNz</largeArtworkURL>
+		<smallArtworkURL>http://ubuntuone.com/4ql7D7G6xQzFk8zhdWyBTK</smallArtworkURL>
 	</Song>
 </Songs>
