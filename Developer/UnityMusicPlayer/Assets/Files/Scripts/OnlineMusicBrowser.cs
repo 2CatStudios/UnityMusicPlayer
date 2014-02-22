@@ -329,6 +329,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 		
 			if ( paneManager.loading == false )
 				onlineMusicBrowserPosition = GUI.Window ( 1, onlineMusicBrowserPosition, OnlineMusicBrowserPane, onlineMusicBrowserTitle );
+				
+//			UnityEngine.Debug.Log ( scrollPosition.y );
 		}
 	}
 
@@ -354,6 +356,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 					
 					currentSort = sort;
 					sortBy = sort.method;
+					scrollPosition = new Vector2 ( 0, 0 );
 				}
 				
 				guiSkin.button.normal.background = null;
@@ -419,11 +422,11 @@ public class OnlineMusicBrowser : MonoBehaviour
 								Thread getInfoThread = new Thread ( GetInfoThread );
 								getInfoThread.Priority = System.Threading.ThreadPriority.AboveNormal;
 								getInfoThread.Start ();
-								}
+							}
 								
-								showSongInformation = true;
-								songInfoOwner = song;
-							} else {
+							showSongInformation = true;
+							songInfoOwner = song;
+						} else {
 							
 							showSongInformation = false;
 							songInfoOwner = null;
@@ -517,10 +520,41 @@ public class OnlineMusicBrowser : MonoBehaviour
 					if ( GUILayout.Button ( featured.artwork, GUILayout.MaxWidth ( 360 ), GUILayout.MaxHeight ( 360 )))
 					{
 						
-						UnityEngine.Debug.Log ( "Show featured stuff" );
+						songInfoOwner = featured.song;
+						showSongInformation = true;
+						
+						if ( featured.song.downloadURL.StartsWith ( "|" ) == true )
+						{
+
+							url = null;
+							downloadButtonText = featured.song.downloadURL.Substring ( 1 );
+							
+							currentDownloadPercentage = "";
+							currentDownloadSize = "Unreleased";
+						} else if ( featured.song.downloadURL.StartsWith ( "h" ) == true )
+						{
+								
+							url = new Uri ( featured.song.downloadURL );
+							downloadButtonText = "Download";
+							
+							currentDownloadPercentage = "";
+							currentDownloadSize = "Loading";
+								
+							Thread getInfoThread = new Thread ( GetInfoThread );
+							getInfoThread.Priority = System.Threading.ThreadPriority.AboveNormal;
+							getInfoThread.Start ();
+						}
+						
+						int firstEquation = ( allRecentlyAddedList.Count - 1 ) - allRecentlyAddedList.IndexOf ( featured.song );
+						int secondEquation = ( allRecentlyAddedList.Count - 1 ) - firstEquation;
+						
+						scrollPosition.y += secondEquation * 36;
+						
+						currentSort = availableSorts[1];
+						specificSort = allRecentlyAddedList;
+						sortBy = 0;
 					}
 				}
-				GUILayout.EndHorizontal ();
 				break;
 	
 				case 2:
@@ -574,8 +608,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 			}
 			
 			GUILayout.EndScrollView ();
-			if ( sortBy != 1 )
-				GUILayout.EndHorizontal ();
+			GUILayout.EndHorizontal ();
 		} else {
 			
 			GUI.Label ( new Rect ( 10, onlineMusicBrowserPosition.height / 4, onlineMusicBrowserPosition.width - 20, 128 ), "The OnlineMusicBrowser has been disabled!", labelStyle );
