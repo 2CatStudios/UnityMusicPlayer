@@ -112,6 +112,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	internal bool showOnlineMusicBrowser = false;
 
 	Vector2 scrollPosition;
+	Vector2 horizontalScrollPosition;
 	internal Rect onlineMusicBrowserPosition = new Rect(0, 0, 800, 600);
 	internal string onlineMusicBrowserTitle;
 	
@@ -550,12 +551,12 @@ public class OnlineMusicBrowser : MonoBehaviour
 				
 				case 1:
 				GUILayout.EndHorizontal ();
-				GUILayout.BeginVertical ();
+				horizontalScrollPosition = GUILayout.BeginScrollView ( horizontalScrollPosition, GUILayout.Width ( onlineMusicBrowserPosition.width - 20 ), GUILayout.Height( 360 ));
 				GUILayout.BeginHorizontal ();
 				foreach ( Featured featured in featuredList )
 				{
 					
-					if ( GUILayout.Button ( featured.artwork, GUILayout.MaxWidth ( 256 ), GUILayout.MaxHeight ( 256 )))
+					if ( GUILayout.Button ( featured.artwork, GUILayout.MaxWidth ( 512 ), GUILayout.MaxHeight ( 512 )))
 					{
 						
 						specificSort = new List<Song>();
@@ -563,7 +564,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 						sortBy = 0;
 					}
 				}
-				GUILayout.EndVertical ();
+				GUILayout.EndHorizontal ();
 				break;
 	
 				case 2:
@@ -628,10 +629,9 @@ public class OnlineMusicBrowser : MonoBehaviour
 			guiSkin.button.normal.background = null;
 			guiSkin.button.hover.background = guiHover;
 			
+			GUILayout.EndScrollView ();
 			if ( sortBy != 1 )
-				GUILayout.EndScrollView ();
-				
-			GUILayout.EndHorizontal ();
+				GUILayout.EndHorizontal ();
 			
 		} else {
 			
