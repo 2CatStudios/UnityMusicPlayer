@@ -107,6 +107,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	
 	public Texture2D guiHover;
 	public Texture2D guiActiveHover;
+	public Texture2D missingArtwork;
 	
 	internal bool showOnlineMusicBrowser = false;
 
@@ -258,6 +259,16 @@ public class OnlineMusicBrowser : MonoBehaviour
 			
 				genres[song.genre].songs.Add ( song );
 			}
+			
+			if ( song.featured == "true" )
+			{
+			
+				Featured tempFeatured = new Featured ();
+				tempFeatured.song = song;
+				tempFeatured.artwork = missingArtwork;
+	
+				featuredList.Add ( tempFeatured );
+			}
 		}
 		
 		specificSort = allRecentlyAddedList;
@@ -275,7 +286,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	}
 	
 	
-	IEnumerator DownloadFeatured ()
+/*	IEnumerator DownloadFeatured ()
 	{
 		
 		while ( downloadArtwork == false ) {}
@@ -303,7 +314,28 @@ public class OnlineMusicBrowser : MonoBehaviour
 		UnityEngine.Debug.Log ( featuredList.Count );
 		downloadArtwork = false;
 	}
-
+*/
+	
+	
+	IEnumerator DownloadFeatured ()
+	{
+		
+		while ( downloadArtwork == false ) {}
+		
+		foreach ( Featured featuredSong in featuredList )
+		{
+			
+			WWW featuredArtworkWWW = new WWW ( featuredSong.song.smallArtworkURL );
+			yield return featuredArtworkWWW;
+				
+			Texture2D downloadedArtwork = new Texture2D ( 256, 256 );
+			featuredArtworkWWW.LoadImageIntoTexture ( downloadedArtwork );
+				
+			featuredSong.artwork = downloadedArtwork;
+		}
+		downloadArtwork = false;
+	}
+	
 
 	void OnGUI ()
 	{
@@ -523,8 +555,13 @@ public class OnlineMusicBrowser : MonoBehaviour
 				foreach ( Featured featured in featuredList )
 				{
 					
-					GUILayout.Button ( featured.artwork, GUILayout.MaxWidth ( 256 ));
-//					GUILayout.Label ( featured.song.name );
+					if ( GUILayout.Button ( featured.artwork, GUILayout.MaxWidth ( 256 ), GUILayout.MaxHeight ( 256 )))
+					{
+						
+						specificSort = new List<Song>();
+						specificSort.Add ( featured.song );
+						sortBy = 0;
+					}
 				}
 				GUILayout.EndVertical ();
 				break;
