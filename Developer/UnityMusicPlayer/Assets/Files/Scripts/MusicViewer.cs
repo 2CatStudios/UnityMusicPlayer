@@ -443,6 +443,13 @@ public class MusicViewer : MonoBehaviour
 			
 			startupManager.checkForUpdate = Convert.ToBoolean ( tempCheckForUpdates );
 			
+			if ( startupManager.ombEnabled == false && Convert.ToBoolean ( tempEnableOMB ) == true )
+			{
+				
+				startupManager.SendMessage ( "RefreshOMB" );
+				paneManager.loading = true;
+			}
+			
 			startupManager.ombEnabled = Convert.ToBoolean ( tempEnableOMB );
 
 			

@@ -329,8 +329,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 		
 			if ( paneManager.loading == false )
 				onlineMusicBrowserPosition = GUI.Window ( 1, onlineMusicBrowserPosition, OnlineMusicBrowserPane, onlineMusicBrowserTitle );
-				
-//			UnityEngine.Debug.Log ( scrollPosition.y );
 		}
 	}
 
@@ -347,7 +345,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 			foreach ( Sort sort in availableSorts )
 			{
 				
-								
 				if ( currentSort == sort )	
 					guiSkin.button.normal.background = guiHover;
 				
@@ -394,6 +391,11 @@ public class OnlineMusicBrowser : MonoBehaviour
 						
 						if ( showSongInformation == false || songInfoOwner != song )
 						{
+							
+							int firstEquation = ( allRecentlyAddedList.Count - 1 ) - allRecentlyAddedList.IndexOf ( song );
+							int secondEquation = ( allRecentlyAddedList.Count - 1 ) - firstEquation;
+						
+							scrollPosition.y = secondEquation * 36;
 							
 							if ( songInfoOwner != song )
 							{
@@ -548,7 +550,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 						int firstEquation = ( allRecentlyAddedList.Count - 1 ) - allRecentlyAddedList.IndexOf ( featured.song );
 						int secondEquation = ( allRecentlyAddedList.Count - 1 ) - firstEquation;
 						
-						scrollPosition.y += secondEquation * 36;
+						scrollPosition.y = secondEquation * 36;
 						
 						currentSort = availableSorts[1];
 						specificSort = allRecentlyAddedList;
