@@ -249,7 +249,7 @@ public class PaneManager : MonoBehaviour
 					}
 				}
 				
-				if ( currentPane == pane.musicViewer || currentPane == pane.musicManager )
+				if ( currentPane == pane.musicViewer && loading == false || currentPane == pane.musicManager )
 				{
 					
 					if ( GUI.Button ( new Rect ( musicViewer.musicViewerPosition.width - 65, 25, 40, 40 ), rightArrow ))

@@ -89,6 +89,20 @@ public class Featured
 	public Texture2D artwork;
 }
 
+public class Sort
+{
+	
+	public String name;
+	public int method;
+	
+	public Sort ( String name, int method )
+	{
+		
+		this.name = name;
+		this.method = method;
+	}
+}
+
 
 public class OnlineMusicBrowser : MonoBehaviour
 {
@@ -96,8 +110,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 	StartupManager startupManager;
 	MusicViewer musicViewer;
 	PaneManager paneManager;
-
-	#region OMBVariables
 
 	public GUISkin guiSkin;
 	GUIStyle labelStyle;
@@ -117,8 +129,13 @@ public class OnlineMusicBrowser : MonoBehaviour
 	internal string onlineMusicBrowserTitle;
 	
 	internal bool showDownloadList = false;
+	
+	int sortBy = 1;
+	Sort currentSort;
 
 	#region Lists
+	
+	List<Sort> availableSorts;
 	
 	List<Song> allSongsList;
 	List<Song> allRecentlyAddedList;
@@ -129,11 +146,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 	SortedDictionary<string, Artist> artists = new SortedDictionary<string, Artist>();
 	SortedDictionary<string, Genre> genres = new SortedDictionary<string, Genre>();
 	
-	#endregion
-	
-	int sortBy = 0;
-	string currentPlace;
-
 	#endregion
 	
 	#region DownloadInformation
@@ -185,6 +197,9 @@ public class OnlineMusicBrowser : MonoBehaviour
 
 	void StartOMB ()
 	{
+
+		availableSorts = new List<Sort> () { new Sort ( "Featured", 1), new Sort ( "Recent", 2 ), new Sort ( "Name", 3 ), new Sort ( "Album", 4 ), new Sort ( "Artist", 5 ), new Sort ( "Genre", 6 ) };
+		currentSort = availableSorts[0];
 		
 		allSongsList = new List<Song> ();
 		allRecentlyAddedList = new List<Song> ();
@@ -272,9 +287,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 			}
 		}
 		
-		specificSort = allRecentlyAddedList;
-		currentPlace = "Recently Added";
-		
 		paneManager.loading = false;	
 		if ( paneManager.currentPane == PaneManager.pane.onlineMusicBrowser )
 		{
@@ -285,37 +297,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 		
 		downloadArtwork = true;
 	}
-	
-	
-/*	IEnumerator DownloadFeatured ()
-	{
-		
-		while ( downloadArtwork == false ) {}
-		
-		foreach ( Song song in allSongsList )
-		{
-			
-			if ( song.featured == "true" )
-			{
-			
-				WWW featuredArtworkWWW = new WWW ( song.smallArtworkURL );
-				yield return featuredArtworkWWW;
-				
-				Texture2D tempArtwork = new Texture2D ( 256, 256 );
-				featuredArtworkWWW.LoadImageIntoTexture ( tempArtwork );
-				
-				Featured tempFeatured = new Featured ();
-				tempFeatured.song = song;
-				tempFeatured.artwork = tempArtwork;
-	
-				featuredList.Add ( tempFeatured );
-			}
-		}
-		
-		UnityEngine.Debug.Log ( featuredList.Count );
-		downloadArtwork = false;
-	}
-*/
 	
 	
 	IEnumerator DownloadFeatured ()
@@ -361,46 +342,22 @@ public class OnlineMusicBrowser : MonoBehaviour
 			GUILayout.Space ( onlineMusicBrowserPosition.width / 8 );
 			GUILayout.BeginHorizontal ();
 			
-			if ( GUILayout.Button ( "Featured" ))
+			foreach ( Sort sort in availableSorts )
 			{
 				
-				sortBy = 1;
-				currentPlace = "Featured";
-			}
-			
-			if (GUILayout.Button ("Recent"))
-			{
-	
-				sortBy = 2;
-				currentPlace = "Recently Added";
-			}
-	
-			if (GUILayout.Button ("Name"))
-			{
-	
-				sortBy = 3;
-				currentPlace = "Name";
-			}
-	
-			if (GUILayout.Button ("Albums"))
-			{
-	
-				sortBy = 4;
-				currentPlace = "Albums";
-			}
-	
-			if (GUILayout.Button ("Artists"))
-			{
-	
-				sortBy = 5;
-				currentPlace = "Artists";
-			}
-	
-			if (GUILayout.Button ("Genres"))
-			{
-	
-				sortBy = 6;
-				currentPlace = "Genres";
+								
+				if ( currentSort == sort )	
+					guiSkin.button.normal.background = guiHover;
+				
+				if ( GUILayout.Button ( sort.name ))
+				{
+					
+					currentSort = sort;
+					sortBy = sort.method;
+				}
+				
+				guiSkin.button.normal.background = null;
+				guiSkin.button.hover.background = guiHover;
 			}
 	
 			GUILayout.EndHorizontal ();
@@ -409,9 +366,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 			GUILayout.Space ( onlineMusicBrowserPosition.width / 2 - 300  );
 	
 			if ( sortBy != 1 )
-				scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  onlineMusicBrowserPosition.height - ( onlineMusicBrowserPosition.height / 4 + 53 )));
-			
-			GUILayout.Box ( "Current Sort: " + currentPlace, GUILayout.MaxWidth ( 600 ));
+				scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  onlineMusicBrowserPosition.height - ( onlineMusicBrowserPosition.height / 4 + 50 )));
 				
 			switch ( sortBy )
 			{
@@ -474,6 +429,9 @@ public class OnlineMusicBrowser : MonoBehaviour
 							songInfoOwner = null;
 						}
 					}
+					
+					guiSkin.button.normal.background = null;
+					guiSkin.button.hover.background = guiHover;
 					
 					if ( showSongInformation == true )
 					{
@@ -546,22 +504,20 @@ public class OnlineMusicBrowser : MonoBehaviour
 							GUILayout.Label ( "" );
 						}
 					}
-				}		
+				}
 				break;
 				
 				case 1:
 				GUILayout.EndHorizontal ();
-				horizontalScrollPosition = GUILayout.BeginScrollView ( horizontalScrollPosition, GUILayout.Width ( onlineMusicBrowserPosition.width - 20 ), GUILayout.Height( 360 ));
+				horizontalScrollPosition = GUILayout.BeginScrollView ( horizontalScrollPosition, GUILayout.Width ( onlineMusicBrowserPosition.width - 20 ), GUILayout.Height( 390 ));
 				GUILayout.BeginHorizontal ();
 				foreach ( Featured featured in featuredList )
 				{
 					
-					if ( GUILayout.Button ( featured.artwork, GUILayout.MaxWidth ( 512 ), GUILayout.MaxHeight ( 512 )))
+					if ( GUILayout.Button ( featured.artwork, GUILayout.MaxWidth ( 360 ), GUILayout.MaxHeight ( 360 )))
 					{
 						
-						specificSort = new List<Song>();
-						specificSort.Add ( featured.song );
-						sortBy = 0;
+						UnityEngine.Debug.Log ( "Show featured stuff" );
 					}
 				}
 				GUILayout.EndHorizontal ();
@@ -585,7 +541,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 					{
 	
 						specificSort = album.songs;
-						currentPlace = "Albums > " + album.name;
 						sortBy = 0;
 					}
 				}
@@ -599,7 +554,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 					{
 	
 						specificSort = artist.songs;
-						currentPlace = "Artists > " + artist.name;
 						sortBy = 0;
 					}
 				}
@@ -613,26 +567,15 @@ public class OnlineMusicBrowser : MonoBehaviour
 					{
 	
 						specificSort = genre.songs;
-						currentPlace = "Genres > " + genre.name;
 						sortBy = 0;
 					}
 				}
 				break;
-				
-				case 7:
-				break;
-					
-				default:
-				break;
 			}
-			
-			guiSkin.button.normal.background = null;
-			guiSkin.button.hover.background = guiHover;
 			
 			GUILayout.EndScrollView ();
 			if ( sortBy != 1 )
 				GUILayout.EndHorizontal ();
-			
 		} else {
 			
 			GUI.Label ( new Rect ( 10, onlineMusicBrowserPosition.height / 4, onlineMusicBrowserPosition.width - 20, 128 ), "The OnlineMusicBrowser has been disabled!", labelStyle );
