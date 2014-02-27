@@ -1,1 +1,1 @@
-All encrypted files must be uncompressed!
+All encrypted files must be uncompressed WAVs!

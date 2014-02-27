@@ -718,28 +718,29 @@ public class MusicViewer : MonoBehaviour
 
 	IEnumerator LoadAssetBundle ( string assetBundleToOpen, string absongName )
 	{
-
+		
+		Caching.CleanCache ();
+	
 		if ( startupManager.developmentMode == true )
-			UnityEngine.Debug.Log ( assetBundleToOpen + " | " + absongName );
-
+			UnityEngine.Debug.Log ( assetBundleToOpen + " | " + absongName );		
+	
 		WWW wwwClient = WWW.LoadFromCacheOrDownload ( assetBundleToOpen, 0 );
 		yield return wwwClient;
 		
 		AssetBundleRequest request = wwwClient.assetBundle.LoadAsync ( absongName, typeof ( AudioClip ));
 		yield return request;
-		
-		AudioClip aClip = request.asset as AudioClip;
-		manager.audio.clip = aClip;
+
+		manager.audio.clip = request.asset as AudioClip;
 		
 		wwwClient.assetBundle.Unload ( false );
 		Resources.UnloadUnusedAssets ();
-
-			
-		if ( manager.audio.clip.isReadyToPlay )
+//		Caching.CleanCache ();
+		
+		if ( manager.audio.clip.isReadyToPlay )	
 		{
 			
 			currentSong.text = absongName;
-			
+				
 			if ( preciseTimemark == true )
 				seconds = manager.audio.clip.length;
 			else
@@ -747,17 +748,17 @@ public class MusicViewer : MonoBehaviour
 
 			if ( seconds > 60 )
 			{
-			
+				
 				minutes = ( int ) Math.Round ( seconds )/60;
 				seconds -= minutes*60;
 			} else {
-				
+					
 				minutes = 0;
 			}
 			
 			rtMinutes = 00;
 			rtSeconds = 00;
-
+	
 			loadingImage.showLoadingImages = false;
 			manager.audio.Play ();
 			isPaused = false;
@@ -768,7 +769,6 @@ public class MusicViewer : MonoBehaviour
 		
 		if ( wwwClient.error != null )
 			UnityEngine.Debug.Log ( wwwClient.error );
-
 	}
 
 
@@ -1636,6 +1636,7 @@ public class MusicViewer : MonoBehaviour
 		manager.audio.Stop ();
 		
 		Resources.UnloadUnusedAssets ();
+		Caching.CleanCache ();
 
 		TextWriter savePrefs = new StreamWriter ( startupManager.prefsLocation );
 		savePrefs.WriteLine ( mediaPath + "\n" + startupManager.checkForUpdate + "\n" + startupManager.ombEnabled + "\n" + startupManager.showTutorials + "\n" + loop + "\n" + shuffle + "\n" + continuous + "\n" + showArrows + "\n" + showTypes + "\n" + showTimebar + "\n" + showArtwork + "\n" + showQuickManage + "\n" + preciseTimemark + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + blur + "\n" + sunShafts + 
