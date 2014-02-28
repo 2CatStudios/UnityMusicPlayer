@@ -170,16 +170,18 @@ public class MusicViewer : MonoBehaviour
 
 #endregion
 	
-	public static string StringToFloat ( string key )
-   	{
-				
-		return Regex.Replace ( key, "[^0-9.]", "" );
-	}
-	
-	public static string StringToInt ( string key )
-   	{
-				
-		return Regex.Replace ( key, "[^0-9]", "" );
+	public static string RegexToString ( string key, bool isFloat )
+	{
+		
+		if ( isFloat == true )
+		{
+			
+			return Regex.Replace ( key, "[^0-9.]", "" );
+		} else {
+			
+			
+			return Regex.Replace ( key, "[^0-9]", "" );
+		}
 	}
 	
 	WWW wWw;
@@ -549,7 +551,7 @@ public class MusicViewer : MonoBehaviour
 		
 		GUI.Label ( new Rect ( 34, 220, 100, 20 ), "Blur Iterations" );
 		tempBlurIterations = GUI.TextField ( new Rect ( 22, 220, 15, 20 ), tempBlurIterations, 1 );
-		tempBlurIterations = StringToInt ( tempBlurIterations );
+		tempBlurIterations = RegexToString ( tempBlurIterations, false );
 
 #endregion
 
@@ -559,19 +561,19 @@ public class MusicViewer : MonoBehaviour
 
 		GUI.Label ( new Rect ( 200, 154, 80, 20 ), "Echo Delay" );
 		tempEchoDelay = GUI.TextField ( new Rect ( 175, 154, 30, 20 ), tempEchoDelay, 3 );
-		tempEchoDelay = StringToFloat ( tempEchoDelay );
+		tempEchoDelay = RegexToString ( tempEchoDelay, true );
 
 		GUI.Label ( new Rect ( 204, 176, 110, 20 ), "Echo Decay Rate" );
 		tempEchoDecayRate = GUI.TextField ( new Rect ( 175, 176, 30, 20 ), tempEchoDecayRate, 3 );
-		tempEchoDecayRate = StringToFloat ( tempEchoDecayRate );
+		tempEchoDecayRate = RegexToString ( tempEchoDecayRate, true );
 
 		GUI.Label ( new Rect ( 198, 198, 100, 20 ), "Echo Wet Mix" );
 		tempEchoWetMix = GUI.TextField ( new Rect ( 175, 198, 30, 20 ), tempEchoWetMix, 3 );
-		tempEchoWetMix = StringToFloat ( tempEchoWetMix );
+		tempEchoWetMix = RegexToString ( tempEchoWetMix, true );
 
 		GUI.Label ( new Rect ( 196, 220, 100, 20 ), "Echo Dry Mix" );
 		tempEchoDryMix = GUI.TextField ( new Rect ( 175, 220, 30, 20 ), tempEchoDryMix, 3 );
-		tempEchoDryMix = StringToFloat ( tempEchoDryMix );
+		tempEchoDryMix = RegexToString ( tempEchoDryMix, true );
 
 #endregion
 
@@ -587,7 +589,7 @@ public class MusicViewer : MonoBehaviour
 		
 		GUI.Label ( new Rect ( 45, 315, 80, 20 ), "Display Time" );
 		displayTime = GUI.TextField ( new Rect ( 15, 316, 30, 20 ), displayTime, 3 );
-		displayTime = StringToFloat ( displayTime );
+		displayTime = RegexToString ( displayTime, true );
 
 #endregion
 
@@ -734,7 +736,6 @@ public class MusicViewer : MonoBehaviour
 		
 		wwwClient.assetBundle.Unload ( false );
 		Resources.UnloadUnusedAssets ();
-//		Caching.CleanCache ();
 		
 		if ( manager.audio.clip.isReadyToPlay )	
 		{

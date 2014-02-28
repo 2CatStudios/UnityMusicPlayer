@@ -23,9 +23,9 @@ public class StartupManager : MonoBehaviour
 
 	public GUIText connectionInformation;
 	bool errorInConnectionToInternet = false;
-	bool connectingToInternet = true;
+//	bool connectingToInternet = true;
 	internal bool startOMB = false;
-	bool u1 = true;
+//	bool refreshOMB = true;
 
 	internal bool showUnderlay = false;
 	public Texture2D underlay;
@@ -62,9 +62,10 @@ public class StartupManager : MonoBehaviour
 
 	bool updateAvailable = false;
 	internal bool checkForUpdate = true;
-	
+	bool clearConnectionInformation = false;
+//	bool updateOnlineMusicBrowser = true;
+//	bool updateOMB;
 	internal bool ombEnabled = true;
-	bool updateOMB = true;
 
 	string websiteLink;
 	
@@ -222,7 +223,7 @@ public class StartupManager : MonoBehaviour
 		if ( checkForUpdate == true || ombEnabled == true )
 		{
 			
-			Thread internetConnectionsThread = new Thread (() => InternetConnections ( false ));
+			Thread internetConnectionsThread = new Thread (() => InternetConnections ( checkForUpdate, ombEnabled ));
 			internetConnectionsThread.Start ();
 			
 			if ( ombEnabled == true )
@@ -236,7 +237,7 @@ public class StartupManager : MonoBehaviour
 	}
 
 	
-	void InternetConnections ( bool onlyUpdate )
+	void InternetConnections ( bool updateVersion, bool updateOMB )
 	{
 		
 		using ( WebClient wClient = new WebClient ())
@@ -246,7 +247,7 @@ public class StartupManager : MonoBehaviour
 			if ( developmentMode == false )
 			{
 				
-				if ( updateOMB == true && onlyUpdate == false )
+				if ( updateOMB == true )
 				{
 					
 					if ( File.Exists ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" ))
@@ -260,13 +261,10 @@ public class StartupManager : MonoBehaviour
 						startOMB = true;
 					}
 				}
-					
-				if ( checkForUpdate == true )
-					applicationDownloads = wClient.DownloadString ( "http://raw.github.com/2CatStudios/UnityMusicPlayer/master/VersionInfo.txt" ).Split ('\n');
 
 			} else {
 				
-				if ( updateOMB == true && onlyUpdate == false )
+				if ( updateOMB == true )
 				{
 					
 					try
@@ -294,19 +292,13 @@ public class StartupManager : MonoBehaviour
 						}
 					}
 				}
-				startOMB = true;
-				
-				if ( checkForUpdate == true )
-				{
-					
-					devApplicationDownloads = wClient.DownloadString ("http://raw.github.com/2CatStudios/UnityMusicPlayer/master/Developer/VersionInfo.txt").Split ('\n');
-					applicationDownloads = wClient.DownloadString ("http://raw.github.com/2CatStudios/UnityMusicPlayer/master/VersionInfo.txt").Split ('\n');
-				}
 			}
-
-			if ( checkForUpdate == true )
+			
+			if ( updateVersion == true )
 			{
-					
+				
+				applicationDownloads = wClient.DownloadString ( "http://raw.github.com/2CatStudios/UnityMusicPlayer/master/VersionInfo.txt" ).Split ( '\n' );
+
 				websiteLink = applicationDownloads [4];
 					
 				newestVersion = Convert.ToSingle(applicationDownloads [1]);
@@ -319,29 +311,29 @@ public class StartupManager : MonoBehaviour
 				if ( developmentMode == true )
 				{
 					
+					devApplicationDownloads = wClient.DownloadString ( "http://raw.github.com/2CatStudios/UnityMusicPlayer/master/Developer/VersionInfo.txt" ).Split ( '\n' );
+					
 					newestVersion = Convert.ToSingle ( applicationDownloads [1]);
 					devVersion = Convert.ToSingle ( devApplicationDownloads [1]);
 					UnityEngine.Debug.Log ( "Running version is: " + runningVersion + ". Dev-release release is: " + devVersion + ". Stable release is: " + newestVersion + "." );
 				}
-				
-				checkForUpdate = false;
 			}
 		} catch ( Exception errorText )
 		{
 			
 			if ( developmentMode == true )
-				UnityEngine.Debug.Log (errorText);
+				UnityEngine.Debug.Log ( errorText );
 				
 			errorInConnectionToInternet = true;
 		}
 		
-		
-		if ( onlyUpdate == true )
+		if ( updateVersion == true )
 			loadingImage.showLoadingImages = false;
-		else
-			connectingToInternet = false;
 			
-		updateOMB = false;
+		if ( updateOMB == true && errorInConnectionToInternet == false )
+			clearConnectionInformation = true;
+		
+		updateVersion = false;
 	}
 	
 	
@@ -360,8 +352,6 @@ public class StartupManager : MonoBehaviour
 	void OnGUI ()
 	{
 
-		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-
 		if ( updateAvailable == true )
 		{
 
@@ -379,13 +369,12 @@ public class StartupManager : MonoBehaviour
 			errorInConnectionToInternet = false;
 		}
 
-		if ( u1 == true && connectingToInternet == false && errorInConnectionToInternet == false )
+		if ( clearConnectionInformation == true )
 		{
 
 			connectionInformation.text = "";
-			u1 = false;
+			clearConnectionInformation = false;
 		}
-
 
 		if ( developmentMode == true && Application.isEditor == false )
 		{
@@ -411,7 +400,7 @@ public class StartupManager : MonoBehaviour
 	}
 
 	
-	void NewVersion (int pwid)
+	void NewVersion ( int pwid )
 	{
 		
 		GUI.Label (new Rect (0, 15, 300, 40), applicationDownloads[2]);
@@ -448,9 +437,7 @@ public class StartupManager : MonoBehaviour
 	void CheckForUpdate ()
 	{
 		
-		checkForUpdate = true;
-		
-		Thread internetConnectionsThread = new Thread (() => InternetConnections ( checkForUpdate ));
+		Thread internetConnectionsThread = new Thread (() => InternetConnections ( true, false ));
 		internetConnectionsThread.Priority = System.Threading.ThreadPriority.Highest;
 		internetConnectionsThread.Start ();
 	}
@@ -461,16 +448,12 @@ public class StartupManager : MonoBehaviour
 		
 		allSongs = null;
 		
-		connectingToInternet = true;
-		u1 = true;
-		checkForUpdate = false;
-		updateOMB = true;
 		startOMB = false;
 		
-		connectionInformation.text = "Connecting to the OnlineMusicDatabase...";
+		connectionInformation.text = "Connecting to the OnlineMusicDatabase";
 		InvokeRepeating ( "CheckStartOnlineMusicBrowser", 0, 0.2F );
 		
-		Thread internetConnectionsThread = new Thread (() => InternetConnections ( checkForUpdate ));
+		Thread internetConnectionsThread = new Thread (() => InternetConnections ( false, true ));
 		internetConnectionsThread.Priority = System.Threading.ThreadPriority.Highest;
 		internetConnectionsThread.Start ();
 	}
