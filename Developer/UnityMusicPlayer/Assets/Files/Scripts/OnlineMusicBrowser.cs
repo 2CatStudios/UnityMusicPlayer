@@ -389,6 +389,11 @@ public class OnlineMusicBrowser : MonoBehaviour
 					if ( GUILayout.Button ( song.name ))
 					{
 						
+						int firstEquation = ( allRecentlyAddedList.Count - 1 ) - specificSort.IndexOf ( song );
+						int secondEquation = ( allRecentlyAddedList.Count - 1 ) - firstEquation;
+						
+						scrollPosition.y = secondEquation * 36;
+						
 						if ( showSongInformation == false || songInfoOwner != song )
 						{
 							
