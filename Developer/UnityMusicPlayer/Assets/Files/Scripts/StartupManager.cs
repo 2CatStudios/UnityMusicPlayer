@@ -23,9 +23,7 @@ public class StartupManager : MonoBehaviour
 
 	public GUIText connectionInformation;
 	bool errorInConnectionToInternet = false;
-//	bool connectingToInternet = true;
 	internal bool startOMB = false;
-//	bool refreshOMB = true;
 
 	internal bool showUnderlay = false;
 	public Texture2D underlay;
@@ -54,7 +52,7 @@ public class StartupManager : MonoBehaviour
 	internal string tempPath;
 
 	internal string [] prefs;
-	int linesInPrefs = 35;
+	int linesInPrefs = 28;
 
 	string[] applicationDownloads;
 	string[] devApplicationDownloads;

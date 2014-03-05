@@ -299,10 +299,10 @@ public class MusicManager : MonoBehaviour
 		if ( currentDirectoryFiles.Any ())
 		{
 			
-			musicViewer.clipList = Directory.GetFiles ( currentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
+//			musicViewer.clipList = Directory.GetFiles ( currentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
 		} else {
 			
-			musicViewer.clipList = new String[0];
+//			musicViewer.clipList = new String[0];
 		}
 		
 		StartCoroutine ( "SetArtwork" );

@@ -383,7 +383,7 @@
 		<largeArtworkURL>http://ubuntuone.com/0Cea0cD6kVUDl8Pdyv0FsT</largeArtworkURL>
 		<smallArtworkURL>http://ubuntuone.com/1h0k0NvgNQE1I2EzkNoOEZ</smallArtworkURL>
 	</Song>
-	<Song featured='true'>
+	<Song featured='false'>
 		<name>Starlight (Raptor Remix)</name>
 		<album>Starlight</album>
 		<artist>Avelocity</artist>
@@ -629,7 +629,7 @@
 		<link name='Bandcamp'>http://faceoflynn.bandcamp.com/</link>
 		<releaseDate>February 14, 2014</releaseDate>
 	</Song>
-	<Song featured='false'>
+	<Song featured='true'>
 		<name>Solar Eclipse</name>
 		<album>Solar Eclipse - Single</album>
 		<artist>Second Flight</artist>
@@ -638,6 +638,7 @@
 		<downloadURL>http://ubuntuone.com/5nPjUNdIlxDVNROe9ln0g0</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/second_flight/</link>
 		<releaseDate>February 16, 2014</releaseDate>
+		<smallArtworkURL>http://ubuntuone.com/1bwIEcxIMHwFFabA0O4De4</smallArtworkURL>
 	</Song>
 	<Song featured='true'>
 		<name>Act Of Love</name>

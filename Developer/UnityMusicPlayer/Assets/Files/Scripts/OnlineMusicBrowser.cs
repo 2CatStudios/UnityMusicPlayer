@@ -13,7 +13,7 @@ using System.Xml.Serialization;
 using System.Collections.Generic;
 //using System.Collections.Specialized;
 //Written by GibsonBethke
-//THanks to Mike Talbot
+//Thanks to Mike Talbot
 [XmlRoot("Songs")]
 public class SongCollection
 {
@@ -123,8 +123,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 	
 	internal bool showOnlineMusicBrowser = false;
 
-	Vector2 scrollPosition;
-	Vector2 horizontalScrollPosition;
+	internal Vector2 scrollPosition;
+	internal Vector2 horizontalScrollPosition;
 	internal Rect onlineMusicBrowserPosition = new Rect(0, 0, 800, 600);
 	internal string onlineMusicBrowserTitle;
 	
@@ -656,7 +656,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 					File.Delete ( musicViewer.mediaPath + Path.DirectorySeparatorChar + downloadingSong.name + "." + downloadingSong.format );
 				
 				File.Move ( startupManager.tempPath + Path.DirectorySeparatorChar + downloadingSong.name + "." + downloadingSong.format, musicViewer.mediaPath + Path.DirectorySeparatorChar + downloadingSong.name + "." + downloadingSong.format );
-				musicViewer.clipList = Directory.GetFiles ( musicViewer.mediaPath, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
+//				musicViewer.clipList = Directory.GetFiles ( musicViewer.mediaPath, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
 			}
 
 			songInfoOwner = null;

@@ -54,9 +54,16 @@ public class MusicViewer : MonoBehaviour
 
 	float betweenSongDelay = 0.5F;
 
+
+	String parentDirectory;
+	String[] currentDirectories;
+	String openDirectory = "";
 	internal String[] clipList;
+	
 	int currentSongNumber = -1;
 	int i;
+	
+	bool showDirectorySongs = false;
 	
 	Vector2 scrollPosition;
 	Vector2 mousePos;
@@ -73,7 +80,11 @@ public class MusicViewer : MonoBehaviour
 	bool hideGUI = false;
 	public GUISkin guiSkin;
 	GUIStyle centerStyle;
+	GUIStyle labelStyle;
+	GUIStyle songStyle;
+	GUIStyle buttonStyle;
 	public Texture2D guiHover;
+	public Texture2D guiActiveHover;
 	
 	bool close = false;
 	
@@ -197,7 +208,6 @@ public class MusicViewer : MonoBehaviour
 
 		manager = GameObject.FindGameObjectWithTag ( "Manager" );
 		startupManager = manager.GetComponent <StartupManager> ();
-		mediaPath = startupManager.lastDirectory;
 		onlineMusicBrowser = GameObject.FindGameObjectWithTag ( "OnlineMusicBrowser" ).GetComponent <OnlineMusicBrowser>();
 		musicManager = GameObject.FindGameObjectWithTag ( "MusicManager" ).GetComponent <MusicManager>();
 		paneManager = manager.GetComponent <PaneManager> ();
@@ -216,8 +226,8 @@ public class MusicViewer : MonoBehaviour
 		timemark = GameObject.FindGameObjectWithTag ( "Timemark" ).GetComponent<GUIText> ();
 		GameObject.FindGameObjectWithTag ( "TimebarImage" ).guiTexture.pixelInset = new Rect ( -musicViewerPosition.width/2, musicViewerPosition.height/2 - 3, musicViewerPosition.width, 6 );
 
-		clipList = Directory.GetFiles ( mediaPath, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
-
+		parentDirectory = startupManager.lastDirectory;
+				
 		tempCheckForUpdates = Convert.ToSingle ( startupManager.checkForUpdate );
 		tempEnableOMB = Convert.ToSingle ( startupManager.ombEnabled );
 			
@@ -289,36 +299,7 @@ public class MusicViewer : MonoBehaviour
 		tempAutoAVOff = Convert.ToSingle ( autoAVOff );
 		
 		displayTime = startupManager.prefs [ 27 ];
-
-		previousSongs [ 0 ] = Convert.ToInt32 ( startupManager.prefs [ 28 ] );
-		if ( previousSongs [ 0 ] > clipList.Length )
-			previousSongs [ 0 ] = clipList.Length;
 		
-		previousSongs [ 1 ] = Convert.ToInt32 ( startupManager.prefs [ 29 ] );
-		if ( previousSongs [ 1 ] > clipList.Length )
-			previousSongs [ 1 ] = clipList.Length;
-		
-		previousSongs [ 2 ] = Convert.ToInt32 ( startupManager.prefs [ 30 ] );
-		if ( previousSongs [ 2 ] > clipList.Length )
-			previousSongs [ 2 ] = clipList.Length;
-		
-		previousSongs [ 3 ] = Convert.ToInt32 ( startupManager.prefs [ 31 ] );
-		if ( previousSongs [ 3 ] > clipList.Length )
-			previousSongs [ 3 ] = clipList.Length;
-		
-		previousSongs [ 4 ] = Convert.ToInt32 ( startupManager.prefs [ 32 ] );
-		if ( previousSongs [ 4 ] > clipList.Length )
-			previousSongs [ 4 ] = clipList.Length;
-		
-		previousSongs [ 5 ] = Convert.ToInt32 ( startupManager.prefs [ 33 ] );
-		if ( previousSongs [ 5 ] > clipList.Length )
-			previousSongs [ 5 ] = clipList.Length;
-		
-		previousSongs [ 6 ] = Convert.ToInt32 ( startupManager.prefs [ 34 ] );
-		if ( previousSongs [ 6 ] > clipList.Length )
-			previousSongs [ 6 ] = clipList.Length;
-
-
 		currentSong.text = "UnityMusicPlayer";
 		GameObject.FindGameObjectWithTag ( "TimebarImage" ).guiTexture.enabled = showTimebar;
 
@@ -343,14 +324,28 @@ public class MusicViewer : MonoBehaviour
 		musicManager.SendMessage ( "SetArtwork" );
 
 		TextWriter savePrefs = new StreamWriter ( startupManager.prefsLocation );
-		savePrefs.WriteLine ( mediaPath + "\n" + startupManager.checkForUpdate + "\n" + startupManager.ombEnabled + "\n" + startupManager.showTutorials + "\n" + loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + showArrows + "\n" + showTimebar + "\n" + showArtwork + "\n" + showQuickManage + "\n" + preciseTimemark + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + blur + "\n" + sunShafts + 
-		                     "\n" + blurIterations + "\n" + echoDelay + "\n" + echoDecayRate + "\n" + echoWetMix + "\n" + echoDryMix + "\n" + autoAVBlur + "\n" + autoAVOff + "\n" + displayTime + "\n" + previousSongs [ 0 ] + "\n" + previousSongs [ 1 ] + "\n" + previousSongs [ 2 ] + "\n" + previousSongs [ 3 ] + "\n" + previousSongs [ 4 ] + "\n" + previousSongs [ 5 ] + "\n" + previousSongs [ 6 ] );
+		savePrefs.WriteLine ( parentDirectory + "\n" + startupManager.checkForUpdate + "\n" + startupManager.ombEnabled + "\n" + startupManager.showTutorials + "\n" + loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + showArrows + "\n" + showTimebar + "\n" + showArtwork + "\n" + showQuickManage + "\n" + preciseTimemark + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + blur + "\n" + sunShafts + 
+		                     "\n" + blurIterations + "\n" + echoDelay + "\n" + echoDecayRate + "\n" + echoWetMix + "\n" + echoDryMix + "\n" + autoAVBlur + "\n" + autoAVOff + "\n" + displayTime );
 		savePrefs.Close ();
 		
 		InvokeRepeating ( "Refresh", 0, 2 );
 		
 		centerStyle = new GUIStyle ();
 		centerStyle.alignment = TextAnchor.MiddleCenter;
+		
+		labelStyle = new GUIStyle ();
+		labelStyle.alignment = TextAnchor.MiddleCenter;
+		labelStyle.wordWrap = true;
+		
+		songStyle = new GUIStyle ();
+		songStyle.alignment = TextAnchor.MiddleLeft;
+		songStyle.fontSize = 16;
+		
+		buttonStyle = new GUIStyle ();
+		buttonStyle.fontSize = 16;
+		buttonStyle.alignment = TextAnchor.MiddleCenter;
+		buttonStyle.border = new RectOffset ( 6, 6, 4, 4 );
+		buttonStyle.hover.background = guiHover;
 	}
 	
 	
@@ -360,10 +355,11 @@ public class MusicViewer : MonoBehaviour
 		if ( paneManager.currentPane == PaneManager.pane.musicViewer )
 		{
 			
-			if ( clipList.Any ())
+			currentDirectories = Directory.GetDirectories ( parentDirectory ).ToArray ();
+			if ( showDirectorySongs == true )
 			{
 				
-				clipList = Directory.GetFiles ( mediaPath, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
+				clipList = Directory.GetFiles ( openDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
 			}
 		}
 	}
@@ -870,96 +866,162 @@ public class MusicViewer : MonoBehaviour
 				GUILayout.BeginVertical ();
 				GUILayout.Space ( musicViewerPosition.height / 4 + 25 );
 				scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  musicViewerPosition.height - ( musicViewerPosition.height / 4 + 53 )));
-
-				if ( clipList.Any ())
+				
+				if ( currentDirectories.Any ())
 				{
-
-					for ( i = 0; i < clipList.Length; i ++ )
-					{
 					
-						string clipToPlay = clipList [ i ].Substring ( mediaPath.Length + 1 );
-						string songName;
-		
-						bool isAssetBundle;
-						if ( clipToPlay.Length > 8 )
-						{
-		
-							if ( clipToPlay.Substring ( clipToPlay.Length - 7 ) == "unity3d" )
-							{
-		
-								isAssetBundle = true;
-								songName = clipToPlay.Substring ( 0, clipToPlay.Length - 8 );
-							} else
-							{
-		
-								isAssetBundle = false;
-								songName = clipToPlay.Substring ( 0, clipToPlay.Length - 4 );
-							}
-						} else
+					for ( i = 0; i < currentDirectories.Length; i++ )
+					{
+						
+						if ( openDirectory == currentDirectories [i] )
 						{
 							
-							isAssetBundle = false;
-							songName = clipToPlay.Substring ( 0, clipToPlay.Length - 4 );
+							guiSkin.button.normal.background = guiHover;
+							guiSkin.button.hover.background = guiActiveHover;
+						} else {
+							
+							guiSkin.button.normal.background = null;
+							guiSkin.button.hover.background = guiHover;
 						}
-		
-						if ( showTypes == false )
-							clipToPlay = songName;
-		
-						if ( GUILayout.Button ( clipToPlay ))
+						
+						if ( GUILayout.Button ( currentDirectories [i].Substring ( Directory.GetParent ( currentDirectories [i] ).ToString ().Length + 1 )))
 						{
-	
-							Resources.UnloadUnusedAssets ();
-							
-							currentSongNumber = i;
-							previousSongs [ 0 ] = previousSongs [ 1 ];
-							previousSongs [ 1 ] = previousSongs [ 2 ];
-							previousSongs [ 2 ] = previousSongs [ 3 ];
-							previousSongs [ 3 ] = previousSongs [ 4 ];
-							previousSongs [ 4 ] = previousSongs [ 5 ];
-							previousSongs [ 5 ] = previousSongs [ 6 ];
-							previousSongs [ 6 ] = i;
-							psPlace = 6;
-							
-							wasPlaying = false;
-							
-							if ( isAssetBundle == true )
+						
+							int firstEquation = ( currentDirectories.Length - 1 ) - Array.IndexOf ( currentDirectories, currentDirectories [i] );
+							int secondEquation = ( currentDirectories.Length - 1 ) - firstEquation;
+						
+							scrollPosition.y = secondEquation * 36;
+
+							if ( showDirectorySongs == false || openDirectory != currentDirectories [i] )
 							{
-		
-								loadingImage.showLoadingImages = true;
-								loadingImage.InvokeRepeating ( "LoadingImages", 0.25F, 0.25F );
-								
-								songName = clipList [ currentSongNumber ].Substring ( mediaPath.Length + 1 );
-								StartCoroutine ( LoadAssetBundle ( "file://" + clipList [ currentSongNumber ], songName.Substring ( 0, songName.Length - 8 )));	
-		
-							} else
-							{
+							
+								if ( openDirectory != currentDirectories [i] )
+								{
 									
-								StartCoroutine ( PlayAudio ());
-								loadingImage.showLoadingImages = false;
+									showDirectorySongs = false;
+									openDirectory = null;
+								}
+									
+								showDirectorySongs = true;
+								openDirectory = currentDirectories [i];
+								clipList = Directory.GetFiles ( openDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
+							} else {
+								
+								showDirectorySongs = false;
+								openDirectory = null;
+							}
+						}
+						guiSkin.button.normal.background = null;
+						guiSkin.button.hover.background = guiHover;
+						
+						if ( showDirectorySongs == true )
+						{
+							
+							if ( openDirectory == currentDirectories [i] )
+							{
+							
+								if ( clipList.Any ())
+								{
+				
+									for ( int songInt = 0; songInt < clipList.Length; songInt ++ )
+									{
+									
+										string clipToPlay = clipList [ songInt ].Substring ( openDirectory.Length + 1 );
+										string songName;
+						
+										bool isAssetBundle;
+										if ( clipToPlay.Length > 8 )
+										{
+						
+											if ( clipToPlay.Substring ( clipToPlay.Length - 7 ) == "unity3d" )
+											{
+						
+												isAssetBundle = true;
+												songName = clipToPlay.Substring ( 0, clipToPlay.Length - 8 );
+											} else
+											{
+						
+												isAssetBundle = false;
+												songName = clipToPlay.Substring ( 0, clipToPlay.Length - 4 );
+											}
+										} else
+										{
+											
+											isAssetBundle = false;
+											songName = clipToPlay.Substring ( 0, clipToPlay.Length - 4 );
+										}
+						
+										if ( showTypes == false )
+											clipToPlay = songName;
+											
+										if ( GUILayout.Button ( clipToPlay, buttonStyle ))
+										{
+					
+											Resources.UnloadUnusedAssets ();
+											
+											currentSongNumber = songInt;
+											previousSongs [ 0 ] = previousSongs [ 1 ];
+											previousSongs [ 1 ] = previousSongs [ 2 ];
+											previousSongs [ 2 ] = previousSongs [ 3 ];
+											previousSongs [ 3 ] = previousSongs [ 4 ];
+											previousSongs [ 4 ] = previousSongs [ 5 ];
+											previousSongs [ 5 ] = previousSongs [ 6 ];
+											previousSongs [ 6 ] = songInt;
+											psPlace = 6;
+											
+											wasPlaying = false;
+											
+											if ( isAssetBundle == true )
+											{
+						
+												loadingImage.showLoadingImages = true;
+												loadingImage.InvokeRepeating ( "LoadingImages", 0.25F, 0.25F );
+												
+												songName = clipList [ currentSongNumber ].Substring ( mediaPath.Length + 1 );
+												StartCoroutine ( LoadAssetBundle ( "file://" + clipList [ currentSongNumber ], songName.Substring ( 0, songName.Length - 8 )));	
+						
+											} else
+											{
+													
+												StartCoroutine ( PlayAudio ());
+												loadingImage.showLoadingImages = false;
+											}
+										}
+									}
+									
+									GUILayout.Label ( "" );
+								} else {
+									
+									GUILayout.Label ( "There are no valid audio files in this directory!", labelStyle );
+									GUILayout.Label ( "To add files to this directory, add files, Gibson", labelStyle );
+									GUILayout.Label ( "One more label, just to be sure.", labelStyle );
+									GUILayout.Label ( "" );
+								}
 							}
 						}
 					}
 				} else
 				{
-		
+						
 					GUILayout.Label ( "\nYou don't have any music to play!\n\nIf you have some music (.wav or .ogg), navigate\nto the MusicManager (press the left arrow key)." +
 						"\n\nYou can also download music by navigating\nto the OnlineMusicBrowser (press the right arrow key).\n", centerStyle );
-						
+										
 					if ( GUILayout.Button ( "View Help/Tutorial" ))
 					{
-						
+										
 						Process.Start ( startupManager.helpPath );
 					}
 				}
-	
+
 				GUILayout.Box ( "System Commands" );
-					
+									
 				if ( showQuickManage == true )
 					if ( GUILayout.Button ( "Open Media Folder" ))
-						Process.Start ( mediaPath );
-							
+						Process.Start ( parentDirectory );
+											
 				if ( GUILayout.Button ( "Options" ))
 					showOptionsWindow = true;
+
 				
 				GUI.EndScrollView();
 				GUILayout.EndVertical();
@@ -1231,7 +1293,7 @@ public class MusicViewer : MonoBehaviour
 	
 		manager.audio.Stop ();
 
-		rawCurrentSong = clipList [ currentSongNumber ].Substring ( mediaPath.Length + 1 );
+		rawCurrentSong = clipList [ currentSongNumber ].Substring ( openDirectory.Length + 1 );
 		
 		if ( slideshow == false )
 			currentSong.text = rawCurrentSong.Substring ( 0, rawCurrentSong.Length -4 );
@@ -1654,8 +1716,8 @@ public class MusicViewer : MonoBehaviour
 		Caching.CleanCache ();
 
 		TextWriter savePrefs = new StreamWriter ( startupManager.prefsLocation );
-		savePrefs.WriteLine ( mediaPath + "\n" + startupManager.checkForUpdate + "\n" + startupManager.ombEnabled + "\n" + startupManager.showTutorials + "\n" + loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + showArrows + "\n" + showTimebar + "\n" + showArtwork + "\n" + showQuickManage + "\n" + preciseTimemark + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + blur + "\n" + sunShafts + 
-		                     "\n" + blurIterations + "\n" + echoDelay + "\n" + echoDecayRate + "\n" + echoWetMix + "\n" + echoDryMix + "\n" + autoAVBlur + "\n" + autoAVOff + "\n" + displayTime + "\n" + previousSongs [ 0 ] + "\n" + previousSongs [ 1 ] + "\n" + previousSongs [ 2 ] + "\n" + previousSongs [ 3 ] + "\n" + previousSongs [ 4 ] + "\n" + previousSongs [ 5 ] + "\n" + previousSongs [ 6 ] );
+		savePrefs.WriteLine ( parentDirectory + "\n" + startupManager.checkForUpdate + "\n" + startupManager.ombEnabled + "\n" + startupManager.showTutorials + "\n" + loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + showArrows + "\n" + showTimebar + "\n" + showArtwork + "\n" + showQuickManage + "\n" + preciseTimemark + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + blur + "\n" + sunShafts + 
+		                     "\n" + blurIterations + "\n" + echoDelay + "\n" + echoDecayRate + "\n" + echoWetMix + "\n" + echoDryMix + "\n" + autoAVBlur + "\n" + autoAVOff + "\n" + displayTime );
 		savePrefs.Close ();
 
 		if ( Application.isEditor == true )
