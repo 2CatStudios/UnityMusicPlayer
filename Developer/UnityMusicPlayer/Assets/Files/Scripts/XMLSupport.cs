@@ -1,8 +1,8 @@
-using System.Xml.Serialization;
+using System;
 using System.IO;
 using System.Text;
-using System;
-//Written by Mike Talbot
+using System.Xml.Serialization;
+//Thanks to Mike Talbot
 public static class XMLSupport 
 {
 	
@@ -12,11 +12,11 @@ public static class XMLSupport
 		if( xml != null )
 		{
 			
-	        var s = new XmlSerializer (typeof(T));
-	        using (var m = new MemoryStream (Encoding.UTF8.GetBytes (xml)))
+	        var s = new XmlSerializer ( typeof ( T ) );
+	        using ( var m = new MemoryStream ( Encoding.UTF8.GetBytes ( xml )))
 			{
 				
-				return (T)s.Deserialize (m);
+				return ( T ) s.Deserialize ( m );
 			}
 		}
 	
