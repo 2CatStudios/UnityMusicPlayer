@@ -4,7 +4,6 @@ Version 1.14 DevRelease
 
 What we're working on for 1.2 release:
     • Improved ease of use
-    • Featured tab
     • Artwork downloading
     • MusicViewer and MusicManager merge
     • Refresh OMB button
