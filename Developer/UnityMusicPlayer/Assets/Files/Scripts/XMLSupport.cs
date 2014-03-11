@@ -7,13 +7,13 @@ public static class XMLSupport
 {
 	
 	public static T DeserializeXml<T> (this string xml) where T : class
-    {
+	{
 		
 		if( xml != null )
 		{
 			
-	        var s = new XmlSerializer ( typeof ( T ) );
-	        using ( var m = new MemoryStream ( Encoding.UTF8.GetBytes ( xml )))
+			var s = new XmlSerializer ( typeof ( T ) );
+			using ( var m = new MemoryStream ( Encoding.UTF8.GetBytes ( xml )))
 			{
 				
 				return ( T ) s.Deserialize ( m );
@@ -22,5 +22,5 @@ public static class XMLSupport
 	
 		UnityEngine.Debug.LogError ( "A wild error has apperaed!" );
 		return null;
-    }
+	}
 }
