@@ -159,7 +159,7 @@ public class MusicManager : MonoBehaviour
 	void MusicMakerPane ( int wid )
 	{
 
-		GUILayout.Space ( musicManagerPosition.height / 6);	
+		GUILayout.Space ( musicManagerPosition.height / 6);
 
 		GUILayout.BeginHorizontal ();
 		GUILayout.FlexibleSpace();
@@ -232,7 +232,7 @@ public class MusicManager : MonoBehaviour
 		GUILayout.Space ( 20 );
 		
 		if ( GUILayout.Button ( "Set as Active Directory" ))
-			SetMusicViewerMedia ();
+			UnityEngine.Debug.Log ( "SET AS ACTIVE DIRECTORY" );
 			
 		if ( GUILayout.Button ( "Open Current Directory" ))
 			Process.Start ( currentDirectory );
@@ -289,22 +289,5 @@ public class MusicManager : MonoBehaviour
 				showNewFolderWindow = false;
 			}
 		}
-	}
-	
-	
-	void SetMusicViewerMedia ()
-	{
-		
-		musicViewer.mediaPath = currentDirectory;
-		if ( currentDirectoryFiles.Any ())
-		{
-			
-//			musicViewer.clipList = Directory.GetFiles ( currentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
-		} else {
-			
-//			musicViewer.clipList = new String[0];
-		}
-		
-		StartCoroutine ( "SetArtwork" );
 	}
 }

@@ -34,6 +34,10 @@ public class MusicViewer : MonoBehaviour
 	bool doubleSpeed = false;
 	
 	internal string mediaPath;
+	internal String parentDirectory;
+	String[] currentDirectories;
+	String openDirectory = "";
+	internal String[] clipList;
 
 //-------
 	
@@ -50,7 +54,6 @@ public class MusicViewer : MonoBehaviour
 	public GUIText currentSong;
 	
 	public Texture2D timebarMarker;
-	
 	internal GUIText timemark;
 	float timebarTime;
 
@@ -59,11 +62,6 @@ public class MusicViewer : MonoBehaviour
 	public string songLocation;
 
 	AudioType audioType;
-
-	String parentDirectory;
-	String[] currentDirectories;
-	String openDirectory = "";
-	internal String[] clipList;
 	
 	int currentSongNumber = -1;
 	int i;
@@ -73,7 +71,6 @@ public class MusicViewer : MonoBehaviour
 	Vector2 scrollPosition;
 	Vector2 mousePos;
 	
-
 	bool hideGUI = false;
 	public GUISkin guiSkin;
 	GUIStyle centerStyle;
