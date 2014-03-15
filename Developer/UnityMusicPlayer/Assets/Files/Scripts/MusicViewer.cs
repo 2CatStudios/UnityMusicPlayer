@@ -18,13 +18,24 @@ public class MusicViewer : MonoBehaviour
 	internal GameObject manager;
 	StartupManager startupManager;
 	OnlineMusicBrowser onlineMusicBrowser;
-	MusicManager musicManager;
 	LoadingImage loadingImage;
 	PaneManager paneManager;
 	AudioVisualizerR audioVisualizerR;
 	AudioVisualizerL audioVisualizerL;
 	
+	GUIStyle fileBrowserFolderStyle;
+	GUIStyle fileBrowserFileStyle;
+	public Texture2D folderIcon;
+	public Texture2D musicNoteIcon;
+	
+	public Texture2D playIcon;
+	public Texture2D pauseIcon;
+	
+	public Texture2D leftArrow;
+	public Texture2D rightArrow;
+	
 	internal bool showMusicViewer = true;
+	bool fileBrowser = false;
 
 	string musicViewerTitle;
 	internal Rect musicViewerPosition = new Rect ( 0, 0, 800, 600 );
@@ -38,8 +49,14 @@ public class MusicViewer : MonoBehaviour
 	String[] currentDirectories;
 	String openDirectory = "";
 	internal String[] clipList;
-
-//-------
+	string songLocation;
+	
+	WWW wWw;
+	
+	public GUIText currentSong;	
+	public Texture2D timebarMarker;
+	internal GUIText timemark;
+	float timebarTime;
 	
 	bool isPaused;	
 	float pausePoint;
@@ -48,25 +65,14 @@ public class MusicViewer : MonoBehaviour
 	float seconds;
 	int rtMinutes;
 	float rtSeconds;
+	
+	AudioType audioType;
 
 	internal bool wasPlaying = false;
-	
-	public GUIText currentSong;
-	
-	public Texture2D timebarMarker;
-	internal GUIText timemark;
-	float timebarTime;
-
 	float betweenSongDelay = 0.5F;
-	
-	public string songLocation;
-
-	AudioType audioType;
 	
 	int currentSongNumber = -1;
 	int i;
-	
-	bool showDirectorySongs = false;
 	
 	Vector2 scrollPosition;
 	Vector2 mousePos;
@@ -84,6 +90,12 @@ public class MusicViewer : MonoBehaviour
 	
 	int[] previousSongs = new int  [ 7 ] { 0, 0, 0, 0, 0, 0, 0 };
 	int psPlace = 6;
+	
+	string currentDirectory;
+	string [] currentDirectoryDirectories;
+	string [] currentDirectoryFiles;
+
+#region EffectsSettings
 	
 	bool loop;
 	bool shuffle;
@@ -103,6 +115,11 @@ public class MusicViewer : MonoBehaviour
 
 	bool showOptionsWindow = false;
 	Rect optionsWindowRect = new Rect ( 0, 0, 350, 410 );
+	
+#endregion
+	
+#region AVSettings
+	
 	float avcR;
 	float tempAVCR;
 	float avcG;
@@ -122,7 +139,9 @@ public class MusicViewer : MonoBehaviour
 	string blurIterations;
 	string tempBlurIterations;
 	
-#region General Settings
+#endregion
+	
+#region GeneralSettings
 	
 	float tempShowTypes;
 	bool showTypes;
@@ -141,10 +160,13 @@ public class MusicViewer : MonoBehaviour
 	
 	float tempShowArrows;
 	internal bool showArrows;
+	
+	float tempCheckForUpdates;
+	internal float tempEnableOMB;
 
 #endregion
 
-#region Slideshow Settings
+#region SlideshowSettings
 
 	float tempSlideshow = 0.0F;
 	internal bool slideshow = false;
@@ -169,13 +191,7 @@ public class MusicViewer : MonoBehaviour
 
 	int slideshowImage = 0;
 	
-#endregion
-
-#region Online Settings
-
-	float tempCheckForUpdates;
-	internal float tempEnableOMB;
-
+#endregion	
 #endregion
 	
 	public static string RegexToString ( string key, bool isFloat )
@@ -192,10 +208,6 @@ public class MusicViewer : MonoBehaviour
 		}
 	}
 	
-	WWW wWw;
-
-#endregion
-
 	
 	void Start ()
 	{
@@ -203,7 +215,6 @@ public class MusicViewer : MonoBehaviour
 		manager = GameObject.FindGameObjectWithTag ( "Manager" );
 		startupManager = manager.GetComponent <StartupManager> ();
 		onlineMusicBrowser = GameObject.FindGameObjectWithTag ( "OnlineMusicBrowser" ).GetComponent <OnlineMusicBrowser>();
-		musicManager = GameObject.FindGameObjectWithTag ( "MusicManager" ).GetComponent <MusicManager>();
 		paneManager = manager.GetComponent <PaneManager> ();
 		loadingImage = GameObject.FindGameObjectWithTag ( "LoadingImage" ).GetComponent<LoadingImage>();
 		currentSlideshowImage = GameObject.FindGameObjectWithTag ( "SlideshowImage" ).GetComponent<GUITexture>();
@@ -302,27 +313,21 @@ public class MusicViewer : MonoBehaviour
 
 			musicViewerTitle = "";
 			onlineMusicBrowser.onlineMusicBrowserTitle = "";
-			musicManager.musicManagerTitle = "";
 		} else {
 
 			musicViewerTitle = "MusicViewer";
 			onlineMusicBrowser.onlineMusicBrowserTitle = "OnlineMusicBrowser";
-			musicManager.musicManagerTitle = "MusicManager";
 		}
 
 		if ( preciseTimemark == true )
 			timemark.text = "0:00.000][0:00.000";
 		else
 			timemark.text = "0:00][0:00";
-			
-		musicManager.SendMessage ( "SetArtwork" );
 
 		TextWriter savePrefs = new StreamWriter ( startupManager.prefsLocation );
 		savePrefs.WriteLine ( parentDirectory + "\n" + startupManager.checkForUpdate + "\n" + startupManager.ombEnabled + "\n" + startupManager.showTutorials + "\n" + loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + showArrows + "\n" + showTimebar + "\n" + showArtwork + "\n" + showQuickManage + "\n" + preciseTimemark + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + blur + "\n" + sunShafts + 
 		                     "\n" + blurIterations + "\n" + echoDelay + "\n" + echoDecayRate + "\n" + echoWetMix + "\n" + echoDryMix + "\n" + autoAVBlur + "\n" + autoAVOff + "\n" + displayTime );
 		savePrefs.Close ();
-		
-		InvokeRepeating ( "Refresh", 0, 2 );
 		
 		centerStyle = new GUIStyle ();
 		centerStyle.alignment = TextAnchor.MiddleCenter;
@@ -330,6 +335,14 @@ public class MusicViewer : MonoBehaviour
 		labelStyle = new GUIStyle ();
 		labelStyle.alignment = TextAnchor.MiddleCenter;
 		labelStyle.wordWrap = true;
+		
+		fileBrowserFileStyle = new GUIStyle ();
+		fileBrowserFileStyle.alignment = TextAnchor.MiddleLeft;
+		
+		fileBrowserFolderStyle = new GUIStyle ();
+		fileBrowserFolderStyle.alignment = TextAnchor.MiddleLeft;
+		fileBrowserFolderStyle.border = new RectOffset ( 6, 6, 4, 4 );
+		fileBrowserFolderStyle.hover.background = guiHover;
 		
 		songStyle = new GUIStyle ();
 		songStyle.alignment = TextAnchor.MiddleLeft;
@@ -340,6 +353,9 @@ public class MusicViewer : MonoBehaviour
 		buttonStyle.alignment = TextAnchor.MiddleCenter;
 		buttonStyle.border = new RectOffset ( 6, 6, 4, 4 );
 		buttonStyle.hover.background = guiHover;
+		
+		InvokeRepeating ( "Refresh", 0, 2 );
+		StartCoroutine ( SetArtwork ());
 	}
 	
 	
@@ -349,11 +365,28 @@ public class MusicViewer : MonoBehaviour
 		if ( paneManager.currentPane == PaneManager.pane.musicViewer )
 		{
 			
-			currentDirectories = Directory.GetDirectories ( parentDirectory ).ToArray ();
-			if ( showDirectorySongs == true )
+			if ( fileBrowser == false )
 			{
+
+				clipList = Directory.GetFiles ( parentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".aif" ) || s.EndsWith ( ".aiff" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
+			} else {
 				
-				clipList = Directory.GetFiles ( openDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".aif" ) || s.EndsWith ( ".aif" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
+				try
+				{
+					
+					currentDirectoryDirectories = Directory.GetDirectories ( currentDirectory ).ToArray ();
+					currentDirectoryFiles = Directory.GetFiles ( currentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".aif" ) || s.EndsWith ( ".aiff" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
+				} catch ( Exception e ) {
+				
+					if ( startupManager.developmentMode == true )
+						UnityEngine.Debug.LogWarning ( e );
+					
+					currentDirectory = startupManager.mediaPath + "Albums";
+					openDirectory = startupManager.mediaPath + "Albums";
+				
+					currentDirectoryDirectories = Directory.GetDirectories ( currentDirectory ).ToArray ();
+					currentDirectoryFiles = Directory.GetFiles ( currentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".aif" ) || s.EndsWith ( ".aiff" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
+				}
 			}
 		}
 	}
@@ -427,19 +460,17 @@ public class MusicViewer : MonoBehaviour
 				GameObject.FindGameObjectWithTag ( "TimebarImage" ).guiTexture.enabled = true;
 				musicViewerTitle = "";
 				onlineMusicBrowser.onlineMusicBrowserTitle = "";
-				musicManager.musicManagerTitle = "";
 			} else {
 
 				GameObject.FindGameObjectWithTag ( "TimebarImage" ).guiTexture.enabled = false;
 				musicViewerTitle = "MusicViewer";
 				onlineMusicBrowser.onlineMusicBrowserTitle = "OnlineMusicBrowser";
-				musicManager.musicManagerTitle = "MusicManager";
 			}
 			
 			showArtwork = Convert.ToBoolean ( tempShowArtwork );
 			
 			if ( showArtwork == true )
-				musicManager.SendMessage ( "SetArtwork" );
+				StartCoroutine ( SetArtwork ());
 			else
 				currentSlideshowImage.texture = null;
 
@@ -699,6 +730,33 @@ public class MusicViewer : MonoBehaviour
 		yield return new WaitForSeconds ( 1.0F );
 		fadeIn = true;
 	}
+	
+	
+	IEnumerator SetArtwork ()
+	{
+		
+		if ( showArtwork == true )
+		{
+			
+			string[] artworkImageLocations = new string[0];
+			artworkImageLocations = Directory.GetFiles ( parentDirectory, "Artwork.*" ).Where ( s => s.EndsWith ( ".png" ) || s.EndsWith ( ".jpg" ) || s.EndsWith ( ".jpeg" )).ToArray ();
+			
+			if ( artworkImageLocations.Any ())
+			{
+	
+				WWW wWw = new WWW ( "file://" + artworkImageLocations [ 0 ] );
+				yield return wWw;
+				
+				currentSlideshowImage.texture = wWw.texture;
+			} else {
+				currentSlideshowImage.texture = null;
+			}
+		} else {
+			
+			if ( slideshow == false )
+				currentSlideshowImage.texture = null;
+		}
+	}
 
 
 	void OnGUI ()
@@ -734,251 +792,30 @@ public class MusicViewer : MonoBehaviour
 
 		if ( slideshow == false )
 		{
-			
-			if ( hideGUI == false )
-			{
-				
-				#region VolumeBar
-				
-				GUI.Label ( new Rect ( musicViewerPosition.width/2 - 100, musicViewerPosition.height/4 - 50, 100, 25), "Volume" );
-				volumeBarValue = GUI.HorizontalSlider ( new Rect ( musicViewerPosition.width/2 - 118, musicViewerPosition.height/4 - 30, 100, 30 ), volumeBarValue, 0.0F, 1.0F );
-				
-				#endregion
-				
-		
-				#region NextButton
-		
-				if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 - 70, musicViewerPosition.height/4 - 15, 60, 30), "Next" ))
-					NextSong ();
-				
-				#endregion
-				
-				
-				#region BackButton
-		
-				if ( GUI.Button (new Rect ( musicViewerPosition.width/2 - 130, musicViewerPosition.height/4 - 15, 60, 30), "Back" ))
-					PreviousSong ();
-				
-				#endregion
-				
-				
-				#region LoopButton
-				
-				GUI.Label (new Rect ( musicViewerPosition.width/2 + 10, musicViewerPosition.height/4 - 50, 120, 30 ), "Loop" );
-				
-				if ( loop = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 - 5, musicViewerPosition.height/4 - 45, 100, 20 ), loop, "" ))
-					if ( loop == true && shuffle == true || loop == true && continuous == true )
-				{
-					
-					shuffle = false;
-					continuous = false;
-				}
-				
-				#endregion
-				
-				
-				#region ShuffleButton
-				
-				GUI.Label ( new Rect ( musicViewerPosition.width/2 + 10, musicViewerPosition.height/4 - 30, 120, 30 ), "Shuffle" );
-				
-				if ( shuffle = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 - 5, musicViewerPosition.height/4 - 25, 100, 20 ), shuffle, "" ))
-					if ( shuffle == true && loop == true || shuffle == true && continuous == true )
-				{
-					
-					loop = false;
-					continuous = false;
-				}
-				
-				#endregion
-				
-				
-				#region ContinuousPlay
-				
-				GUI.Label ( new Rect ( musicViewerPosition.width/2 + 10, musicViewerPosition.height/4 - 10, 120, 30 ), "Continuous" );
-				
-				if ( continuous = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 - 5, musicViewerPosition.height/4 - 5, 100, 20 ), continuous, "" ))
-					if ( continuous == true && shuffle == true || continuous == true && loop == true )
-					{
-					
-						shuffle = false;
-						loop = false;
-					}
-				
-				#endregion
-				
-		
-				GUILayout.BeginHorizontal ();
-				GUILayout.Space ( musicViewerPosition.width / 2 - 300 );
-				GUILayout.BeginVertical ();
-				GUILayout.Space ( musicViewerPosition.height / 4 + 25 );
-				scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  musicViewerPosition.height - ( musicViewerPosition.height / 4 + 53 )));
-				
-				if ( currentDirectories.Any ())
-				{
-					
-					for ( i = 0; i < currentDirectories.Length; i++ )
-					{
-						
-						if ( openDirectory == currentDirectories [i] )
-						{
-							
-							guiSkin.button.normal.background = guiHover;
-							guiSkin.button.hover.background = guiActiveHover;
-						} else {
-							
-							guiSkin.button.normal.background = null;
-							guiSkin.button.hover.background = guiHover;
-						}
-						
-						if ( GUILayout.Button ( currentDirectories[i].Substring ( Directory.GetParent ( currentDirectories [i] ).ToString ().Length + 1 )))
-						{
-						
-							int firstEquation = ( currentDirectories.Length - 1 ) - Array.IndexOf ( currentDirectories, currentDirectories [i] );
-							int secondEquation = ( currentDirectories.Length - 1 ) - firstEquation;
-						
-							scrollPosition.y = secondEquation * 36;
-
-							if ( showDirectorySongs == false || openDirectory != currentDirectories [i] )
-							{
-							
-								if ( openDirectory != currentDirectories [i] )
-								{
-									
-									showDirectorySongs = false;
-									openDirectory = null;
-								}
-									
-								showDirectorySongs = true;
-								openDirectory = currentDirectories [i];
-								clipList = Directory.GetFiles ( openDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".aif" ) || s.EndsWith ( ".aiff" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
-							} else {
 								
-								showDirectorySongs = false;
-								openDirectory = null;
-							}
-						}
-						guiSkin.button.normal.background = null;
-						guiSkin.button.hover.background = guiHover;
-						
-						if ( showDirectorySongs == true )
-						{
-							
-							if ( openDirectory == currentDirectories [i] )
-							{
-							
-								if ( clipList.Any ())
-								{
-				
-									for ( int songInt = 0; songInt < clipList.Length; songInt ++ )
-									{
-										
-										string audioTitle;
-										if ( showTypes == true )
-										{
-											
-											audioTitle = clipList[songInt].Substring ( openDirectory.Length + 1 );
-										} else {
-											
-											audioTitle = clipList[songInt].Substring ( clipList[songInt].LastIndexOf ( "/" ) + 1, clipList[songInt].LastIndexOf ( "." ) - clipList[songInt].LastIndexOf ( "/" ) - 1 );
-										}
-
-										if ( GUILayout.Button ( audioTitle, buttonStyle ))
-										{
-					
-											Resources.UnloadUnusedAssets ();
-											
-											currentSongNumber = songInt;
-											previousSongs [ 0 ] = previousSongs [ 1 ];
-											previousSongs [ 1 ] = previousSongs [ 2 ];
-											previousSongs [ 2 ] = previousSongs [ 3 ];
-											previousSongs [ 3 ] = previousSongs [ 4 ];
-											previousSongs [ 4 ] = previousSongs [ 5 ];
-											previousSongs [ 5 ] = previousSongs [ 6 ];
-											previousSongs [ 6 ] = songInt;
-											psPlace = 6;
-											
-											wasPlaying = false;
-											
-											if ( clipList[songInt].Substring ( clipList [songInt].LastIndexOf ( "." )) == ".unity3d" )
-											{
-						
-												loadingImage.showLoadingImages = true;
-												loadingImage.InvokeRepeating ( "LoadingImages", 0.25F, 0.25F );
-												
-												StartCoroutine ( LoadAssetBundle ( "file://" + clipList [ currentSongNumber ]));
-												
-											} else
-											{
-												
-												StartCoroutine ( PlayAudio ());
-												loadingImage.showLoadingImages = false;
-											}
-										}
-									}
-									
-									GUILayout.Label ( "" );
-								} else {
-									
-									GUILayout.Label ( "There are no valid audio files in this directory!", labelStyle );
-									GUILayout.Label ( "To add files to this directory, add files, Gibson!", labelStyle );
-									GUILayout.Label ( "One more label, just to be sure.", labelStyle );
-									GUILayout.Label ( "" );
-								}
-							}
-						}
-					}
-				} else
-				{
-						
-					GUILayout.Label ( "\nYou don't have any music to play!\n\nIf you have some music (.wav or .ogg), navigate\nto the MusicManager (press the left arrow key)." +
-						"\n\nYou can also download music by navigating\nto the OnlineMusicBrowser (press the right arrow key).\n", centerStyle );
-										
-					if ( GUILayout.Button ( "View Help/Tutorial" ))
-					{
-										
-						Process.Start ( startupManager.helpPath );
-					}
-				}
-
-				GUILayout.Box ( "System Commands" );
-									
-				if ( showQuickManage == true )
-					if ( GUILayout.Button ( "Open Media Folder" ))
-						Process.Start ( parentDirectory );
-											
-				if ( GUILayout.Button ( "Options" ))
-					showOptionsWindow = true;
-
-				
-				GUI.EndScrollView();
-				GUILayout.EndVertical();
-				GUILayout.EndHorizontal();
-			}
-			
-			
 			hideGUI = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 - 190, musicViewerPosition.height - 20, 80, 20 ), hideGUI, "Hide Audio" );
 			showVisualizer = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 - 110, musicViewerPosition.height - 20, 100, 20 ), showVisualizer, "AudioVisualizer" );
-	
+		
 			if ( showVisualizer == true )
 			{
-	
+		
 				audioVisualizerR.showAV = showVisualizer;
 				audioVisualizerL.showAV = showVisualizer;
 				audioVisualizerR.topLine.material.color = new Color ( avcR, avcG, avcB, 255 );
 				audioVisualizerR.bottomLine.material.color = new Color ( avcR, avcG, avcB, 255 );
 				audioVisualizerL.topLine.material.color = new Color ( avcR, avcG, avcB, 255 );
 				audioVisualizerL.bottomLine.material.color = new Color ( avcR, avcG, avcB, 255 );
-	
+		
 				manager.GetComponent<BloomAndLensFlares>().enabled = Convert.ToBoolean ( bloom );
 				manager.GetComponent<BlurEffect>().enabled = Convert.ToBoolean ( blur );
 				manager.GetComponent<SunShafts>().enabled = Convert.ToBoolean ( sunShafts );
-				
+					
 				manager.GetComponent<BlurEffect> ().iterations = Convert.ToInt16 ( blurIterations );
 			} else {
-	
+		
 				audioVisualizerR.showAV = showVisualizer;
 				audioVisualizerL.showAV = showVisualizer;
-	
+		
 				manager.GetComponent<BloomAndLensFlares>().enabled = false;
 				manager.GetComponent<BlurEffect>().enabled = false;
 				manager.GetComponent<SunShafts>().enabled = false;
@@ -986,9 +823,9 @@ public class MusicViewer : MonoBehaviour
 			
 			if ( doubleSpeed = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 - 10, musicViewerPosition.height - 20, 95, 20 ), doubleSpeed, "Double Speed" ))
 			{
-				
+					
 				manager.audio.pitch = 2.0F;
-				
+			
 				if ( doubleSpeed == true && halfSpeed == true )
 					halfSpeed = false;
 			}
@@ -997,24 +834,232 @@ public class MusicViewer : MonoBehaviour
 			{
 				
 				manager.audio.pitch = 0.5F;
-				
+			
 				if ( halfSpeed == true && doubleSpeed == true )
 					doubleSpeed = false;
 			}
-	
+				
 			echo = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 + 165, musicViewerPosition.height - 20, 50, 20 ), echo,  "Echo" );
-	
 			if ( echo == true )
 				manager.GetComponent<AudioEchoFilter> ().enabled = true;
 			else
 			    manager.GetComponent<AudioEchoFilter> ().enabled = false;
-	
-			
+		
+				
 			if ( halfSpeed == false && doubleSpeed == false )
 				manager.audio.pitch = 1.0F;
 	
 			if ( showOptionsWindow == true || startupManager.showUnderlay == true )
 				GUI.DrawTexture ( new Rect ( 0, 0, musicViewerPosition.width, musicViewerPosition.height ), startupManager.underlay );
+			
+			if ( hideGUI == false )
+			{
+			
+				if ( fileBrowser == false )
+				{
+					
+					GUI.Label ( new Rect ( musicViewerPosition.width/2 - 100, musicViewerPosition.height/4 - 50, 100, 25 ), "Volume" );
+					volumeBarValue = GUI.HorizontalSlider ( new Rect ( musicViewerPosition.width/2 - 118, musicViewerPosition.height/4 - 30, 100, 30 ), volumeBarValue, 0.0F, 1.0F );
+		
+					if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 - 70, musicViewerPosition.height/4 - 15, 60, 30 ), "Next" ))
+						NextSong ();
+
+					if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 - 130, musicViewerPosition.height/4 - 15, 60, 30 ), "Back" ))
+						PreviousSong ();
+				
+					GUI.Label ( new Rect ( musicViewerPosition.width/2 + 10, musicViewerPosition.height/4 - 50, 120, 30 ), "Loop" );
+				
+					if ( loop = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 - 5, musicViewerPosition.height/4 - 45, 100, 20 ), loop, "" ))
+					{
+						
+						if ( loop == true && shuffle == true || loop == true && continuous == true )
+						{
+					
+							shuffle = false;
+							continuous = false;
+						}
+					}
+				
+					GUI.Label ( new Rect ( musicViewerPosition.width/2 + 10, musicViewerPosition.height/4 - 30, 120, 30 ), "Shuffle" );
+				
+					if ( shuffle = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 - 5, musicViewerPosition.height/4 - 25, 100, 20 ), shuffle, "" ))
+					{
+						
+						if ( shuffle == true && loop == true || shuffle == true && continuous == true )
+						{
+					
+							loop = false;
+							continuous = false;
+						}
+					}
+				
+					GUI.Label ( new Rect ( musicViewerPosition.width/2 + 10, musicViewerPosition.height/4 - 10, 120, 30 ), "Continuous" );
+				
+					if ( continuous = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 - 5, musicViewerPosition.height/4 - 5, 100, 20 ), continuous, "" ))
+					{
+	
+						if ( continuous == true && shuffle == true || continuous == true && loop == true )
+						{
+					
+							shuffle = false;
+							loop = false;
+						}
+					}
+						
+					GUILayout.BeginHorizontal ();
+					GUILayout.Space ( musicViewerPosition.width / 2 - 300 );
+					GUILayout.BeginVertical ();
+					GUILayout.Space ( musicViewerPosition.height / 4 + 25 );
+					scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  musicViewerPosition.height - ( musicViewerPosition.height / 4 + 53 )));
+										
+					if ( clipList.Any ())
+					{
+					
+						for ( int songInt = 0; songInt < clipList.Length; songInt ++ )
+						{
+											
+							string audioTitle;
+							if ( showTypes == true )				
+								audioTitle = clipList[songInt].Substring ( openDirectory.Length + 1 );
+							else			
+								audioTitle = clipList[songInt].Substring ( clipList[songInt].LastIndexOf ( "/" ) + 1, clipList[songInt].LastIndexOf ( "." ) - clipList[songInt].LastIndexOf ( "/" ) - 1 );
+
+							if ( GUILayout.Button ( new GUIContent ( audioTitle )))
+							{
+						
+								Resources.UnloadUnusedAssets ();
+												
+								currentSongNumber = songInt;
+								previousSongs [ 0 ] = previousSongs [ 1 ];
+								previousSongs [ 1 ] = previousSongs [ 2 ];
+								previousSongs [ 2 ] = previousSongs [ 3 ];
+								previousSongs [ 3 ] = previousSongs [ 4 ];
+								previousSongs [ 4 ] = previousSongs [ 5 ];
+								previousSongs [ 5 ] = previousSongs [ 6 ];
+								previousSongs [ 6 ] = songInt;
+								psPlace = 6;
+												
+								wasPlaying = false;
+											
+								if ( clipList[songInt].Substring ( clipList [songInt].LastIndexOf ( "." )) == ".unity3d" )
+								{
+												
+									loadingImage.showLoadingImages = true;
+									loadingImage.InvokeRepeating ( "LoadingImages", 0.25F, 0.25F );
+												
+									StartCoroutine ( LoadAssetBundle ( "file://" + clipList [ currentSongNumber ]));
+												
+								} else {
+												
+									StartCoroutine ( PlayAudio ());
+									loadingImage.showLoadingImages = false;
+								}
+							}
+						}
+					} else
+					{
+							
+						GUILayout.Label ( "\nYou don't have any music to play!\n\nIf you have some music (.wav or .ogg), navigate\nto the MusicManager (press the left arrow key)." +
+							"\n\nYou can also download music by navigating\nto the OnlineMusicBrowser (press the right arrow key).\n", centerStyle );
+											
+						if ( GUILayout.Button ( "View Help/Tutorial" ))
+						{
+											
+							Process.Start ( startupManager.helpPath );
+						}
+					}
+				} else {
+					
+					if ( currentDirectory.Substring ( 0, currentDirectory.LastIndexOf ( "/" )).Length > 0 )
+					{
+						
+						if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 - 300, musicViewerPosition.height/4 - 15, 140, 30 ), new GUIContent ( "Previous", leftArrow )))
+						{
+						
+							currentDirectory = currentDirectory.Substring ( 0, currentDirectory.LastIndexOf ( "/" ));
+							currentDirectoryDirectories = Directory.GetDirectories ( currentDirectory ).ToArray ();
+							currentDirectoryFiles = Directory.GetFiles ( currentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".aif" ) || s.EndsWith ( ".aiff" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
+						}
+					}
+					
+					GUILayout.BeginHorizontal ();
+					GUILayout.Space ( musicViewerPosition.width / 2 - 300 );
+					GUILayout.BeginVertical ();
+					GUILayout.Space ( musicViewerPosition.height / 4 + 25 );
+					scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  musicViewerPosition.height - ( musicViewerPosition.height / 4 + 53 )));
+			
+					for ( int i = 0; i < currentDirectoryDirectories.Length; i += 1 )
+					{
+			
+						if ( GUILayout.Button ( new GUIContent ( currentDirectoryDirectories[i].Substring ( currentDirectory.Length + 1 ), folderIcon ), fileBrowserFolderStyle ))
+						{
+				
+							currentDirectory = currentDirectoryDirectories[i];
+							currentDirectoryDirectories = Directory.GetDirectories ( currentDirectory ).ToArray ();
+							currentDirectoryFiles = Directory.GetFiles ( currentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".aif" ) || s.EndsWith ( ".aiff" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
+						}
+					}
+					
+					for ( int i = 0; i < currentDirectoryFiles.Length; i += 1 )
+					{
+			
+						 GUILayout.Button ( new GUIContent ( currentDirectoryFiles[i].Substring ( currentDirectory.Length + 1 ), musicNoteIcon ), fileBrowserFileStyle );
+					}
+					
+					if ( currentDirectoryFiles.Length == 0 && currentDirectoryDirectories.Length == 0 )
+					{
+						
+						GUILayout.FlexibleSpace ();
+						GUILayout.Label ( "This folder is empty!", labelStyle );
+						GUILayout.FlexibleSpace ();
+					}
+					
+					if ( GUILayout.Button ( "Set as Active Directory" ))
+					{
+						
+						parentDirectory = currentDirectory;
+						clipList = currentDirectoryFiles;
+						StartCoroutine ( SetArtwork ());
+						Refresh ();
+					}
+				}
+			
+				GUILayout.Box ( "System Commands" );
+								
+				if ( showQuickManage == true )
+					if ( GUILayout.Button ( "Open Media Folder" ))
+						Process.Start ( parentDirectory );
+			
+				if ( fileBrowser == false )
+				{					
+					
+					if ( GUILayout.Button ( "Open File Browser" ))
+					{
+				
+						fileBrowser = true;
+						Refresh ();
+					
+						scrollPosition.y = 0;
+					}
+				} else {
+					if ( GUILayout.Button ( "Close File Browser" ))
+					{
+				
+						fileBrowser = false;
+						Refresh ();
+					
+						scrollPosition.y = 0;
+					}
+				}
+										
+				if ( GUILayout.Button ( "Options" ))
+					showOptionsWindow = true;
+
+			
+				GUI.EndScrollView();
+				GUILayout.EndVertical();
+				GUILayout.EndHorizontal();
+			}
 		}
 	}
 
@@ -1447,7 +1492,7 @@ public class MusicViewer : MonoBehaviour
 		{
 				
 			slideshow = false;
-			musicManager.StartCoroutine ( "SetArtwork" );
+//			musicManager.StartCoroutine ( "SetArtwork" );
 			
 			tempSlideshow = Convert.ToSingle ( slideshow );
 			if ( showTimebar == false )
