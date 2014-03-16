@@ -310,7 +310,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 			WWW featuredArtworkWWW = new WWW ( featuredSong.song.smallArtworkURL );
 			yield return featuredArtworkWWW;
 				
-			Texture2D downloadedArtwork = new Texture2D ( 256, 256 );
+			Texture2D downloadedArtwork = new Texture2D ( 360, 360 );
 			featuredArtworkWWW.LoadImageIntoTexture ( downloadedArtwork );
 				
 			featuredSong.artwork = downloadedArtwork;
@@ -519,7 +519,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 				foreach ( Featured featured in featuredList )
 				{
 					
-					if ( GUILayout.Button ( featured.artwork, GUILayout.MaxWidth ( 360 ), GUILayout.MaxHeight ( 360 )))
+					if ( GUILayout.Button ( featured.artwork ))
 					{
 						
 						songInfoOwner = featured.song;
@@ -655,7 +655,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 				if ( File.Exists ( musicViewer.mediaPath + Path.DirectorySeparatorChar + downloadingSong.name + "." + downloadingSong.format ))
 					File.Delete ( musicViewer.mediaPath + Path.DirectorySeparatorChar + downloadingSong.name + "." + downloadingSong.format );
 				
-//				File.Move ( startupManager.tempPath + Path.DirectorySeparatorChar + downloadingSong.name + "." + downloadingSong.format, musicViewer.parentDirectory + Path.DirectorySeparatorChar + downloadingSong.name + "." + downloadingSong.format );
+				File.Move ( startupManager.tempPath + Path.DirectorySeparatorChar + downloadingSong.name + "." + downloadingSong.format, startupManager.downloadedPath + downloadingSong.name + "." + downloadingSong.format );
 			}
 
 			songInfoOwner = null;

@@ -47,7 +47,6 @@ public class MusicViewer : MonoBehaviour
 	internal string mediaPath;
 	internal String parentDirectory;
 	String[] currentDirectories;
-	String openDirectory = "";
 	internal String[] clipList;
 	string songLocation;
 	
@@ -232,6 +231,7 @@ public class MusicViewer : MonoBehaviour
 		GameObject.FindGameObjectWithTag ( "TimebarImage" ).guiTexture.pixelInset = new Rect ( -musicViewerPosition.width/2, musicViewerPosition.height/2 - 3, musicViewerPosition.width, 6 );
 
 		parentDirectory = startupManager.lastDirectory;
+		currentDirectory = parentDirectory;
 				
 		tempCheckForUpdates = Convert.ToSingle ( startupManager.checkForUpdate );
 		tempEnableOMB = Convert.ToSingle ( startupManager.ombEnabled );
@@ -381,8 +381,7 @@ public class MusicViewer : MonoBehaviour
 					if ( startupManager.developmentMode == true )
 						UnityEngine.Debug.LogWarning ( e );
 					
-					currentDirectory = startupManager.mediaPath + "Albums";
-					openDirectory = startupManager.mediaPath + "Albums";
+					currentDirectory = startupManager.mediaPath;
 				
 					currentDirectoryDirectories = Directory.GetDirectories ( currentDirectory ).ToArray ();
 					currentDirectoryFiles = Directory.GetFiles ( currentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".aif" ) || s.EndsWith ( ".aiff" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
@@ -442,7 +441,7 @@ public class MusicViewer : MonoBehaviour
 			manager.GetComponent<BlurEffect> ().iterations = Convert.ToInt16 ( blurIterations );
 			
 			showTypes = Convert.ToBoolean ( tempShowTypes );
-			if ( manager.audio.isPlaying == true )
+			if ( manager.audio.clip != null )
 			{
 				
 				if ( showTypes == true )
@@ -700,7 +699,8 @@ public class MusicViewer : MonoBehaviour
 
 	IEnumerator SlideshowIN ()
 	{		
-//		Thanks to http://andrew.hedges.name/experiments/aspect_ratio
+		
+		/*Thanks to http://andrew.hedges.name/experiments/aspect_ratio*/
 		
 		currentSlideshowImage.texture = null;
 		Resources.UnloadUnusedAssets ();
@@ -920,7 +920,7 @@ public class MusicViewer : MonoBehaviour
 											
 							string audioTitle;
 							if ( showTypes == true )				
-								audioTitle = clipList[songInt].Substring ( openDirectory.Length + 1 );
+								audioTitle = clipList[songInt].Substring ( parentDirectory.Length + 1 );
 							else			
 								audioTitle = clipList[songInt].Substring ( clipList[songInt].LastIndexOf ( "/" ) + 1, clipList[songInt].LastIndexOf ( "." ) - clipList[songInt].LastIndexOf ( "/" ) - 1 );
 
@@ -959,7 +959,7 @@ public class MusicViewer : MonoBehaviour
 					} else
 					{
 							
-						GUILayout.Label ( "\nYou don't have any music to play!\n\nIf you have some music (.wav or .ogg), navigate\nto the MusicManager (press the left arrow key)." +
+						GUILayout.Label ( "\nYou don't have any music to play!\n\nIf you have some music (.wav, .ogg or .aif), navigate\nto the MusicManager (press the left arrow key)." +
 							"\n\nYou can also download music by navigating\nto the OnlineMusicBrowser (press the right arrow key).\n", centerStyle );
 											
 						if ( GUILayout.Button ( "View Help/Tutorial" ))
@@ -981,6 +981,17 @@ public class MusicViewer : MonoBehaviour
 							currentDirectoryFiles = Directory.GetFiles ( currentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".aif" ) || s.EndsWith ( ".aiff" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
 						}
 					}
+					
+					if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 - 150, musicViewerPosition.height/4 - 15, 240, 30 ), "Active Directory" ))
+					{
+						
+						currentDirectory = parentDirectory;
+						currentDirectoryDirectories = Directory.GetDirectories ( parentDirectory ).ToArray ();
+						currentDirectoryFiles = Directory.GetFiles ( parentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".aif" ) || s.EndsWith ( ".aiff" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
+					}
+		
+					if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 + 100, musicViewerPosition.height/4 - 15, 200, 30 ), "Open in " + startupManager.directoryBrowser ))
+						Process.Start ( currentDirectory );
 					
 					GUILayout.BeginHorizontal ();
 					GUILayout.Space ( musicViewerPosition.width / 2 - 300 );
@@ -1025,9 +1036,9 @@ public class MusicViewer : MonoBehaviour
 				}
 			
 				GUILayout.Box ( "System Commands" );
-								
+				
 				if ( showQuickManage == true )
-					if ( GUILayout.Button ( "Open Media Folder" ))
+					if ( GUILayout.Button ( "Open Current Directory" ))
 						Process.Start ( parentDirectory );
 			
 				if ( fileBrowser == false )
@@ -1054,7 +1065,6 @@ public class MusicViewer : MonoBehaviour
 										
 				if ( GUILayout.Button ( "Options" ))
 					showOptionsWindow = true;
-
 			
 				GUI.EndScrollView();
 				GUILayout.EndVertical();

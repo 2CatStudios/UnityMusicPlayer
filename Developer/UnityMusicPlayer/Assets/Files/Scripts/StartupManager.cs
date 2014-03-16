@@ -37,6 +37,7 @@ public class StartupManager : MonoBehaviour
 	
 	static string mac = Path.DirectorySeparatorChar + "Users" + Path.DirectorySeparatorChar  + Environment.UserName + Path.DirectorySeparatorChar + "Music" + Path.DirectorySeparatorChar  + "UnityMusicPlayer" + Path.DirectorySeparatorChar;
 	static string windows = Environment.GetFolderPath ( Environment.SpecialFolder.MyMusic ) + Path.DirectorySeparatorChar  + "UnityMusicPlayer" + Path.DirectorySeparatorChar;
+	internal string directoryBrowser;
 	
 	internal bool showTutorials = true;
 
@@ -44,6 +45,7 @@ public class StartupManager : MonoBehaviour
 
 	internal string path;
 	internal string mediaPath;
+	internal string downloadedPath;
 	internal string lastDirectory;
 	internal string supportPath;
 	internal string helpPath;
@@ -83,15 +85,18 @@ public class StartupManager : MonoBehaviour
 		{
 
 			path = mac;
+			directoryBrowser = "Finder";
 		} else
 		{
 
 			path = windows;
+			directoryBrowser = "File Explorer";
 		}
 
 		mediaPath = path + "Media" + Path.DirectorySeparatorChar;
 		supportPath = path + "Support" + Path.DirectorySeparatorChar;
-		helpPath = supportPath + Path.DirectorySeparatorChar + "FAQ & Tutorial.txt";
+		downloadedPath = mediaPath + Path.DirectorySeparatorChar + "*Downloaded" + Path.DirectorySeparatorChar;
+		helpPath = supportPath + Path.DirectorySeparatorChar + "FAQ & Tutorial.txt" + Path.DirectorySeparatorChar;
 		slideshowPath = path + "Slideshow" + Path.DirectorySeparatorChar;
 		tempPath = supportPath + "Temp" + Path.DirectorySeparatorChar;
 
@@ -109,6 +114,9 @@ public class StartupManager : MonoBehaviour
 			
 		if ( !Directory.Exists ( mediaPath + "Playlists" ))
 			Directory.CreateDirectory ( mediaPath + "Playlists" );
+		
+		if ( !Directory.Exists ( mediaPath + "*Downloaded" ))
+			Directory.CreateDirectory ( mediaPath + "*Downloaded" );
 
 		if ( !Directory.Exists ( supportPath ))
 			Directory.CreateDirectory(supportPath );
