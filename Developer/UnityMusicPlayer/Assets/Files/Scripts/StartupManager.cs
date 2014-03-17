@@ -115,8 +115,8 @@ public class StartupManager : MonoBehaviour
 		if ( !Directory.Exists ( mediaPath + "Playlists" ))
 			Directory.CreateDirectory ( mediaPath + "Playlists" );
 		
-		if ( !Directory.Exists ( mediaPath + "*Downloaded" ))
-			Directory.CreateDirectory ( mediaPath + "*Downloaded" );
+		if ( !Directory.Exists ( mediaPath + "Downloaded" ))
+			Directory.CreateDirectory ( mediaPath + "Downloaded" );
 
 		if ( !Directory.Exists ( supportPath ))
 			Directory.CreateDirectory(supportPath );
