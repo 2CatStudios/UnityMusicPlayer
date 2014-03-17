@@ -2,12 +2,14 @@ UnityMusicPlayer
 ===============
 Version 1.14 DevRelease
 
-What we're working on for 1.2 release:
-    • Improved ease of use
+Features we're working on for 1.2 release:
     • Artwork downloading
+    • Easier way to refresh OMB
+    
+Features complete for 1.2 release:
     • MusicViewer and MusicManager merge
-    • Refresh OMB button
     • Change sort to different directory, on desktop for example
+    • Improved ease of use
     
 What we're working on for later releases:
     • Socket server
