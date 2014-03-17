@@ -1,6 +1,6 @@
 UnityMusicPlayer
 ===============
-Version 1.14 DevRelease
+Version 1.16 DevRelease
 
 Features we're working on for 1.2 release:
     • Artwork downloading
