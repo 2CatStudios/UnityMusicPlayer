@@ -920,9 +920,9 @@ public class MusicViewer : MonoBehaviour
 											
 							string audioTitle;
 							if ( showTypes == true )				
-								audioTitle = clipList[songInt].Substring ( parentDirectory.Length + 1 );
+								audioTitle = clipList[songInt].Substring ( parentDirectory.Length + Path.DirectorySeparatorChar.ToString().Length );
 							else			
-								audioTitle = clipList[songInt].Substring ( clipList[songInt].LastIndexOf ( "/" ) + 1, clipList[songInt].LastIndexOf ( "." ) - clipList[songInt].LastIndexOf ( "/" ) - 1 );
+								audioTitle = clipList[songInt].Substring ( clipList[songInt].LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length, clipList[songInt].LastIndexOf ( "." ) - clipList[songInt].LastIndexOf ( Path.DirectorySeparatorChar ) - Path.DirectorySeparatorChar.ToString().Length );
 
 							if ( GUILayout.Button ( new GUIContent ( audioTitle )))
 							{
@@ -959,7 +959,7 @@ public class MusicViewer : MonoBehaviour
 					} else
 					{
 							
-						GUILayout.Label ( "\nYou don't have any music to play!\n\nIf you have some music (.wav, .ogg or .aif), navigate\nto the MusicManager (press the left arrow key)." +
+						GUILayout.Label ( "\nYou don't have any music to play!\n\nIf you have some music (.wav, .ogg or .aif), ***FILL THIS IN, MICHAEL***" +
 							"\n\nYou can also download music by navigating\nto the OnlineMusicBrowser (press the right arrow key).\n", centerStyle );
 											
 						if ( GUILayout.Button ( "View Help/Tutorial" ))
@@ -970,13 +970,13 @@ public class MusicViewer : MonoBehaviour
 					}
 				} else {
 					
-					if ( currentDirectory.Substring ( 0, currentDirectory.LastIndexOf ( "/" )).Length > 0 )
+					if ( currentDirectory.Substring ( 0, currentDirectory.LastIndexOf ( Path.DirectorySeparatorChar )).Length > 0 )
 					{
 						
 						if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 - 300, musicViewerPosition.height/4 - 15, 140, 30 ), new GUIContent ( "Previous", leftArrow )))
 						{
 						
-							currentDirectory = currentDirectory.Substring ( 0, currentDirectory.LastIndexOf ( "/" ));
+							currentDirectory = currentDirectory.Substring ( 0, currentDirectory.LastIndexOf ( Path.DirectorySeparatorChar ));
 							currentDirectoryDirectories = Directory.GetDirectories ( currentDirectory ).ToArray ();
 							currentDirectoryFiles = Directory.GetFiles ( currentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".aif" ) || s.EndsWith ( ".aiff" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
 						}
@@ -1255,9 +1255,9 @@ public class MusicViewer : MonoBehaviour
 			{
 				
 				if ( showTypes == true )
-					currentSong.text = songLocation.Substring ( songLocation.LastIndexOf ( "/" ) + 1 );
+					currentSong.text = songLocation.Substring ( songLocation.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length );
 				else
-					currentSong.text = songLocation.Substring ( songLocation.LastIndexOf ( "/" ) + 1, songLocation.LastIndexOf ( "." ) - songLocation.LastIndexOf ( "/" ) - 1 );
+					currentSong.text = songLocation.Substring ( songLocation.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length, songLocation.LastIndexOf ( "." ) - songLocation.LastIndexOf ( Path.DirectorySeparatorChar ) - Path.DirectorySeparatorChar.ToString().Length );
 			}
 				
 			if ( preciseTimemark == true )
@@ -1342,13 +1342,13 @@ public class MusicViewer : MonoBehaviour
 		{
 			
 			if ( showTypes == true )
-				currentSong.text = songLocation.Substring ( songLocation.LastIndexOf ( "/" ) + 1 );
+				currentSong.text = songLocation.Substring ( songLocation.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length );
 			else
-				currentSong.text = songLocation.Substring ( songLocation.LastIndexOf ( "/" ) + 1, songLocation.LastIndexOf ( "." ) - songLocation.LastIndexOf ( "/" ) - 1 );
+				currentSong.text = songLocation.Substring ( songLocation.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length, songLocation.LastIndexOf ( "." ) - songLocation.LastIndexOf ( Path.DirectorySeparatorChar ) - Path.DirectorySeparatorChar.ToString().Length );
 		}
 			
 		if ( startupManager.developmentMode == true )
-			UnityEngine.Debug.Log ( songLocation.Substring ( songLocation.LastIndexOf ( "/" ) + 1 ));
+			UnityEngine.Debug.Log ( songLocation.Substring ( songLocation.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length ));
 		
 		WWW www = new WWW ( "file://" + songLocation );
 		yield return www;
@@ -1502,7 +1502,7 @@ public class MusicViewer : MonoBehaviour
 		{
 				
 			slideshow = false;
-//			musicManager.StartCoroutine ( "SetArtwork" );
+			StartCoroutine ( "SetArtwork" );
 			
 			tempSlideshow = Convert.ToSingle ( slideshow );
 			if ( showTimebar == false )
@@ -1517,9 +1517,9 @@ public class MusicViewer : MonoBehaviour
 			{
 				
 				if ( showTypes == true )
-					currentSong.text = songLocation.Substring ( songLocation.LastIndexOf ( "/" ) + 1 );
+					currentSong.text = songLocation.Substring ( songLocation.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length );
 				else
-					currentSong.text = songLocation.Substring ( songLocation.LastIndexOf ( "/" ) + 1, songLocation.LastIndexOf ( "." ) - songLocation.LastIndexOf ( "/" ) - 1 );
+					currentSong.text = songLocation.Substring ( songLocation.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length, songLocation.LastIndexOf ( "." ) - songLocation.LastIndexOf ( Path.DirectorySeparatorChar ) - Path.DirectorySeparatorChar.ToString().Length );
 				
 			} else {
 				
