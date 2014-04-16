@@ -217,7 +217,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	void SortAvailableDownloads()
 	{
 
-		System.IO.StreamReader streamReader = new System.IO.StreamReader ( startupManager.supportPath + Path.DirectorySeparatorChar + "Downloads.xml" );
+		System.IO.StreamReader streamReader = new System.IO.StreamReader ( startupManager.supportPath + "Downloads.xml" );
 		string xml = streamReader.ReadToEnd();
 		streamReader.Close();
 		
@@ -464,7 +464,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 							
 							        		client.DownloadProgressChanged += new DownloadProgressChangedEventHandler( DownloadProgressCallback );
 											
-							        		client.DownloadFileAsync ( url, startupManager.tempPath + Path.DirectorySeparatorChar + song.name + "." + song.format );
+							        		client.DownloadFileAsync ( url, startupManager.tempPath + song.name + "." + song.format );
 										}
 									} catch ( Exception error ) {
 										
@@ -648,14 +648,13 @@ public class OnlineMusicBrowser : MonoBehaviour
 			
 			if ( end.Cancelled == true )
 			{
-				
-				File.Delete ( startupManager.tempPath + Path.DirectorySeparatorChar + downloadingSong.name + "." + downloadingSong.format );
+				File.Delete ( startupManager.tempPath + downloadingSong.name + "." + downloadingSong.format );
 			} else {
 				
-				if ( File.Exists ( musicViewer.mediaPath + Path.DirectorySeparatorChar + downloadingSong.name + "." + downloadingSong.format ))
-					File.Delete ( musicViewer.mediaPath + Path.DirectorySeparatorChar + downloadingSong.name + "." + downloadingSong.format );
+				if ( File.Exists ( startupManager.downloadedPath + downloadingSong.name + "." + downloadingSong.format ))
+					File.Delete ( startupManager.downloadedPath + downloadingSong.name + "." + downloadingSong.format );
 				
-				File.Move ( startupManager.tempPath + Path.DirectorySeparatorChar + downloadingSong.name + "." + downloadingSong.format, startupManager.downloadedPath + downloadingSong.name + "." + downloadingSong.format );
+				File.Move ( startupManager.tempPath + downloadingSong.name + "." + downloadingSong.format, startupManager.downloadedPath + downloadingSong.name + "." + downloadingSong.format );
 			}
 
 			songInfoOwner = null;

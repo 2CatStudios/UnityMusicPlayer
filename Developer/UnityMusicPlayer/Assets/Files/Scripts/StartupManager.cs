@@ -95,7 +95,7 @@ public class StartupManager : MonoBehaviour
 
 		mediaPath = path + "Media" + Path.DirectorySeparatorChar;
 		supportPath = path + "Support" + Path.DirectorySeparatorChar;
-		downloadedPath = mediaPath + Path.DirectorySeparatorChar + "*Downloaded" + Path.DirectorySeparatorChar;
+		downloadedPath = mediaPath + "Downloaded" + Path.DirectorySeparatorChar;
 		helpPath = supportPath + Path.DirectorySeparatorChar + "FAQ & Tutorial.txt" + Path.DirectorySeparatorChar;
 		slideshowPath = path + "Slideshow" + Path.DirectorySeparatorChar;
 		tempPath = supportPath + "Temp" + Path.DirectorySeparatorChar;
