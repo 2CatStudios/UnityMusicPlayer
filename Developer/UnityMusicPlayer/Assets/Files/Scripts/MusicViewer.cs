@@ -161,7 +161,11 @@ public class MusicViewer : MonoBehaviour
 	internal bool showArrows;
 	
 	float tempCheckForUpdates;
+	
 	internal float tempEnableOMB;
+	
+	float tempDeepSearch;
+	bool enableDeepSearch;
 
 #endregion
 
@@ -234,6 +238,7 @@ public class MusicViewer : MonoBehaviour
 		currentDirectory = parentDirectory;
 				
 		tempCheckForUpdates = Convert.ToSingle ( startupManager.checkForUpdate );
+		
 		tempEnableOMB = Convert.ToSingle ( startupManager.ombEnabled );
 			
 		loop = Convert.ToBoolean ( startupManager.prefs [ 4 ] );
@@ -252,44 +257,47 @@ public class MusicViewer : MonoBehaviour
 		showArtwork = Convert.ToBoolean ( startupManager.prefs [ 10 ] );
 		tempShowArtwork = Convert.ToSingle ( showArtwork );
 		
-		showQuickManage = Convert.ToBoolean ( startupManager.prefs [ 11 ] );
+		enableDeepSearch = Convert.ToBoolean ( startupManager.prefs [ 11 ]);
+		tempDeepSearch = Convert.ToSingle ( enableDeepSearch );
+		
+		showQuickManage = Convert.ToBoolean ( startupManager.prefs [ 12 ] );
 		tempShowQuickManage = Convert.ToSingle ( showQuickManage );
 		
-		preciseTimemark = Convert.ToBoolean ( startupManager.prefs [ 12 ] );
+		preciseTimemark = Convert.ToBoolean ( startupManager.prefs [ 13 ] );
 		tempPreciseTimemark = Convert.ToSingle ( preciseTimemark );
 		
-		volumeBarValue = Convert.ToSingle ( startupManager.prefs [ 13 ] );
+		volumeBarValue = Convert.ToSingle ( startupManager.prefs [ 14 ] );
 
-		avcR = float.Parse ( startupManager.prefs [ 14 ] );
+		avcR = float.Parse ( startupManager.prefs [ 15 ] );
 		tempAVCR = avcR;
 		
-		avcG = float.Parse ( startupManager.prefs [ 15 ] );
+		avcG = float.Parse ( startupManager.prefs [ 16 ] );
 		tempAVCG = avcG;
 		
-		avcB = float.Parse ( startupManager.prefs [ 16 ] );
+		avcB = float.Parse ( startupManager.prefs [ 17 ] );
 		tempAVCB = avcB;
 
-		bloom = Convert.ToBoolean ( startupManager.prefs [ 17 ] );	
+		bloom = Convert.ToBoolean ( startupManager.prefs [ 18 ] );	
 		tempBloom = Convert.ToSingle ( bloom );
 		
-		blur = Convert.ToBoolean ( startupManager.prefs [ 18 ] );
+		blur = Convert.ToBoolean ( startupManager.prefs [ 19 ] );
 		tempBlur = Convert.ToSingle ( blur );
 		
-		sunShafts = Convert.ToBoolean ( startupManager.prefs [ 19 ] );
+		sunShafts = Convert.ToBoolean ( startupManager.prefs [ 20 ] );
 		tempSunShafts = Convert.ToSingle ( sunShafts );
 		
-		blurIterations = Convert.ToString ( startupManager.prefs [ 20 ] );
+		blurIterations = Convert.ToString ( startupManager.prefs [ 21 ] );
 		tempBlurIterations = blurIterations;
 		
 		manager.GetComponent<BlurEffect> ().iterations = Convert.ToInt16 ( blurIterations );
 
-		echoDelay = startupManager.prefs [ 21 ];
+		echoDelay = startupManager.prefs [ 22 ];
 		tempEchoDelay = echoDelay;
-		echoDecayRate = startupManager.prefs [ 22 ];
+		echoDecayRate = startupManager.prefs [ 23 ];
 		tempEchoDecayRate = echoDecayRate;
-		echoWetMix = startupManager.prefs [ 23 ];
+		echoWetMix = startupManager.prefs [ 24 ];
 		tempEchoWetMix = echoWetMix;
-		echoDryMix = startupManager.prefs [ 24 ];
+		echoDryMix = startupManager.prefs [ 25 ];
 		tempEchoDryMix = echoDryMix;
 		
 		manager.GetComponent<AudioEchoFilter> ().delay = Convert.ToSingle ( echoDelay );
@@ -297,13 +305,13 @@ public class MusicViewer : MonoBehaviour
 		manager.GetComponent<AudioEchoFilter> ().wetMix = Convert.ToSingle ( echoWetMix );
 		manager.GetComponent<AudioEchoFilter> ().dryMix = Convert.ToSingle ( echoDryMix );
 		
-		autoAVBlur = Convert.ToBoolean ( startupManager.prefs [ 25 ] );
+		autoAVBlur = Convert.ToBoolean ( startupManager.prefs [ 26 ] );
 		tempAutoAVBlur = Convert.ToSingle ( autoAVBlur );
 		
-		autoAVOff = Convert.ToBoolean ( startupManager.prefs [ 26 ] );
+		autoAVOff = Convert.ToBoolean ( startupManager.prefs [ 27 ] );
 		tempAutoAVOff = Convert.ToSingle ( autoAVOff );
 		
-		displayTime = startupManager.prefs [ 27 ];
+		displayTime = startupManager.prefs [ 28 ];
 		
 		currentSong.text = "UnityMusicPlayer";
 		GameObject.FindGameObjectWithTag ( "TimebarImage" ).guiTexture.enabled = showTimebar;
@@ -325,7 +333,7 @@ public class MusicViewer : MonoBehaviour
 			timemark.text = "0:00][0:00";
 
 		TextWriter savePrefs = new StreamWriter ( startupManager.prefsLocation );
-		savePrefs.WriteLine ( parentDirectory + "\n" + startupManager.checkForUpdate + "\n" + startupManager.ombEnabled + "\n" + startupManager.showTutorials + "\n" + loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + showArrows + "\n" + showTimebar + "\n" + showArtwork + "\n" + showQuickManage + "\n" + preciseTimemark + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + blur + "\n" + sunShafts + 
+		savePrefs.WriteLine ( parentDirectory + "\n" + startupManager.checkForUpdate + "\n" + startupManager.ombEnabled + "\n" + startupManager.showTutorials + "\n" + loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + showArrows + "\n" + showTimebar + "\n" + showArtwork + "\n" + enableDeepSearch + "\n" + showQuickManage + "\n" + preciseTimemark + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + blur + "\n" + sunShafts + 
 		                     "\n" + blurIterations + "\n" + echoDelay + "\n" + echoDecayRate + "\n" + echoWetMix + "\n" + echoDryMix + "\n" + autoAVBlur + "\n" + autoAVOff + "\n" + displayTime );
 		savePrefs.Close ();
 		
@@ -472,6 +480,8 @@ public class MusicViewer : MonoBehaviour
 				StartCoroutine ( SetArtwork ());
 			else
 				currentSlideshowImage.texture = null;
+			
+			enableDeepSearch = Convert.ToBoolean ( tempDeepSearch );
 
 			showQuickManage = Convert.ToBoolean ( tempShowQuickManage );
 			
@@ -543,120 +553,114 @@ public class MusicViewer : MonoBehaviour
 			showOptionsWindow = false;
 		}
 		
-		tempShowTypes = GUI.HorizontalSlider ( new Rect ( 170, 27, 20, 14 ), UnityEngine.Mathf.Round ( tempShowTypes ), 0, 1 );
-		GUI.Label ( new Rect ( 195, 20, 100, 22 ), "Show Types" );
+		tempShowTypes = GUI.HorizontalSlider ( new Rect ( 170, 45, 20, 14 ), UnityEngine.Mathf.Round ( tempShowTypes ), 0, 1 );
+		GUI.Label ( new Rect ( 195, 39, 100, 22 ), "Show Types" );
 		
-		tempShowArrows = GUI.HorizontalSlider ( new Rect ( 170, 44, 20, 14 ), UnityEngine.Mathf.Round ( tempShowArrows ), 0, 1 );
-		GUI.Label ( new Rect ( 195, 38, 100, 22 ), "Show Arrows" );
+		tempShowArrows = GUI.HorizontalSlider ( new Rect ( 170, 61, 20, 14 ), UnityEngine.Mathf.Round ( tempShowArrows ), 0, 1 );
+		GUI.Label ( new Rect ( 195, 55, 100, 22 ), "Enable Arrows" );
 		
-		tempShowArtwork = GUI.HorizontalSlider ( new Rect ( 170, 61, 20, 14 ), UnityEngine.Mathf.Round ( tempShowArtwork ), 0, 1 );
-		GUI.Label ( new Rect ( 195, 55, 100, 22 ), "Show Artwork" );
+		tempShowArtwork = GUI.HorizontalSlider ( new Rect ( 170, 78, 20, 14 ), UnityEngine.Mathf.Round ( tempShowArtwork ), 0, 1 );
+		GUI.Label ( new Rect ( 195, 72, 100, 22 ), "Enable Artwork" );
 	
-		tempShowTimebar = GUI.HorizontalSlider ( new Rect ( 170, 78, 20, 14 ), UnityEngine.Mathf.Round ( tempShowTimebar ), 0, 1 );
-		GUI.Label ( new Rect ( 195, 72, 100, 22 ), "Show Timebar" );
+		tempShowTimebar = GUI.HorizontalSlider ( new Rect ( 170, 95, 20, 14 ), UnityEngine.Mathf.Round ( tempShowTimebar ), 0, 1 );
+		GUI.Label ( new Rect ( 195, 89, 100, 22 ), "Enable Timebar" );
 		
-		tempShowQuickManage = GUI.HorizontalSlider ( new Rect ( 170, 95, 20, 14 ), UnityEngine.Mathf.Round ( tempShowQuickManage ), 0, 1 );
-		GUI.Label ( new Rect ( 195, 89, 116, 22 ), "Show QuickManage" );
+		tempDeepSearch = GUI.HorizontalSlider ( new Rect ( 170, 112, 20, 14 ), UnityEngine.Mathf.Round ( tempDeepSearch ), 0, 1 );
+		GUI.Label ( new Rect ( 195, 106, 145, 22 ), "Enable Deep Search" );
 		
-		tempPreciseTimemark = GUI.HorizontalSlider ( new Rect ( 170, 112, 20, 14 ), UnityEngine.Mathf.Round ( tempPreciseTimemark ), 0, 1 );
-		GUI.Label ( new Rect ( 195, 106, 145, 22 ), "Show Precise Timemark" );
+		tempShowQuickManage = GUI.HorizontalSlider ( new Rect ( 170, 129, 20, 14 ), UnityEngine.Mathf.Round ( tempShowQuickManage ), 0, 1 );
+		GUI.Label ( new Rect ( 195, 123, 124, 22 ), "Enable QuickManage" );
+		
+		tempPreciseTimemark = GUI.HorizontalSlider ( new Rect ( 170, 146, 20, 14 ), UnityEngine.Mathf.Round ( tempPreciseTimemark ), 0, 1 );
+		GUI.Label ( new Rect ( 195, 140, 150, 22 ), "Show Precise Timemark" );
+		
 
 #region AudioVisualizerSettings
 
-		GUI.Box ( new Rect ( 10, 20, 150, 224 ), "AudioVisualizer Settings" );
+		GUI.Box ( new Rect ( 10, 24, 150, 224 ), "AudioVisualizer Settings" );
 
-		GUI.Label ( new Rect ( 35, 42, 40, 30 ), "Red" );
-		tempAVCR = GUI.HorizontalSlider ( new Rect ( 35, 62, 100, 15), tempAVCR, 0.0F, 1.000F );
+		GUI.Label ( new Rect ( 35, 46, 40, 30 ), "Red" );
+		tempAVCR = GUI.HorizontalSlider ( new Rect ( 35, 66, 100, 15), tempAVCR, 0.0F, 1.000F );
 
-		GUI.Label ( new Rect ( 35, 72, 40, 30 ), "Green" );
-		tempAVCG = GUI.HorizontalSlider ( new Rect ( 35, 92, 100, 15), tempAVCG, 0.0F, 1.000F );
+		GUI.Label ( new Rect ( 35, 76, 40, 30 ), "Green" );
+		tempAVCG = GUI.HorizontalSlider ( new Rect ( 35, 96, 100, 15), tempAVCG, 0.0F, 1.000F );
 
-		GUI.Label ( new Rect ( 35, 102, 40, 30 ), "Blue" );
-		tempAVCB = GUI.HorizontalSlider ( new Rect ( 35, 122, 100, 15), tempAVCB, 0.0F, 1.000F );
+		GUI.Label ( new Rect ( 35, 106, 40, 30 ), "Blue" );
+		tempAVCB = GUI.HorizontalSlider ( new Rect ( 35, 126, 100, 15), tempAVCB, 0.0F, 1.000F );
 
 		GUI.contentColor = new Color ( tempAVCR, tempAVCG, tempAVCB, 1.000F );
-		GUI.Label ( new Rect ( 45, 137, 80, 20 ), "Sample Color");
+		GUI.Label ( new Rect ( 45, 143, 80, 20 ), "Sample Color");
 		GUI.contentColor = Color.white;
 		
-		tempSunShafts = GUI.HorizontalSlider ( new Rect ( 20, 165, 20, 14 ), UnityEngine.Mathf.Round ( tempSunShafts ), 0, 1 );
-		GUI.Label ( new Rect ( 45, 158, 120, 22 ), "Toggle Sun Shafts" );
+		tempSunShafts = GUI.HorizontalSlider ( new Rect ( 20, 169, 20, 14 ), UnityEngine.Mathf.Round ( tempSunShafts ), 0, 1 );
+		GUI.Label ( new Rect ( 45, 162, 120, 22 ), "Toggle Sun Shafts" );
 		
-		tempBloom = GUI.HorizontalSlider ( new Rect ( 20, 182, 20, 14 ), UnityEngine.Mathf.Round ( tempBloom ), 0, 1 );
-		GUI.Label ( new Rect ( 45, 176, 80, 22 ), "Toggle Bloom" );
+		tempBloom = GUI.HorizontalSlider ( new Rect ( 20, 186, 20, 14 ), UnityEngine.Mathf.Round ( tempBloom ), 0, 1 );
+		GUI.Label ( new Rect ( 45, 180, 80, 22 ), "Toggle Bloom" );
 
-		tempBlur = GUI.HorizontalSlider ( new Rect ( 20, 199, 20, 14 ), UnityEngine.Mathf.Round ( tempBlur ), 0, 1 );
-		GUI.Label ( new Rect ( 45, 194, 80, 22 ), "Toggle Blur" );
+		tempBlur = GUI.HorizontalSlider ( new Rect ( 20, 203, 20, 14 ), UnityEngine.Mathf.Round ( tempBlur ), 0, 1 );
+		GUI.Label ( new Rect ( 45, 198, 80, 22 ), "Toggle Blur" );
 		
-		GUI.Label ( new Rect ( 35, 220, 100, 20 ), "Blur Iterations" );
-		tempBlurIterations = GUI.TextField ( new Rect ( 15, 220, 15, 20 ), tempBlurIterations, 1 );
+		GUI.Label ( new Rect ( 35, 224, 80, 20 ), "Blur Amount" );
+		tempBlurIterations = GUI.TextField ( new Rect ( 15, 224, 15, 20 ), tempBlurIterations, 1 );
 		tempBlurIterations = RegexToString ( tempBlurIterations, false );
 
 #endregion
 
 #region AudioSettings
 
-		GUI.Box ( new Rect ( 170, 134, 170, 110 ), "Audio Echo Settings" );
+		GUI.Box ( new Rect ( 170, 166, 170, 110 ), "Audio Echo Settings" );
 
-		GUI.Label ( new Rect ( 210, 154, 80, 20 ), "Echo Delay" );
-		tempEchoDelay = GUI.TextField ( new Rect ( 175, 154, 30, 20 ), tempEchoDelay, 3 );
+		GUI.Label ( new Rect ( 210, 186, 80, 20 ), "Echo Delay" );
+		tempEchoDelay = GUI.TextField ( new Rect ( 175, 186, 30, 20 ), tempEchoDelay, 3 );
 		tempEchoDelay = RegexToString ( tempEchoDelay, true );
 
-		GUI.Label ( new Rect ( 210, 176, 110, 20 ), "Echo Decay Rate" );
-		tempEchoDecayRate = GUI.TextField ( new Rect ( 175, 176, 30, 20 ), tempEchoDecayRate, 3 );
+		GUI.Label ( new Rect ( 210, 208, 110, 20 ), "Echo Decay Rate" );
+		tempEchoDecayRate = GUI.TextField ( new Rect ( 175, 208, 30, 20 ), tempEchoDecayRate, 3 );
 		tempEchoDecayRate = RegexToString ( tempEchoDecayRate, true );
 
-		GUI.Label ( new Rect ( 210, 198, 100, 20 ), "Echo Wet Mix" );
-		tempEchoWetMix = GUI.TextField ( new Rect ( 175, 198, 30, 20 ), tempEchoWetMix, 3 );
+		GUI.Label ( new Rect ( 210, 230, 100, 20 ), "Echo Wet Mix" );
+		tempEchoWetMix = GUI.TextField ( new Rect ( 175, 230, 30, 20 ), tempEchoWetMix, 3 );
 		tempEchoWetMix = RegexToString ( tempEchoWetMix, true );
 
-		GUI.Label ( new Rect ( 210, 220, 100, 20 ), "Echo Dry Mix" );
-		tempEchoDryMix = GUI.TextField ( new Rect ( 175, 220, 30, 20 ), tempEchoDryMix, 3 );
+		GUI.Label ( new Rect ( 210, 252, 100, 20 ), "Echo Dry Mix" );
+		tempEchoDryMix = GUI.TextField ( new Rect ( 175, 252, 30, 20 ), tempEchoDryMix, 3 );
 		tempEchoDryMix = RegexToString ( tempEchoDryMix, true );
 
 #endregion
 
 #region SlideshowSettings
 
-		GUI.Box ( new Rect ( 10, 252, 150, 116 ), "Slideshow Settings" );
+		GUI.Box ( new Rect ( 10, 256, 150, 116 ), "Slideshow Settings" );
 		
-		tempSlideshow = GUI.HorizontalSlider ( new Rect ( 20, 280, 20, 14 ), UnityEngine.Mathf.Round ( tempSlideshow ), 0, 1 );
-		GUI.Label ( new Rect ( 45, 274, 100, 22 ), "Slideshow" );
+		tempSlideshow = GUI.HorizontalSlider ( new Rect ( 20, 284, 20, 14 ), UnityEngine.Mathf.Round ( tempSlideshow ), 0, 1 );
+		GUI.Label ( new Rect ( 45, 278, 100, 22 ), "Slideshow" );
 		
-		tempAutoAVBlur = GUI.HorizontalSlider ( new Rect ( 20, 300, 20, 14 ), UnityEngine.Mathf.Round ( tempAutoAVBlur ), 0, 1 );
-		GUI.Label ( new Rect ( 45, 294, 100, 22 ), "Force AV Blur" );
+		tempAutoAVBlur = GUI.HorizontalSlider ( new Rect ( 20, 304, 20, 14 ), UnityEngine.Mathf.Round ( tempAutoAVBlur ), 0, 1 );
+		GUI.Label ( new Rect ( 45, 298, 100, 22 ), "Force AV Blur" );
 		
-		tempAutoAVOff = GUI.HorizontalSlider ( new Rect ( 20, 320, 20, 14 ), UnityEngine.Mathf.Round ( tempAutoAVOff ), 0, 1 );
-		GUI.Label ( new Rect ( 45, 314, 100, 22 ), "Force AV Off" );
+		tempAutoAVOff = GUI.HorizontalSlider ( new Rect ( 20, 324, 20, 14 ), UnityEngine.Mathf.Round ( tempAutoAVOff ), 0, 1 );
+		GUI.Label ( new Rect ( 45, 318, 100, 22 ), "Force AV Off" );
 		
-		GUI.Label ( new Rect ( 45, 341, 80, 20 ), "Display Time" );
-		displayTime = GUI.TextField ( new Rect ( 15, 342, 27, 20 ), displayTime, 3 );
+		GUI.Label ( new Rect ( 45, 345, 80, 20 ), "Display Time" );
+		displayTime = GUI.TextField ( new Rect ( 15, 346, 27, 20 ), displayTime, 3 );
 		displayTime = RegexToString ( displayTime, true );
 
 #endregion
 
 #region Online Settings
 
-		GUI.Box ( new Rect ( 170, 252, 170, 90 ), "Online Settings" );
+		GUI.Box ( new Rect ( 170, 284, 170, 62 ), "Online Settings" );
 		
-		tempCheckForUpdates = GUI.HorizontalSlider ( new Rect ( 175, 277, 20, 14 ), UnityEngine.Mathf.Round ( tempCheckForUpdates ), 0, 1 );
-		GUI.Label ( new Rect ( 200, 271, 115, 22 ), "Check For Updates" );
+		tempCheckForUpdates = GUI.HorizontalSlider ( new Rect ( 175, 309, 20, 14 ), UnityEngine.Mathf.Round ( tempCheckForUpdates ), 0, 1 );
+		GUI.Label ( new Rect ( 200, 303, 115, 22 ), "Check For Updates" );
 		
-		tempEnableOMB = GUI.HorizontalSlider ( new Rect ( 175, 297, 20, 14 ), UnityEngine.Mathf.Round ( tempEnableOMB ), 0, 1 );
-		GUI.Label ( new Rect ( 200, 290, 120, 22 ), "Enable Online Store" );
+		tempEnableOMB = GUI.HorizontalSlider ( new Rect ( 175, 329, 20, 14 ), UnityEngine.Mathf.Round ( tempEnableOMB ), 0, 1 );
+		GUI.Label ( new Rect ( 200, 322, 120, 22 ), "Enable Online Store" );
 		
-		if ( GUI.Button ( new Rect ( 175, 314, 160, 22 ), "Check For New Version" ))
-		{
-			
-			startupManager.SendMessage ( "CheckForUpdate" );
-			
-			loadingImage.showLoadingImages = true;
-			loadingImage.InvokeRepeating ("LoadingImages", 0, 0.25F);
-			close = true;
-		}
-
 #endregion
 
-		if ( GUI.Button ( new Rect ( 170, 346, 170, 22 ), "Reset Tutorials" ))
+		if ( GUI.Button ( new Rect ( 170, 350, 170, 22 ), "Reset Tutorials" ))
 		{
 			
 			startupManager.showTutorials = true;
@@ -760,7 +764,7 @@ public class MusicViewer : MonoBehaviour
 
 
 	void OnGUI ()
-	{		
+	{
 		
 		if ( manager.audio.clip != null && showTimebar == true )
 			GUI.DrawTexture ( new Rect ( manager.audio.time * ( musicViewerPosition.width/manager.audio.clip.length ), -3, 10, 6 ), timebarMarker );
@@ -848,9 +852,6 @@ public class MusicViewer : MonoBehaviour
 				
 			if ( halfSpeed == false && doubleSpeed == false )
 				manager.audio.pitch = 1.0F;
-	
-			if ( showOptionsWindow == true || startupManager.showUnderlay == true )
-				GUI.DrawTexture ( new Rect ( 0, 0, musicViewerPosition.width, musicViewerPosition.height ), startupManager.underlay );
 			
 			if ( hideGUI == false )
 			{
@@ -982,7 +983,7 @@ public class MusicViewer : MonoBehaviour
 						}
 					}
 					
-					if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 - 150, musicViewerPosition.height/4 - 15, 240, 30 ), "Active Directory" ))
+					if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 - 150, musicViewerPosition.height/4 - 15, 200, 30 ), "Active Directory" ))
 					{
 						
 						currentDirectory = parentDirectory;
@@ -990,7 +991,7 @@ public class MusicViewer : MonoBehaviour
 						currentDirectoryFiles = Directory.GetFiles ( parentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".aif" ) || s.EndsWith ( ".aiff" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
 					}
 		
-					if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 + 100, musicViewerPosition.height/4 - 15, 200, 30 ), "Open in " + startupManager.directoryBrowser ))
+					if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 + 60, musicViewerPosition.height/4 - 15, 240, 30 ), "Open in " + startupManager.directoryBrowser ))
 						Process.Start ( currentDirectory );
 					
 					GUILayout.BeginHorizontal ();
@@ -1070,6 +1071,9 @@ public class MusicViewer : MonoBehaviour
 				GUILayout.EndVertical();
 				GUILayout.EndHorizontal();
 			}
+			
+			if ( showOptionsWindow == true || startupManager.showUnderlay == true )
+				GUI.DrawTexture ( new Rect ( 0, 0, musicViewerPosition.width, musicViewerPosition.height ), startupManager.underlay );
 		}
 	}
 
@@ -1787,7 +1791,7 @@ public class MusicViewer : MonoBehaviour
 		Caching.CleanCache ();
 
 		TextWriter savePrefs = new StreamWriter ( startupManager.prefsLocation );
-		savePrefs.WriteLine ( parentDirectory + "\n" + startupManager.checkForUpdate + "\n" + startupManager.ombEnabled + "\n" + startupManager.showTutorials + "\n" + loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + showArrows + "\n" + showTimebar + "\n" + showArtwork + "\n" + showQuickManage + "\n" + preciseTimemark + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + blur + "\n" + sunShafts + 
+		savePrefs.WriteLine ( parentDirectory + "\n" + startupManager.checkForUpdate + "\n" + startupManager.ombEnabled + "\n" + startupManager.showTutorials + "\n" + loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + showArrows + "\n" + showTimebar + "\n" + showArtwork + "\n" + enableDeepSearch + "\n" + showQuickManage + "\n" + preciseTimemark + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + blur + "\n" + sunShafts + 
 		                     "\n" + blurIterations + "\n" + echoDelay + "\n" + echoDecayRate + "\n" + echoWetMix + "\n" + echoDryMix + "\n" + autoAVBlur + "\n" + autoAVOff + "\n" + displayTime );
 		savePrefs.Close ();
 

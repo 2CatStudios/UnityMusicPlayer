@@ -54,7 +54,7 @@ public class StartupManager : MonoBehaviour
 	internal string tempPath;
 
 	internal string [] prefs;
-	int linesInPrefs = 28;
+	int linesInPrefs = 29;
 
 	string[] applicationDownloads;
 	string[] devApplicationDownloads;
@@ -159,7 +159,7 @@ public class StartupManager : MonoBehaviour
 			using ( FileStream createPrefs = File.Create ( supportPath + "Preferences.umpp" ))
 			{
 					
-				Byte[] preferences = new UTF8Encoding(true).GetBytes( mediaPath + "Albums\nTrue\nTrue\nTrue\nFalse\nFalse\nFalse\nFalse\nTrue\nFalse\nTrue\nFalse\nFalse\n1.0\n0.373\n0.569\n1.000\nFalse\nFalse\nTrue\n3\n100\n0.3\n0.8\n0.6\nTrue\nFalse\n2.0\n0\n0\n0\n0\n0\n0\n0");
+				Byte[] preferences = new UTF8Encoding(true).GetBytes( mediaPath + "Albums\nTrue\nTrue\nTrue\nFalse\nFalse\nFalse\nFalse\nTrue\nFalse\nTrue\nFalse\nFalse\nFalse\n1.0\n0.373\n0.569\n1.000\nFalse\nFalse\nTrue\n3\n100\n0.3\n0.8\n0.6\nTrue\nFalse\n2.0\n0\n0\n0\n0\n0\n0\n0");
 				createPrefs.Write ( preferences, 0, preferences.Length );
 			}
 		}
@@ -393,7 +393,7 @@ public class StartupManager : MonoBehaviour
 	void DeveloperMode ( int pwid )
 	{
 
-		GUI.Label ( new Rect ( -50, 10, 300, 40 ), "developerMode is On!" );
+		GUI.Label ( new Rect ( -50, 10, 300, 40 ), "developerMode is ON!" );
 		if ( GUI.Button ( new Rect ( 75, 50, 50, 20 ), "Close" ))
 		{
 
