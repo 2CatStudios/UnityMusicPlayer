@@ -23,7 +23,8 @@ public class MusicViewer : MonoBehaviour
 	AudioVisualizerR audioVisualizerR;
 	AudioVisualizerL audioVisualizerL;
 	
-	GUIStyle fileBrowserFolderStyle;
+	GUIStyle fileStyle;
+	GUIStyle folderStyle;
 	GUIStyle fileBrowserFileStyle;
 	public Texture2D folderIcon;
 	public Texture2D musicNoteIcon;
@@ -44,10 +45,12 @@ public class MusicViewer : MonoBehaviour
 	bool halfSpeed = false;
 	bool doubleSpeed = false;
 	
+	string songInfoOwner;
+	bool showFolderMusic = false;
+	
 	internal string mediaPath;
 	internal String parentDirectory;
 	String[] currentDirectories;
-	internal String[] clipList;
 	string songLocation;
 	
 	WWW wWw;
@@ -90,9 +93,12 @@ public class MusicViewer : MonoBehaviour
 	int[] previousSongs = new int  [ 7 ] { 0, 0, 0, 0, 0, 0, 0 };
 	int psPlace = 6;
 	
+	string audioLocation;
+	
 	string currentDirectory;
 	string [] currentDirectoryDirectories;
 	string [] currentDirectoryFiles;
+	string [] childDirectoryFiles;
 
 #region EffectsSettings
 	
@@ -344,13 +350,22 @@ public class MusicViewer : MonoBehaviour
 		labelStyle.alignment = TextAnchor.MiddleCenter;
 		labelStyle.wordWrap = true;
 		
+		folderStyle = new GUIStyle ();
+		folderStyle.alignment = TextAnchor.MiddleLeft;
+		folderStyle.border = new RectOffset ( 6, 6, 4, 4 );
+		folderStyle.hover.background = guiHover;
+		folderStyle.fontSize = 22;
+		
+		fileStyle = new GUIStyle ();
+		fileStyle.alignment = TextAnchor.MiddleLeft;
+		fileStyle.border = new RectOffset ( 6, 6, 6, 4 );
+		fileStyle.padding = new RectOffset ( 6, 6, 3, 3 );
+		fileStyle.margin = new RectOffset ( 4, 4, 4, 4 );
+		fileStyle.hover.background = guiHover;
+		fileStyle.fontSize = 22;
+		
 		fileBrowserFileStyle = new GUIStyle ();
 		fileBrowserFileStyle.alignment = TextAnchor.MiddleLeft;
-		
-		fileBrowserFolderStyle = new GUIStyle ();
-		fileBrowserFolderStyle.alignment = TextAnchor.MiddleLeft;
-		fileBrowserFolderStyle.border = new RectOffset ( 6, 6, 4, 4 );
-		fileBrowserFolderStyle.hover.background = guiHover;
 		
 		songStyle = new GUIStyle ();
 		songStyle.alignment = TextAnchor.MiddleLeft;
@@ -373,27 +388,22 @@ public class MusicViewer : MonoBehaviour
 		if ( paneManager.currentPane == PaneManager.pane.musicViewer )
 		{
 			
-			if ( fileBrowser == false )
+			try
 			{
-
-				clipList = Directory.GetFiles ( parentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".aif" ) || s.EndsWith ( ".aiff" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
-			} else {
 				
-				try
-				{
-					
-					currentDirectoryDirectories = Directory.GetDirectories ( currentDirectory ).ToArray ();
-					currentDirectoryFiles = Directory.GetFiles ( currentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".aif" ) || s.EndsWith ( ".aiff" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
-				} catch ( Exception e ) {
+				currentDirectoryDirectories = Directory.GetDirectories ( currentDirectory ).ToArray ();
+				currentDirectoryFiles = Directory.GetFiles ( currentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".aif" ) || s.EndsWith ( ".aiff" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
+				try { childDirectoryFiles = Directory.GetFiles ( songInfoOwner, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".aif" ) || s.EndsWith ( ".aiff" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray (); } catch { childDirectoryFiles = new string[0]; }
+			} catch ( Exception e ) {
+			
+				if ( startupManager.developmentMode == true )
+					UnityEngine.Debug.LogWarning ( e );
 				
-					if ( startupManager.developmentMode == true )
-						UnityEngine.Debug.LogWarning ( e );
-					
-					currentDirectory = startupManager.mediaPath;
+				currentDirectory = startupManager.mediaPath;
+			
+				currentDirectoryDirectories = Directory.GetDirectories ( currentDirectory ).ToArray ();
+				currentDirectoryFiles = Directory.GetFiles ( currentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".aif" ) || s.EndsWith ( ".aiff" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
 				
-					currentDirectoryDirectories = Directory.GetDirectories ( currentDirectory ).ToArray ();
-					currentDirectoryFiles = Directory.GetFiles ( currentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".aif" ) || s.EndsWith ( ".aiff" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
-				}
 			}
 		}
 	}
@@ -405,7 +415,7 @@ public class MusicViewer : MonoBehaviour
 		GUI.FocusWindow ( 5 );
 		GUI.BringWindowToFront ( 5 );
 
-		if ( GUI.Button ( new Rect ( 290, 20, 50, 20 ), "Close" ) || close == true)
+		if ( GUI.Button ( new Rect ( 280, 20, 60, 20 ), "Close" ) || close == true)
 		{
 
 			if ( tempEchoDelay.Trim () == "" )
@@ -451,12 +461,17 @@ public class MusicViewer : MonoBehaviour
 			showTypes = Convert.ToBoolean ( tempShowTypes );
 			if ( manager.audio.clip != null )
 			{
-				
+
 				if ( showTypes == true )
+					currentSong.text = audioLocation.Substring ( audioLocation.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length );
+				else
+					currentSong.text = audioLocation.Substring ( audioLocation.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length, audioLocation.LastIndexOf ( "." ) - audioLocation.LastIndexOf ( Path.DirectorySeparatorChar ) - Path.DirectorySeparatorChar.ToString().Length );
+				
+				/*if ( showTypes == true )
 					currentSong.text = songLocation.Substring ( songLocation.LastIndexOf ( "/" ) + 1 );
 				else
 					currentSong.text = songLocation.Substring ( songLocation.LastIndexOf ( "/" ) + 1, songLocation.LastIndexOf ( "." ) - songLocation.LastIndexOf ( "/" ) - 1 );
-			}
+			*/}
 
 			showArrows = Convert.ToBoolean ( tempShowArrows );
 			
@@ -552,6 +567,8 @@ public class MusicViewer : MonoBehaviour
 			close = false;
 			showOptionsWindow = false;
 		}
+		
+		GUI.Label ( new Rect ( 163, 22, 150, 22 ), "Off|On" );
 		
 		tempShowTypes = GUI.HorizontalSlider ( new Rect ( 170, 45, 20, 14 ), UnityEngine.Mathf.Round ( tempShowTypes ), 0, 1 );
 		GUI.Label ( new Rect ( 195, 39, 100, 22 ), "Show Types" );
@@ -702,7 +719,7 @@ public class MusicViewer : MonoBehaviour
 	
 
 	IEnumerator SlideshowIN ()
-	{		
+	{
 		
 		/*Thanks to http://andrew.hedges.name/experiments/aspect_ratio*/
 		
@@ -912,19 +929,114 @@ public class MusicViewer : MonoBehaviour
 					GUILayout.BeginVertical ();
 					GUILayout.Space ( musicViewerPosition.height / 4 + 25 );
 					scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  musicViewerPosition.height - ( musicViewerPosition.height / 4 + 53 )));
+					
+					if ( enableDeepSearch == true )
+					{
+						
+						if ( currentDirectoryDirectories.Any ())
+						{
+						
+							for ( int directoryInt = 0; directoryInt < currentDirectoryDirectories.Length; directoryInt ++ )
+							{
+							
+								if ( GUILayout.Button ( new GUIContent ( currentDirectoryDirectories[directoryInt].Substring ( currentDirectoryDirectories[directoryInt].LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length ), folderIcon), folderStyle ))
+								{
+									
+									if ( showFolderMusic == false )
+									{
 										
-					if ( clipList.Any ())
+										showFolderMusic = true;
+										songInfoOwner = currentDirectoryDirectories[directoryInt];
+										Refresh ();
+									} else {
+										
+										if ( songInfoOwner != currentDirectoryDirectories[directoryInt] )
+										{
+											
+											songInfoOwner = currentDirectoryDirectories[directoryInt];
+											Refresh ();
+										} else {
+												
+											showFolderMusic = false;
+										}
+									}
+								}
+								
+								if ( showFolderMusic == true )
+								{
+							
+									if ( songInfoOwner == currentDirectoryDirectories[directoryInt] )
+									{
+										
+										if ( childDirectoryFiles.Any ())
+										{
+								
+											for ( int childSongInt = 0; childSongInt < childDirectoryFiles.Length; childSongInt++ )
+											{
+											
+												string childAudioTitle;
+												if ( showTypes == true )				
+													childAudioTitle = childDirectoryFiles[childSongInt].Substring ( childDirectoryFiles[childSongInt].LastIndexOf ( Path.DirectorySeparatorChar ));
+												else			
+													childAudioTitle = childDirectoryFiles[childSongInt].Substring ( childDirectoryFiles[childSongInt].LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length, childDirectoryFiles[childSongInt].LastIndexOf ( "." ) - childDirectoryFiles[childSongInt].LastIndexOf ( Path.DirectorySeparatorChar ) - Path.DirectorySeparatorChar.ToString().Length );
+										
+												GUILayout.BeginHorizontal ();
+												GUILayout.Space ( 20 );
+												if ( GUILayout.Button ( new GUIContent ( childAudioTitle ), fileStyle ))
+												{
+													
+													Resources.UnloadUnusedAssets ();
+												
+													currentSongNumber = childSongInt;
+													previousSongs [ 0 ] = previousSongs [ 1 ];
+													previousSongs [ 1 ] = previousSongs [ 2 ];
+													previousSongs [ 2 ] = previousSongs [ 3 ];
+													previousSongs [ 3 ] = previousSongs [ 4 ];
+													previousSongs [ 4 ] = previousSongs [ 5 ];
+													previousSongs [ 5 ] = previousSongs [ 6 ];
+													previousSongs [ 6 ] = childSongInt;
+													psPlace = 6;
+												
+													wasPlaying = false;
+											
+													if ( childDirectoryFiles[childSongInt].Substring ( childDirectoryFiles [childSongInt].LastIndexOf ( "." )) == ".unity3d" )
+													{
+												
+														loadingImage.showLoadingImages = true;
+														loadingImage.InvokeRepeating ( "LoadingImages", 0.25F, 0.25F );
+												
+														StartCoroutine ( LoadAssetBundle ( "file://" + childDirectoryFiles [ currentSongNumber ]));
+												
+													} else {
+												
+														StartCoroutine ( PlayAudio ( childDirectoryFiles[childSongInt] ));
+														loadingImage.showLoadingImages = false;
+													}
+												}
+												GUILayout.EndHorizontal ();
+											}
+										} else {
+											
+											GUILayout.Label ( "This directory doesn't contain any music!" );
+										}
+									}
+								}
+							}
+						}
+					}
+									
+					if ( currentDirectoryFiles.Any ())
 					{
 					
-						for ( int songInt = 0; songInt < clipList.Length; songInt ++ )
+						for ( int songInt = 0; songInt < currentDirectoryFiles.Length; songInt ++ )
 						{
 											
 							string audioTitle;
 							if ( showTypes == true )				
-								audioTitle = clipList[songInt].Substring ( parentDirectory.Length + Path.DirectorySeparatorChar.ToString().Length );
+								audioTitle = currentDirectoryFiles[songInt].Substring ( parentDirectory.Length + Path.DirectorySeparatorChar.ToString().Length );
 							else			
-								audioTitle = clipList[songInt].Substring ( clipList[songInt].LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length, clipList[songInt].LastIndexOf ( "." ) - clipList[songInt].LastIndexOf ( Path.DirectorySeparatorChar ) - Path.DirectorySeparatorChar.ToString().Length );
-
+								audioTitle = currentDirectoryFiles[songInt].Substring ( currentDirectoryFiles[songInt].LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length, currentDirectoryFiles[songInt].LastIndexOf ( "." ) - currentDirectoryFiles[songInt].LastIndexOf ( Path.DirectorySeparatorChar ) - Path.DirectorySeparatorChar.ToString().Length );
+							
 							if ( GUILayout.Button ( new GUIContent ( audioTitle )))
 							{
 						
@@ -942,33 +1054,43 @@ public class MusicViewer : MonoBehaviour
 												
 								wasPlaying = false;
 											
-								if ( clipList[songInt].Substring ( clipList [songInt].LastIndexOf ( "." )) == ".unity3d" )
+								if ( currentDirectoryFiles[songInt].Substring ( currentDirectoryFiles [songInt].LastIndexOf ( "." )) == ".unity3d" )
 								{
 												
 									loadingImage.showLoadingImages = true;
 									loadingImage.InvokeRepeating ( "LoadingImages", 0.25F, 0.25F );
 												
-									StartCoroutine ( LoadAssetBundle ( "file://" + clipList [ currentSongNumber ]));
+									StartCoroutine ( LoadAssetBundle ( "file://" + currentDirectoryFiles [ currentSongNumber ]));
 												
 								} else {
 												
-									StartCoroutine ( PlayAudio ());
+									StartCoroutine ( PlayAudio ( currentDirectoryFiles[songInt] ));
 									loadingImage.showLoadingImages = false;
 								}
 							}
 						}
 					} else
 					{
-							
-						GUILayout.Label ( "\nYou don't have any music to play!\n\nIf you have some music (.wav, .ogg or .aif), ***FILL THIS IN, MICHAEL***" +
-							"\n\nYou can also download music by navigating\nto the OnlineMusicBrowser (press the right arrow key).\n", centerStyle );
-											
-						if ( GUILayout.Button ( "View Help/Tutorial" ))
+						
+						if ( startupManager.showTutorials == true )
 						{
+								
+							GUILayout.Label ( "\nYou don't have any music to play!\n\nIf you have some music (.wav, .ogg, or .aiff),\nclick 'Open File Browser' under the System Commands bar bellow." +
+								"\n\nYou can also download music by navigating\nto the OnlineMusicBrowser (press the right arrow key).\n", centerStyle );
+						
+							if ( GUILayout.Button ( "Hide Tutorials"))
+							{
+							
+								startupManager.showTutorials = false;
+							}
+							
+							if ( GUILayout.Button ( "View Extended Help/Tutorial" ))
+							{
 											
-							Process.Start ( startupManager.helpPath );
+								Process.Start ( startupManager.helpPath );
+							}
 						}
-					}
+					} 
 				} else {
 					
 					if ( currentDirectory.Substring ( 0, currentDirectory.LastIndexOf ( Path.DirectorySeparatorChar )).Length > 0 )
@@ -1003,7 +1125,7 @@ public class MusicViewer : MonoBehaviour
 					for ( int i = 0; i < currentDirectoryDirectories.Length; i += 1 )
 					{
 			
-						if ( GUILayout.Button ( new GUIContent ( currentDirectoryDirectories[i].Substring ( currentDirectory.Length + 1 ), folderIcon ), fileBrowserFolderStyle ))
+						if ( GUILayout.Button ( new GUIContent ( currentDirectoryDirectories[i].Substring ( currentDirectory.Length + 1 ), folderIcon ), folderStyle ))
 						{
 				
 							currentDirectory = currentDirectoryDirectories[i];
@@ -1030,20 +1152,19 @@ public class MusicViewer : MonoBehaviour
 					{
 						
 						parentDirectory = currentDirectory;
-						clipList = currentDirectoryFiles;
 						StartCoroutine ( SetArtwork ());
 						Refresh ();
 					}
 				}
 			
 				GUILayout.Box ( "System Commands" );
-				
-				if ( showQuickManage == true )
-					if ( GUILayout.Button ( "Open Current Directory" ))
-						Process.Start ( parentDirectory );
 			
 				if ( fileBrowser == false )
-				{					
+				{
+					
+					if ( showQuickManage == true )
+						if ( GUILayout.Button ( "Open Current Directory" ))
+							Process.Start ( parentDirectory );
 					
 					if ( GUILayout.Button ( "Open File Browser" ))
 					{
@@ -1080,8 +1201,8 @@ public class MusicViewer : MonoBehaviour
 
 	void NextSong ()
 	{
-
-		if ( clipList.Any ())
+			
+		if ( currentDirectoryFiles.Any () || showFolderMusic == true && childDirectoryFiles.Any ())
 		{
 
 			wasPlaying = false;
@@ -1095,8 +1216,8 @@ public class MusicViewer : MonoBehaviour
 
 				if ( continuous == true || loop == false && shuffle == false && continuous == false )
 				{
-
-					if ( currentSongNumber == clipList.Length - 1 )
+						
+					if ( currentSongNumber == currentDirectoryFiles.Length - 1 || showFolderMusic == true && currentSongNumber == childDirectoryFiles.Length - 1 )
 						currentSongNumber = 0;
 					else
 						currentSongNumber++;
@@ -1117,10 +1238,7 @@ public class MusicViewer : MonoBehaviour
 						if ( manager.audio.clip == null )
 						{
 
-							if ( currentSongNumber == clipList.Length - 1 )
-								currentSongNumber = 0;
-							else
-								currentSongNumber++;
+							currentSongNumber = 0;
 
 							previousSongs [ 0 ] = previousSongs [ 1 ];
 							previousSongs [ 1 ] = previousSongs [ 2 ];
@@ -1154,16 +1272,24 @@ public class MusicViewer : MonoBehaviour
 							Resources.UnloadUnusedAssets ();
 							
 							int previousSongNumber = currentSongNumber;
-							currentSongNumber = UnityEngine.Random.Range ( 0, clipList.Length );
+							
+							if ( showFolderMusic == false )
+								currentSongNumber = UnityEngine.Random.Range ( 0, currentDirectoryFiles.Length );
+							else
+								currentSongNumber = UnityEngine.Random.Range ( 0, childDirectoryFiles.Length );
 					
-							if ( currentSongNumber == previousSongNumber && clipList.Length > 1 )
+							if ( currentSongNumber == previousSongNumber && currentDirectoryFiles.Length > 1 || currentSongNumber == previousSongNumber && childDirectoryFiles.Length > 1 )
 							{
 								
 								bool shuffleOkay = false;
 								while ( shuffleOkay == false )
 								{
 									
-									currentSongNumber = UnityEngine.Random.Range ( 0, clipList.Length );
+									if ( showFolderMusic== false )
+										currentSongNumber = UnityEngine.Random.Range ( 0, currentDirectoryFiles.Length );
+									else
+										currentSongNumber = UnityEngine.Random.Range ( 0, childDirectoryFiles.Length );
+									
 									if ( currentSongNumber != previousSongNumber )
 										shuffleOkay = true;
 								}
@@ -1183,16 +1309,32 @@ public class MusicViewer : MonoBehaviour
 				}
 			}
 			
-			if ( clipList [ currentSongNumber ].Substring ( clipList [ currentSongNumber ].Length - 7 ) == "unity3d" )
+			if ( showFolderMusic == false )
 			{
+				if ( currentDirectoryFiles [ currentSongNumber ].Substring ( currentDirectoryFiles [ currentSongNumber ].Length - 7 ) == "unity3d"  )
+				{
 				
-				loadingImage.showLoadingImages = true;
-				loadingImage.InvokeRepeating ( "LoadingImages", 0.25F, 0.25F );
+					loadingImage.showLoadingImages = true;
+					loadingImage.InvokeRepeating ( "LoadingImages", 0.25F, 0.25F );
 
-				StartCoroutine ( LoadAssetBundle ( "file://" + clipList [ currentSongNumber ]));
-			} else {
+					StartCoroutine ( LoadAssetBundle ( "file://" + currentDirectoryFiles [ currentSongNumber ]));
+				} else {
 									
-				StartCoroutine ( PlayAudio() );
+					StartCoroutine ( PlayAudio ( currentDirectoryFiles [ currentSongNumber ] ));
+				}
+			} else {
+					
+				if ( childDirectoryFiles [ currentSongNumber ].Substring ( childDirectoryFiles [ currentSongNumber ].Length - 7 ) == "unity3d"  )
+				{
+				
+					loadingImage.showLoadingImages = true;
+					loadingImage.InvokeRepeating ( "LoadingImages", 0.25F, 0.25F );
+
+					StartCoroutine ( LoadAssetBundle ( "file://" + childDirectoryFiles [ currentSongNumber ]));
+				} else {
+									
+					StartCoroutine ( PlayAudio ( childDirectoryFiles [ currentSongNumber ] ));
+				}	
 			}
 		}
 	}
@@ -1201,14 +1343,14 @@ public class MusicViewer : MonoBehaviour
 	void PreviousSong ()
 	{
 
-		if ( clipList.Any ())
+		if ( currentDirectoryFiles.Any ())
 		{
 
 			wasPlaying = false;
 			if ( psPlace <= 0 )
 			{
 
-				currentSongNumber = UnityEngine.Random.Range ( 0, clipList.Length );
+				currentSongNumber = UnityEngine.Random.Range ( 0, currentDirectoryFiles.Length );
 			} else
 			{
 			
@@ -1216,16 +1358,16 @@ public class MusicViewer : MonoBehaviour
 				currentSongNumber = previousSongs [ psPlace ];
 			}
 			
-			if ( clipList [ currentSongNumber ].Substring ( clipList [ currentSongNumber ].Length - 7 ) == "unity3d" )
+			if ( currentDirectoryFiles [ currentSongNumber ].Substring ( currentDirectoryFiles [ currentSongNumber ].Length - 7 ) == "unity3d" )
 			{
 
 				loadingImage.showLoadingImages = true;
 				loadingImage.InvokeRepeating ( "LoadingImages", 0.25F, 0.25F );
 
-				StartCoroutine ( LoadAssetBundle ( "file://" + clipList [ currentSongNumber ]));
+				StartCoroutine ( LoadAssetBundle ( "file://" + currentDirectoryFiles [ currentSongNumber ]));
 			} else {
 				
-				StartCoroutine ( PlayAudio() );
+				StartCoroutine ( PlayAudio ( currentDirectoryFiles [ currentSongNumber ] ));
 			}
 		}
 	}
@@ -1234,9 +1376,12 @@ public class MusicViewer : MonoBehaviour
 	IEnumerator LoadAssetBundle ( string assetBundleToOpen )
 	{
 		
+		timemark.text = "Loading][Loading";
+		audioLocation = assetBundleToOpen;
+		
 		Caching.CleanCache ();
 		
-		songLocation = clipList [ currentSongNumber ];
+		songLocation = currentDirectoryFiles [ currentSongNumber ];
 	
 		if ( startupManager.developmentMode == true )
 			UnityEngine.Debug.Log ( assetBundleToOpen + " | " + songLocation.Substring ( songLocation.LastIndexOf ( "/" ) + 1 ));
@@ -1295,14 +1440,15 @@ public class MusicViewer : MonoBehaviour
 	}
 
 
-	IEnumerator PlayAudio ()
+	IEnumerator PlayAudio ( string songToLoad )
 	{
+		
+		timemark.text = "Loading][Loading";
+		audioLocation = songToLoad;
 	
 		manager.audio.Stop ();
-
-		songLocation = clipList [currentSongNumber];
 		
-		switch ( songLocation.Substring ( songLocation.LastIndexOf ( "." )))
+		switch ( songToLoad.Substring ( songToLoad.LastIndexOf ( "." )))
 		{
 			
 			case ".wav" :
@@ -1346,15 +1492,15 @@ public class MusicViewer : MonoBehaviour
 		{
 			
 			if ( showTypes == true )
-				currentSong.text = songLocation.Substring ( songLocation.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length );
+				currentSong.text = songToLoad.Substring ( songToLoad.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length );
 			else
-				currentSong.text = songLocation.Substring ( songLocation.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length, songLocation.LastIndexOf ( "." ) - songLocation.LastIndexOf ( Path.DirectorySeparatorChar ) - Path.DirectorySeparatorChar.ToString().Length );
+				currentSong.text = songToLoad.Substring ( songToLoad.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length, songToLoad.LastIndexOf ( "." ) - songToLoad.LastIndexOf ( Path.DirectorySeparatorChar ) - Path.DirectorySeparatorChar.ToString().Length );
 		}
-			
-		if ( startupManager.developmentMode == true )
-			UnityEngine.Debug.Log ( songLocation.Substring ( songLocation.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length ));
 		
-		WWW www = new WWW ( "file://" + songLocation );
+		if ( startupManager.developmentMode == true )
+			UnityEngine.Debug.Log ( songToLoad.Substring ( songToLoad.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length ));
+		
+		WWW www = new WWW ( "file://" + songToLoad );
 		yield return www;
 
 		manager.audio.clip = www.GetAudioClip ( false, false, audioType );
@@ -1670,42 +1816,42 @@ public class MusicViewer : MonoBehaviour
 
 		if ( startupManager.developmentMode == true )
 			UnityEngine.Debug.Log ( "AudioClips in Memory: " + Resources.FindObjectsOfTypeAll ( typeof ( AudioClip )).Length );
+		
+		if ( loop == true )
+		{
+				
+			rtMinutes = new int ();
+			rtSeconds = new int ();
+				
+			manager.audio.Play ();
+			isPaused = false;
+			wasPlaying = true;
+				
+			if ( startupManager.developmentMode == true )
+				UnityEngine.Debug.Log ( "Playing audio" );
+				
+		} else {
 			
-		if ( clipList.Any ())
-		{		
+			if ( currentDirectoryFiles.Any () || showFolderMusic == true && childDirectoryFiles.Any ())
+			{		
 			
-			psPlace = 6;
+				psPlace = 6;
 
-			if ( continuous == true )
-			{
-				
-				if ( currentSongNumber == clipList.Length - 1 )
-					currentSongNumber = 0;
-				else
-					currentSongNumber++;
-				
-				previousSongs [ 0 ] = previousSongs [ 1 ];
-				previousSongs [ 1 ] = previousSongs [ 2 ];
-				previousSongs [ 2 ] = previousSongs [ 3 ];
-				previousSongs [ 3 ] = previousSongs [ 4 ];
-				previousSongs [ 4 ] = previousSongs [ 5 ];
-				previousSongs [ 5 ] = previousSongs [ 6 ];
-				previousSongs [ 6 ] = currentSongNumber;
-			} else {
-				
-				if ( loop == true )
+				if ( continuous == true )
 				{
-						
-					rtMinutes = new int ();
-					rtSeconds = new int ();
-						
-					manager.audio.Play ();
-					isPaused = false;
-					wasPlaying = true;
-						
-					if ( startupManager.developmentMode == true )
-						UnityEngine.Debug.Log ( "Playing audio" );
-						
+				
+					if ( currentSongNumber == currentDirectoryFiles.Length - 1 )
+						currentSongNumber = 0;
+					else
+						currentSongNumber++;
+				
+					previousSongs [ 0 ] = previousSongs [ 1 ];
+					previousSongs [ 1 ] = previousSongs [ 2 ];
+					previousSongs [ 2 ] = previousSongs [ 3 ];
+					previousSongs [ 3 ] = previousSongs [ 4 ];
+					previousSongs [ 4 ] = previousSongs [ 5 ];
+					previousSongs [ 5 ] = previousSongs [ 6 ];
+					previousSongs [ 6 ] = currentSongNumber;
 				} else {
 					
 					if ( shuffle == true )
@@ -1714,16 +1860,25 @@ public class MusicViewer : MonoBehaviour
 						Resources.UnloadUnusedAssets ();
 						
 						int previousSongNumber = currentSongNumber;
-						currentSongNumber = UnityEngine.Random.Range ( 0, clipList.Length );
+						currentSongNumber = UnityEngine.Random.Range ( 0, currentDirectoryFiles.Length );
 						
-						if ( currentSongNumber == previousSongNumber && clipList.Length > 1 )
+						if ( showFolderMusic == false )
+							currentSongNumber = UnityEngine.Random.Range ( 0, currentDirectoryFiles.Length );
+						else
+							currentSongNumber = UnityEngine.Random.Range ( 0, childDirectoryFiles.Length );
+				
+						if ( currentSongNumber == previousSongNumber && currentDirectoryFiles.Length > 1 || currentSongNumber == previousSongNumber && childDirectoryFiles.Length > 1 )
 						{
 							
 							bool shuffleOkay = false;
 							while ( shuffleOkay == false )
 							{
 								
-								currentSongNumber = UnityEngine.Random.Range ( 0, clipList.Length );
+								if ( showFolderMusic== false )
+									currentSongNumber = UnityEngine.Random.Range ( 0, currentDirectoryFiles.Length );
+								else
+									currentSongNumber = UnityEngine.Random.Range ( 0, childDirectoryFiles.Length );
+								
 								if ( currentSongNumber != previousSongNumber )
 									shuffleOkay = true;
 							}
@@ -1747,6 +1902,8 @@ public class MusicViewer : MonoBehaviour
 						rtSeconds = 00;
 						minutes = 0;
 						seconds = 00;
+						
+						audioLocation = "";
 
 						if ( slideshow == false )
 						{
@@ -1765,16 +1922,32 @@ public class MusicViewer : MonoBehaviour
 			if ( continuous == true || shuffle == true )
 			{
 				
-				if ( clipList [ currentSongNumber ].Substring ( clipList [ currentSongNumber ].Length - 7 ) == "unity3d" )
+				if ( showFolderMusic == false )
 				{
+					if ( currentDirectoryFiles [ currentSongNumber ].Substring ( currentDirectoryFiles [ currentSongNumber ].Length - 7 ) == "unity3d"  )
+					{
+				
+						loadingImage.showLoadingImages = true;
+						loadingImage.InvokeRepeating ( "LoadingImages", 0.25F, 0.25F );
 
-					loadingImage.showLoadingImages = true;
-					loadingImage.InvokeRepeating ( "LoadingImages", 0.25F, 0.25F );
-
-					StartCoroutine ( LoadAssetBundle ( "file://" + clipList [ currentSongNumber ]));
+						StartCoroutine ( LoadAssetBundle ( "file://" + currentDirectoryFiles [ currentSongNumber ]));
+					} else {
+									
+						StartCoroutine ( PlayAudio ( currentDirectoryFiles [ currentSongNumber ] ));
+					}
 				} else {
 					
-					StartCoroutine ( PlayAudio() );
+					if ( childDirectoryFiles [ currentSongNumber ].Substring ( childDirectoryFiles [ currentSongNumber ].Length - 7 ) == "unity3d"  )
+					{
+				
+						loadingImage.showLoadingImages = true;
+						loadingImage.InvokeRepeating ( "LoadingImages", 0.25F, 0.25F );
+
+						StartCoroutine ( LoadAssetBundle ( "file://" + childDirectoryFiles [ currentSongNumber ]));
+					} else {
+									
+						StartCoroutine ( PlayAudio ( childDirectoryFiles [ currentSongNumber ] ));
+					}	
 				}
 			}
 		}
