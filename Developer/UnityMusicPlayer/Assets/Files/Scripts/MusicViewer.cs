@@ -1702,7 +1702,7 @@ public class MusicViewer : MonoBehaviour
 					UnityEngine.Debug.Log ( manager.audio.time + "  :  " + manager.audio.clip.length );
 
 				wasPlaying = false;
-				if ( continuous == true )
+				if ( continuous == true || loop == true )
 					SongEnd ();
 				else
 					Invoke ( "SongEnd", betweenSongDelay );
@@ -1820,7 +1820,7 @@ public class MusicViewer : MonoBehaviour
 		
 		if ( loop == true )
 		{
-				
+			
 			rtMinutes = new int ();
 			rtSeconds = new int ();
 				
