@@ -802,10 +802,20 @@ public class MusicViewer : MonoBehaviour
 			GUI.skin = guiSkin;
 			
 			if ( showOptionsWindow == true )
-				GUI.skin.button.hover.background = null;
-			else
-				GUI.skin.button.hover.background = guiHover;
-
+			{
+				
+				fileStyle.hover.background = null;
+				folderStyle.hover.background = null;
+				buttonStyle.hover.background = null;
+				guiSkin.button.hover.background = null;
+			} else {
+				
+				fileStyle.hover.background = guiHover;
+				folderStyle.hover.background = guiHover;
+				buttonStyle.hover.background = guiHover;
+				guiSkin.button.hover.background = guiHover;
+			}
+			
 			musicViewerPosition = GUI.Window ( 0, musicViewerPosition, MusicViewerPane, musicViewerTitle );
 		}
 	}
