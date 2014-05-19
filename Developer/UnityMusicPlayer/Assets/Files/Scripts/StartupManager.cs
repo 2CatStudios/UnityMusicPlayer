@@ -4,6 +4,7 @@ using System.Net;
 using UnityEngine;
 using System.Text;
 using System.Threading;
+using System.Net.Sockets;
 using System.Collections;
 using System.Diagnostics;
 using System.Net.Security;
@@ -238,6 +239,8 @@ public class StartupManager : MonoBehaviour
 				InvokeRepeating ( "CheckStartOnlineMusicBrowser", 0, 0.2F );
 			}
 		}
+		
+		gameObject.GetComponent<SocketsManager>().PrepareUDPMessage ( "UMP is Running" );
 	}
 
 	

@@ -16,6 +16,7 @@ public class MusicViewer : MonoBehaviour
 #region Variables
 
 	internal GameObject manager;
+	SocketsManager socketsManager;
 	StartupManager startupManager;
 	OnlineMusicBrowser onlineMusicBrowser;
 	LoadingImage loadingImage;
@@ -69,6 +70,7 @@ public class MusicViewer : MonoBehaviour
 	float rtSeconds;
 	
 	AudioType audioType;
+	string audioTitle;
 
 	internal bool wasPlaying = false;
 	float betweenSongDelay = 0.5F;
@@ -222,6 +224,7 @@ public class MusicViewer : MonoBehaviour
 	{
 
 		manager = GameObject.FindGameObjectWithTag ( "Manager" );
+		socketsManager = manager.GetComponent <SocketsManager> ();
 		startupManager = manager.GetComponent <StartupManager> ();
 		onlineMusicBrowser = GameObject.FindGameObjectWithTag ( "OnlineMusicBrowser" ).GetComponent <OnlineMusicBrowser>();
 		paneManager = manager.GetComponent <PaneManager> ();
@@ -1405,9 +1408,11 @@ public class MusicViewer : MonoBehaviour
 			{
 				
 				if ( showTypes == true )
-					currentSong.text = songLocation.Substring ( songLocation.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length );
+					audioTitle = songLocation.Substring ( songLocation.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length );
 				else
-					currentSong.text = songLocation.Substring ( songLocation.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length, songLocation.LastIndexOf ( "." ) - songLocation.LastIndexOf ( Path.DirectorySeparatorChar ) - Path.DirectorySeparatorChar.ToString().Length );
+					audioTitle = songLocation.Substring ( songLocation.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length, songLocation.LastIndexOf ( "." ) - songLocation.LastIndexOf ( Path.DirectorySeparatorChar ) - Path.DirectorySeparatorChar.ToString().Length );
+			
+				currentSong.text = audioTitle;
 			}
 				
 			if ( preciseTimemark == true )
@@ -1431,6 +1436,8 @@ public class MusicViewer : MonoBehaviour
 			loadingImage.showLoadingImages = false;
 			manager.audio.Play ();
 			isPaused = false;
+			
+			socketsManager.PrepareUDPMessage ( audioTitle );
 			
 			if ( startupManager.developmentMode == true )
 				UnityEngine.Debug.Log ( "Playing audio" );
@@ -1493,9 +1500,11 @@ public class MusicViewer : MonoBehaviour
 		{
 			
 			if ( showTypes == true )
-				currentSong.text = songToLoad.Substring ( songToLoad.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length );
+				audioTitle = songToLoad.Substring ( songToLoad.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length );
 			else
-				currentSong.text = songToLoad.Substring ( songToLoad.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length, songToLoad.LastIndexOf ( "." ) - songToLoad.LastIndexOf ( Path.DirectorySeparatorChar ) - Path.DirectorySeparatorChar.ToString().Length );
+				audioTitle = songToLoad.Substring ( songToLoad.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length, songToLoad.LastIndexOf ( "." ) - songToLoad.LastIndexOf ( Path.DirectorySeparatorChar ) - Path.DirectorySeparatorChar.ToString().Length );
+			
+			currentSong.text = audioTitle;
 		}
 		
 		if ( startupManager.developmentMode == true )
@@ -1582,6 +1591,8 @@ public class MusicViewer : MonoBehaviour
 			manager.audio.Play ();
 			isPaused = false;
 			wasPlaying = true;
+			
+			socketsManager.PrepareUDPMessage ( audioTitle );
 				
 			if ( startupManager.developmentMode == true )
 				UnityEngine.Debug.Log ( "Playing audio" );
