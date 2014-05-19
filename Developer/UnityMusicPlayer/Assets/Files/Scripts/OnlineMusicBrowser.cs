@@ -315,6 +315,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 				
 			featuredSong.artwork = downloadedArtwork;
 		}
+		
 		downloadArtwork = false;
 	}
 	

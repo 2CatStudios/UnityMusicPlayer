@@ -178,7 +178,7 @@ public class StartupManager : MonoBehaviour
 			File.Copy ( Application.streamingAssetsPath + Path.DirectorySeparatorChar + "FAQ & Tutorial.txt", supportPath + "FAQ & Tutorial.txt", true );
 			File.Copy ( Application.streamingAssetsPath + Path.DirectorySeparatorChar + "ReadMe.txt", supportPath + "ReadMe.txt",true  );
 
-		} else if(developmentMode == false)
+		} else if ( developmentMode == false )
 		{
 
 			try
