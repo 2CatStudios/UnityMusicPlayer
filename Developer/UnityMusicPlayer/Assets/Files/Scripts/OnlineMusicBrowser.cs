@@ -160,7 +160,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	
 	bool showSongInformation = false;
 	bool downloading = false;
-	bool downloadArtwork = false;
+	bool downloadArtwork;
 	
 	Song songInfoOwner;
 	Song downloadingSong;
