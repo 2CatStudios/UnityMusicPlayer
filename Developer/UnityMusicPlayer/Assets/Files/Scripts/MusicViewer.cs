@@ -224,8 +224,8 @@ public class MusicViewer : MonoBehaviour
 	{
 
 		manager = GameObject.FindGameObjectWithTag ( "Manager" );
-		socketsManager = manager.GetComponent <SocketsManager> ();
-		startupManager = manager.GetComponent <StartupManager> ();
+		startupManager = manager.GetComponent<StartupManager> ();
+		socketsManager = manager.GetComponent<SocketsManager> ();
 		onlineMusicBrowser = GameObject.FindGameObjectWithTag ( "OnlineMusicBrowser" ).GetComponent <OnlineMusicBrowser>();
 		paneManager = manager.GetComponent <PaneManager> ();
 		loadingImage = GameObject.FindGameObjectWithTag ( "LoadingImage" ).GetComponent<LoadingImage>();
