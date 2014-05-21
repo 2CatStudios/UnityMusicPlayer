@@ -2,4 +2,4 @@ Current Version
 1.15
 NOTE: This update is suggested!
 
-http://2catstudios.wikispaces.com/UnityMusicPlayer
+http://2catstudios.github.io/unitymusicplayer.html

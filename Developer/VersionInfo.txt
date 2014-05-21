@@ -1,5 +1,5 @@
 Current Version
-1.15
-NOTE: This update is required!
+1.199
+NOTE: Thank you for testing UMP!
 
-http://2catstudios.wikispaces.com/UnityMusicPlayer
+http://2catstudios.github.io/unitymusicplayer.html

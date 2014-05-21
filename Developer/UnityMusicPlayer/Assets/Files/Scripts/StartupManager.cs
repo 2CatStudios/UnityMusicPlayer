@@ -75,14 +75,14 @@ public class StartupManager : MonoBehaviour
 		ServicePointManager.ServerCertificateValidationCallback += delegate ( object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors ) { return true; };
 		
 		if ( developmentMode == true )
-			UnityEngine.Debug.Log("Development Mode is ON");
+			UnityEngine.Debug.Log ( "Development Mode is ON" );
 			
-		onlineMusicBrowser = GameObject.FindGameObjectWithTag ("OnlineMusicBrowser").GetComponent<OnlineMusicBrowser>();
+		onlineMusicBrowser = GameObject.FindGameObjectWithTag ( "OnlineMusicBrowser" ).GetComponent<OnlineMusicBrowser>();
 		loadingImage = GameObject.FindGameObjectWithTag ( "LoadingImage" ).GetComponent<LoadingImage>();
 		musicViewer = GameObject.FindGameObjectWithTag ( "MusicViewer" ).GetComponent<MusicViewer>();
 		paneManager = gameObject.GetComponent<PaneManager>();
 
-		if(Environment.OSVersion.ToString().Substring (0, 4) == "Unix")
+		if ( Environment.OSVersion.ToString ().Substring ( 0, 4 ) == "Unix" )
 		{
 
 			path = mac;
@@ -190,10 +190,10 @@ public class StartupManager : MonoBehaviour
 				string faqVersion = faq.ReadLine ().Substring ( 17 );
 				string readmeVersion = readme.ReadLine ().Substring ( 17 );
 
-				faq.Close();
+				faq.Close ();
 				readme.Close ();
 
-				if( float.Parse( faqVersion, CultureInfo.InvariantCulture.NumberFormat ) < float.Parse ( runningVersion ))
+				if ( float.Parse( faqVersion, CultureInfo.InvariantCulture.NumberFormat ) < float.Parse ( runningVersion ))
 				{
 				
 					File.Delete ( supportPath + "FAQ & Tutorial.txt" );
@@ -386,7 +386,8 @@ public class StartupManager : MonoBehaviour
 		if ( developmentMode == true && Application.isEditor == false )
 		{
 
-			GUI.Window ( 5, new Rect ( Screen.width / 2 - 100F, Screen.height / 2 - 45, 200, 80 ), DeveloperMode, "Warning!" );
+			showUnderlay = true;
+			GUI.Window ( 5, new Rect ( Screen.width / 2 - 100F, Screen.height / 2 - 45, 200, 80 ), DeveloperMode, "Notice" );
 			GUI.BringWindowToFront ( 5 );
 			GUI.FocusWindow ( 5 );
 		}
@@ -396,10 +397,19 @@ public class StartupManager : MonoBehaviour
 	void DeveloperMode ( int pwid )
 	{
 
-		GUI.Label ( new Rect ( -50, 10, 300, 40 ), "developerMode is ON!" );
-		if ( GUI.Button ( new Rect ( 75, 50, 50, 20 ), "Close" ))
+		GUI.Label ( new Rect ( 30, 25, 200, 40 ), "developerMode is ON!" );
+		
+		if ( GUI.Button ( new Rect ( 10, 55, 120, 20 ), "Get Stable Version" ))
+		{
+			
+			Process.Start ( websiteLink );
+			musicViewer.SendMessage ( "Quit" );
+		}
+		
+		if ( GUI.Button ( new Rect ( 140, 55, 50, 20 ), "Close" ))
 		{
 
+			showUnderlay = false;
 		    developmentMode = false;
 			GUI.FocusWindow ( 0 );
 			GUI.BringWindowToFront ( 0 );
