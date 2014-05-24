@@ -181,8 +181,12 @@ public class PaneManager : MonoBehaviour
 				}
 			}
 		}
-				
-		if ( GUI.Button ( new Rect ( musicViewer.musicViewerPosition.width - 75, musicViewer.musicViewerPosition.height - 40, 60, 30 ), "Quit" ))
-			musicViewer.SendMessage ( "Quit" );
+		
+		if ( musicViewer.slideshow == false )
+		{
+			
+			if ( GUI.Button ( new Rect ( musicViewer.musicViewerPosition.width - 75, musicViewer.musicViewerPosition.height - 40, 60, 30 ), "Quit" ))
+				musicViewer.SendMessage ( "Quit" );
+		}
 	}
 }
