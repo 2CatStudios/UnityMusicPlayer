@@ -10,6 +10,7 @@
         <downloadURL>https://copy.com/wGPdMB44oQSV</downloadURL>
 		<link name='Bandcamp'>http://purify1.bandcamp.com/track/purify-liberty</link>
 		<releaseDate>January 2, 2013</releaseDate>
+        <smallArtworkURL></smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -22,7 +23,7 @@
 		<link name='Bandcamp'>http://rchetype.bandcamp.com/track/you-are-like-me</link>
 		<releaseDate>January 1, 2013</releaseDate>
 		<largeArtworkURL>http://ubuntuone.com/25Ff5fzfYzjRcSllSdGqNz</largeArtworkURL>
-		<smallArtworkURL>http://ubuntuone.com/4ql7D7G6xQzFk8zhdWyBTK</smallArtworkURL>
+        <smallArtworkURL>https://copy.com/cbByLo1HGrby</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -34,6 +35,7 @@
         <downloadURL>https://copy.com/4PByQwDnoLKU</downloadURL>
 		<link name='Bandcamp'>http://wolfgun.bandcamp.com/album/physics</link>
 		<releaseDate>January 1, 2013</releaseDate>
+        <smallArtworkURL>https://copy.com/2etcRfhvIItF</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -45,6 +47,7 @@
         <downloadURL>https://copy.com/1bGIX4FEpo3T</downloadURL>
 		<link name='Bandcamp'>http://wolfgun.bandcamp.com/album/sundisk</link>
 		<releaseDate>January 1, 2013</releaseDate>
+        <smallArtworkURL>https://copy.com/aYo4bx6XrVYV</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -56,6 +59,7 @@
         <downloadURL>https://copy.com/LLUWS7mqCqoO</downloadURL>
 		<link name='Bandcamp'>http://wolfgun.bandcamp.com/album/sundisk</link>
 		<releaseDate>January 1, 2013</releaseDate>
+        <smallArtworkURL>https://copy.com/aYo4bx6XrVYV</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -66,6 +70,7 @@
 		<format>unity3d</format>
         <downloadURL>https://copy.com/iYiqflTLojFu</downloadURL>
 		<releaseDate>August 20, 2012</releaseDate>
+        <smallArtworkURL></smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -76,6 +81,7 @@
 		<format>wav</format>
         <downloadURL>https://copy.com/9Wj34bXA06Ev</downloadURL>
 		<releaseDate>August 20, 2012</releaseDate>
+        <smallArtworkURL></smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -87,6 +93,7 @@
         <downloadURL>https://copy.com/qhh6YIuYH3iy</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/combustible-lemonade/2nd-dubstep-song</link>
 		<releaseDate>November 28, 2012</releaseDate>
+        <smallArtworkURL>https://copy.com/jk3bJfhPaZHI</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -98,6 +105,7 @@
         <downloadURL>https://copy.com/RITpRTl2QDph</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/combustible-lemonade/quantum-realm</link>
 		<releaseDate>November 28, 2012</releaseDate>
+        <smallArtworkURL>https://copy.com/jk3bJfhPaZHI</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -108,6 +116,7 @@
 		<format>wav</format>
         <downloadURL>https://copy.com/FQFTQwXOpXM3</downloadURL>
 		<releaseDate>November 28, 2012</releaseDate>
+        <smallArtworkURL>https://copy.com/jk3bJfhPaZHI</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -119,6 +128,7 @@
         <downloadURL>https://copy.com/jjhW4DtKH7cD</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/combustible-lemonade/combustible-lemonade-end-of</link>
 		<releaseDate>December 21, 2012</releaseDate>
+        <smallArtworkURL>https://copy.com/jk3bJfhPaZHI</smallArtworkURL>
 	</Song>
     
 	<Song featured='true'>
@@ -131,7 +141,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/blacktie-vivid</link>
 		<releaseDate>December 31, 2012</releaseDate>
 		<largeArtworkURL>http://ubuntuone.com/4A3RwHfUQsFTsscY68uzTT</largeArtworkURL>
-        <smallArtworkURL>https://drive.google.com/uc?export=download&amp;id=0B9w875_ev7BMVnpjYVVlbDJpS28</smallArtworkURL>
+        <smallArtworkURL>https://copy.com/l4ARwnmhSjRf</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -143,6 +153,7 @@
         <downloadURL>https://copy.com/QgH4awoVr1gj</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/blacktie-vivid</link>
 		<releaseDate>August 20, 2012</releaseDate>
+        <smallArtworkURL></smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -154,6 +165,7 @@
         <downloadURL>https://copy.com/KG1uQ630EtfW</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/blacktie-vivid</link>
 		<releaseDate>August 20, 2012</releaseDate>
+        <smallArtworkURL></smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -165,6 +177,7 @@
         <downloadURL>https://copy.com/kxdjWhZ8TX32</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
 		<releaseDate>April 23, 2013</releaseDate>
+        <smallArtworkURL>https://copy.com/d4llPHke9z00</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -176,6 +189,7 @@
         <downloadURL>https://copy.com/WXH7MTBlIYm1</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
 		<releaseDate>April 23, 2013</releaseDate>
+        <smallArtworkURL>https://copy.com/d4llPHke9z00</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -187,6 +201,7 @@
         <downloadURL>https://copy.com/JDSWxPbNCVwf</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
 		<releaseDate>April 23, 2013</releaseDate>
+        <smallArtworkURL>https://copy.com/d4llPHke9z00</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -198,6 +213,7 @@
         <downloadURL>https://copy.com/d9wCOBeylhE8</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/blacktie-vivid</link>
 		<releaseDate>April 28, 2013</releaseDate>
+        <smallArtworkURL>https://copy.com/l4ARwnmhSjRf</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -209,6 +225,7 @@
         <downloadURL>https://copy.com/liTA0qFWnwED</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/umcaruje</link>
 		<releaseDate>April 27, 2013</releaseDate>
+        <smallArtworkURL></smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -220,6 +237,7 @@
         <downloadURL>https://copy.com/NoS8p9J9XRNB</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/umcaruje</link>
 		<releaseDate>April 27, 2013</releaseDate>
+        <smallArtworkURL>https://copy.com/KcVUHWF9j31w</smallArtworkURL>
 	</Song>
 	<Song featured='false'>
 		<name>Maths</name>
@@ -230,6 +248,7 @@
         <downloadURL>https://copy.com/WUlsk1FHInFY</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/umcaruje</link>
 		<releaseDate>April 27, 2013</releaseDate>
+        <smallArtworkURL>https://copy.com/IZ3UQgL0uawn</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -240,6 +259,7 @@
 		<format>wav</format>
         <downloadURL>https://copy.com/P2ovFn8DGcR4</downloadURL>
 		<releaseDate>April 27, 2013</releaseDate>
+        <smallArtworkURL></smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -251,6 +271,7 @@
         <downloadURL>https://copy.com/r9H64y2DVhc3</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/blacktie-vivid</link>
 		<releaseDate>June 4, 2013</releaseDate>
+        <smallArtworkURL>https://copy.com/l4ARwnmhSjRf</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -262,6 +283,7 @@
         <downloadURL>https://copy.com/h4lttoRC2tuh</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/blacktie-vivid</link>
 		<releaseDate>June 1, 2013</releaseDate>
+        <smallArtworkURL>https://copy.com/l4ARwnmhSjRf</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -273,6 +295,7 @@
         <downloadURL>https://copy.com/pnXFwR8uy7r6</downloadURL>
 		<link name='Bandcamp'>http://umcaruje.bandcamp.com/album/lost-on-airport-flight</link>
 		<releaseDate>September 2, 2013</releaseDate>
+        <smallArtworkURL>https://copy.com/A1arKTQW0Pbq</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -284,6 +307,7 @@
         <downloadURL>https://copy.com/fKLeGhPt44ch</downloadURL>
 		<link name='Bandcamp'>http://umcaruje.bandcamp.com/album/lost-on-airport-flight</link>
 		<releaseDate>September 2, 2013</releaseDate>
+        <smallArtworkURL>https://copy.com/A1arKTQW0Pbq</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -296,6 +320,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/brian-amin</link>
 		<link name='Blogspot'>http://brian-amin.blogspot.com</link>
 		<releaseDate>September 2, 2013</releaseDate>
+        <smallArtworkURL>https://copy.com/x2uOMA6W8qP8</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -307,6 +332,7 @@
         <downloadURL>https://copy.com/dGfLj68VeTdB</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/blacktie-vivid</link>
 		<releaseDate>September 2, 2013</releaseDate>
+        <smallArtworkURL>https://copy.com/l4ARwnmhSjRf</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -317,6 +343,7 @@
 		<format>wav</format>
         <downloadURL>https://copy.com/jQuGNQaKdpu6</downloadURL>
 		<releaseDate>September 3, 2013</releaseDate>
+        <smallArtworkURL>https://copy.com/jk3bJfhPaZHI</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -328,6 +355,7 @@
         <downloadURL>https://copy.com/hG1JgRWJL9Mt</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/blacktie-vivid</link>
 		<releaseDate>January 2, 2014</releaseDate>
+        <smallArtworkURL>https://copy.com/l4ARwnmhSjRf</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -339,6 +367,7 @@
         <downloadURL>https://copy.com/E4gqbSrsiXj9</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
 		<releaseDate>February 14, 2014</releaseDate>
+        <smallArtworkURL>https://copy.com/d4llPHke9z00</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -350,6 +379,7 @@
         <downloadURL>https://copy.com/Wc0mXWHDt9OE</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
 		<releaseDate>February 14, 2014</releaseDate>
+        <smallArtworkURL>https://copy.com/d4llPHke9z00</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -361,6 +391,7 @@
         <downloadURL>https://copy.com/S2wcxDrCqte6</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
 		<releaseDate>February 14, 2014</releaseDate>
+        <smallArtworkURL>https://copy.com/d4llPHke9z00</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -372,6 +403,7 @@
         <downloadURL>https://copy.com/4syD0PNeSIr7</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/abludomusic</link>
 		<releaseDate>February 13, 2014</releaseDate>
+        <smallArtworkURL></smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -383,6 +415,7 @@
         <downloadURL>https://copy.com/ND7gChKfUJt0</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/abludomusic</link>
 		<releaseDate>February 13, 2014</releaseDate>
+        <smallArtworkURL></smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -394,6 +427,7 @@
         <downloadURL>https://copy.com/jidHO3Tlmcdc</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/abludomusic</link>
 		<releaseDate>February 13, 2014</releaseDate>
+        <smallArtworkURL></smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -405,6 +439,7 @@
         <downloadURL>https://copy.com/DHyru2kjwogg</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/abludomusic</link>
 		<releaseDate>February 13, 2014</releaseDate>
+        <smallArtworkURL></smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -417,7 +452,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
 		<releaseDate>February 14, 2014</releaseDate>
 		<largeArtworkURL>http://ubuntuone.com/0Cea0cD6kVUDl8Pdyv0FsT</largeArtworkURL>
-		<smallArtworkURL>http://ubuntuone.com/1h0k0NvgNQE1I2EzkNoOEZ</smallArtworkURL>
+        <smallArtworkURL>https://copy.com/ynNHY1VCWOEu</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -428,9 +463,9 @@
 		<format>unity3d</format>
         <downloadURL>https://copy.com/sd6W9z8uvdwA</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
-		<largeArtworkURL>http://ubuntuone.com/0Cea0cD6kVUDl8Pdyv0FsT</largeArtworkURL>
-		<smallArtworkURL>http://ubuntuone.com/1h0k0NvgNQE1I2EzkNoOEZ</smallArtworkURL>
 		<releaseDate>February 14, 2014</releaseDate>
+        <largeArtworkURL>http://ubuntuone.com/0Cea0cD6kVUDl8Pdyv0FsT</largeArtworkURL>
+        <smallArtworkURL>https://copy.com/ynNHY1VCWOEu</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -443,7 +478,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
 		<releaseDate>February 14, 2014</releaseDate>
 		<largeArtworkURL>http://ubuntuone.com/0Cea0cD6kVUDl8Pdyv0FsT</largeArtworkURL>
-		<smallArtworkURL>http://ubuntuone.com/1h0k0NvgNQE1I2EzkNoOEZ</smallArtworkURL>
+        <smallArtworkURL>https://copy.com/ynNHY1VCWOEu</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -456,7 +491,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
 		<releaseDate>February 14, 2014</releaseDate>
 		<largeArtworkURL>http://ubuntuone.com/0Cea0cD6kVUDl8Pdyv0FsT</largeArtworkURL>
-		<smallArtworkURL>http://ubuntuone.com/1h0k0NvgNQE1I2EzkNoOEZ</smallArtworkURL>
+        <smallArtworkURL>https://copy.com/ynNHY1VCWOEu</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -469,7 +504,7 @@
 		<link name='Soundcloud'>http://soundcloud.com/avelocity</link>
 		<releaseDate>February 14, 2014</releaseDate>
 		<largeArtworkURL>http://ubuntuone.com/0Cea0cD6kVUDl8Pdyv0FsT</largeArtworkURL>
-		<smallArtworkURL>http://ubuntuone.com/1h0k0NvgNQE1I2EzkNoOEZ</smallArtworkURL>
+        <smallArtworkURL>https://copy.com/ynNHY1VCWOEu</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -481,6 +516,7 @@
         <downloadURL>https://copy.com/jRs7OhrGTv2C</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
+        <smallArtworkURL></smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -492,6 +528,7 @@
         <downloadURL>https://copy.com/2O0ekOszC6SV</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
+        <smallArtworkURL></smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -503,6 +540,7 @@
         <downloadURL>https://copy.com/hecDIsjQeBrX</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
+        <smallArtworkURL></smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -514,6 +552,7 @@
         <downloadURL>https://copy.com/D8CtVxSw7nDM</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
+        <smallArtworkURL></smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -525,6 +564,7 @@
         <downloadURL>https://copy.com/dxRXL3QmTBdb</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
+        <smallArtworkURL></smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -536,6 +576,7 @@
         <downloadURL>https://copy.com/pqPpQQ6z0zGW</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
+        <smallArtworkURL></smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -547,6 +588,7 @@
         <downloadURL>https://copy.com/Io4kVJjU6zeS</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
+        <smallArtworkURL></smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -558,6 +600,7 @@
         <downloadURL>https://copy.com/lJZgW96RZou6</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
+        <smallArtworkURL></smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -569,6 +612,7 @@
         <downloadURL>https://copy.com/809o4MZr6YWf</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
+        <smallArtworkURL></smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -580,6 +624,7 @@
         <downloadURL>https://copy.com/0tfUkIxTYRBg</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
+        <smallArtworkURL></smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -591,6 +636,7 @@
         <downloadURL>https://copy.com/dZYd1oWKFL1H</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
+        <smallArtworkURL></smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -602,6 +648,7 @@
         <downloadURL>https://copy.com/gSTBUZwtNWik</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
+        <smallArtworkURL></smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -613,6 +660,7 @@
         <downloadURL>https://copy.com/GnjdxHjZsZdA</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
+        <smallArtworkURL></smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -624,6 +672,7 @@
         <downloadURL>https://copy.com/OOVOuEiBvnSY</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
+        <smallArtworkURL></smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -635,6 +684,7 @@
         <downloadURL>https://copy.com/u9dzsj2wjJVn</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
+        <smallArtworkURL></smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -648,6 +698,7 @@
 		<link name='Facebook'>http://www.facebook.com/Raptor980</link>
 		<link name='Bandcamp'>http://faceoflynn.bandcamp.com/</link>
 		<releaseDate>February 14, 2014</releaseDate>
+        <smallArtworkURL>https://copy.com/U8qgTb2WvsNm</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -661,6 +712,7 @@
 		<link name='Facebook'>http://www.facebook.com/Raptor980</link>
 		<link name='Bandcamp'>http://faceoflynn.bandcamp.com/</link>
 		<releaseDate>February 14, 2014</releaseDate>
+        <smallArtworkURL>https://copy.com/U8qgTb2WvsNm</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -674,6 +726,7 @@
 		<link name='Facebook'>http://www.facebook.com/Raptor980</link>
 		<link name='Bandcamp'>http://faceoflynn.bandcamp.com/</link>
 		<releaseDate>February 14, 2014</releaseDate>
+        <smallArtworkURL>https://copy.com/U8qgTb2WvsNm</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -687,6 +740,7 @@
 		<link name='Facebook'>http://www.facebook.com/Raptor980</link>
 		<link name='Bandcamp'>http://faceoflynn.bandcamp.com/</link>
 		<releaseDate>February 14, 2014</releaseDate>
+        <smallArtworkURL>https://copy.com/U8qgTb2WvsNm</smallArtworkURL>
 	</Song>
     
 	<Song featured='true'>
@@ -698,7 +752,7 @@
         <downloadURL>https://copy.com/t4cn2wZY8Ew1</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/second_flight/</link>
 		<releaseDate>February 16, 2014</releaseDate>
-        <smallArtworkURL>https://drive.google.com/uc?export=download&amp;id=0B9w875_ev7BMVVhXcjhnMFpTdnM</smallArtworkURL>
+        <smallArtworkURL>https://copy.com/GLr66ZnZAqVO</smallArtworkURL>
 	</Song>
     
 	<Song featured='true'>
@@ -712,6 +766,6 @@
 		<link name='Facebook'>http://www.facebook.com/Rchetype</link>
 		<releaseDate>February 22, 2014</releaseDate>
 		<largeArtworkURL>http://ubuntuone.com/25Ff5fzfYzjRcSllSdGqNz</largeArtworkURL>
-        <smallArtworkURL>https://drive.google.com/uc?export=download&amp;id=0B9w875_ev7BMakZKR2pLTjB6VzA</smallArtworkURL>
+        <smallArtworkURL>https://copy.com/cbByLo1HGrby</smallArtworkURL>
 	</Song>
 </Songs>
