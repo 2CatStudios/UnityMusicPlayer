@@ -451,6 +451,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 								if ( GUILayout.Button ( downloadButtonText, buttonStyle ) && url != null )
 								{
 									
+									UnityEngine.Debug.Log ( url );
+									
 									downloadingSong = song;
 									
 									currentDownloadPercentage = " - Processing";
