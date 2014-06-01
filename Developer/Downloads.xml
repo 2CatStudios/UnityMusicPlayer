@@ -39,7 +39,7 @@
         <smallArtworkURL>https://copy.com/2etcRfhvIItF</smallArtworkURL>
 	</Song>
     
-	<Song featured='false'>
+	<Song featured='true'>
 		<name>River (ft. Tim Bonvallet)</name>
 		<album>SUNDISK</album>
 		<artist>Wolfgun</artist>
@@ -140,7 +140,7 @@
         <smallArtworkURL>https://copy.com/jk3bJfhPaZHI</smallArtworkURL>
 	</Song>
     
-	<Song featured='true'>
+	<Song featured='false'>
 		<name>The Future of our Past</name>
 		<album>Darkest Mornings / Brightest Nights</album>
 		<artist>BlackTie Vivid</artist>
@@ -269,7 +269,7 @@
         <smallArtworkURL>https://copy.com/IZ3UQgL0uawn</smallArtworkURL>
 	</Song>
     
-	<Song featured='false'>
+	<Song featured='true'>
 		<name>15 Inventions a 2 Voix IV</name>
 		<album>UMP Exclusive</album>
 		<artist>Combustible Lemonade</artist>
@@ -424,7 +424,7 @@
         <smallArtworkURL>https://copy.com/d4llPHke9z00</smallArtworkURL>
 	</Song>
     
-	<Song featured='false'>
+	<Song featured='true'>
 		<name>One More</name>
 		<album>Reality - EP</album>
 		<artist>Abludo</artist>
@@ -433,8 +433,8 @@
         <downloadURL>https://copy.com/4syD0PNeSIr7</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/abludomusic</link>
 		<releaseDate>February 13, 2014</releaseDate>
-        <largeArtworkURL></largeArtworkURL>
-        <smallArtworkURL></smallArtworkURL>
+        <largeArtworkURL>https://copy.com/kfcLTVT7qxff</largeArtworkURL>
+        <smallArtworkURL>https://copy.com/KTOcPZpbG71Y</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -446,8 +446,8 @@
         <downloadURL>https://copy.com/ND7gChKfUJt0</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/abludomusic</link>
 		<releaseDate>February 13, 2014</releaseDate>
-        <largeArtworkURL></largeArtworkURL>
-        <smallArtworkURL></smallArtworkURL>
+        <largeArtworkURL>https://copy.com/kfcLTVT7qxff</largeArtworkURL>
+        <smallArtworkURL>https://copy.com/KTOcPZpbG71Y</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -459,8 +459,8 @@
         <downloadURL>https://copy.com/jidHO3Tlmcdc</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/abludomusic</link>
 		<releaseDate>February 13, 2014</releaseDate>
-        <largeArtworkURL></largeArtworkURL>
-        <smallArtworkURL></smallArtworkURL>
+        <largeArtworkURL>https://copy.com/kfcLTVT7qxff</largeArtworkURL>
+        <smallArtworkURL>https://copy.com/KTOcPZpbG71Y</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -472,8 +472,8 @@
         <downloadURL>https://copy.com/DHyru2kjwogg</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/abludomusic</link>
 		<releaseDate>February 13, 2014</releaseDate>
-        <largeArtworkURL></largeArtworkURL>
-        <smallArtworkURL></smallArtworkURL>
+        <largeArtworkURL>https://copy.com/kfcLTVT7qxff</largeArtworkURL>
+        <smallArtworkURL>https://copy.com/KTOcPZpbG71Y</smallArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -796,7 +796,7 @@
         <smallArtworkURL>https://copy.com/U8qgTb2WvsNm</smallArtworkURL>
 	</Song>
     
-	<Song featured='true'>
+	<Song featured='false'>
 		<name>Solar Eclipse</name>
 		<album>Solar Eclipse - Single</album>
 		<artist>Second Flight</artist>
@@ -809,7 +809,7 @@
         <smallArtworkURL>https://copy.com/GLr66ZnZAqVO</smallArtworkURL>
 	</Song>
     
-	<Song featured='true'>
+	<Song featured='false'>
 		<name>Act Of Love</name>
 		<album>Act Of Love/You Are Like Me</album>
 		<artist>Rchetype</artist>
