@@ -269,7 +269,7 @@
         <smallArtworkURL>https://copy.com/IZ3UQgL0uawn</smallArtworkURL>
 	</Song>
     
-	<Song featured='true'>
+	<Song featured='false'>
 		<name>15 Inventions a 2 Voix IV</name>
 		<album>UMP Exclusive</album>
 		<artist>Combustible Lemonade</artist>
@@ -781,7 +781,7 @@
         <smallArtworkURL>https://copy.com/U8qgTb2WvsNm</smallArtworkURL>
 	</Song>
     
-	<Song featured='false'>
+	<Song featured='true'>
 		<name>Unknown</name>
 		<album>Doorways EP</album>
 		<artist>Face of Flynn</artist>
