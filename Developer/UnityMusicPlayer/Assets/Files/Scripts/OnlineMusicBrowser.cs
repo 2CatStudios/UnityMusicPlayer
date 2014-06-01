@@ -307,13 +307,17 @@ public class OnlineMusicBrowser : MonoBehaviour
 		foreach ( Featured featuredSong in featuredList )
 		{
 			
-			WWW featuredArtworkWWW = new WWW ( featuredSong.song.smallArtworkURL );
-			yield return featuredArtworkWWW;
+			if ( String.IsNullOrEmpty ( featuredSong.song.smallArtworkURL ) == false )
+			{
+			
+				WWW featuredArtworkWWW = new WWW ( featuredSong.song.smallArtworkURL );
+				yield return featuredArtworkWWW;
 				
-			Texture2D downloadedArtwork = new Texture2D ( 360, 360 );
-			featuredArtworkWWW.LoadImageIntoTexture ( downloadedArtwork );
+				Texture2D downloadedArtwork = new Texture2D ( 360, 360 );
+				featuredArtworkWWW.LoadImageIntoTexture ( downloadedArtwork );
 				
-			featuredSong.artwork = downloadedArtwork;
+				featuredSong.artwork = downloadedArtwork;
+			}
 		}
 		
 		downloadArtwork = false;
