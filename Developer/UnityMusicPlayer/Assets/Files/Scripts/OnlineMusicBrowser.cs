@@ -160,7 +160,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 	
 	bool showSongInformation = false;
 	bool downloading = false;
-	bool downloadArtwork;
+	bool downloadFeaturedArtwork;
+	internal bool downloadArtwork;
 	
 	Song songInfoOwner;
 	Song downloadingSong;
@@ -178,6 +179,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 		onlineMusicBrowserPosition.width = Screen.width;
 		onlineMusicBrowserPosition.height = Screen.height;
 		onlineMusicBrowserPosition.x = onlineMusicBrowserPosition.width + onlineMusicBrowserPosition.width / 4;
+		
+		downloadArtwork = Convert.ToBoolean ( startupManager.prefs [ 29 ]);
 		
 		labelStyle = new GUIStyle ();
 		labelStyle.alignment = TextAnchor.MiddleCenter;
@@ -209,7 +212,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 		Thread refreshThread = new Thread ( SortAvailableDownloads );
 		refreshThread.Start();
 		
-		downloadArtwork = false;
+		downloadFeaturedArtwork = false;
 		StartCoroutine ( "DownloadFeatured" );
 	}
 	
@@ -295,14 +298,14 @@ public class OnlineMusicBrowser : MonoBehaviour
 			startupManager.ombEnabled = true;
 		}
 		
-		downloadArtwork = true;
+		downloadFeaturedArtwork = true;
 	}
 	
 	
 	IEnumerator DownloadFeatured ()
 	{
 		
-		while ( downloadArtwork == false ) {}
+		while ( downloadFeaturedArtwork == false ) {}
 		
 		foreach ( Featured featuredSong in featuredList )
 		{
@@ -320,7 +323,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 			}
 		}
 		
-		downloadArtwork = false;
+		downloadFeaturedArtwork = false;
 	}
 	
 
@@ -421,10 +424,10 @@ public class OnlineMusicBrowser : MonoBehaviour
 							{
 								
 								url = new Uri ( song.downloadURL );
-								downloadButtonText = "Download";
+								downloadButtonText = "Download '" + song.name + "'";
 								
 								currentDownloadPercentage = "";
-								currentDownloadSize = "Loading";
+								currentDownloadSize = "Fetching";
 									
 								Thread getInfoThread = new Thread ( GetInfoThread );
 								getInfoThread.Priority = System.Threading.ThreadPriority.AboveNormal;
@@ -455,11 +458,23 @@ public class OnlineMusicBrowser : MonoBehaviour
 								if ( GUILayout.Button ( downloadButtonText, buttonStyle ) && url != null )
 								{
 									
-									UnityEngine.Debug.Log ( url );
+									if ( downloadArtwork == true )
+									{
+					
+										if ( downloadingSong.largeArtworkURL != null )
+										{
+						
+											UnityEngine.Debug.Log ( "DownloadArtwork ()" );
+											StartCoroutine ( "DownloadArtwork", song );
+										}
+									}
+									
+									if ( startupManager.developmentMode == true )
+										UnityEngine.Debug.Log ( url );
 									
 									downloadingSong = song;
 									
-									currentDownloadPercentage = " - Processing";
+									currentDownloadPercentage = " - Processing Download";
 									
 									try
 									{
@@ -503,8 +518,14 @@ public class OnlineMusicBrowser : MonoBehaviour
 							GUILayout.Label ( "Genre: " + song.genre, infoLabelStyle );
 							GUILayout.Label ( "Format: " + song.format, infoLabelStyle );
 							GUILayout.Label ( "Released: " + song.releaseDate, infoLabelStyle );
+							downloadArtwork = GUILayout.Toggle ( downloadArtwork, "Download Artwork" );
+
 							if ( song.links != null )
 							{
+								
+								GUILayout.Label ( "", infoLabelStyle );
+							
+								GUILayout.Label ( "Support " + song.artist + " by visiting the following links", labelStyle );
 								
 								foreach ( Link currentLink in song.links )
 								{
@@ -544,10 +565,10 @@ public class OnlineMusicBrowser : MonoBehaviour
 						{
 								
 							url = new Uri ( featured.song.downloadURL );
-							downloadButtonText = "Download";
+							downloadButtonText = "Download '" + featured.song.name + "'";
 							
 							currentDownloadPercentage = "";
-							currentDownloadSize = "Loading";
+							currentDownloadSize = "Fetching";
 								
 							Thread getInfoThread = new Thread ( GetInfoThread );
 							getInfoThread.Priority = System.Threading.ThreadPriority.AboveNormal;
@@ -675,6 +696,31 @@ public class OnlineMusicBrowser : MonoBehaviour
 	void DownloadProgressCallback ( object sender, DownloadProgressChangedEventArgs arg )
 	{
 	
-		currentDownloadPercentage = " - " + arg.ProgressPercentage.ToString () + "% Complete";
+		currentDownloadPercentage = "'" + downloadingSong.name + "' - " + arg.ProgressPercentage.ToString () + "% Complete";
+	}
+	
+	
+	IEnumerator DownloadArtwork ( Song downloadedSong )
+	{
+		
+		UnityEngine.Debug.Log ( "Downloading Artwork" );
+		
+		byte[] bytes;
+		Texture2D artwork;
+		
+		WWW artworkWWW = new WWW ( downloadedSong.largeArtworkURL );
+		yield return artworkWWW;
+		
+		
+		artwork = artworkWWW.texture;
+		bytes = artwork.EncodeToPNG ();
+		
+		using ( FileStream writeArtwork = File.Create ( startupManager.slideshowPath + Path.DirectorySeparatorChar + downloadedSong.album + "Artwork.png" ))
+		{
+				
+			writeArtwork.Write ( bytes, 0, bytes.Length );
+		}
+		
+		UnityEngine.Debug.Log ( "Artwork Downloaded" );
 	}
 }
