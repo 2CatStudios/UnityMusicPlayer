@@ -1,4 +1,4 @@
-UnityMusicPlayer 1.15
+UnityMusicPlayer 1.2
 
 
 Tutorial:
@@ -14,7 +14,7 @@ Escape		: Exit slideshow mode (when applicable)
 FAQ:
 
 (Q) How do I add songs?
-(A) There are a few ways to add songs to UnityMusicPlayer. First, swipe to the MusicManager (left arrow key), and click "Open Current Directory", this will open the UMP media folder in either Finder (Mac) or Windows Explorer (Windows). Next, drag and drop any .wav or .ogg files into any folder in that directory (Albums, Artists, Genres or Playlists NOTE: You can make other folders inside of those). You can also download music via the OnlineMusicBrowser. If you don't know what that is, read on.
+(A) There are a few ways to add songs to UnityMusicPlayer. First, click "Open File Browser”- this will allow you to change the folder that UMP looks in for audio. One you’ve navigated to a folder that contains music (nested folders will also be displayed), click “Set as Active Directory”, and close the File Browser. You can also download music via the OnlineMusicBrowser. If you don't know what that is, read on.
 
 (Q) I listened to Owl City before Fireflies, and I want to add music the hard way.
 (A) You can navigate to
@@ -38,19 +38,19 @@ and drop music files in there.
 (A) The left arrow key will take you back to the MusicViewer.
 
 (Q) I added some music, but I don't see it!
-(A) If you downloaded the music from the OnlineMusicBrowser, then the song will have downloaded to whatever the active directory was. Swipe to the MusicManager (Left arrow key) to change the current active directory. If you placed music in UnityMusicPlayer, keep in mind that UMP only supports .wav and .ogg audio files, but have no fear, there are easy ways to convert your music- scroll to the bottom to see how.
+(A) If you downloaded the music from the OnlineMusicBrowser, then the song will have downloaded to the “Downloaded” folder inside the UnityMusicPlayer’s Media directory. If you’re looking for music that you already have, keep in mind that UMP only supports .wav, .ogg, and .aif (or .aiff) audio files, but have no fear, there are easy ways to convert your music- scroll to the bottom to see how.
 
-(Q) You said UMP only supports .wav and .ogg files, why?
-(A) The answer is simple: .MP3 licensing fees are too expensive, and who uses any other formats? (That is rhetorical, I know you like AIFF)
+(Q) You said UMP only supports .wav, .ogg, and .aif files, why?
+(A) The answer is simple: .MP3 licensing fees are too expensive, and who uses any other formats? (That is rhetorical, I know you like FLAC)
 
-(Q) I can read your mind, and I know that you know that I like aiff. Does UMP support that?
-(A) Whoa, you're creepy… anyway, no, UMP only supports .wav and .wav. That said, the more people that contact us asking for other music formats, the more likely you'll be able to use it in a future update.
+(Q) I can read your mind, and I know that you know that I like FLAC. Does UMP support that?
+(A) Whoa, you're creepy… anyway, no, UMP only supports .wav, .ogg, and .aiff. That said, the more people that contact us asking for other music formats, the more likely you'll be able to use it in a future update.
 
 (Q) I downloaded a song, but it has a brief loading period when I try to play it. What's up with this?
 (A) Some artists have requested that their music remain exclusive to UMP, so it's encrypted. The loading period is UMP decoding the song.
 
 (Q) How do I use Slideshow Mode?
-(A) Using Slideshow Mode is easy! All you have to do is toggle it from the options menu. To put your own pictures in the mix, place images in "UnityMusicPlayer/Slideshow". If your image is larger than the application size (default is 800x600), it will be scaled down to fit the window.
+(A) Using Slideshow Mode is easy! All you have to do is toggle it from the options menu. To put your own pictures in the mix, place images in UnityMusicPlayer’s Slideshow folder. If your image is larger than the application size (default is 800x600), it will be scaled down to fit the window.
 
 (Q) Is it possible to exit Slideshow Mode without quitting the application?
 (A) Yes, to turn Slideshow Mode off, just press Escape.
@@ -66,21 +66,21 @@ and drop music files in there.
 
 
 
-Converting files to .WAV or .OGG:
+Converting files to .WAV, .OGG, or .AIF:
 
-In order to listen to music in UMP, the files must be encoded in .WAV or .OGG. Although we haven't included a way to convert music natively (yet… probably), you can use iTunes to easily change music from almost any format to .WAV or .OGG. It's a relatively simple process, and I'll outline the steps bellow.
+In order to listen to music in UMP, the files must be encoded in .WAV, .OGG, or .AIF. Although we haven't included a way to convert music natively (yet… probably), you can use iTunes to easily change music from almost any format to .WAV, .OGG, or .AIF. It's a relatively simple process, and I'll outline the steps bellow.
 
 (1) Open iTunes.
 
 (2) Navigate to iTunes preferences.
 
-(3) Under the General tab, find the "Import Settings…" button (near the bottom)
+(3) Under the General tab, find the "Import Settings…" button (near the bottom).
 
-(4) Set "Import Using:" to WAV Encoder or OGG Encoder
+(4) Set "Import Using:" to WAV Encoder, OGG Encoder, or AIFF Encoder.
 
-(5) Click Okay, and select all the songs you want to convert (Shift-Click / Command-Click)
+(5) Click Okay, and select all the songs you want to convert (Shift-Click / Command-Click).
 
-(6) Right-Click, and select "Create WAV Version" or "Create OGG Version"
+(6) Right-Click, and select "Create WAV Version”, "Create OGG Version”, or “Create AIFF Version”.
 
 (7) After the converting process has completed, start UMP and navigate to the MusicManager.
 
@@ -91,4 +91,4 @@ In order to listen to music in UMP, the files must be encoded in .WAV or .OGG. A
 (0) Profit.
 
 
-If something didn't go right, and this guide didn't help to convert songs, just search "Convert song to WAV" or "Convert song to OGG" on the internet, and you'll probably find better tutorials.
+If something didn't go right, and this guide didn't help to convert songs, just search "Convert song to WAV”, "Convert song to OGG”, or “Convert song to AIFF” on the internet, and you'll probably find better tutorials.

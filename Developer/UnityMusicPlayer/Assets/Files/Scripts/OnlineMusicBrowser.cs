@@ -518,14 +518,15 @@ public class OnlineMusicBrowser : MonoBehaviour
 							GUILayout.Label ( "Genre: " + song.genre, infoLabelStyle );
 							GUILayout.Label ( "Format: " + song.format, infoLabelStyle );
 							GUILayout.Label ( "Released: " + song.releaseDate, infoLabelStyle );
-							downloadArtwork = GUILayout.Toggle ( downloadArtwork, "Download Artwork" );
+							if ( String.IsNullOrEmpty ( song.largeArtworkURL ) == false )
+								downloadArtwork = GUILayout.Toggle ( downloadArtwork, "Download Artwork" );
 
 							if ( song.links != null )
 							{
 								
 								GUILayout.Label ( "", infoLabelStyle );
 							
-								GUILayout.Label ( "Support " + song.artist + " by visiting the following links", labelStyle );
+								GUILayout.Label ( "Support " + song.artist + " by visiting the following link(s)", labelStyle );
 								
 								foreach ( Link currentLink in song.links )
 								{
@@ -696,31 +697,35 @@ public class OnlineMusicBrowser : MonoBehaviour
 	void DownloadProgressCallback ( object sender, DownloadProgressChangedEventArgs arg )
 	{
 	
-		currentDownloadPercentage = "'" + downloadingSong.name + "' - " + arg.ProgressPercentage.ToString () + "% Complete";
+		currentDownloadPercentage = " '" + downloadingSong.name + "' - " + arg.ProgressPercentage.ToString () + "% Complete";
 	}
 	
 	
 	IEnumerator DownloadArtwork ( Song downloadedSong )
 	{
 		
-		UnityEngine.Debug.Log ( "Downloading Artwork" );
-		
-		byte[] bytes;
-		Texture2D artwork;
-		
-		WWW artworkWWW = new WWW ( downloadedSong.largeArtworkURL );
-		yield return artworkWWW;
-		
-		
-		artwork = artworkWWW.texture;
-		bytes = artwork.EncodeToPNG ();
-		
-		using ( FileStream writeArtwork = File.Create ( startupManager.slideshowPath + Path.DirectorySeparatorChar + downloadedSong.album + "Artwork.png" ))
+		if ( String.IsNullOrEmpty ( downloadedSong.largeArtworkURL ) == false )
 		{
-				
-			writeArtwork.Write ( bytes, 0, bytes.Length );
+			
+			UnityEngine.Debug.Log ( "Downloading Artwork" );
+			
+			byte[] bytes;
+			Texture2D artwork;
+			
+			WWW artworkWWW = new WWW ( downloadedSong.largeArtworkURL );
+			yield return artworkWWW;
+			
+			
+			artwork = artworkWWW.texture;
+			bytes = artwork.EncodeToPNG ();
+			
+			using ( FileStream writeArtwork = File.Create ( startupManager.slideshowPath + Path.DirectorySeparatorChar + downloadedSong.album + "Artwork.png" ))
+			{
+					
+				writeArtwork.Write ( bytes, 0, bytes.Length );
+			}
+			
+			UnityEngine.Debug.Log ( "Artwork Downloaded" );
 		}
-		
-		UnityEngine.Debug.Log ( "Artwork Downloaded" );
 	}
 }

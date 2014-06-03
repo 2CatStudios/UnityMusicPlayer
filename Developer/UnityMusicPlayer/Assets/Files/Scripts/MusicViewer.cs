@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 public class MusicViewer : MonoBehaviour
 {
 	
-#region Variables
+#region Components
 
 	internal GameObject manager;
 	SocketsManager socketsManager;
@@ -23,10 +23,36 @@ public class MusicViewer : MonoBehaviour
 	PaneManager paneManager;
 	AudioVisualizerR audioVisualizerR;
 	AudioVisualizerL audioVisualizerL;
+	GUIText currentSong;
+	
+#endregion
+	
+	public GUISkin guiSkin;
+	internal GUIText timemark;
+	
+#region GUIStyles
 	
 	GUIStyle fileStyle;
 	GUIStyle folderStyle;
 	GUIStyle fileBrowserFileStyle;
+	
+	GUIStyle centerStyle;
+	GUIStyle labelStyle;
+	GUIStyle songStyle;
+	GUIStyle buttonStyle;
+	
+	GUIStyle hideGUIStyle;
+	GUIStyle showVisualizerStyle;
+	GUIStyle doubleSpeedStyle;
+	GUIStyle halfSpeedStyle;
+	GUIStyle echoStyle;
+	
+	GUIStyle testStyle;
+	
+#endregion
+	
+#region Textures
+	
 	public Texture2D folderIcon;
 	public Texture2D musicNoteIcon;
 	
@@ -36,18 +62,46 @@ public class MusicViewer : MonoBehaviour
 	public Texture2D leftArrow;
 	public Texture2D rightArrow;
 	
-	internal bool showMusicViewer = true;
-	bool fileBrowser = false;
-
-	string musicViewerTitle;
+	public Texture2D hideGUINormal;
+	public Texture2D hideGUIHover;
+	public Texture2D hideGUIOnNormal;
+	public Texture2D hideGUIOnHover;
+	
+	public Texture2D showAudioVisualizerNormal;
+	public Texture2D showAudioVisualizerHover;
+	public Texture2D showAudioVisualizerOnNormal;
+	public Texture2D showAudioVisualizerOnHover;
+	
+	public Texture2D audioSpeedDoubleNormal;
+	public Texture2D audioSpeedDoubleHover;
+	public Texture2D audioSpeedHalfNormal;
+	public Texture2D audioSpeedHalfHover;
+	public Texture2D audioSpeedNormalNormal;
+	public Texture2D audioSpeedNormalHover;
+	
+	public Texture2D echoNormal;
+	public Texture2D echoHover;
+	public Texture2D echoOnNormal;
+	public Texture2D echoOnHover;
+	
+	public Texture2D guiHover;
+	public Texture2D guiActiveHover;
+	
+	public Texture2D timebarMarker;
+	
+#endregion
+	
+#region MusicViewer
+	
 	internal Rect musicViewerPosition = new Rect ( 0, 0, 800, 600 );
-
-	bool showVisualizer = false;
-	bool halfSpeed = false;
-	bool doubleSpeed = false;
+	
+	bool fileBrowser = false;
+	
+	bool showFolderMusic = false;
+	
+	string musicViewerTitle;
 	
 	string songInfoOwner;
-	bool showFolderMusic = false;
 	
 	internal string mediaPath;
 	String[] currentDirectories;
@@ -60,14 +114,16 @@ public class MusicViewer : MonoBehaviour
 	string [] childDirectoryFiles;
 	
 	WWW wWw;
-	
-	public GUIText currentSong;	
-	public Texture2D timebarMarker;
-	internal GUIText timemark;
+
 	float timebarTime;
+	
+	internal bool wasPlaying = false;
+	
+	string audioLocation;
 	
 	bool isPaused;	
 	float pausePoint;
+	
 	int songTime;
 	int minutes;
 	float seconds;
@@ -77,7 +133,6 @@ public class MusicViewer : MonoBehaviour
 	AudioType audioType;
 	string audioTitle;
 
-	internal bool wasPlaying = false;
 	float betweenSongDelay = 0.5F;
 	
 	int currentSongNumber = -1;
@@ -86,21 +141,14 @@ public class MusicViewer : MonoBehaviour
 	Vector2 scrollPosition;
 	Vector2 mousePos;
 	
-	bool hideGUI = false;
-	public GUISkin guiSkin;
-	GUIStyle centerStyle;
-	GUIStyle labelStyle;
-	GUIStyle songStyle;
-	GUIStyle buttonStyle;
-	public Texture2D guiHover;
-	public Texture2D guiActiveHover;
-	
-	bool close = false;
-	
 	int[] previousSongs = new int  [ 7 ] { 0, 0, 0, 0, 0, 0, 0 };
 	int psPlace = 6;
 	
-	string audioLocation;
+#endregion
+	
+	internal bool showMusicViewer = true;
+	
+	bool close = false;
 
 #region EffectsSettings
 	
@@ -111,6 +159,11 @@ public class MusicViewer : MonoBehaviour
 	float volumeBarValue;
 	
 	bool echo;
+	bool hideGUI = false;
+	bool showVisualizer = false;
+	bool halfSpeed = false;
+	bool doubleSpeed = false;
+	
 	string echoDelay;
 	string tempEchoDelay;
 	string echoDecayRate;
@@ -203,7 +256,6 @@ public class MusicViewer : MonoBehaviour
 	int slideshowImage = 0;
 	
 #endregion	
-#endregion
 	
 	public static string RegexToString ( string key, bool isFloat )
 	{
@@ -220,6 +272,7 @@ public class MusicViewer : MonoBehaviour
 	}
 	
 	
+	
 	void Start ()
 	{
 
@@ -230,6 +283,7 @@ public class MusicViewer : MonoBehaviour
 		paneManager = manager.GetComponent <PaneManager> ();
 		loadingImage = GameObject.FindGameObjectWithTag ( "LoadingImage" ).GetComponent<LoadingImage>();
 		currentSlideshowImage = GameObject.FindGameObjectWithTag ( "SlideshowImage" ).GetComponent<GUITexture>();
+		currentSong = GameObject.FindGameObjectWithTag ( "CurrentSong" ).GetComponent<GUIText>();
 
 		musicViewerPosition.width = Screen.width;
 		musicViewerPosition.height = Screen.height;
@@ -378,6 +432,39 @@ public class MusicViewer : MonoBehaviour
 		buttonStyle.alignment = TextAnchor.MiddleCenter;
 		buttonStyle.border = new RectOffset ( 6, 6, 4, 4 );
 		buttonStyle.hover.background = guiHover;
+		
+		hideGUIStyle = new GUIStyle ();
+		hideGUIStyle.normal.background = hideGUINormal;
+		hideGUIStyle.hover.background = hideGUIHover;
+		hideGUIStyle.onNormal.background = hideGUIOnNormal;
+		hideGUIStyle.onHover.background = hideGUIOnHover;
+		
+		showVisualizerStyle = new GUIStyle ();
+		showVisualizerStyle.normal.background = showAudioVisualizerNormal;
+		showVisualizerStyle.hover.background = showAudioVisualizerHover;
+		showVisualizerStyle.onNormal.background = showAudioVisualizerOnNormal;
+		showVisualizerStyle.onHover.background = showAudioVisualizerOnHover;
+		
+		doubleSpeedStyle = new GUIStyle ();
+		doubleSpeedStyle.normal.background = audioSpeedDoubleNormal;
+		doubleSpeedStyle.hover.background = audioSpeedDoubleHover;
+		doubleSpeedStyle.onNormal.background = audioSpeedNormalNormal;
+		doubleSpeedStyle.onHover.background = audioSpeedNormalHover;
+		
+		halfSpeedStyle = new GUIStyle ();
+		halfSpeedStyle.normal.background = audioSpeedHalfNormal;
+		halfSpeedStyle.hover.background = audioSpeedHalfHover;
+		halfSpeedStyle.onNormal.background = audioSpeedNormalNormal;
+		halfSpeedStyle.onHover.background = audioSpeedNormalHover;
+		
+		echoStyle = new GUIStyle ();
+		echoStyle.normal.background = echoNormal;
+		echoStyle.hover.background = echoHover;
+		echoStyle.onNormal.background = echoOnNormal;
+		echoStyle.onHover.background = echoOnHover;
+		
+		testStyle = new GUIStyle ();
+		testStyle.normal.background = guiHover;
 		
 		InvokeRepeating ( "Refresh", 0, 2 );
 		StartCoroutine ( SetArtwork ());
@@ -829,62 +916,6 @@ public class MusicViewer : MonoBehaviour
 
 		if ( slideshow == false )
 		{
-								
-			hideGUI = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 - 190, musicViewerPosition.height - 20, 80, 20 ), hideGUI, "Hide Audio" );
-			showVisualizer = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 - 110, musicViewerPosition.height - 20, 100, 20 ), showVisualizer, "AudioVisualizer" );
-		
-			if ( showVisualizer == true )
-			{
-		
-				audioVisualizerR.showAV = showVisualizer;
-				audioVisualizerL.showAV = showVisualizer;
-				audioVisualizerR.topLine.material.color = new Color ( avcR, avcG, avcB, 255 );
-				audioVisualizerR.bottomLine.material.color = new Color ( avcR, avcG, avcB, 255 );
-				audioVisualizerL.topLine.material.color = new Color ( avcR, avcG, avcB, 255 );
-				audioVisualizerL.bottomLine.material.color = new Color ( avcR, avcG, avcB, 255 );
-		
-				manager.GetComponent<BloomAndLensFlares>().enabled = Convert.ToBoolean ( bloom );
-				manager.GetComponent<BlurEffect>().enabled = Convert.ToBoolean ( blur );
-				manager.GetComponent<SunShafts>().enabled = Convert.ToBoolean ( sunShafts );
-					
-				manager.GetComponent<BlurEffect> ().iterations = Convert.ToInt16 ( blurIterations );
-			} else {
-		
-				audioVisualizerR.showAV = showVisualizer;
-				audioVisualizerL.showAV = showVisualizer;
-		
-				manager.GetComponent<BloomAndLensFlares>().enabled = false;
-				manager.GetComponent<BlurEffect>().enabled = false;
-				manager.GetComponent<SunShafts>().enabled = false;
-			}
-			
-			if ( doubleSpeed = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 - 10, musicViewerPosition.height - 20, 95, 20 ), doubleSpeed, "Double Speed" ))
-			{
-					
-				manager.audio.pitch = 2.0F;
-			
-				if ( doubleSpeed == true && halfSpeed == true )
-					halfSpeed = false;
-			}
-			
-			if ( halfSpeed = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 + 85, musicViewerPosition.height - 20, 80, 20 ), halfSpeed, "Half Speed" ))
-			{
-				
-				manager.audio.pitch = 0.5F;
-			
-				if ( halfSpeed == true && doubleSpeed == true )
-					doubleSpeed = false;
-			}
-				
-			echo = GUI.Toggle ( new Rect ( musicViewerPosition.width/2 + 165, musicViewerPosition.height - 20, 50, 20 ), echo,  "Echo" );
-			if ( echo == true )
-				manager.GetComponent<AudioEchoFilter> ().enabled = true;
-			else
-			    manager.GetComponent<AudioEchoFilter> ().enabled = false;
-		
-				
-			if ( halfSpeed == false && doubleSpeed == false )
-				manager.audio.pitch = 1.0F;
 			
 			if ( hideGUI == false )
 			{
@@ -945,6 +976,73 @@ public class MusicViewer : MonoBehaviour
 					GUILayout.BeginVertical ();
 					GUILayout.Space ( musicViewerPosition.height / 4 + 25 );
 					scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  musicViewerPosition.height - ( musicViewerPosition.height / 4 + 53 )));
+					
+					if ( currentDirectoryFiles.Any ())
+					{
+					
+						for ( int songInt = 0; songInt < currentDirectoryFiles.Length; songInt ++ )
+						{
+											
+							string audioTitle;
+							if ( showTypes == true )				
+								audioTitle = currentDirectoryFiles[songInt].Substring ( currentDirectory.Length + Path.DirectorySeparatorChar.ToString().Length );
+							else			
+								audioTitle = currentDirectoryFiles[songInt].Substring ( currentDirectoryFiles[songInt].LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length, currentDirectoryFiles[songInt].LastIndexOf ( "." ) - currentDirectoryFiles[songInt].LastIndexOf ( Path.DirectorySeparatorChar ) - Path.DirectorySeparatorChar.ToString().Length );
+							
+							if ( GUILayout.Button ( new GUIContent ( audioTitle )))
+							{
+						
+								Resources.UnloadUnusedAssets ();
+												
+								currentSongNumber = songInt;
+								previousSongs [ 0 ] = previousSongs [ 1 ];
+								previousSongs [ 1 ] = previousSongs [ 2 ];
+								previousSongs [ 2 ] = previousSongs [ 3 ];
+								previousSongs [ 3 ] = previousSongs [ 4 ];
+								previousSongs [ 4 ] = previousSongs [ 5 ];
+								previousSongs [ 5 ] = previousSongs [ 6 ];
+								previousSongs [ 6 ] = songInt;
+								psPlace = 6;
+												
+								wasPlaying = false;
+											
+								if ( currentDirectoryFiles[songInt].Substring ( currentDirectoryFiles [songInt].LastIndexOf ( "." )) == ".unity3d" )
+								{
+												
+									loadingImage.showLoadingImages = true;
+									loadingImage.InvokeRepeating ( "LoadingImages", 0.25F, 0.25F );
+												
+									StartCoroutine ( LoadAssetBundle ( "file://" + currentDirectoryFiles [ currentSongNumber ]));
+												
+								} else {
+												
+									StartCoroutine ( PlayAudio ( currentDirectoryFiles[songInt] ));
+									loadingImage.showLoadingImages = false;
+								}
+							}
+						}
+					} else
+					{
+						
+						if ( startupManager.showTutorials == true )
+						{
+								
+							GUILayout.Label ( "You don't have any music to play!\n\nIf you have some music (.wav, .ogg, or .aiff),\nclick 'Open File Browser' under the System Commands bar bellow." +
+								"\n\nYou can also download music by navigating\nto the OnlineMusicBrowser (press the right arrow key).\n", centerStyle );
+						
+							if ( GUILayout.Button ( "Hide Tutorials"))
+							{
+							
+								startupManager.showTutorials = false;
+							}
+							
+							if ( GUILayout.Button ( "View Extended Help/Tutorial" ))
+							{
+											
+								Process.Start ( startupManager.helpPath );
+							}
+						}
+					}
 					
 					if ( enableDeepSearch == true )
 					{
@@ -1040,73 +1138,6 @@ public class MusicViewer : MonoBehaviour
 							}
 						}
 					}
-									
-					if ( currentDirectoryFiles.Any ())
-					{
-					
-						for ( int songInt = 0; songInt < currentDirectoryFiles.Length; songInt ++ )
-						{
-											
-							string audioTitle;
-							if ( showTypes == true )				
-								audioTitle = currentDirectoryFiles[songInt].Substring ( currentDirectory.Length + Path.DirectorySeparatorChar.ToString().Length );
-							else			
-								audioTitle = currentDirectoryFiles[songInt].Substring ( currentDirectoryFiles[songInt].LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length, currentDirectoryFiles[songInt].LastIndexOf ( "." ) - currentDirectoryFiles[songInt].LastIndexOf ( Path.DirectorySeparatorChar ) - Path.DirectorySeparatorChar.ToString().Length );
-							
-							if ( GUILayout.Button ( new GUIContent ( audioTitle )))
-							{
-						
-								Resources.UnloadUnusedAssets ();
-												
-								currentSongNumber = songInt;
-								previousSongs [ 0 ] = previousSongs [ 1 ];
-								previousSongs [ 1 ] = previousSongs [ 2 ];
-								previousSongs [ 2 ] = previousSongs [ 3 ];
-								previousSongs [ 3 ] = previousSongs [ 4 ];
-								previousSongs [ 4 ] = previousSongs [ 5 ];
-								previousSongs [ 5 ] = previousSongs [ 6 ];
-								previousSongs [ 6 ] = songInt;
-								psPlace = 6;
-												
-								wasPlaying = false;
-											
-								if ( currentDirectoryFiles[songInt].Substring ( currentDirectoryFiles [songInt].LastIndexOf ( "." )) == ".unity3d" )
-								{
-												
-									loadingImage.showLoadingImages = true;
-									loadingImage.InvokeRepeating ( "LoadingImages", 0.25F, 0.25F );
-												
-									StartCoroutine ( LoadAssetBundle ( "file://" + currentDirectoryFiles [ currentSongNumber ]));
-												
-								} else {
-												
-									StartCoroutine ( PlayAudio ( currentDirectoryFiles[songInt] ));
-									loadingImage.showLoadingImages = false;
-								}
-							}
-						}
-					} else
-					{
-						
-						if ( startupManager.showTutorials == true )
-						{
-								
-							GUILayout.Label ( "\nYou don't have any music to play!\n\nIf you have some music (.wav, .ogg, or .aiff),\nclick 'Open File Browser' under the System Commands bar bellow." +
-								"\n\nYou can also download music by navigating\nto the OnlineMusicBrowser (press the right arrow key).\n", centerStyle );
-						
-							if ( GUILayout.Button ( "Hide Tutorials"))
-							{
-							
-								startupManager.showTutorials = false;
-							}
-							
-							if ( GUILayout.Button ( "View Extended Help/Tutorial" ))
-							{
-											
-								Process.Start ( startupManager.helpPath );
-							}
-						}
-					} 
 				} else {
 					
 					if ( tempCurrentDirectory.Substring ( 0, tempCurrentDirectory.LastIndexOf ( Path.DirectorySeparatorChar )).Length > 0 )
@@ -1232,6 +1263,77 @@ public class MusicViewer : MonoBehaviour
 				GUI.EndScrollView();
 				GUILayout.EndVertical();
 				GUILayout.EndHorizontal();
+			}
+
+			GUILayout.BeginArea ( new Rect (( musicViewerPosition.width - 240 ) / 2 , musicViewerPosition.height - 36, 240, 36 ));
+			GUILayout.BeginHorizontal ( );
+			
+			GUILayout.Space ( 10 );
+			hideGUI = GUILayout.Toggle ( hideGUI, "", hideGUIStyle, GUILayout.Height ( 36 ));
+			
+			GUILayout.Space ( 10 );
+			showVisualizer = GUILayout.Toggle ( showVisualizer, "", showVisualizerStyle, GUILayout.Height ( 36 ));
+			
+			GUILayout.Space ( 10 );
+			if ( doubleSpeed = GUILayout.Toggle ( doubleSpeed, "", doubleSpeedStyle, GUILayout.Height ( 36 )))
+			{
+					
+				manager.audio.pitch = 2.0F;
+			
+				if ( doubleSpeed == true && halfSpeed == true )
+					halfSpeed = false;
+			}
+			
+			GUILayout.Space ( 10 );
+			if ( halfSpeed = GUILayout.Toggle ( halfSpeed, "", halfSpeedStyle, GUILayout.Height ( 36 )))
+			{
+				
+				manager.audio.pitch = 0.5F;
+			
+				if ( halfSpeed == true && doubleSpeed == true )
+					doubleSpeed = false;
+			}
+			
+			GUILayout.Space ( 10 );
+			echo = GUILayout.Toggle ( echo, "", echoStyle, GUILayout.Height ( 36 ));
+			GUILayout.Space ( 10 );
+			
+			GUILayout.EndHorizontal ();
+			GUILayout.EndArea ();
+			
+			
+			if ( echo == true )
+				manager.GetComponent<AudioEchoFilter> ().enabled = true;
+			else
+			    manager.GetComponent<AudioEchoFilter> ().enabled = false;
+		
+				
+			if ( halfSpeed == false && doubleSpeed == false )
+				manager.audio.pitch = 1.0F;
+			
+			if ( showVisualizer == true )
+			{
+		
+				audioVisualizerR.showAV = showVisualizer;
+				audioVisualizerL.showAV = showVisualizer;
+				audioVisualizerR.topLine.material.color = new Color ( avcR, avcG, avcB, 255 );
+				audioVisualizerR.bottomLine.material.color = new Color ( avcR, avcG, avcB, 255 );
+				audioVisualizerL.topLine.material.color = new Color ( avcR, avcG, avcB, 255 );
+				audioVisualizerL.bottomLine.material.color = new Color ( avcR, avcG, avcB, 255 );
+		
+				manager.GetComponent<BloomAndLensFlares>().enabled = Convert.ToBoolean ( bloom );
+				manager.GetComponent<BlurEffect>().enabled = Convert.ToBoolean ( blur );
+				manager.GetComponent<SunShafts>().enabled = Convert.ToBoolean ( sunShafts );
+					
+				manager.GetComponent<BlurEffect> ().iterations = Convert.ToInt16 ( blurIterations );
+			} else {
+		
+				audioVisualizerR.showAV = showVisualizer;
+				audioVisualizerL.showAV = showVisualizer;
+		
+				manager.GetComponent<BloomAndLensFlares>().enabled = false;
+				manager.GetComponent<BlurEffect>().enabled = false;
+				manager.GetComponent<SunShafts>().enabled = false;
 			}
 			
 			if ( showOptionsWindow == true || startupManager.showUnderlay == true )
