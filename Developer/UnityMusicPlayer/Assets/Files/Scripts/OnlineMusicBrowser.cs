@@ -11,7 +11,6 @@ using System.Collections;
 using System.ComponentModel;
 using System.Xml.Serialization;
 using System.Collections.Generic;
-//using System.Collections.Specialized;
 //Written by GibsonBethke
 //Thanks to Mike Talbot
 [XmlRoot("Songs")]
@@ -94,12 +93,16 @@ public class Sort
 	
 	public String name;
 	public int method;
+	public GUIStyle normalStyle;
+	public GUIStyle activeStyle;
 	
-	public Sort ( String name, int method )
+	public Sort ( String name, int method, GUIStyle normalStyle, GUIStyle activeStyle )
 	{
 		
 		this.name = name;
 		this.method = method;
+		this.normalStyle = normalStyle;
+		this.activeStyle = activeStyle;
 	}
 }
 
@@ -116,6 +119,38 @@ public class OnlineMusicBrowser : MonoBehaviour
 	GUIStyle infoLabelStyle;
 	GUIStyle buttonStyle;
 	GUIStyle boxStyle;
+	
+	GUIStyle currentStyle;
+	
+	public Texture2D flagNormal;
+	public Texture2D flagHover;
+	public Texture2D flagOnNormal;
+	public Texture2D flagOnHover;
+	
+	public Texture2D clockNormal;
+	public Texture2D clockHover;
+	public Texture2D clockOnNormal;
+	public Texture2D clockOnHover;
+	
+	public Texture2D textNormal;
+	public Texture2D textHover;
+	public Texture2D textOnNormal;
+	public Texture2D textOnHover;
+	
+	public Texture2D recordNormal;
+	public Texture2D recordHover;
+	public Texture2D recordOnNormal;
+	public Texture2D recordOnHover;
+	
+	public Texture2D personNormal;
+	public Texture2D personHover;
+	public Texture2D personOnNormal;
+	public Texture2D personOnHover;
+	
+	public Texture2D listNormal;
+	public Texture2D listHover;
+	public Texture2D listOnNormal;
+	public Texture2D listOnHover;
 	
 	public Texture2D guiHover;
 	public Texture2D guiActiveHover;
@@ -195,13 +230,90 @@ public class OnlineMusicBrowser : MonoBehaviour
 		buttonStyle.alignment = TextAnchor.MiddleCenter;
 		buttonStyle.border = new RectOffset ( 6, 6, 4, 4 );
 		buttonStyle.hover.background = guiHover;
+		
+		
+		GUIStyle flagStyle = new GUIStyle ();
+		flagStyle.normal.background = flagNormal;
+		flagStyle.hover.background = flagHover;
+		flagStyle.border = new RectOffset ( 0, 0, 0, 0 );
+		
+		GUIStyle flagStyleActive = new GUIStyle ();
+		flagStyleActive.normal.background = flagOnNormal;
+		flagStyleActive.hover.background = flagOnHover;
+		flagStyleActive.border = new RectOffset ( 0, 0, 0, 0 );
+		
+		
+		GUIStyle clockStyle = new GUIStyle ();
+		clockStyle.normal.background = clockNormal;
+		clockStyle.hover.background = clockHover;
+		clockStyle.border = new RectOffset ( 0, 0, 0, 0 );
+		
+		GUIStyle clockStyleActive = new GUIStyle ();
+		clockStyleActive.normal.background = clockOnNormal;
+		clockStyleActive.hover.background = clockOnHover;
+		clockStyleActive.border = new RectOffset ( 0, 0, 0, 0 );
+		
+		
+		GUIStyle textStyle = new GUIStyle ();
+		textStyle.normal.background = textNormal;
+		textStyle.hover.background = textHover;
+		textStyle.border = new RectOffset ( 0, 0, 0, 0 );
+		
+		GUIStyle textStyleActive = new GUIStyle ();
+		textStyleActive.normal.background = textOnNormal;
+		textStyleActive.hover.background = textOnHover;
+		textStyleActive.border = new RectOffset ( 0, 0, 0, 0 );
+		
+		
+		GUIStyle recordStyle = new GUIStyle ();
+		recordStyle.normal.background = recordNormal;
+		recordStyle.hover.background = recordHover;
+		recordStyle.border = new RectOffset ( 0, 0, 0, 0 );
+		
+		GUIStyle recordStyleActive = new GUIStyle ();
+		recordStyleActive.normal.background = recordOnNormal;
+		recordStyleActive.hover.background = recordOnHover;
+		recordStyleActive.border = new RectOffset ( 0, 0, 0, 0 );
+		
+		
+		GUIStyle personStyle = new GUIStyle ();
+		personStyle.normal.background = personNormal;
+		personStyle.hover.background = personHover;
+		personStyle.border = new RectOffset ( 0, 0, 0, 0 );
+		
+		GUIStyle personStyleActive = new GUIStyle ();
+		personStyleActive.normal.background = personOnNormal;
+		personStyleActive.hover.background = personOnHover;
+		personStyleActive.border = new RectOffset ( 0, 0, 0, 0 );
+		
+		
+		GUIStyle listStyle = new GUIStyle ();
+		listStyle.normal.background = listNormal;
+		listStyle.hover.background = listHover;
+		listStyle.border = new RectOffset ( 0, 0, 0, 0 );
+		
+		GUIStyle listStyleActive = new GUIStyle ();
+		listStyleActive.normal.background = listOnNormal;
+		listStyleActive.hover.background = listOnHover;
+		listStyleActive.border = new RectOffset ( 0, 0, 0, 0 );
+		
+		
+		availableSorts = new List<Sort> ()
+		{
+			
+			new Sort ( "Featured", 1, flagStyle, flagStyleActive ),
+			new Sort ( "Recent", 2, clockStyle, clockStyleActive ),
+			new Sort ( "Name", 3, textStyle, textStyleActive ),
+			new Sort ( "Album", 4, recordStyle, recordStyleActive ),
+			new Sort ( "Artist", 5, personStyle, personStyleActive ),
+			new Sort ( "Genre", 6, listStyle, listStyleActive )
+		};
 	}
 	
 
 	void StartOMB ()
 	{
-
-		availableSorts = new List<Sort> () { new Sort ( "Featured", 1), new Sort ( "Recent", 2 ), new Sort ( "Name", 3 ), new Sort ( "Album", 4 ), new Sort ( "Artist", 5 ), new Sort ( "Genre", 6 ) };
+		
 		currentSort = availableSorts[0];
 		
 		allSongsList = new List<Song> ();
@@ -348,33 +460,35 @@ public class OnlineMusicBrowser : MonoBehaviour
 		{
 	
 			GUILayout.Space ( onlineMusicBrowserPosition.width / 8 );
+			GUILayout.BeginArea ( new Rect ( 20, onlineMusicBrowserPosition.width / 8 + 5, 216, 40 ));
 			GUILayout.BeginHorizontal ();
 			
 			foreach ( Sort sort in availableSorts )
 			{
 				
-				if ( currentSort == sort )	
-					guiSkin.button.normal.background = guiHover;
+				if ( currentSort == sort )
+					currentStyle = sort.activeStyle;
+				else
+					currentStyle = sort.normalStyle;
 				
-				if ( GUILayout.Button ( sort.name ))
+				if ( GUILayout.Button ( "", currentStyle, GUILayout.Height ( 36 )))
 				{
 					
 					currentSort = sort;
 					sortBy = sort.method;
 					scrollPosition = new Vector2 ( 0, 0 );
 				}
-				
-				guiSkin.button.normal.background = null;
-				guiSkin.button.hover.background = guiHover;
 			}
-	
+
 			GUILayout.EndHorizontal ();
-			GUILayout.Space ( 5 );
+			GUILayout.EndArea ();
+			
+			GUILayout.Space ( 20 );
 			GUILayout.BeginHorizontal ();
-			GUILayout.Space ( onlineMusicBrowserPosition.width / 2 - 300  );
+			GUILayout.Space ( 100 );
 	
 			if ( sortBy != 1 )
-				scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  onlineMusicBrowserPosition.height - ( onlineMusicBrowserPosition.height / 4 + 50 )));
+				scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  onlineMusicBrowserPosition.height - 200 ));
 				
 			switch ( sortBy )
 			{
@@ -643,7 +757,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 		} else {
 			
 			GUI.Label ( new Rect ( 10, onlineMusicBrowserPosition.height / 4, onlineMusicBrowserPosition.width - 20, 128 ), "The OnlineMusicBrowser has been disabled!", labelStyle );
-			if ( GUI.Button ( new Rect ( onlineMusicBrowserPosition.width/2 - 160, onlineMusicBrowserPosition.height / 2, 320, 64 ), "Enable OnlineMusicBrowser" ))
+			if ( GUI.Button ( new Rect ( onlineMusicBrowserPosition.width / 2 - 160, onlineMusicBrowserPosition.height / 2, 320, 64 ), "Enable OnlineMusicBrowser" ))
 			{
 				
 				startupManager.SendMessage ( "RefreshOMB" );
