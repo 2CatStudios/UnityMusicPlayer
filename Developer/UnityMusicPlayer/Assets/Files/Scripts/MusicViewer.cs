@@ -47,20 +47,12 @@ public class MusicViewer : MonoBehaviour
 	GUIStyle halfSpeedStyle;
 	GUIStyle echoStyle;
 	
-	GUIStyle testStyle;
-	
 #endregion
 	
 #region Textures
 	
 	public Texture2D folderIcon;
 	public Texture2D musicNoteIcon;
-	
-	public Texture2D playIcon;
-	public Texture2D pauseIcon;
-	
-	public Texture2D leftArrow;
-	public Texture2D rightArrow;
 	
 	public Texture2D hideGUINormal;
 	public Texture2D hideGUIHover;
@@ -227,6 +219,8 @@ public class MusicViewer : MonoBehaviour
 	
 	float tempDeepSearch;
 	bool enableDeepSearch;
+	
+	Rect bottomBarPosition;
 
 #endregion
 
@@ -270,8 +264,7 @@ public class MusicViewer : MonoBehaviour
 			return Regex.Replace ( key, "[^0-9]", "" );
 		}
 	}
-	
-	
+
 	
 	void Start ()
 	{
@@ -462,9 +455,6 @@ public class MusicViewer : MonoBehaviour
 		echoStyle.hover.background = echoHover;
 		echoStyle.onNormal.background = echoOnNormal;
 		echoStyle.onHover.background = echoOnHover;
-		
-		testStyle = new GUIStyle ();
-		testStyle.normal.background = guiHover;
 		
 		InvokeRepeating ( "Refresh", 0, 2 );
 		StartCoroutine ( SetArtwork ());
@@ -975,7 +965,7 @@ public class MusicViewer : MonoBehaviour
 					GUILayout.Space ( musicViewerPosition.width / 2 - 300 );
 					GUILayout.BeginVertical ();
 					GUILayout.Space ( musicViewerPosition.height / 4 + 25 );
-					scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  musicViewerPosition.height - ( musicViewerPosition.height / 4 + 53 )));
+					scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  musicViewerPosition.height - ( musicViewerPosition.height / 4 + 65 )));
 					
 					if ( currentDirectoryFiles.Any ())
 					{
@@ -1143,7 +1133,7 @@ public class MusicViewer : MonoBehaviour
 					if ( tempCurrentDirectory.Substring ( 0, tempCurrentDirectory.LastIndexOf ( Path.DirectorySeparatorChar )).Length > 0 )
 					{
 						
-						if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 - 300, musicViewerPosition.height/4 - 15, 140, 30 ), new GUIContent ( "Previous", leftArrow )))
+						if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 - 300, musicViewerPosition.height/4 - 15, 140, 30 ), new GUIContent ( "Previous", paneManager.leftArrowNormal )))
 						{
 						
 							tempCurrentDirectory = tempCurrentDirectory.Substring ( 0, tempCurrentDirectory.LastIndexOf ( Path.DirectorySeparatorChar ));
@@ -1264,8 +1254,13 @@ public class MusicViewer : MonoBehaviour
 				GUILayout.EndVertical();
 				GUILayout.EndHorizontal();
 			}
+			
+			if ( new Rect (( musicViewerPosition.width - 240 ) / 2 , 0, 240, 36 ).Contains ( Input.mousePosition ) && showOptionsWindow == false )
+				bottomBarPosition = new Rect (( musicViewerPosition.width - 240 ) / 2 , musicViewerPosition.height - 36, 240, 64 );
+			else
+				bottomBarPosition = new Rect (( musicViewerPosition.width - 240 ) / 2 , musicViewerPosition.height - 18, 240, 54 );
 
-			GUILayout.BeginArea ( new Rect (( musicViewerPosition.width - 240 ) / 2 , musicViewerPosition.height - 36, 240, 36 ));
+			GUILayout.BeginArea ( bottomBarPosition );
 			GUILayout.BeginHorizontal ( );
 			
 			GUILayout.Space ( 10 );

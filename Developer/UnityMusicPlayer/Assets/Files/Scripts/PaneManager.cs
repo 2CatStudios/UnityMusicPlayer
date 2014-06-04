@@ -13,13 +13,20 @@ public class PaneManager : MonoBehaviour
 	public OnlineMusicBrowser onlineMusicBrowser;
 	
 	public GUISkin guiSkin;
+	GUIStyle leftArrowStyle;
+	GUIStyle rightArrowStyle;
+	
+	public Texture2D leftArrowNormal;
+	public Texture2D leftArrowHover;
+	public Texture2D rightArrowNormal;
+	public Texture2D rightArrowHover;
 
 	internal bool popupBlocking = false;
 	
 	internal bool loading = false;
 	bool startup = true;
 
-	internal enum pane {/* musicManager, */musicViewer, onlineMusicBrowser };
+	internal enum pane { musicViewer, onlineMusicBrowser };
 	internal pane currentPane = pane.musicViewer;
 
 	bool moving = false;
@@ -39,6 +46,22 @@ public class PaneManager : MonoBehaviour
 	GUI.Window 6 is NewFolder
 
 */
+	
+	
+	void Start ()
+	{
+		
+		leftArrowStyle = new GUIStyle ();
+		leftArrowStyle.normal.background = leftArrowNormal;
+		leftArrowStyle.hover.background = leftArrowHover;
+		
+		rightArrowStyle = new GUIStyle ();
+		rightArrowStyle.normal.background = rightArrowNormal;
+		rightArrowStyle.hover.background = rightArrowHover;
+
+	}
+	
+	
 	void Update()
 	{
 		
@@ -150,7 +173,7 @@ public class PaneManager : MonoBehaviour
 					if ( currentPane == pane.onlineMusicBrowser )
 					{
 					
-						if ( GUI.Button ( new Rect ( 25, 25, 40, 40 ), musicViewer.leftArrow ))
+						if ( GUI.Button ( new Rect ( 25, 25, 36, 36 ), "", leftArrowStyle ))
 						{
 						
 							if ( currentPane == pane.onlineMusicBrowser )
@@ -166,7 +189,7 @@ public class PaneManager : MonoBehaviour
 					if ( currentPane == pane.musicViewer && loading == false )
 					{
 					
-						if ( GUI.Button ( new Rect ( musicViewer.musicViewerPosition.width - 65, 25, 40, 40 ), musicViewer.rightArrow ))
+						if ( GUI.Button ( new Rect ( musicViewer.musicViewerPosition.width - 65, 25, 36, 36 ), "", rightArrowStyle ))
 						{
 						
 							if ( currentPane == pane.musicViewer )
