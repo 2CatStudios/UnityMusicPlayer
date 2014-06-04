@@ -77,7 +77,6 @@ public class MusicViewer : MonoBehaviour
 	public Texture2D echoOnHover;
 	
 	public Texture2D guiHover;
-	public Texture2D guiActiveHover;
 	
 	public Texture2D timebarMarker;
 	
