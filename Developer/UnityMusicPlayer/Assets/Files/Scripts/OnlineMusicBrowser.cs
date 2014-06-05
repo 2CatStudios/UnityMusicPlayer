@@ -115,8 +115,11 @@ public class OnlineMusicBrowser : MonoBehaviour
 	PaneManager paneManager;
 
 	public GUISkin guiSkin;
+	
 	GUIStyle labelStyle;
 	GUIStyle infoLabelStyle;
+	GUIStyle sortLabelStyle;
+	
 	GUIStyle buttonStyle;
 	GUIStyle boxStyle;
 	
@@ -224,6 +227,10 @@ public class OnlineMusicBrowser : MonoBehaviour
 		infoLabelStyle = new GUIStyle ();
 		infoLabelStyle.alignment = TextAnchor.MiddleLeft;
 		infoLabelStyle.fontSize = 16;
+		
+		sortLabelStyle = new GUIStyle ();
+		sortLabelStyle.alignment = TextAnchor.MiddleRight;
+		sortLabelStyle.fontSize = 16;
 		
 		buttonStyle = new GUIStyle ();
 		buttonStyle.fontSize = 16;
@@ -479,9 +486,11 @@ public class OnlineMusicBrowser : MonoBehaviour
 					scrollPosition = new Vector2 ( 0, 0 );
 				}
 			}
-
+			
 			GUILayout.EndHorizontal ();
 			GUILayout.EndArea ();
+			
+			GUI.Label ( new Rect ( onlineMusicBrowserPosition.width - 236, onlineMusicBrowserPosition.width / 8 + 5, 216, 40 ), currentSort.name, sortLabelStyle );
 			
 			GUILayout.Space ( 20 );
 			GUILayout.BeginHorizontal ();

@@ -27,6 +27,65 @@ public class MusicViewer : MonoBehaviour
 	
 #endregion
 	
+#region MusicViewer
+	
+	internal Rect musicViewerPosition = new Rect ( 0, 0, 800, 600 );
+	
+	bool fileBrowser = false;
+	
+	bool showFolderMusic = false;
+	
+	string musicViewerTitle;
+	
+	string songInfoOwner;
+	
+	internal string mediaPath;
+	String[] currentDirectories;
+	string songLocation;
+	
+	string tempCurrentDirectory;
+	string currentDirectory;
+	
+	string [] currentDirectoryDirectories;
+	string [] currentDirectoryFiles;
+	string [] childDirectoryFiles;
+	
+	string [] activeDirectory;
+	string activeDirectoryPath;
+	
+	WWW wWw;
+
+	float timebarTime;
+	
+	internal bool wasPlaying = false;
+	
+	string audioLocation;
+	
+	bool isPaused;	
+	float pausePoint;
+	
+	int songTime;
+	int minutes;
+	float seconds;
+	int rtMinutes;
+	float rtSeconds;
+	
+	AudioType audioType;
+	string audioTitle;
+
+	float betweenSongDelay = 0.5F;
+	
+	int currentSongNumber = -1;
+	int i;
+	
+	Vector2 scrollPosition;
+	Vector2 mousePos;
+	
+	int[] previousSongs = new int  [ 7 ] { 0, 0, 0, 0, 0, 0, 0 };
+	int psPlace = 6;
+	
+#endregion
+	
 	public GUISkin guiSkin;
 	internal GUIText timemark;
 	
@@ -79,61 +138,6 @@ public class MusicViewer : MonoBehaviour
 	public Texture2D guiHover;
 	
 	public Texture2D timebarMarker;
-	
-#endregion
-	
-#region MusicViewer
-	
-	internal Rect musicViewerPosition = new Rect ( 0, 0, 800, 600 );
-	
-	bool fileBrowser = false;
-	
-	bool showFolderMusic = false;
-	
-	string musicViewerTitle;
-	
-	string songInfoOwner;
-	
-	internal string mediaPath;
-	String[] currentDirectories;
-	string songLocation;
-	
-	string tempCurrentDirectory;
-	string currentDirectory;
-	string [] currentDirectoryDirectories;
-	string [] currentDirectoryFiles;
-	string [] childDirectoryFiles;
-	
-	WWW wWw;
-
-	float timebarTime;
-	
-	internal bool wasPlaying = false;
-	
-	string audioLocation;
-	
-	bool isPaused;	
-	float pausePoint;
-	
-	int songTime;
-	int minutes;
-	float seconds;
-	int rtMinutes;
-	float rtSeconds;
-	
-	AudioType audioType;
-	string audioTitle;
-
-	float betweenSongDelay = 0.5F;
-	
-	int currentSongNumber = -1;
-	int i;
-	
-	Vector2 scrollPosition;
-	Vector2 mousePos;
-	
-	int[] previousSongs = new int  [ 7 ] { 0, 0, 0, 0, 0, 0, 0 };
-	int psPlace = 6;
 	
 #endregion
 	
