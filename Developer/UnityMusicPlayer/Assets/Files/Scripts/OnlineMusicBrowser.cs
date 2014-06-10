@@ -120,6 +120,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	GUIStyle infoLabelStyle;
 	GUIStyle sortLabelStyle;
 	
+	GUIStyle artworkStyle;
 	GUIStyle buttonStyle;
 	GUIStyle boxStyle;
 	
@@ -237,6 +238,11 @@ public class OnlineMusicBrowser : MonoBehaviour
 		buttonStyle.alignment = TextAnchor.MiddleCenter;
 		buttonStyle.border = new RectOffset ( 6, 6, 4, 4 );
 		buttonStyle.hover.background = guiHover;
+		
+		artworkStyle = new GUIStyle ();
+		artworkStyle.border = new RectOffset ( 6, 6, 6, 6 );
+		artworkStyle.padding = new RectOffset ( 6, 6, 6, 6 );
+		artworkStyle.hover.background = guiHover;
 		
 		
 		GUIStyle flagStyle = new GUIStyle ();
@@ -670,8 +676,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 				GUILayout.BeginHorizontal ();
 				foreach ( Featured featured in featuredList )
 				{
-					
-					if ( GUILayout.Button ( featured.artwork ))
+
+					if ( GUILayout.Button ( featured.artwork, artworkStyle ))
 					{
 						
 						songInfoOwner = featured.song;
@@ -708,6 +714,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 						specificSort = allRecentlyAddedList;
 						sortBy = 0;
 					}
+					
+					GUILayout.FlexibleSpace ();
 				}
 				break;
 	

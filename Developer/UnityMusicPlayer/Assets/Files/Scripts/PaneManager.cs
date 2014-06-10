@@ -173,7 +173,7 @@ public class PaneManager : MonoBehaviour
 					if ( currentPane == pane.onlineMusicBrowser )
 					{
 					
-						if ( GUI.Button ( new Rect ( 25, 25, 36, 36 ), "", leftArrowStyle ))
+						if ( GUI.Button ( new Rect ( 25, 60, 36, 36 ), "", leftArrowStyle ))
 						{
 						
 							if ( currentPane == pane.onlineMusicBrowser )
@@ -189,7 +189,7 @@ public class PaneManager : MonoBehaviour
 					if ( currentPane == pane.musicViewer && loading == false )
 					{
 					
-						if ( GUI.Button ( new Rect ( musicViewer.musicViewerPosition.width - 65, 25, 36, 36 ), "", rightArrowStyle ))
+						if ( GUI.Button ( new Rect ( musicViewer.musicViewerPosition.width - 65, 60, 36, 36 ), "", rightArrowStyle ))
 						{
 						
 							if ( currentPane == pane.musicViewer )
