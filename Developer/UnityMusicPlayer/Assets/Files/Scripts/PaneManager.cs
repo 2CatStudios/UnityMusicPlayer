@@ -89,13 +89,13 @@ public class PaneManager : MonoBehaviour
 		if ( moveToOMB == true )
 		{
 
-			float smoothDampIn = Mathf.SmoothDamp ( onlineMusicBrowser.onlineMusicBrowserPosition.x, 0.0F, ref moveVelocity, 0.1F, 4000 );
+			float smoothDampIn = Mathf.SmoothDamp ( onlineMusicBrowser.onlineMusicBrowserPosition.x, 0.0F, ref moveVelocity, 0.1f );
 			float smoothDampOut = Mathf.SmoothDamp ( musicViewer.musicViewerPosition.x, -musicViewer.musicViewerPosition.width + -musicViewer.musicViewerPosition.width / 4, ref moveVelocity, 0.1F, 4000 );
 
 			onlineMusicBrowser.onlineMusicBrowserPosition.x = smoothDampIn;
 			musicViewer.musicViewerPosition.x = smoothDampOut;
 
-			if ( onlineMusicBrowser.onlineMusicBrowserPosition.x < 5 )
+			if ( onlineMusicBrowser.onlineMusicBrowserPosition.x < 1 )
 			{
 				
 				moveVelocity = 0;
@@ -117,13 +117,13 @@ public class PaneManager : MonoBehaviour
 			
 			moving = true;
 
-			float smoothDampIn = Mathf.SmoothDamp ( musicViewer.musicViewerPosition.x, 0.0F, ref moveVelocity, 0.1F, 4000 );
+			float smoothDampIn = Mathf.SmoothDamp ( musicViewer.musicViewerPosition.x, 0.0F, ref moveVelocity, 0.1f );
 			float smoothDampOut = Mathf.SmoothDamp ( onlineMusicBrowser.onlineMusicBrowserPosition.x, onlineMusicBrowser.onlineMusicBrowserPosition.width + onlineMusicBrowser.onlineMusicBrowserPosition.width / 4, ref moveVelocity, 0.1F, 4000 );
 
 			musicViewer.musicViewerPosition.x = smoothDampIn;
 			onlineMusicBrowser.onlineMusicBrowserPosition.x = smoothDampOut;
 
-			if ( musicViewer.musicViewerPosition.x > -5 )
+			if ( musicViewer.musicViewerPosition.x > -1 )
 			{
 
 				moveVelocity = 0;

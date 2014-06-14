@@ -29,6 +29,8 @@ public class MusicViewer : MonoBehaviour
 	
 #region MusicViewer
 	
+	internal bool showMusicViewer = true;
+	
 	string musicViewerTitle;
 	internal Rect musicViewerPosition = new Rect ( 0, 0, 800, 600 );
 	
@@ -86,6 +88,7 @@ public class MusicViewer : MonoBehaviour
 	
 #endregion
 	
+	public Font secretCode;
 	public GUISkin guiSkin;
 	internal GUIText timemark;
 	
@@ -94,6 +97,8 @@ public class MusicViewer : MonoBehaviour
 	GUIStyle fileStyle;
 	GUIStyle folderStyle;
 	GUIStyle fileBrowserFileStyle;
+	
+	GUIStyle currentSongStyle;
 	
 	GUIStyle centerStyle;
 	GUIStyle labelStyle;
@@ -141,7 +146,7 @@ public class MusicViewer : MonoBehaviour
 	
 #endregion
 	
-	internal bool showMusicViewer = true;
+	private float bottomBarVelocity = 0.0F;
 	
 	bool close = false;
 
@@ -283,6 +288,8 @@ public class MusicViewer : MonoBehaviour
 
 		musicViewerPosition.width = Screen.width;
 		musicViewerPosition.height = Screen.height;
+		
+		bottomBarPosition = new Rect (( musicViewerPosition.width - 240 ) / 2 , musicViewerPosition.height - 18, 240, 54 );
 
 		optionsWindowRect.x = musicViewerPosition.width/2 - optionsWindowRect.width/2;
 		optionsWindowRect.y = musicViewerPosition.height/2 - optionsWindowRect.height/2;
@@ -393,7 +400,7 @@ public class MusicViewer : MonoBehaviour
 
 		TextWriter savePrefs = new StreamWriter ( startupManager.prefsLocation );
 		savePrefs.WriteLine ( parentDirectory + "\n" + startupManager.checkForUpdate + "\n" + startupManager.ombEnabled + "\n" + startupManager.showTutorials + "\n" + loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + showArrows + "\n" + showTimebar + "\n" + showArtwork + "\n" + enableDeepSearch + "\n" + showQuickManage + "\n" + preciseTimemark + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + blur + "\n" + sunShafts + 
-		                     "\n" + blurIterations + "\n" + echoDelay + "\n" + echoDecayRate + "\n" + echoWetMix + "\n" + echoDryMix + "\n" + autoAVBlur + "\n" + autoAVOff + "\n" + displayTime + "\n" + onlineMusicBrowser.downloadArtwork );
+		                     "\n" + blurIterations + "\n" + echoDelay + "\n" + echoDecayRate + "\n" + echoWetMix + "\n" + echoDryMix + "\n" + autoAVBlur + "\n" + autoAVOff + "\n" + displayTime );
 		savePrefs.Close ();
 		
 		centerStyle = new GUIStyle ();
@@ -419,6 +426,10 @@ public class MusicViewer : MonoBehaviour
 		
 		fileBrowserFileStyle = new GUIStyle ();
 		fileBrowserFileStyle.alignment = TextAnchor.MiddleLeft;
+		
+		currentSongStyle = new GUIStyle ();
+		currentSongStyle.font = secretCode;
+		currentSongStyle.fontSize = 31;
 		
 		songStyle = new GUIStyle ();
 		songStyle.alignment = TextAnchor.MiddleLeft;
@@ -468,9 +479,6 @@ public class MusicViewer : MonoBehaviour
 	void Refresh ()
 	{
 		
-		UnityEngine.Debug.Log ( "Parent: " + parentDirectory );
-		UnityEngine.Debug.Log ( "Browser: " + browserCurrentDirectory );
-
 		if ( paneManager.currentPane == PaneManager.pane.musicViewer )
 		{	
 			
@@ -875,13 +883,34 @@ public class MusicViewer : MonoBehaviour
 				currentSlideshowImage.texture = null;
 		}
 	}
-
+	
+	Vector2 titleSize;
 
 	void OnGUI ()
-	{
+	{	
 		
 		if ( manager.audio.clip != null && showTimebar == true )
+		{
+			
 			GUI.DrawTexture ( new Rect ( manager.audio.time * ( musicViewerPosition.width/manager.audio.clip.length ), -3, 10, 6 ), timebarMarker );
+			
+//*****************			
+			
+			titleSize = currentSongStyle.CalcSize ( new GUIContent ( audioTitle ));
+			
+			UnityEngine.Debug.Log ( "titleSize: " + titleSize.x + "    playerSize: " + musicViewerPosition.width );
+			
+			if ( titleSize.x > musicViewerPosition.width )
+			{
+			
+				currentSong.fontSize = 18;
+			} else {
+					
+				currentSong.fontSize = 32;
+			}
+		}
+		
+//*****************
 		
 		if ( showMusicViewer == true )
 		{
@@ -1274,11 +1303,6 @@ public class MusicViewer : MonoBehaviour
 				GUILayout.EndVertical();
 				GUILayout.EndHorizontal();
 			}
-			
-			if ( new Rect (( musicViewerPosition.width - 240 ) / 2 , 0, 240, 36 ).Contains ( Input.mousePosition ) && showOptionsWindow == false )
-				bottomBarPosition = new Rect (( musicViewerPosition.width - 240 ) / 2 , musicViewerPosition.height - 36, 240, 64 );
-			else
-				bottomBarPosition = new Rect (( musicViewerPosition.width - 240 ) / 2 , musicViewerPosition.height - 18, 240, 54 );
 
 			GUILayout.BeginArea ( bottomBarPosition );
 			GUILayout.BeginHorizontal ( );
@@ -1762,6 +1786,17 @@ public class MusicViewer : MonoBehaviour
 
 	void Update ()
 	{
+		
+		
+		if ( new Rect (( musicViewerPosition.width - 240 ) / 2 , 0, 240, 36 ).Contains ( Input.mousePosition ) && showOptionsWindow == false )
+		{
+			float bottomBarYUp = Mathf.SmoothDamp ( bottomBarPosition.y, musicViewerPosition.height - 36, ref bottomBarVelocity, 0.05f );
+			bottomBarPosition = new Rect (( musicViewerPosition.width - 240 ) / 2 , bottomBarYUp, 240, 64 );
+		} else {
+			
+			float bottomBarYDown = Mathf.SmoothDamp ( bottomBarPosition.y, musicViewerPosition.height - 18, ref bottomBarVelocity, 0.05f );
+			bottomBarPosition = new Rect (( musicViewerPosition.width - 240 ) / 2 , bottomBarYDown, 240, 54 );
+		}
 
 		if ( Input.GetKeyUp ( KeyCode.DownArrow ))
 		{
@@ -2126,7 +2161,7 @@ public class MusicViewer : MonoBehaviour
 
 		TextWriter savePrefs = new StreamWriter ( startupManager.prefsLocation );
 		savePrefs.WriteLine ( parentDirectory + "\n" + startupManager.checkForUpdate + "\n" + startupManager.ombEnabled + "\n" + startupManager.showTutorials + "\n" + loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + showArrows + "\n" + showTimebar + "\n" + showArtwork + "\n" + enableDeepSearch + "\n" + showQuickManage + "\n" + preciseTimemark + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + blur + "\n" + sunShafts + 
-		                     "\n" + blurIterations + "\n" + echoDelay + "\n" + echoDecayRate + "\n" + echoWetMix + "\n" + echoDryMix + "\n" + autoAVBlur + "\n" + autoAVOff + "\n" + displayTime + "\n" + onlineMusicBrowser.downloadArtwork );
+		                     "\n" + blurIterations + "\n" + echoDelay + "\n" + echoDecayRate + "\n" + echoWetMix + "\n" + echoDryMix + "\n" + autoAVBlur + "\n" + autoAVOff + "\n" + displayTime );
 		savePrefs.Close ();
 
 		if ( Application.isEditor == true )

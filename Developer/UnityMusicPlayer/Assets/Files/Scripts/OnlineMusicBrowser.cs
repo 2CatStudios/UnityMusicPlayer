@@ -219,8 +219,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 		onlineMusicBrowserPosition.height = Screen.height;
 		onlineMusicBrowserPosition.x = onlineMusicBrowserPosition.width + onlineMusicBrowserPosition.width / 4;
 		
-		downloadArtwork = Convert.ToBoolean ( startupManager.prefs [ 29 ]);
-		
 		labelStyle = new GUIStyle ();
 		labelStyle.alignment = TextAnchor.MiddleCenter;
 		labelStyle.wordWrap = true;
@@ -237,6 +235,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 		buttonStyle.fontSize = 16;
 		buttonStyle.alignment = TextAnchor.MiddleCenter;
 		buttonStyle.border = new RectOffset ( 6, 6, 4, 4 );
+		buttonStyle.padding = new RectOffset ( 4, 4, 2, 2 );
 		buttonStyle.hover.background = guiHover;
 		
 		artworkStyle = new GUIStyle ();
@@ -583,20 +582,11 @@ public class OnlineMusicBrowser : MonoBehaviour
 						
 							if ( downloading == false )
 							{
-					
+								
+								GUILayout.BeginHorizontal ();
+								GUILayout.FlexibleSpace ();
 								if ( GUILayout.Button ( downloadButtonText, buttonStyle ) && url != null )
 								{
-									
-									if ( downloadArtwork == true )
-									{
-					
-										if ( downloadingSong.largeArtworkURL != null )
-										{
-						
-											UnityEngine.Debug.Log ( "DownloadArtwork ()" );
-											StartCoroutine ( "DownloadArtwork", song );
-										}
-									}
 									
 									if ( startupManager.developmentMode == true )
 										UnityEngine.Debug.Log ( url );
@@ -625,6 +615,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 									downloading = true;
 
 								}
+								GUILayout.FlexibleSpace ();
+								GUILayout.EndHorizontal ();
 							} else {
 									
 								GUILayout.Label ( "Downloading '" + downloadingSong.name + "'", labelStyle );
@@ -634,6 +626,19 @@ public class OnlineMusicBrowser : MonoBehaviour
 										
 									client.CancelAsync ();
 								}
+							}
+							
+							if ( String.IsNullOrEmpty ( song.largeArtworkURL ) == false )
+							{
+								GUILayout.BeginHorizontal ();
+								GUILayout.FlexibleSpace ();
+								if ( GUILayout.Button ( "Download Artwork", buttonStyle ))
+								{
+								
+									StartCoroutine ( "DownloadArtwork", song );
+								}
+								GUILayout.FlexibleSpace ();
+								GUILayout.EndHorizontal ();
 							}
 							
 							if ( downloadingSong == songInfoOwner )
@@ -647,8 +652,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 							GUILayout.Label ( "Genre: " + song.genre, infoLabelStyle );
 							GUILayout.Label ( "Format: " + song.format, infoLabelStyle );
 							GUILayout.Label ( "Released: " + song.releaseDate, infoLabelStyle );
-							if ( String.IsNullOrEmpty ( song.largeArtworkURL ) == false )
-								downloadArtwork = GUILayout.Toggle ( downloadArtwork, "Download Artwork" );
 
 							if ( song.links != null )
 							{
@@ -657,12 +660,16 @@ public class OnlineMusicBrowser : MonoBehaviour
 							
 								GUILayout.Label ( "Support " + song.artist + " by visiting the following link(s)", labelStyle );
 								
+								GUILayout.BeginHorizontal ();
+								GUILayout.FlexibleSpace ();
 								foreach ( Link currentLink in song.links )
 								{
 									
 									if ( GUILayout.Button ( currentLink.name, buttonStyle ))
 										Process.Start ( currentLink.address );
 								}
+								GUILayout.FlexibleSpace ();
+								GUILayout.EndHorizontal ();
 							}
 							GUILayout.Label ( "" );
 						}
