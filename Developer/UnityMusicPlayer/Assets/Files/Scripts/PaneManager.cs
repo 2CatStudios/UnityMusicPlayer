@@ -3,14 +3,23 @@ using UnityEngine;
 using System.Collections;
 //Written by GibsonBethke
 //Jesus, you are awesome!
-//Thanks to Jan Heemstra for the idea
+//Thanks to Jan Heemstra for the idea.
 public class PaneManager : MonoBehaviour
 {
 
 	public StartupManager startupManager;
-//	public MusicManager musicManager;
 	public MusicViewer musicViewer;
 	public OnlineMusicBrowser onlineMusicBrowser;
+	
+#region FPS_Counter
+	
+	public bool displayFPS = false;
+	float updateInterval = 1.0f;
+	private double lastInterval;
+	private int frames = 0;
+	private float fps;
+	
+#endregion
 	
 	public GUISkin guiSkin;
 	GUIStyle leftArrowStyle;
@@ -51,6 +60,8 @@ public class PaneManager : MonoBehaviour
 	void Start ()
 	{
 		
+		lastInterval = Time.realtimeSinceStartup;
+		
 		leftArrowStyle = new GUIStyle ();
 		leftArrowStyle.normal.background = leftArrowNormal;
 		leftArrowStyle.hover.background = leftArrowHover;
@@ -64,6 +75,21 @@ public class PaneManager : MonoBehaviour
 	
 	void Update()
 	{
+		
+		if ( startupManager.developmentMode == true && displayFPS == true )
+		{
+			
+			frames += 1;
+			float timeNow = Time.realtimeSinceStartup;
+			if ( timeNow > lastInterval + updateInterval )
+			{
+				fps = System.Convert.ToSingle ( frames / ( timeNow - lastInterval ));
+			    frames = 0;
+			    lastInterval = timeNow;
+			}
+			
+			UnityEngine.Debug.Log ( Mathf.Ceil ( fps ));
+		}
 		
 		if ( musicViewer.slideshow == false )
 		{

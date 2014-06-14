@@ -893,24 +893,8 @@ public class MusicViewer : MonoBehaviour
 		{
 			
 			GUI.DrawTexture ( new Rect ( manager.audio.time * ( musicViewerPosition.width/manager.audio.clip.length ), -3, 10, 6 ), timebarMarker );
-			
-//*****************			
-			
-			titleSize = currentSongStyle.CalcSize ( new GUIContent ( audioTitle ));
-			
-			UnityEngine.Debug.Log ( "titleSize: " + titleSize.x + "    playerSize: " + musicViewerPosition.width );
-			
-			if ( titleSize.x > musicViewerPosition.width )
-			{
-			
-				currentSong.fontSize = 18;
-			} else {
-					
-				currentSong.fontSize = 32;
-			}
 		}
-		
-//*****************
+			
 		
 		if ( showMusicViewer == true )
 		{
@@ -1041,6 +1025,13 @@ public class MusicViewer : MonoBehaviour
 								
 								activeDirectory = parentDirectory;
 								activeDirectoryFiles = parentDirectoryFiles;
+								
+								titleSize = currentSongStyle.CalcSize ( new GUIContent ( audioTitle ));
+								
+								if ( titleSize.x > musicViewerPosition.width )
+									currentSong.fontSize = Mathf.RoundToInt ( Mathf.Floor ( 32 / ( titleSize.x / musicViewerPosition.width ) ) - 2 );
+								else
+									currentSong.fontSize = 31;
 											
 								if ( activeDirectoryFiles[songInt].Substring ( activeDirectoryFiles [songInt].LastIndexOf ( "." )) == ".unity3d" )
 								{
@@ -1150,6 +1141,13 @@ public class MusicViewer : MonoBehaviour
 													wasPlaying = false;
 													activeDirectory = songInfoOwner;
 													activeDirectoryFiles = childDirectoryFiles;
+													
+													titleSize = currentSongStyle.CalcSize ( new GUIContent ( audioTitle ));
+			
+													if ( titleSize.x > musicViewerPosition.width )
+														currentSong.fontSize = Mathf.RoundToInt ( Mathf.Floor ( 32 / ( titleSize.x / musicViewerPosition.width ) ) - 2 );
+													else
+														currentSong.fontSize = 31;
 											
 													if ( activeDirectoryFiles[childSongInt].Substring ( activeDirectoryFiles [childSongInt].LastIndexOf ( "." )) == ".unity3d" )
 													{
@@ -1785,8 +1783,7 @@ public class MusicViewer : MonoBehaviour
 
 
 	void Update ()
-	{
-		
+	{	
 		
 		if ( new Rect (( musicViewerPosition.width - 240 ) / 2 , 0, 240, 36 ).Contains ( Input.mousePosition ) && showOptionsWindow == false )
 		{
