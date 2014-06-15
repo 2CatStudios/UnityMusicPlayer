@@ -1025,13 +1025,6 @@ public class MusicViewer : MonoBehaviour
 								
 								activeDirectory = parentDirectory;
 								activeDirectoryFiles = parentDirectoryFiles;
-								
-								titleSize = currentSongStyle.CalcSize ( new GUIContent ( audioTitle ));
-								
-								if ( titleSize.x > musicViewerPosition.width )
-									currentSong.fontSize = Mathf.RoundToInt ( Mathf.Floor ( 32 / ( titleSize.x / musicViewerPosition.width ) ) - 2 );
-								else
-									currentSong.fontSize = 31;
 											
 								if ( activeDirectoryFiles[songInt].Substring ( activeDirectoryFiles [songInt].LastIndexOf ( "." )) == ".unity3d" )
 								{
@@ -1141,14 +1134,7 @@ public class MusicViewer : MonoBehaviour
 													wasPlaying = false;
 													activeDirectory = songInfoOwner;
 													activeDirectoryFiles = childDirectoryFiles;
-													
-													titleSize = currentSongStyle.CalcSize ( new GUIContent ( audioTitle ));
-			
-													if ( titleSize.x > musicViewerPosition.width )
-														currentSong.fontSize = Mathf.RoundToInt ( Mathf.Floor ( 32 / ( titleSize.x / musicViewerPosition.width ) ) - 2 );
-													else
-														currentSong.fontSize = 31;
-											
+
 													if ( activeDirectoryFiles[childSongInt].Substring ( activeDirectoryFiles [childSongInt].LastIndexOf ( "." )) == ".unity3d" )
 													{
 												
@@ -1257,6 +1243,7 @@ public class MusicViewer : MonoBehaviour
 						
 							parentDirectory = browserCurrentDirectory;
 							StartCoroutine ( SetArtwork ());
+							
 							fileBrowser = false;
 							Refresh ();
 						
@@ -1569,6 +1556,13 @@ public class MusicViewer : MonoBehaviour
 				else
 					audioTitle = songLocation.Substring ( songLocation.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length, songLocation.LastIndexOf ( "." ) - songLocation.LastIndexOf ( Path.DirectorySeparatorChar ) - Path.DirectorySeparatorChar.ToString().Length );
 			
+				titleSize = currentSongStyle.CalcSize ( new GUIContent ( audioTitle ));
+
+				if ( titleSize.x > musicViewerPosition.width )
+					currentSong.fontSize = Mathf.RoundToInt ( Mathf.Floor ( 32 / ( titleSize.x / musicViewerPosition.width )) - 2 );
+				else
+					currentSong.fontSize = 31;
+			
 				currentSong.text = audioTitle;
 			}
 				
@@ -1660,6 +1654,13 @@ public class MusicViewer : MonoBehaviour
 				audioTitle = songToLoad.Substring ( songToLoad.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length );
 			else
 				audioTitle = songToLoad.Substring ( songToLoad.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length, songToLoad.LastIndexOf ( "." ) - songToLoad.LastIndexOf ( Path.DirectorySeparatorChar ) - Path.DirectorySeparatorChar.ToString().Length );
+			
+			titleSize = currentSongStyle.CalcSize ( new GUIContent ( audioTitle ));
+
+			if ( titleSize.x > musicViewerPosition.width )
+				currentSong.fontSize = Mathf.RoundToInt ( Mathf.Floor ( 32 / ( titleSize.x / musicViewerPosition.width )) - 2 );
+			else
+				currentSong.fontSize = 31;
 			
 			currentSong.text = audioTitle;
 		}
@@ -2147,7 +2148,7 @@ public class MusicViewer : MonoBehaviour
 	}
 
 
-	void Quit ()
+	internal void Quit ()
 	{
 
 		wasPlaying = false;
