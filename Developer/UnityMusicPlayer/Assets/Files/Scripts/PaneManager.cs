@@ -13,7 +13,7 @@ public class PaneManager : MonoBehaviour
 	
 #region FPS_Counter
 	
-	public bool displayFPS = false;
+	public bool countFPS = false;
 	float updateInterval = 1.0f;
 	private double lastInterval;
 	private int frames = 0;
@@ -76,19 +76,23 @@ public class PaneManager : MonoBehaviour
 	void Update()
 	{
 		
-		if ( startupManager.developmentMode == true && displayFPS == true )
+		if ( countFPS == true )
 		{
 			
-			frames += 1;
-			float timeNow = Time.realtimeSinceStartup;
-			if ( timeNow > lastInterval + updateInterval )
+			if ( startupManager.developmentMode == true )
 			{
-				fps = System.Convert.ToSingle ( frames / ( timeNow - lastInterval ));
-			    frames = 0;
-			    lastInterval = timeNow;
-			}
 			
-			UnityEngine.Debug.Log ( Mathf.Ceil ( fps ));
+				frames += 1;
+				float timeNow = Time.realtimeSinceStartup;
+				if ( timeNow > lastInterval + updateInterval )
+				{
+					fps = System.Convert.ToSingle ( frames / ( timeNow - lastInterval ));
+				    frames = 0;
+				    lastInterval = timeNow;
+				}
+				
+				UnityEngine.Debug.Log ( Mathf.Ceil ( fps ));
+			}
 		}
 		
 		if ( musicViewer.slideshow == false )

@@ -883,11 +883,10 @@ public class MusicViewer : MonoBehaviour
 				currentSlideshowImage.texture = null;
 		}
 	}
-	
-	Vector2 titleSize;
+
 
 	void OnGUI ()
-	{	
+	{
 		
 		if ( manager.audio.clip != null && showTimebar == true )
 		{
@@ -1244,6 +1243,8 @@ public class MusicViewer : MonoBehaviour
 							parentDirectory = browserCurrentDirectory;
 							StartCoroutine ( SetArtwork ());
 							
+							activeDirectory = parentDirectory;
+							
 							fileBrowser = false;
 							Refresh ();
 						
@@ -1556,7 +1557,7 @@ public class MusicViewer : MonoBehaviour
 				else
 					audioTitle = songLocation.Substring ( songLocation.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length, songLocation.LastIndexOf ( "." ) - songLocation.LastIndexOf ( Path.DirectorySeparatorChar ) - Path.DirectorySeparatorChar.ToString().Length );
 			
-				titleSize = currentSongStyle.CalcSize ( new GUIContent ( audioTitle ));
+				Vector2 titleSize = currentSongStyle.CalcSize ( new GUIContent ( audioTitle ));
 
 				if ( titleSize.x > musicViewerPosition.width )
 					currentSong.fontSize = Mathf.RoundToInt ( Mathf.Floor ( 32 / ( titleSize.x / musicViewerPosition.width )) - 2 );
@@ -1655,7 +1656,7 @@ public class MusicViewer : MonoBehaviour
 			else
 				audioTitle = songToLoad.Substring ( songToLoad.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length, songToLoad.LastIndexOf ( "." ) - songToLoad.LastIndexOf ( Path.DirectorySeparatorChar ) - Path.DirectorySeparatorChar.ToString().Length );
 			
-			titleSize = currentSongStyle.CalcSize ( new GUIContent ( audioTitle ));
+			Vector2 titleSize = currentSongStyle.CalcSize ( new GUIContent ( audioTitle ));
 
 			if ( titleSize.x > musicViewerPosition.width )
 				currentSong.fontSize = Mathf.RoundToInt ( Mathf.Floor ( 32 / ( titleSize.x / musicViewerPosition.width )) - 2 );
@@ -1784,7 +1785,7 @@ public class MusicViewer : MonoBehaviour
 
 
 	void Update ()
-	{	
+	{
 		
 		if ( new Rect (( musicViewerPosition.width - 240 ) / 2 , 0, 240, 36 ).Contains ( Input.mousePosition ) && showOptionsWindow == false )
 		{

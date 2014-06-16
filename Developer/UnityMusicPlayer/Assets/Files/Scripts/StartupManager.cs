@@ -32,7 +32,7 @@ public class StartupManager : MonoBehaviour
 
 	MusicViewer musicViewer;
 	PaneManager paneManager;
-	LoadingImage loadingImage;
+	//LoadingImage loadingImage;
 	OnlineMusicBrowser onlineMusicBrowser;
 	internal string[] allSongs;
 	
@@ -68,6 +68,9 @@ public class StartupManager : MonoBehaviour
 
 	string websiteLink;
 	
+	float startTime;
+	float endTime;
+	
 	
 	void Start ()
 	{
@@ -78,7 +81,7 @@ public class StartupManager : MonoBehaviour
 			UnityEngine.Debug.Log ( "Development Mode is ON" );
 			
 		onlineMusicBrowser = GameObject.FindGameObjectWithTag ( "OnlineMusicBrowser" ).GetComponent<OnlineMusicBrowser>();
-		loadingImage = GameObject.FindGameObjectWithTag ( "LoadingImage" ).GetComponent<LoadingImage>();
+		//loadingImage = GameObject.FindGameObjectWithTag ( "LoadingImage" ).GetComponent<LoadingImage>();
 		musicViewer = GameObject.FindGameObjectWithTag ( "MusicViewer" ).GetComponent<MusicViewer>();
 		paneManager = gameObject.GetComponent<PaneManager>();
 
@@ -236,6 +239,7 @@ public class StartupManager : MonoBehaviour
 				
 				paneManager.loading = true;
 				connectionInformation.text = "Connecting to the OnlineMusicDatabase";
+				startTime = Time.realtimeSinceStartup;
 				InvokeRepeating ( "CheckStartOnlineMusicBrowser", 0, 0.2F );
 			}
 		}
@@ -251,10 +255,10 @@ public class StartupManager : MonoBehaviour
 		try
 		{
 			
-			if ( developmentMode == false )
+			if ( updateOMB == true )
 			{
-				
-				if ( updateOMB == true )
+			
+				if ( developmentMode == false )
 				{
 					
 					if ( File.Exists ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" ))
@@ -267,33 +271,28 @@ public class StartupManager : MonoBehaviour
 						client.DownloadFile ( url, supportPath + Path.DirectorySeparatorChar + "Downloads.xml" );
 						startOMB = true;
 					}
-				}
-
-			} else {
-				
-				if ( updateOMB == true )
-				{
+				} else {
 					
 					try
 					{
 						
 						if ( File.Exists ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" ))
 							File.Delete ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" );
-						
+					
 						Uri url = new Uri ( "http://raw.github.com/2CatStudios/UnityMusicPlayer/master/Developer/Downloads.xml" );
 						using ( client = new WebClient ())
 						{
-							
+						
 							client.DownloadFile ( url, supportPath + Path.DirectorySeparatorChar + "Downloads.xml" );
 							startOMB = true;
 						}
 					} catch {
-					
+				
 						UnityEngine.Debug.Log ( "Unable to download XML file! Downloading regular file instead." );
 						Uri url = new Uri ( "http://raw.github.com/2CatStudios/UnityMusicPlayer/master/Downloads.xml" );
 						using ( client = new WebClient ())
 						{
-							
+						
 							client.DownloadFile ( url, supportPath + Path.DirectorySeparatorChar + "Downloads.xml" );
 							startOMB = true;
 						}
@@ -334,8 +333,8 @@ public class StartupManager : MonoBehaviour
 			errorInConnectionToInternet = true;
 		}
 		
-		if ( updateVersion == true )
-			loadingImage.showLoadingImages = false;
+		//if ( updateVersion == true )
+			//loadingImage.showLoadingImages = false;
 			
 		if ( updateOMB == true && errorInConnectionToInternet == false )
 			clearConnectionInformation = true;
@@ -349,6 +348,10 @@ public class StartupManager : MonoBehaviour
 		
 		if ( startOMB == true )
 		{
+			
+			endTime = Time.realtimeSinceStartup;
+			if ( developmentMode == true )
+				UnityEngine.Debug.Log ( "Connecting to the OMB successful! Took " + ( endTime - startTime ) + " seconds." );
 			
 			onlineMusicBrowser.SendMessage ( "StartOMB" );
 			CancelInvoke ( "CheckStartOnlineMusicBrowser" );
@@ -364,7 +367,7 @@ public class StartupManager : MonoBehaviour
 
 			showUnderlay = true;
 			paneManager.popupBlocking = true;
-			GUI.Window ( 3, new Rect (Screen.width / 2 - 142.5F, Screen.height / 2 - 85, 300, 100), NewVersion, "An Update is Available" );
+			GUI.Window ( 3, new Rect (Screen.width / 2 - 142.5F, Screen.height / 2 - 85, 300, 100), NewVersion, "An Update is Available!" );
 			GUI.FocusWindow ( 3 );
 			GUI.BringWindowToFront ( 3 );
 		}

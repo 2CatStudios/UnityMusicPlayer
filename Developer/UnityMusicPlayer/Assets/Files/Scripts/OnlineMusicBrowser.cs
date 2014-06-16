@@ -234,7 +234,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 		buttonStyle = new GUIStyle ();
 		buttonStyle.fontSize = 16;
 		buttonStyle.alignment = TextAnchor.MiddleCenter;
-		buttonStyle.border = new RectOffset ( 6, 6, 4, 4 );
+		buttonStyle.border = new RectOffset ( 4, 4, 0, 0 );
 		buttonStyle.padding = new RectOffset ( 4, 4, 2, 2 );
 		buttonStyle.hover.background = guiHover;
 		
