@@ -111,7 +111,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 {
 	
 	StartupManager startupManager;
-	MusicViewer musicViewer;
 	PaneManager paneManager;
 
 	public GUISkin guiSkin;
@@ -212,7 +211,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 	{
 
 		startupManager = GameObject.FindGameObjectWithTag ( "Manager" ).GetComponent<StartupManager>();
-		musicViewer = GameObject.FindGameObjectWithTag ( "MusicViewer" ).GetComponent<MusicViewer>();
 		paneManager = GameObject.FindGameObjectWithTag ("Manager").GetComponent<PaneManager>();
 
 		onlineMusicBrowserPosition.width = Screen.width;
@@ -418,8 +416,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 		if ( paneManager.currentPane == PaneManager.pane.onlineMusicBrowser )
 		{
 			
-			musicViewer.tempEnableOMB = 1.0F;
-			startupManager.ombEnabled = true;
+			startupManager.preferences.enableOMB = true;
 		}
 		
 		downloadFeaturedArtwork = true;
@@ -468,7 +465,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	void OnlineMusicBrowserPane ( int wid )
 	{
 		
-		if ( startupManager.ombEnabled == true )
+		if ( startupManager.preferences.enableOMB == true )
 		{
 	
 			GUILayout.Space ( onlineMusicBrowserPosition.width / 8 );

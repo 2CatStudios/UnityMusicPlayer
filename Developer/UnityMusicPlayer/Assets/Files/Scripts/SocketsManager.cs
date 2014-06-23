@@ -11,35 +11,40 @@ public class SocketsManager : MonoBehaviour
 {
 	
 	StartupManager startupManager;
-	List<string> messages = new List<string> ();
+	//List<string> messages = new List<string> ();
+	string message = null;
+	int port;
 	
 	
 	void Start ()
 	{
 		startupManager = GameObject.FindGameObjectWithTag ( "Manager" ).GetComponent <StartupManager> ();
 		
+		port = startupManager.universalSettings.port;
+		
 		InvokeRepeating ( "SendUDPMessage", 0, 5 );
+		PrepareUDPMessage ( "UMP is Running" );
 	}
 	
 	
 	internal void PrepareUDPMessage ( string messageToSend )
 	{
 		
-		messages.Add ( messageToSend );
+		//messages.Add ( messageToSend );
+		message = messageToSend;
 	}
 	
 
-	void SendUDPMessage ()
+	internal void SendUDPMessage ()
 	{
 		
-		if ( startupManager.developmentMode == true )
-			UnityEngine.Debug.Log ( "There are: " + messages.Count + " messages in the queue." );
-		
-		if ( messages.Count > 0 )
+		//if ( messages.Count > 0 )
+		if ( String.IsNullOrEmpty ( message ) == false )
 		{
 		
 			IPHostEntry host = Dns.GetHostEntry ( Dns.GetHostName ());;
 			string localIP = null;
+			//int port = 35143;
 	
 			foreach ( IPAddress ip in host.AddressList )
 			{
@@ -51,15 +56,23 @@ public class SocketsManager : MonoBehaviour
 					break;
 				}
 			}
+			
+			
+			if ( startupManager.developmentMode == true )
+			{
+			
+				//UnityEngine.Debug.Log ( "There are [" + messages.Count + "] messages in the queue." );
+				UnityEngine.Debug.Log ( "'" + message + "' will be sent on " + localIP + " via " + port + "." );
+			}
 		
 		
-			UdpClient udpClient = new UdpClient( localIP, 11011 );
-			Byte[] sendBytes = Encoding.ASCII.GetBytes ( "[UMP]-" + messages[0] );
+			UdpClient udpClient = new UdpClient( localIP, port );
+			Byte[] sendBytes = Encoding.ASCII.GetBytes ( "[UMP]" + message /*messages[0]*/ );
 			try
 			{
 			
 		  		udpClient.Send ( sendBytes, sendBytes.Length );
-				messages.RemoveAt ( 0 );
+				//messages.RemoveAt ( 0 );
 			} catch ( Exception e )
 			{
 				

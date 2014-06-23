@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Xml;
 using System.Net;
 using UnityEngine;
 using System.Text;
@@ -10,9 +11,111 @@ using System.Diagnostics;
 using System.Net.Security;
 using System.Globalization;
 using System.ComponentModel;
+using System.Xml.Serialization;
 using System.Security.Cryptography.X509Certificates;
 //Written by GibsonBethke
 //Thank you for your ∞ mercy, Jesus!
+[XmlRoot("UniversalSettings")]
+public class UniversalSettings
+{
+	
+	[XmlElement("Port")]
+	public int port;
+}
+
+[XmlRoot ( "Preferences" )]
+public class Preferences
+{
+	
+	[XmlElement ( "LastDirectory" )]
+	public string lastDirectory;
+	
+	[XmlElement ( "CheckForUpdate" )]
+	public bool checkForUpdate;
+	
+	[XmlElement ( "EnableOMB" )]
+	public bool enableOMB;
+	
+	[XmlElement ( "EnableTutorials" )]
+	public bool enableTutorials;
+	
+	[XmlElement ( "Loop" )]
+	public bool loop;
+	
+	[XmlElement ( "Shuffle" )]
+	public bool shuffle;
+	
+	[XmlElement ( "Continuous")]
+	public bool continuous;
+	
+	[XmlElement ( "EnableTypes" )]
+	public bool enableTypes;
+	
+	[XmlElement ( "EnableArrows" )]
+	public bool enableArrows;
+	
+	[XmlElement ( "EnableTimebar" )]
+	public bool enableTimebar;
+	
+	[XmlElement ( "EnableArtwork" )]
+	public bool enableArtwork;
+	
+	[XmlElement ( "EnableDeepSearch" )]
+	public bool enableDeepSearch;
+	
+	[XmlElement ( "EnableQuickManage" )]
+	public bool enableQuickManage;
+	
+	[XmlElement ( "EnablePreciseTimemark" )]
+	public bool enablePreciseTimemark;
+	
+	[XmlElement ( "VolumebarValue" )]
+	public float volumebarValue;
+	
+	[XmlElement ( "SlideshowDisplayTime" )]
+	public float slideshowDisplayTime;
+	
+	[XmlElement ( "AVcR" )]
+	public float avcR;
+	
+	[XmlElement ( "AVcG" )]
+	public float avcG;
+	
+	[XmlElement ( "AVcB" )]
+	public float avcB;
+	
+	[XmlElement ( "Bloom" )]
+	public bool bloom;
+	
+	[XmlElement ( "Blur" )]
+	public bool blur;
+
+	[XmlElement ( "BlurIterations" )]
+	public int blurIterations;
+	
+	[XmlElement ( "SunShafts" )]
+	public bool sunShafts;
+	
+	[XmlElement ( "AutoAVBlur" )]
+	public bool autoAVBlur;
+	
+	[XmlElement ( "AutoAVOff" )]
+	public bool autoAVOff;
+	
+	[XmlElement ( "EchoDelay" )]
+	public float echoDelay;
+	
+	[XmlElement ( "EchoDecayRate" )]
+	public float echoDecayRate;
+	
+	[XmlElement ( "EchoWetMix" )]
+	public float echoWetMix;
+	
+	[XmlElement ( "EchoDryMix" )]
+	public float echoDryMix;
+}
+
+
 public class StartupManager : MonoBehaviour
 {
 
@@ -44,27 +147,26 @@ public class StartupManager : MonoBehaviour
 
 	internal bool showFileTypes;
 
+	internal string twoCatStudiosPath;
 	internal string path;
 	internal string mediaPath;
 	internal string downloadedPath;
-	internal string lastDirectory;
+	//internal string lastDirectory;
 	internal string supportPath;
 	internal string helpPath;
 	internal string prefsLocation;
 	internal string	slideshowPath;
 	internal string tempPath;
 
-	internal string [] prefs;
-	int linesInPrefs = 29;
+	internal UniversalSettings universalSettings;
+	internal Preferences preferences;
 
 	string[] applicationDownloads;
 	string[] devApplicationDownloads;
 	public WebClient client;
 
 	bool updateAvailable = false;
-	internal bool checkForUpdate = true;
 	bool clearConnectionInformation = false;
-	internal bool ombEnabled = true;
 
 	string websiteLink;
 	
@@ -89,11 +191,13 @@ public class StartupManager : MonoBehaviour
 		{
 
 			path = mac;
+			twoCatStudiosPath = Path.DirectorySeparatorChar + "Users" + Path.DirectorySeparatorChar  + Environment.UserName + Path.DirectorySeparatorChar + "Library" + Path.DirectorySeparatorChar  + "Application Support" + Path.DirectorySeparatorChar + "2Cat Studios" + Path.DirectorySeparatorChar;
 			directoryBrowser = "Finder";
 		} else
 		{
 
 			path = windows;
+			twoCatStudiosPath = Environment.GetFolderPath ( Environment.SpecialFolder.CommonApplicationData ) + Path.DirectorySeparatorChar  + "2Cat Studios" + Path.DirectorySeparatorChar;
 			directoryBrowser = "File Explorer";
 		}
 
@@ -103,7 +207,35 @@ public class StartupManager : MonoBehaviour
 		helpPath = supportPath + Path.DirectorySeparatorChar + "FAQ & Tutorial.txt" + Path.DirectorySeparatorChar;
 		slideshowPath = path + "Slideshow" + Path.DirectorySeparatorChar;
 		tempPath = supportPath + "Temp" + Path.DirectorySeparatorChar;
-
+		
+		
+		
+		if ( !Directory.Exists ( twoCatStudiosPath ))
+		{
+			
+			UnityEngine.Debug.Log ( twoCatStudiosPath + " does not exist!" );
+			Directory.CreateDirectory ( twoCatStudiosPath );
+		}
+		
+		if ( !File.Exists ( twoCatStudiosPath + "UniversalSettings.xml" ) || File.ReadAllLines ( twoCatStudiosPath + "UniversalSettings.xml" ).Length <= 0 )
+		{
+			
+			UnityEngine.Debug.Log (( twoCatStudiosPath + "UniversalSettings.xml" ) + " does not exist!" );
+			
+			using ( FileStream universalSettingsFS= File.Create ( twoCatStudiosPath + "UniversalSettings.xml" ))
+			{
+					
+				Byte[] uSettings = new UTF8Encoding ( true ).GetBytes ( "<?xml version='1.0' encoding='utf-8'?>\n\t<UniversalSettings>\n\t\t<Port>35143</Port>\n\t</UniversalSettings>" );
+				universalSettingsFS.Write ( uSettings, 0, uSettings.Length );
+			}
+		}
+		
+		System.IO.StreamReader universalSettingsReader = new System.IO.StreamReader ( twoCatStudiosPath + "UniversalSettings.xml" );
+		string universalSettingsXML = universalSettingsReader.ReadToEnd();
+		universalSettingsReader.Close();
+		
+		universalSettings = universalSettingsXML.DeserializeXml<UniversalSettings>();
+		
 		if ( !Directory.Exists ( mediaPath ))
 			Directory.CreateDirectory ( mediaPath );
 			
@@ -134,6 +266,7 @@ public class StartupManager : MonoBehaviour
 		
 		if ( !File.Exists ( slideshowPath + "UnityMusicPlayerIcon.png" ))
 			File.Copy ( Application.streamingAssetsPath + Path.DirectorySeparatorChar + "UnityMusicPlayerIcon.png", slideshowPath + "UnityMusicPlayerIcon.png", true );
+		
 
 		if ( !Directory.Exists ( tempPath ))
 		{
@@ -147,32 +280,32 @@ public class StartupManager : MonoBehaviour
 
 			Directory.CreateDirectory ( tempPath );
 		}
-		
-		if ( !File.Exists ( supportPath + "Preferences.umpp" ) || File.ReadAllLines ( supportPath + "Preferences.umpp" ).Length != linesInPrefs )
+
+		if ( !File.Exists ( supportPath + "Preferences.umpp" ))
 		{
 			
 			if ( developmentMode == true )
-			{
-				
-				if ( !File.Exists ( supportPath + "Preferences.umpp" ))
-					UnityEngine.Debug.LogWarning ( "Preference file does not exist!" );
-				else
-					UnityEngine.Debug.LogWarning ( "Preference file is outdated! There are " + File.ReadAllLines ( supportPath + "Preferences.umpp" ).Length + " lines. There should be " + linesInPrefs + " lines." );
-			}
+				UnityEngine.Debug.LogWarning ( "Preference file does not exist!" );
 			
-			using ( FileStream createPrefs = File.Create ( supportPath + "Preferences.umpp" ))
+			/*using ( FileStream createPrefs = File.Create ( supportPath + "Preferences.umpp" ))
 			{
 					
 				Byte[] preferences = new UTF8Encoding ( true ).GetBytes ( mediaPath.Substring ( 0, mediaPath.Length - 1 ) + "\nTrue\nTrue\nTrue\nFalse\nFalse\nFalse\nFalse\nTrue\nFalse\nTrue\nTrue\nFalse\nFalse\n1.0\n0.373\n0.569\n1.000\nFalse\nFalse\nTrue\n3\n100\n0.3\n0.8\n0.6\nTrue\nFalse\n2.0\n0\n0\n0\n0\n0\n0\n0");
 				createPrefs.Write ( preferences, 0, preferences.Length );
-			}
+			}*/
 		}
 		
-		lastDirectory = File.ReadAllLines ( supportPath + "Preferences.umpp" )[0];
-		if ( !Directory.Exists ( lastDirectory ))
+		System.IO.StreamReader preferencesReader = new System.IO.StreamReader ( supportPath + "Preferences.umpp" );
+		string preferencesXML = preferencesReader.ReadToEnd();
+		preferencesReader.Close();
+		
+		preferences = preferencesXML.DeserializeXml<Preferences> ();
+
+
+		if ( !Directory.Exists ( preferences.lastDirectory ))
 		{
 			
-			lastDirectory = mediaPath.Substring ( 0, mediaPath.Length - 1 );
+			preferences.lastDirectory = mediaPath.Substring ( 0, mediaPath.Length - 1 );
 		}
 		
 		if ( !File.Exists ( supportPath + "FAQ & Tutorial.txt" ) || !File.Exists ( supportPath + "ReadMe.txt" ))
@@ -223,18 +356,14 @@ public class StartupManager : MonoBehaviour
 		}
 		
 		prefsLocation = supportPath + "Preferences.umpp";
-		prefs = File.ReadAllLines ( prefsLocation );
-		checkForUpdate = Convert.ToBoolean ( prefs [1] );
-		ombEnabled = Convert.ToBoolean ( prefs [2] );
-		showTutorials = Convert.ToBoolean ( prefs [3] );
 		
-		if ( checkForUpdate == true || ombEnabled == true )
+		if ( preferences.checkForUpdate == true || preferences.enableOMB == true )
 		{
 			
-			Thread internetConnectionsThread = new Thread (() => InternetConnections ( checkForUpdate, ombEnabled ));
+			Thread internetConnectionsThread = new Thread (() => InternetConnections ( preferences.checkForUpdate, preferences.enableOMB ));
 			internetConnectionsThread.Start ();
 			
-			if ( ombEnabled == true )
+			if ( preferences.enableOMB == true )
 			{
 				
 				paneManager.loading = true;
@@ -243,8 +372,6 @@ public class StartupManager : MonoBehaviour
 				InvokeRepeating ( "CheckStartOnlineMusicBrowser", 0, 0.2F );
 			}
 		}
-		
-		gameObject.GetComponent<SocketsManager>().PrepareUDPMessage ( "UMP is Running" );
 	}
 
 	

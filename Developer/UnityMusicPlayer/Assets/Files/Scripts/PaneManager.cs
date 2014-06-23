@@ -101,17 +101,17 @@ public class PaneManager : MonoBehaviour
 			if ( popupBlocking == false && Input.GetKey ( KeyCode.RightArrow ) && currentPane == pane.musicViewer && moving == false && loading == false )
 			{
 
+				onlineMusicBrowser.showOnlineMusicBrowser = true;
 				moving = true;
 				moveToOMB = true;
-				onlineMusicBrowser.showOnlineMusicBrowser = true;
 			}
 
 			if ( popupBlocking == false && Input.GetKey ( KeyCode.LeftArrow ) && currentPane == pane.onlineMusicBrowser && moving == false )
 			{
-			
+
+				musicViewer.showMusicViewer = true;
 				moving = true;
 				moveToMV = true;
-				musicViewer.showMusicViewer = true;
 			}
 		}
 		
@@ -136,7 +136,7 @@ public class PaneManager : MonoBehaviour
 				onlineMusicBrowser.onlineMusicBrowserPosition.x = 0;
 				musicViewer.musicViewerPosition.x = -onlineMusicBrowser.onlineMusicBrowserPosition.width + -onlineMusicBrowser.onlineMusicBrowserPosition.width / 4;
 
-				musicViewer.showMusicViewer = false;
+				//musicViewer.showMusicViewer = false;
 				moving = false;
 			}
 		}
@@ -164,7 +164,7 @@ public class PaneManager : MonoBehaviour
 				musicViewer.musicViewerPosition.x = 0;
 				onlineMusicBrowser.onlineMusicBrowserPosition.x = onlineMusicBrowser.onlineMusicBrowserPosition.width + onlineMusicBrowser.onlineMusicBrowserPosition.width / 4;
 
-				onlineMusicBrowser.showOnlineMusicBrowser = false;
+				//onlineMusicBrowser.showOnlineMusicBrowser = false;
 				onlineMusicBrowser.scrollPosition = new Vector2 ( 0, 0 );
 				onlineMusicBrowser.horizontalScrollPosition = new Vector2 ( 0, 0 );
 				moving = false;
@@ -194,7 +194,7 @@ public class PaneManager : MonoBehaviour
 		if ( musicViewer.slideshow == false )
 		{
 			
-			if ( musicViewer.showArrows == true )
+			if ( startupManager.preferences.enableArrows == true )
 			{
 				
 				if ( moving == false )
