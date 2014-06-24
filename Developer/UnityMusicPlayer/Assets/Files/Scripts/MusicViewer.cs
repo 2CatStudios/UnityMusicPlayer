@@ -259,6 +259,9 @@ public class MusicViewer : MonoBehaviour
 
 		parentDirectory = startupManager.preferences.lastDirectory;
 		activeDirectory = parentDirectory;
+		
+		tempCheckForUpdates = startupManager.preferences.checkForUpdate;
+		tempEnableOMB = startupManager.preferences.enableOMB;
 
 		tempEnableTypes = startupManager.preferences.enableTypes;	
 		tempEnableArrows = startupManager.preferences.enableArrows;
@@ -290,9 +293,8 @@ public class MusicViewer : MonoBehaviour
 		manager.GetComponent<AudioEchoFilter> ().dryMix = startupManager.preferences.echoDryMix;
 		
 		tempAutoAVBlur = startupManager.preferences.autoAVBlur;
-		
 		tempAutoAVOff = startupManager.preferences.autoAVOff;
-		
+
 		tempSlideshowDisplayTime = startupManager.preferences.slideshowDisplayTime.ToString ();
 		
 		currentSong.text = "UnityMusicPlayer";
@@ -314,12 +316,6 @@ public class MusicViewer : MonoBehaviour
 		else
 			timemark.text = "0:00][0:00";
 
-		/*TextWriter savePrefs = new StreamWriter ( startupManager.prefsLocation );
-		savePrefs.WriteLine ( parentDirectory + "\n" + startupManager.checkForUpdate + "\n" + startupManager.ombEnabled + "\n" + startupManager.showTutorials + "\n" + loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + showArrows + "\n" + showTimebar + "\n" + showArtwork + "\n" + enableDeepSearch + "\n" + showQuickManage + "\n" + preciseTimemark + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + blur + "\n" + sunShafts + 
-		                     "\n" + blurIterations + "\n" + echoDelay + "\n" + echoDecayRate + "\n" + echoWetMix + "\n" + echoDryMix + "\n" + autoAVBlur + "\n" + autoAVOff + "\n" + displayTime );
-		savePrefs.Close ();
-		*/
-		
 		centerStyle = new GUIStyle ();
 		centerStyle.alignment = TextAnchor.MiddleCenter;
 		
@@ -411,7 +407,7 @@ public class MusicViewer : MonoBehaviour
 					
 					activeDirectoryFiles = Directory.GetFiles ( activeDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".aif" ) || s.EndsWith ( ".aiff" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
 				} else {
-						
+					
 					browserCurrentDirectoryDirectories = Directory.GetDirectories ( browserCurrentDirectory ).ToArray ();
 					browserCurrentDirectoryFiles = Directory.GetFiles ( browserCurrentDirectory, "*.*" ).Where ( s => s.EndsWith ( ".wav" ) || s.EndsWith ( ".aif" ) || s.EndsWith ( ".aiff" ) || s.EndsWith ( ".ogg" ) || s.EndsWith ( ".unity3d" )).ToArray ();
 				}
@@ -572,7 +568,7 @@ public class MusicViewer : MonoBehaviour
 		if ( GUILayout.Button ( "Reset Tutorials" ))
 		{
 			
-			startupManager.showTutorials = true;
+			startupManager.preferences.enableTutorials = true;
 		}
 		
 		if ( GUILayout.Button ( "Close" ))
@@ -662,11 +658,8 @@ public class MusicViewer : MonoBehaviour
 				currentSlideshowImage.texture = null;
 			
 			startupManager.preferences.enableDeepSearch = tempEnableDeepSearch;
-
 			startupManager.preferences.enableQuickManage = tempEnableQuickManage;
-			
 			startupManager.preferences.enablePreciseTimemark = tempEnablePreciseTimemark;
-			
 			startupManager.preferences.checkForUpdate = tempCheckForUpdates;
 			
 			if ( startupManager.preferences.enableOMB == false && Convert.ToBoolean ( tempEnableOMB ) == true )
@@ -985,7 +978,7 @@ public class MusicViewer : MonoBehaviour
 					} else
 					{
 						
-						if ( startupManager.showTutorials == true )
+						if ( startupManager.preferences.enableTutorials == true )
 						{
 								
 							GUILayout.Label ( "You don't have any music to play!\n\nIf you have some music (.wav, .ogg, or .aiff),\nclick 'Open File Browser' under the System Commands bar bellow." +
@@ -994,7 +987,7 @@ public class MusicViewer : MonoBehaviour
 							if ( GUILayout.Button ( "Hide Tutorials"))
 							{
 							
-								startupManager.showTutorials = false;
+								startupManager.preferences.enableTutorials = false;
 							}
 							
 							if ( GUILayout.Button ( "View Extended Help/Tutorial" ))
@@ -1183,6 +1176,7 @@ public class MusicViewer : MonoBehaviour
 						{
 						
 							parentDirectory = browserCurrentDirectory;
+							startupManager.preferences.lastDirectory = parentDirectory;
 							StartCoroutine ( SetArtwork ());
 							
 							activeDirectory = parentDirectory;
@@ -1206,7 +1200,7 @@ public class MusicViewer : MonoBehaviour
 					
 					if ( GUILayout.Button ( "Open File Browser" ))
 					{
-				
+						
 						browserCurrentDirectory = parentDirectory;
 						fileBrowser = true;
 						Refresh ();
@@ -2101,12 +2095,11 @@ public class MusicViewer : MonoBehaviour
 		
 		Resources.UnloadUnusedAssets ();
 		Caching.CleanCache ();
-
-		/*TextWriter savePrefs = new StreamWriter ( startupManager.prefsLocation );
-		savePrefs.WriteLine ( parentDirectory + "\n" + startupManager.checkForUpdate + "\n" + startupManager.ombEnabled + "\n" + startupManager.showTutorials + "\n" + loop + "\n" + shuffle + "\n" + continuous + "\n" + showTypes + "\n" + showArrows + "\n" + showTimebar + "\n" + showArtwork + "\n" + enableDeepSearch + "\n" + showQuickManage + "\n" + preciseTimemark + "\n" + volumeBarValue + "\n" + avcR + "\n" + avcG + "\n" + avcB + "\n" + bloom + "\n" + blur + "\n" + sunShafts + 
-		                     "\n" + blurIterations + "\n" + echoDelay + "\n" + echoDecayRate + "\n" + echoWetMix + "\n" + echoDryMix + "\n" + autoAVBlur + "\n" + autoAVOff + "\n" + displayTime );
-		savePrefs.Close ();
-		*/
+		
+		bool preferencesSaved = false;
+		preferencesSaved = startupManager.SavePreferences ();
+		while ( preferencesSaved == false ) {}
+		
 		if ( Application.isEditor == true )
 			UnityEngine.Debug.Log ( "Quit has been called" );
 		else

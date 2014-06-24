@@ -31,88 +31,88 @@ public class Preferences
 	public string lastDirectory;
 	
 	[XmlElement ( "CheckForUpdate" )]
-	public bool checkForUpdate;
+	public bool checkForUpdate = true;
 	
 	[XmlElement ( "EnableOMB" )]
-	public bool enableOMB;
+	public bool enableOMB = true;
 	
 	[XmlElement ( "EnableTutorials" )]
-	public bool enableTutorials;
+	public bool enableTutorials = true;
 	
 	[XmlElement ( "Loop" )]
-	public bool loop;
+	public bool loop = false;
 	
 	[XmlElement ( "Shuffle" )]
-	public bool shuffle;
+	public bool shuffle = false;
 	
 	[XmlElement ( "Continuous")]
-	public bool continuous;
+	public bool continuous = false;
 	
 	[XmlElement ( "EnableTypes" )]
-	public bool enableTypes;
+	public bool enableTypes = false;
 	
 	[XmlElement ( "EnableArrows" )]
-	public bool enableArrows;
+	public bool enableArrows = true;
 	
 	[XmlElement ( "EnableTimebar" )]
-	public bool enableTimebar;
+	public bool enableTimebar = false;
 	
 	[XmlElement ( "EnableArtwork" )]
-	public bool enableArtwork;
+	public bool enableArtwork = true;
 	
 	[XmlElement ( "EnableDeepSearch" )]
-	public bool enableDeepSearch;
+	public bool enableDeepSearch = true;
 	
 	[XmlElement ( "EnableQuickManage" )]
-	public bool enableQuickManage;
+	public bool enableQuickManage = true;
 	
 	[XmlElement ( "EnablePreciseTimemark" )]
-	public bool enablePreciseTimemark;
+	public bool enablePreciseTimemark = false;
 	
 	[XmlElement ( "VolumebarValue" )]
-	public float volumebarValue;
+	public float volumebarValue = 1.0f;
 	
 	[XmlElement ( "SlideshowDisplayTime" )]
-	public float slideshowDisplayTime;
+	public float slideshowDisplayTime = 2.0f;
 	
 	[XmlElement ( "AVcR" )]
-	public float avcR;
+	public float avcR = 1.0f;
 	
 	[XmlElement ( "AVcG" )]
-	public float avcG;
+	public float avcG = 0.5f;
 	
 	[XmlElement ( "AVcB" )]
-	public float avcB;
+	public float avcB = 0.2f;
 	
 	[XmlElement ( "Bloom" )]
-	public bool bloom;
-	
-	[XmlElement ( "Blur" )]
-	public bool blur;
-
-	[XmlElement ( "BlurIterations" )]
-	public int blurIterations;
+	public bool bloom = false;
 	
 	[XmlElement ( "SunShafts" )]
-	public bool sunShafts;
+	public bool sunShafts = true;
+	
+	[XmlElement ( "Blur" )]
+	public bool blur = false;
+
+	[XmlElement ( "BlurIterations" )]
+	public int blurIterations = 2;
 	
 	[XmlElement ( "AutoAVBlur" )]
-	public bool autoAVBlur;
+	public bool autoAVBlur = true;
 	
 	[XmlElement ( "AutoAVOff" )]
-	public bool autoAVOff;
+	public bool autoAVOff = false;
 	
 	[XmlElement ( "EchoDelay" )]
-	public float echoDelay;
+	public float echoDelay = 110.0f;
 	
 	[XmlElement ( "EchoDecayRate" )]
-	public float echoDecayRate;
+	public float echoDecayRate = 0.3f;
 	
 	[XmlElement ( "EchoWetMix" )]
-	public float echoWetMix;
+	public float echoWetMix = 0.8f;
 	
 	[XmlElement ( "EchoDryMix" )]
-	public float echoDryMix;
+	public float echoDryMix = 0.6f;
 }
 
 
@@ -142,16 +142,11 @@ public class StartupManager : MonoBehaviour
 	static string mac = Path.DirectorySeparatorChar + "Users" + Path.DirectorySeparatorChar  + Environment.UserName + Path.DirectorySeparatorChar + "Music" + Path.DirectorySeparatorChar  + "UnityMusicPlayer" + Path.DirectorySeparatorChar;
 	static string windows = Environment.GetFolderPath ( Environment.SpecialFolder.MyMusic ) + Path.DirectorySeparatorChar  + "UnityMusicPlayer" + Path.DirectorySeparatorChar;
 	internal string directoryBrowser;
-	
-	internal bool showTutorials = true;
-
-	internal bool showFileTypes;
 
 	internal string twoCatStudiosPath;
 	internal string path;
 	internal string mediaPath;
 	internal string downloadedPath;
-	//internal string lastDirectory;
 	internal string supportPath;
 	internal string helpPath;
 	internal string prefsLocation;
@@ -159,7 +154,7 @@ public class StartupManager : MonoBehaviour
 	internal string tempPath;
 
 	internal UniversalSettings universalSettings;
-	internal Preferences preferences;
+	internal Preferences preferences = new Preferences ();
 
 	string[] applicationDownloads;
 	string[] devApplicationDownloads;
@@ -208,7 +203,7 @@ public class StartupManager : MonoBehaviour
 		slideshowPath = path + "Slideshow" + Path.DirectorySeparatorChar;
 		tempPath = supportPath + "Temp" + Path.DirectorySeparatorChar;
 		
-		
+		preferences.lastDirectory = mediaPath.Substring ( 0, mediaPath.Length - 1 );
 		
 		if ( !Directory.Exists ( twoCatStudiosPath ))
 		{
@@ -287,20 +282,17 @@ public class StartupManager : MonoBehaviour
 			if ( developmentMode == true )
 				UnityEngine.Debug.LogWarning ( "Preference file does not exist!" );
 			
-			/*using ( FileStream createPrefs = File.Create ( supportPath + "Preferences.umpp" ))
-			{
-					
-				Byte[] preferences = new UTF8Encoding ( true ).GetBytes ( mediaPath.Substring ( 0, mediaPath.Length - 1 ) + "\nTrue\nTrue\nTrue\nFalse\nFalse\nFalse\nFalse\nTrue\nFalse\nTrue\nTrue\nFalse\nFalse\n1.0\n0.373\n0.569\n1.000\nFalse\nFalse\nTrue\n3\n100\n0.3\n0.8\n0.6\nTrue\nFalse\n2.0\n0\n0\n0\n0\n0\n0\n0");
-				createPrefs.Write ( preferences, 0, preferences.Length );
-			}*/
+			bool preferencesCreated = false;
+			preferencesCreated = SavePreferences ();
+			while ( preferencesCreated == false ) {}
+		} else {
+		
+			System.IO.StreamReader preferencesReader = new System.IO.StreamReader ( supportPath + "Preferences.umpp" );
+			string preferencesXML = preferencesReader.ReadToEnd();
+			preferencesReader.Close();
+		
+			preferences = preferencesXML.DeserializeXml<Preferences> ();
 		}
-		
-		System.IO.StreamReader preferencesReader = new System.IO.StreamReader ( supportPath + "Preferences.umpp" );
-		string preferencesXML = preferencesReader.ReadToEnd();
-		preferencesReader.Close();
-		
-		preferences = preferencesXML.DeserializeXml<Preferences> ();
-
 
 		if ( !Directory.Exists ( preferences.lastDirectory ))
 		{
@@ -603,5 +595,16 @@ public class StartupManager : MonoBehaviour
 		Thread internetConnectionsThread = new Thread (() => InternetConnections ( false, true ));
 		internetConnectionsThread.Priority = System.Threading.ThreadPriority.Highest;
 		internetConnectionsThread.Start ();
+	}
+	
+	
+	internal bool SavePreferences ()
+	{
+		
+		XmlSerializer serializer = new XmlSerializer ( preferences.GetType ());
+		StreamWriter writer = new StreamWriter ( supportPath + "Preferences.umpp" );
+		serializer.Serialize ( writer.BaseStream, preferences );
+
+		return ( true );
 	}
 }

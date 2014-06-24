@@ -136,7 +136,7 @@ public class PaneManager : MonoBehaviour
 				onlineMusicBrowser.onlineMusicBrowserPosition.x = 0;
 				musicViewer.musicViewerPosition.x = -onlineMusicBrowser.onlineMusicBrowserPosition.width + -onlineMusicBrowser.onlineMusicBrowserPosition.width / 4;
 
-				//musicViewer.showMusicViewer = false;
+				musicViewer.showMusicViewer = false;
 				moving = false;
 			}
 		}
@@ -164,7 +164,7 @@ public class PaneManager : MonoBehaviour
 				musicViewer.musicViewerPosition.x = 0;
 				onlineMusicBrowser.onlineMusicBrowserPosition.x = onlineMusicBrowser.onlineMusicBrowserPosition.width + onlineMusicBrowser.onlineMusicBrowserPosition.width / 4;
 
-				//onlineMusicBrowser.showOnlineMusicBrowser = false;
+				onlineMusicBrowser.showOnlineMusicBrowser = false;
 				onlineMusicBrowser.scrollPosition = new Vector2 ( 0, 0 );
 				onlineMusicBrowser.horizontalScrollPosition = new Vector2 ( 0, 0 );
 				moving = false;
