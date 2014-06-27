@@ -1532,7 +1532,36 @@ public class MusicViewer : MonoBehaviour
 		}
 		
 		if ( wwwClient.error != null )
-			UnityEngine.Debug.Log ( wwwClient.error );
+		{
+			
+			using ( StreamWriter writer = new StreamWriter ( startupManager.supportPath + Path.DirectorySeparatorChar + "ErrorLog.txt", true))
+			{
+				
+				writer.WriteLine ( "[" + DateTime.Now + "] " + wwwClient.error );
+			}
+			
+			if ( startupManager.developmentMode == true )
+				UnityEngine.Debug.Log ( "Error loading! " + wwwClient.error );
+			
+			manager.audio.clip = null;
+			Resources.UnloadUnusedAssets ();
+			
+			rtMinutes = 0;
+			rtSeconds = 00;
+			minutes = 0;
+			seconds = 00;
+			
+			if ( slideshow == false )
+			{
+										
+				currentSong.text = "Error loading song!";
+				
+				if ( startupManager.preferences.enablePreciseTimemark == true )
+					timemark.text = "0:00.000][0:00.000";
+				else
+					timemark.text = "0:00][0:00";
+			}
+		}
 	}
 
 
@@ -1603,12 +1632,13 @@ public class MusicViewer : MonoBehaviour
 		}
 		
 		if ( startupManager.developmentMode == true )
-			UnityEngine.Debug.Log ( songToLoad.Substring ( songToLoad.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length ));
+			UnityEngine.Debug.Log ( "Loading: " + songToLoad.Substring ( songToLoad.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length ));
 		
 		WWW www = new WWW ( "file://" + songToLoad );
 		yield return www;
 
 		manager.audio.clip = www.GetAudioClip ( false, false, audioType );
+		
 		Resources.UnloadUnusedAssets ();
 
 		if ( slideshow == false )
@@ -1696,7 +1726,14 @@ public class MusicViewer : MonoBehaviour
 		if ( www.error != null )
 		{
 			
-			UnityEngine.Debug.Log ( www.error );
+			using ( StreamWriter writer = new StreamWriter ( startupManager.supportPath + Path.DirectorySeparatorChar + "ErrorLog.txt", true))
+			{
+				
+				writer.WriteLine ( "[" + DateTime.Now + "] " + www.error );
+			}
+			
+			if ( startupManager.developmentMode == true )
+				UnityEngine.Debug.Log ( "Error loading! " + www.error );
 			
 			manager.audio.clip = null;
 			Resources.UnloadUnusedAssets ();
@@ -1709,7 +1746,7 @@ public class MusicViewer : MonoBehaviour
 			if ( slideshow == false )
 			{
 										
-				currentSong.text = "UnityMusicPlayer";
+				currentSong.text = "Error loading song!";
 				
 				if ( startupManager.preferences.enablePreciseTimemark == true )
 					timemark.text = "0:00.000][0:00.000";
