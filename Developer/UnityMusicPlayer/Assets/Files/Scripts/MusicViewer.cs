@@ -1633,7 +1633,9 @@ public class MusicViewer : MonoBehaviour
 		
 		if ( startupManager.developmentMode == true )
 			UnityEngine.Debug.Log ( "Loading: " + songToLoad.Substring ( songToLoad.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length ));
-		
+
+		songToLoad = songToLoad.Replace ( "#", "%23" );
+
 		WWW www = new WWW ( "file://" + songToLoad );
 		yield return www;
 
