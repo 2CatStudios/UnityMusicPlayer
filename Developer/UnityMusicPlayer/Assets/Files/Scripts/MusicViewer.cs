@@ -1633,27 +1633,6 @@ public class MusicViewer : MonoBehaviour
 		
 		if ( startupManager.developmentMode == true )
 			UnityEngine.Debug.Log ( "Loading: " + songToLoad.Substring ( songToLoad.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length ));
-
-		/*songToLoad = songToLoad.Replace ( " ", "%20" );
-		songToLoad = songToLoad.Replace ( "<", "%3C" );
-		songToLoad = songToLoad.Replace ( ">", "%3E" );
-		songToLoad = songToLoad.Replace ( "#", "%23" );
-		//songToLoad = songToLoad.Replace ( "%", "%25" );
-		songToLoad = songToLoad.Replace ( "{", "%7B" );
-		songToLoad = songToLoad.Replace ( "}", "%7D" );
-		songToLoad = songToLoad.Replace ( "|", "%7C" );
-		songToLoad = songToLoad.Replace ( "^", "%5E" );
-		songToLoad = songToLoad.Replace ( "~", "%7E" );
-		songToLoad = songToLoad.Replace ( "[", "%5B" );
-		songToLoad = songToLoad.Replace ( "]", "%5D" );
-		songToLoad = songToLoad.Replace ( "`", "%60" );
-		songToLoad = songToLoad.Replace ( ";", "%3B" );
-		songToLoad = songToLoad.Replace ( "?", "%3F" );
-		songToLoad = songToLoad.Replace ( ":", "%3A" );
-		songToLoad = songToLoad.Replace ( "@", "%40" );
-		songToLoad = songToLoad.Replace ( "=", "%3D" );
-		songToLoad = songToLoad.Replace ( "&", "%26" );
-		songToLoad = songToLoad.Replace ( "$", "%24" );*/
 		
 		songToLoad = songToLoad.Replace ( " ", "!umpSPACE0" );
 		songToLoad = WWW.EscapeURL ( songToLoad );
