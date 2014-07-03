@@ -24,8 +24,7 @@ public class MusicViewer : MonoBehaviour
 	OnlineMusicBrowser onlineMusicBrowser;
 	LoadingImage loadingImage;
 	PaneManager paneManager;
-	AudioVisualizerR audioVisualizerR;
-	AudioVisualizerL audioVisualizerL;
+	AudioVisualizer audioVisualizer;
 	GUIText currentSong;
 	GUIText timemark;
 	
@@ -48,7 +47,6 @@ public class MusicViewer : MonoBehaviour
 	
 	internal string mediaPath;
 	string songLocation;
-	
 	
 	string parentDirectory;
 	string [] parentDirectoryDirectories;
@@ -152,7 +150,7 @@ public class MusicViewer : MonoBehaviour
 	
 	bool echo;
 	bool hideGUI = false;
-	bool showVisualizer = false;
+	internal bool showVisualizer = false;
 	bool halfSpeed = false;
 	bool doubleSpeed = false;
 	
@@ -251,8 +249,7 @@ public class MusicViewer : MonoBehaviour
 		optionsWindowRect.x = musicViewerPosition.width/2 - optionsWindowRect.width/2;
 		optionsWindowRect.y = musicViewerPosition.height/2 - optionsWindowRect.height/2;
 
-		audioVisualizerR = GameObject.FindGameObjectWithTag ("AudioVisualizer").GetComponent<AudioVisualizerR> ();
-		audioVisualizerL = GameObject.FindGameObjectWithTag ("AudioVisualizer").GetComponent<AudioVisualizerL> ();
+		audioVisualizer = GameObject.FindGameObjectWithTag ("AudioVisualizer").GetComponent<AudioVisualizer> ();
 
 		timemark = GameObject.FindGameObjectWithTag ( "Timemark" ).GetComponent<GUIText> ();
 		GameObject.FindGameObjectWithTag ( "TimebarImage" ).guiTexture.pixelInset = new Rect ( -musicViewerPosition.width/2, musicViewerPosition.height/2 - 3, musicViewerPosition.width, 6 );
@@ -683,21 +680,16 @@ public class MusicViewer : MonoBehaviour
 				{
 					
 					showVisualizer = false;
-					
-					audioVisualizerR.showAV = false;
-					audioVisualizerL.showAV = false;
 	
 					manager.GetComponent<BloomAndLensFlares>().enabled = false;
 					manager.GetComponent<BlurEffect>().enabled = false;
 					manager.GetComponent<SunShafts>().enabled = false;
 				} else {
 					
-					audioVisualizerR.showAV = showVisualizer;
-					audioVisualizerL.showAV = showVisualizer;
-					audioVisualizerR.topLine.material.color = new Color ( startupManager.preferences.avcR, startupManager.preferences.avcG, startupManager.preferences.avcB, 255 );
-					audioVisualizerR.bottomLine.material.color = new Color ( startupManager.preferences.avcR, startupManager.preferences.avcG, startupManager.preferences.avcB, 255 );
-					audioVisualizerL.topLine.material.color = new Color ( startupManager.preferences.avcR, startupManager.preferences.avcG, startupManager.preferences.avcB, 255 );
-					audioVisualizerL.bottomLine.material.color = new Color ( startupManager.preferences.avcR, startupManager.preferences.avcG, startupManager.preferences.avcB, 255 );
+					audioVisualizer.topLeftLine.material.color = new Color ( startupManager.preferences.avcR, startupManager.preferences.avcG, startupManager.preferences.avcB, 255 );
+					audioVisualizer.bottomLeftLine.material.color = new Color ( startupManager.preferences.avcR, startupManager.preferences.avcG, startupManager.preferences.avcB, 255 );
+					audioVisualizer.topRightLine.material.color = new Color ( startupManager.preferences.avcR, startupManager.preferences.avcG, startupManager.preferences.avcB, 255 );
+					audioVisualizer.bottomRightLine.material.color = new Color ( startupManager.preferences.avcR, startupManager.preferences.avcG, startupManager.preferences.avcB, 255 );
 	
 					manager.GetComponent<BloomAndLensFlares>().enabled = startupManager.preferences.bloom;
 					if ( startupManager.preferences.autoAVBlur == false )
@@ -1275,12 +1267,10 @@ public class MusicViewer : MonoBehaviour
 			if ( showVisualizer == true )
 			{
 		
-				audioVisualizerR.showAV = showVisualizer;
-				audioVisualizerL.showAV = showVisualizer;
-				audioVisualizerR.topLine.material.color = new Color ( startupManager.preferences.avcR, startupManager.preferences.avcG, startupManager.preferences.avcB, 255 );
-				audioVisualizerR.bottomLine.material.color = new Color ( startupManager.preferences.avcR, startupManager.preferences.avcG, startupManager.preferences.avcB, 255 );
-				audioVisualizerL.topLine.material.color = new Color ( startupManager.preferences.avcR, startupManager.preferences.avcG, startupManager.preferences.avcB, 255 );
-				audioVisualizerL.bottomLine.material.color = new Color ( startupManager.preferences.avcR, startupManager.preferences.avcG, startupManager.preferences.avcB, 255 );
+				audioVisualizer.topLeftLine.material.color = new Color ( startupManager.preferences.avcR, startupManager.preferences.avcG, startupManager.preferences.avcB, 255 );
+				audioVisualizer.bottomLeftLine.material.color = new Color ( startupManager.preferences.avcR, startupManager.preferences.avcG, startupManager.preferences.avcB, 255 );
+				audioVisualizer.topRightLine.material.color = new Color ( startupManager.preferences.avcR, startupManager.preferences.avcG, startupManager.preferences.avcB, 255 );
+				audioVisualizer.bottomRightLine.material.color = new Color ( startupManager.preferences.avcR, startupManager.preferences.avcG, startupManager.preferences.avcB, 255 );
 		
 				manager.GetComponent<BloomAndLensFlares>().enabled = Convert.ToBoolean ( startupManager.preferences.bloom );
 				manager.GetComponent<BlurEffect>().enabled = Convert.ToBoolean ( startupManager.preferences.blur );
@@ -1288,9 +1278,6 @@ public class MusicViewer : MonoBehaviour
 					
 				manager.GetComponent<BlurEffect> ().iterations = startupManager.preferences.blurIterations;
 			} else {
-		
-				audioVisualizerR.showAV = showVisualizer;
-				audioVisualizerL.showAV = showVisualizer;
 		
 				manager.GetComponent<BloomAndLensFlares>().enabled = false;
 				manager.GetComponent<BlurEffect>().enabled = false;
@@ -1470,7 +1457,13 @@ public class MusicViewer : MonoBehaviour
 	
 		if ( startupManager.developmentMode == true )
 			UnityEngine.Debug.Log ( assetBundleToOpen + " | " + songLocation.Substring ( songLocation.LastIndexOf ( "/" ) + 1 ));
-			
+		
+		assetBundleToOpen = assetBundleToOpen.Replace ( " ", "!umpSPACE0" );
+		assetBundleToOpen = WWW.EscapeURL ( assetBundleToOpen );
+		assetBundleToOpen = assetBundleToOpen.Replace ( "%5c", @"\" );
+		assetBundleToOpen = assetBundleToOpen.Replace ( "%2f", @"/" );
+		assetBundleToOpen = assetBundleToOpen.Replace ( "%21umpSPACE0", " " );
+		
 		WWW wwwClient = WWW.LoadFromCacheOrDownload ( assetBundleToOpen, 0 );
 		yield return wwwClient;
 		
