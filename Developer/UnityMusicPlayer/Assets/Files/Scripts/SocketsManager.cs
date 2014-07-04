@@ -67,7 +67,7 @@ public class SocketsManager : MonoBehaviour
 		
 		
 			UdpClient udpClient = new UdpClient( localIP, port );
-			Byte[] sendBytes = Encoding.ASCII.GetBytes ( "[UMP]" + message /*messages[0]*/ );
+			Byte[] sendBytes = Encoding.Unicode.GetBytes ( "[UMP]" + message /*messages[0]*/ );
 			try
 			{
 			
