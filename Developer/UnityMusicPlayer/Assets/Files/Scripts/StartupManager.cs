@@ -84,6 +84,9 @@ public class Preferences
 	[XmlElement ( "AVcB" )]
 	public float avcB = 0.2f;
 	
+	[XmlElement ( "YScale" )]
+	public float yScale = 100.0f;
+	
 	[XmlElement ( "Bloom" )]
 	public bool bloom = false;
 	

@@ -6,13 +6,12 @@ using System.Collections;
 public class AudioVisualizer : MonoBehaviour
 {
 
-	StartupManager musicManager;
+	StartupManager startupManager;
 	MusicViewer musicViewer;
 	
 	public AudioSource audioSource;
 
 	public float scale;
-	public float yScale = 1;
 	public int numSamples = 128;
 
 	private float[] leftFCur; //Current frequency value (per vertex)
@@ -37,6 +36,7 @@ public class AudioVisualizer : MonoBehaviour
 	void Start ()
 	{
 
+		startupManager = GameObject.FindGameObjectWithTag ( "Manager" ).GetComponent<StartupManager> ();
 		musicViewer = GameObject.FindGameObjectWithTag ( "MusicViewer" ).GetComponent<MusicViewer> ();
 
 		leftAudioOutput = new float[numSamples];
@@ -89,8 +89,8 @@ public class AudioVisualizer : MonoBehaviour
 
 				float x = scale * i;
 
-				float leftY = leftSpectrum [i] * rmsValue * yScale;
-				float rightY = rightSpectrum [i] * rmsValue * yScale;
+				float leftY = leftSpectrum [i] * rmsValue * startupManager.preferences.yScale;
+				float rightY = rightSpectrum [i] * rmsValue * startupManager.preferences.yScale;
 
 				leftFMax [i] = Mathf.Max ( leftFMax [i], leftY );
 				rightFMax [i] = Mathf.Max ( rightFMax [i], rightY );
@@ -106,8 +106,8 @@ public class AudioVisualizer : MonoBehaviour
 				else
 					rightFCur [i] = Mathf.Clamp ( rightFCur [i] + Time.deltaTime * 100 * rmsValue * 5, rightFCur [i], rightFMax [i]);
 
-				leftFMax [i] -= Time.deltaTime * 6000;
-				rightFMax [i] -= Time.deltaTime * 6000;
+				leftFMax [i] -= Time.deltaTime * 2000;
+				rightFMax [i] -= Time.deltaTime * 2000;
 				leftY = leftFCur [i];
 				rightY = rightFCur [i];
 
@@ -116,8 +116,8 @@ public class AudioVisualizer : MonoBehaviour
 				topRightLine.SetPosition ( i, new Vector3 ( x, rightY, 0 ));
 				bottomRightLine.SetPosition ( i, new Vector3 ( x, rightY, 0 ));
 			}
-
 		} else {
+			
 			topLeftLine.enabled = false;
 			bottomLeftLine.enabled = false;
 			topRightLine.enabled = false;

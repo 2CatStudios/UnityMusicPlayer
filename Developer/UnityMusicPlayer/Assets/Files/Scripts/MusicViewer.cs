@@ -170,6 +170,8 @@ public class MusicViewer : MonoBehaviour
 	float tempAVcG;
 	float tempAVcB;
 	
+	float tempYScale;
+	
 	bool tempBloom;
 	bool tempSunShafts;
 	bool tempBlur;
@@ -271,6 +273,8 @@ public class MusicViewer : MonoBehaviour
 		tempAVcR = startupManager.preferences.avcR;
 		tempAVcG = startupManager.preferences.avcG;
 		tempAVcB = startupManager.preferences.avcB;
+		
+		tempYScale = startupManager.preferences.yScale;
 
 		tempBloom = startupManager.preferences.bloom;
 		tempBlur = startupManager.preferences.blur;
@@ -446,6 +450,8 @@ public class MusicViewer : MonoBehaviour
 		
 		GUILayout.Box ( "AudioVisualizer", GUILayout.Width ( 173 ));
 		
+		GUI.contentColor = new Color ( tempAVcR, tempAVcG, tempAVcB, 1.000F );
+		
 		GUILayout.BeginHorizontal ();
 		GUILayout.Label ( "Red", GUILayout.MaxWidth ( 50 ));
 		tempAVcR = GUILayout.HorizontalSlider ( tempAVcR, 0.0F, 1.000F );
@@ -460,10 +466,13 @@ public class MusicViewer : MonoBehaviour
 		GUILayout.Label ( "Blue", GUILayout.MaxWidth ( 50 ));
 		tempAVcB = GUILayout.HorizontalSlider ( tempAVcB, 0.0F, 1.000F );
 		GUILayout.EndHorizontal ();
-
-		GUI.contentColor = new Color ( tempAVcR, tempAVcG, tempAVcB, 1.000F );
-		GUILayout.Label ( "Sample Color");
+		
 		GUI.contentColor = Color.white;
+		
+		GUILayout.BeginHorizontal ();
+		GUILayout.Label ( "YScale Max", GUILayout.MaxWidth ( 80 ));
+		tempYScale = GUILayout.HorizontalSlider ( tempYScale, 10.0F, 2000.0F );
+		GUILayout.EndHorizontal ();
 		
 		tempSunShafts = GUILayout.Toggle ( tempSunShafts, "Toggle SunShafts" );
 		tempBloom = GUILayout.Toggle ( tempBloom, "Toggle Bloom" );
@@ -609,6 +618,8 @@ public class MusicViewer : MonoBehaviour
 			startupManager.preferences.avcR = tempAVcR;
 			startupManager.preferences.avcG = tempAVcG;
 			startupManager.preferences.avcB = tempAVcB;
+			
+			startupManager.preferences.yScale = tempYScale;
 			
 			startupManager.preferences.sunShafts = tempSunShafts;
 			startupManager.preferences.bloom = tempBloom;
