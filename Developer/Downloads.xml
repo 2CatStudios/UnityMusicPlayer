@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?> 
 
 <Songs>
-	<Song featured='true'>
+	<Song featured='false'>
 		<name>Liberty</name>
 		<album>Silent Room</album>
 		<artist>DJ Purify</artist>
@@ -10,7 +10,7 @@
         <downloadURL>https://copy.com/wGPdMB44oQSV</downloadURL>
 		<link name='Bandcamp'>http://purify1.bandcamp.com/track/purify-liberty</link>
 		<releaseDate>January 2, 2013</releaseDate>
-        <smallArtworkURL>http://f.cl.ly/items/2n3T2a2m0K2S2C0w1g41/SilentRoomSquare.png</smallArtworkURL>
+        <smallArtworkURL>https://copy.com/VNkgncQtJ1QF</smallArtworkURL>
         <largeArtworkURL>https://copy.com/IirTDqQBtcaq</largeArtworkURL>
 	</Song>
     
@@ -551,8 +551,8 @@
         <downloadURL>https://copy.com/jRs7OhrGTv2C</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
-        <largeArtworkURL></largeArtworkURL>
-        <smallArtworkURL></smallArtworkURL>
+        <smallArtworkURL>https://copy.com/VNkgncQtJ1QF</smallArtworkURL>
+        <largeArtworkURL>https://copy.com/IirTDqQBtcaq</largeArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -564,8 +564,8 @@
         <downloadURL>https://copy.com/2O0ekOszC6SV</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
-        <largeArtworkURL></largeArtworkURL>
-        <smallArtworkURL></smallArtworkURL>
+        <smallArtworkURL>https://copy.com/VNkgncQtJ1QF</smallArtworkURL>
+        <largeArtworkURL>https://copy.com/IirTDqQBtcaq</largeArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -577,8 +577,8 @@
         <downloadURL>https://copy.com/hecDIsjQeBrX</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
-        <largeArtworkURL></largeArtworkURL>
-        <smallArtworkURL></smallArtworkURL>
+        <smallArtworkURL>https://copy.com/VNkgncQtJ1QF</smallArtworkURL>
+        <largeArtworkURL>https://copy.com/IirTDqQBtcaq</largeArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -590,8 +590,8 @@
         <downloadURL>https://copy.com/D8CtVxSw7nDM</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
-        <largeArtworkURL></largeArtworkURL>
-        <smallArtworkURL></smallArtworkURL>
+        <smallArtworkURL>https://copy.com/VNkgncQtJ1QF</smallArtworkURL>
+        <largeArtworkURL>https://copy.com/IirTDqQBtcaq</largeArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -603,8 +603,8 @@
         <downloadURL>https://copy.com/dxRXL3QmTBdb</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
-        <largeArtworkURL></largeArtworkURL>
-        <smallArtworkURL></smallArtworkURL>
+        <smallArtworkURL>https://copy.com/VNkgncQtJ1QF</smallArtworkURL>
+        <largeArtworkURL>https://copy.com/IirTDqQBtcaq</largeArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -616,8 +616,8 @@
         <downloadURL>https://copy.com/pqPpQQ6z0zGW</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
-        <largeArtworkURL></largeArtworkURL>
-        <smallArtworkURL></smallArtworkURL>
+        <smallArtworkURL>https://copy.com/VNkgncQtJ1QF</smallArtworkURL>
+        <largeArtworkURL>https://copy.com/IirTDqQBtcaq</largeArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -629,8 +629,8 @@
         <downloadURL>https://copy.com/Io4kVJjU6zeS</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
-        <largeArtworkURL></largeArtworkURL>
-        <smallArtworkURL></smallArtworkURL>
+        <smallArtworkURL>https://copy.com/VNkgncQtJ1QF</smallArtworkURL>
+        <largeArtworkURL>https://copy.com/IirTDqQBtcaq</largeArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -642,8 +642,8 @@
         <downloadURL>https://copy.com/lJZgW96RZou6</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
-        <largeArtworkURL></largeArtworkURL>
-        <smallArtworkURL></smallArtworkURL>
+        <smallArtworkURL>https://copy.com/VNkgncQtJ1QF</smallArtworkURL>
+        <largeArtworkURL>https://copy.com/IirTDqQBtcaq</largeArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -655,8 +655,8 @@
         <downloadURL>https://copy.com/809o4MZr6YWf</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
-        <largeArtworkURL></largeArtworkURL>
-        <smallArtworkURL></smallArtworkURL>
+        <smallArtworkURL>https://copy.com/VNkgncQtJ1QF</smallArtworkURL>
+        <largeArtworkURL>https://copy.com/IirTDqQBtcaq</largeArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -668,8 +668,8 @@
         <downloadURL>https://copy.com/0tfUkIxTYRBg</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
-        <largeArtworkURL></largeArtworkURL>
-        <smallArtworkURL></smallArtworkURL>
+        <smallArtworkURL>https://copy.com/VNkgncQtJ1QF</smallArtworkURL>
+        <largeArtworkURL>https://copy.com/IirTDqQBtcaq</largeArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -681,8 +681,8 @@
         <downloadURL>https://copy.com/dZYd1oWKFL1H</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
-        <largeArtworkURL></largeArtworkURL>
-        <smallArtworkURL></smallArtworkURL>
+        <smallArtworkURL>https://copy.com/VNkgncQtJ1QF</smallArtworkURL>
+        <largeArtworkURL>https://copy.com/IirTDqQBtcaq</largeArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -694,8 +694,8 @@
         <downloadURL>https://copy.com/gSTBUZwtNWik</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
-        <largeArtworkURL></largeArtworkURL>
-        <smallArtworkURL></smallArtworkURL>
+        <smallArtworkURL>https://copy.com/VNkgncQtJ1QF</smallArtworkURL>
+        <largeArtworkURL>https://copy.com/IirTDqQBtcaq</largeArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -707,8 +707,8 @@
         <downloadURL>https://copy.com/GnjdxHjZsZdA</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
-        <largeArtworkURL></largeArtworkURL>
-        <smallArtworkURL></smallArtworkURL>
+        <smallArtworkURL>https://copy.com/VNkgncQtJ1QF</smallArtworkURL>
+        <largeArtworkURL>https://copy.com/IirTDqQBtcaq</largeArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -720,8 +720,8 @@
         <downloadURL>https://copy.com/OOVOuEiBvnSY</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
-        <largeArtworkURL></largeArtworkURL>
-        <smallArtworkURL></smallArtworkURL>
+        <smallArtworkURL>https://copy.com/VNkgncQtJ1QF</smallArtworkURL>
+        <largeArtworkURL>https://copy.com/IirTDqQBtcaq</largeArtworkURL>
 	</Song>
     
 	<Song featured='false'>
@@ -733,8 +733,8 @@
         <downloadURL>https://copy.com/u9dzsj2wjJVn</downloadURL>
 		<link name='Soundcloud'>http://soundcloud.com/dj-purify</link>
 		<releaseDate>February 14, 2014</releaseDate>
-        <largeArtworkURL></largeArtworkURL>
-        <smallArtworkURL></smallArtworkURL>
+        <smallArtworkURL>https://copy.com/VNkgncQtJ1QF</smallArtworkURL>
+        <largeArtworkURL>https://copy.com/IirTDqQBtcaq</largeArtworkURL>
 	</Song>
     
 	<Song featured='false'>
