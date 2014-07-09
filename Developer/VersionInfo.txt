@@ -1,5 +1,5 @@
 Current Version
-1.1999
-NOTE: Thank you for testing UMP!
+1.2
+NOTE: Get the stable build now!
 
 http://2catstudios.github.io/unitymusicplayer.html
