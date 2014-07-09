@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?> 
 
 <Songs>
-	<Song featured='false'>
+	<Song featured='true'>
 		<name>Liberty</name>
 		<album>Silent Room</album>
 		<artist>DJ Purify</artist>
@@ -10,7 +10,8 @@
         <downloadURL>https://copy.com/wGPdMB44oQSV</downloadURL>
 		<link name='Bandcamp'>http://purify1.bandcamp.com/track/purify-liberty</link>
 		<releaseDate>January 2, 2013</releaseDate>
-        <smallArtworkURL></smallArtworkURL>
+        <smallArtworkURL>http://cl.ly/image/0h1q0t162H1G/SilentRoom.jpg</smallArtworkURL>
+        <largeArtworkURL>http://cl.ly/image/0h1q0t162H1G/SilentRoom.jpg</largeArtworkURL>
 	</Song>
     
 	<Song featured='false'>
