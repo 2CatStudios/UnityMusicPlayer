@@ -546,8 +546,7 @@ public class MusicViewer : MonoBehaviour
 		
 		GUILayout.BeginVertical ();
 		GUILayout.Box ( "Slideshow", GUILayout.Width ( 173 ));
-		
-		//tempSlideshow = GUILayout.Toggle ( tempSlideshow, "Start Slideshow" );
+
 		if ( GUILayout.Button ( "Start Slideshow" ))
 		{
 			
@@ -2138,7 +2137,7 @@ public class MusicViewer : MonoBehaviour
 		wasPlaying = false;
 		manager.audio.Stop ();
 		
-		socketsManager.PrepareUDPMessage ( "UMP is Shutting Down" );
+		socketsManager.PrepareUDPMessage ( "Shutting Down" );
 		
 		Resources.UnloadUnusedAssets ();
 		Caching.CleanCache ();
@@ -2148,7 +2147,7 @@ public class MusicViewer : MonoBehaviour
 		while ( preferencesSaved == false ) {}
 		
 		if ( Application.isEditor == true )
-			UnityEngine.Debug.Log ( "Quit has been called" );
+			UnityEditor.EditorApplication.isPlaying = false;
 		else
 			Application.Quit ();
 	}
