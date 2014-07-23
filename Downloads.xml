@@ -310,7 +310,7 @@
     
 	<Song featured='false'>
 		<name>01 Lost on Airport</name>
-		<album>Lost on Airport/Flight</album>
+		<album>Lost on Airport-Flight</album>
 		<artist>Umcaruje</artist>
 		<genre>Chillout</genre>
 		<format>ogg</format>
@@ -323,7 +323,7 @@
     
 	<Song featured='false'>
 		<name>02 Flight</name>
-		<album>Lost on Airport/Flight</album>
+		<album>Lost on Airport-Flight</album>
 		<artist>Umcaruje</artist>
 		<genre>Chillout</genre>
 		<format>ogg</format>
