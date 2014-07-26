@@ -99,6 +99,9 @@ public class Preferences
 	[XmlElement ( "BlurIterations" )]
 	public int blurIterations = 2;
 	
+	[XmlElement ( "Vignetting" )]
+	public bool vignetting = true;
+	
 	[XmlElement ( "AutoAVBlur" )]
 	public bool autoAVBlur = true;
 	

@@ -140,8 +140,6 @@ public class MusicViewer : MonoBehaviour
 	public Texture2D echoOnNormal;
 	public Texture2D echoOnHover;
 	
-	public Texture2D guiHover;
-	
 	public Texture2D timebarMarker;
 	
 #endregion
@@ -176,6 +174,7 @@ public class MusicViewer : MonoBehaviour
 	bool tempSunShafts;
 	bool tempBlur;
 	string tempBlurIterations;
+	bool tempVignetting;
 	
 #endregion
 	
@@ -280,6 +279,7 @@ public class MusicViewer : MonoBehaviour
 		tempBlur = startupManager.preferences.blur;
 		tempSunShafts = startupManager.preferences.sunShafts;
 		tempBlurIterations = startupManager.preferences.blurIterations.ToString ();
+		tempVignetting = startupManager.preferences.vignetting;
 		
 		manager.GetComponent<BlurEffect> ().iterations = startupManager.preferences.blurIterations;
 
@@ -327,7 +327,8 @@ public class MusicViewer : MonoBehaviour
 		folderStyle = new GUIStyle ();
 		folderStyle.alignment = TextAnchor.MiddleLeft;
 		folderStyle.border = new RectOffset ( 6, 6, 4, 4 );
-		folderStyle.hover.background = guiHover;
+		folderStyle.hover.background = guiSkin.button.hover.background;
+		folderStyle.active.background = guiSkin.button.active.background;
 		folderStyle.fontSize = 22;
 		
 		fileStyle = new GUIStyle ();
@@ -335,7 +336,8 @@ public class MusicViewer : MonoBehaviour
 		fileStyle.border = new RectOffset ( 6, 6, 6, 4 );
 		fileStyle.padding = new RectOffset ( 6, 6, 3, 3 );
 		fileStyle.margin = new RectOffset ( 4, 4, 4, 4 );
-		fileStyle.hover.background = guiHover;
+		fileStyle.hover.background = guiSkin.button.hover.background;
+		fileStyle.active.background = guiSkin.button.active.background;
 		fileStyle.fontSize = 22;
 		
 		fileBrowserFileStyle = new GUIStyle ();
@@ -350,10 +352,12 @@ public class MusicViewer : MonoBehaviour
 		songStyle.fontSize = 16;
 		
 		buttonStyle = new GUIStyle ();
-		buttonStyle.fontSize = 16;
+		buttonStyle.fontSize = 22;
 		buttonStyle.alignment = TextAnchor.MiddleCenter;
-		buttonStyle.border = new RectOffset ( 6, 6, 4, 4 );
-		buttonStyle.hover.background = guiHover;
+		buttonStyle.border = new RectOffset ( 6, 6, 6, 4 );
+		buttonStyle.padding = new RectOffset ( 6, 6, 3, 3 );
+		buttonStyle.margin = new RectOffset ( 4, 4, 4, 4 );
+		buttonStyle.hover.background = guiSkin.button.hover.background;
 		
 		hideGUIStyle = new GUIStyle ();
 		hideGUIStyle.normal.background = hideGUINormal;
@@ -476,13 +480,20 @@ public class MusicViewer : MonoBehaviour
 		
 		tempSunShafts = GUILayout.Toggle ( tempSunShafts, "Toggle SunShafts" );
 		tempBloom = GUILayout.Toggle ( tempBloom, "Toggle Bloom" );
-		tempBlur = GUILayout.Toggle ( tempBlur, "Toggle Blur" );
 		
 		GUILayout.BeginHorizontal ();
-		GUILayout.Label ( "Blur Amount" );
+		
+		tempBlur = GUILayout.Toggle ( tempBlur, "Toggle Blur" );
+		GUILayout.Label ( "/" );
+		
+		GUILayout.BeginHorizontal ();
+		GUILayout.Label ( "Amount" );
 		tempBlurIterations = GUILayout.TextField ( tempBlurIterations, 1, GUILayout.MaxWidth ( 16 ));
 		tempBlurIterations = RegexToString ( tempBlurIterations, false );
 		GUILayout.EndHorizontal ();
+		GUILayout.EndHorizontal ();
+		
+		tempVignetting = GUILayout.Toggle ( tempVignetting, "Toggle Vignetting" );
 		
 		GUILayout.EndVertical ();
 		
@@ -623,12 +634,12 @@ public class MusicViewer : MonoBehaviour
 			startupManager.preferences.sunShafts = tempSunShafts;
 			startupManager.preferences.bloom = tempBloom;
 			startupManager.preferences.blur = tempBlur;
+			startupManager.preferences.vignetting = tempVignetting;
 			
 			if ( tempBlurIterations.Trim () == "" )
 				tempBlurIterations = "3";
 				
 			startupManager.preferences.blurIterations = int.Parse ( tempBlurIterations );
-				
 			manager.GetComponent<BlurEffect> ().iterations = startupManager.preferences.blurIterations;
 			
 			startupManager.preferences.enableTypes = tempEnableTypes;
@@ -694,6 +705,7 @@ public class MusicViewer : MonoBehaviour
 					manager.GetComponent<BloomAndLensFlares>().enabled = false;
 					manager.GetComponent<BlurEffect>().enabled = false;
 					manager.GetComponent<SunShafts>().enabled = false;
+					manager.GetComponent<Vignetting>().enabled = false;
 				} else {
 					
 					audioVisualizer.topLeftLine.material.color = new Color ( startupManager.preferences.avcR, startupManager.preferences.avcG, startupManager.preferences.avcB, 255 );
@@ -708,6 +720,8 @@ public class MusicViewer : MonoBehaviour
 						manager.GetComponent<BlurEffect>().enabled = true;
 						
 					manager.GetComponent<SunShafts>().enabled = startupManager.preferences.sunShafts;
+					
+					manager.GetComponent<Vignetting>().enabled = startupManager.preferences.vignetting;
 				}
 
 				if ( startupManager.preferences.enableTimebar == false )
@@ -719,6 +733,10 @@ public class MusicViewer : MonoBehaviour
 				
 				StartCoroutine ( "LoadSlideshow", true );
 			}
+
+			bool preferencesSaved = false;
+			preferencesSaved = startupManager.SavePreferences ();
+			while ( preferencesSaved == false ) {}
 
 			GUI.FocusWindow ( 0 );
 			GUI.BringWindowToFront ( 0 );
@@ -850,13 +868,11 @@ public class MusicViewer : MonoBehaviour
 				fileStyle.hover.background = null;
 				folderStyle.hover.background = null;
 				buttonStyle.hover.background = null;
-				guiSkin.button.hover.background = null;
 			} else {
 				
-				fileStyle.hover.background = guiHover;
-				folderStyle.hover.background = guiHover;
-				buttonStyle.hover.background = guiHover;
-				guiSkin.button.hover.background = guiHover;
+				fileStyle.hover.background = guiSkin.button.hover.background;
+				folderStyle.hover.background = guiSkin.button.hover.background;
+				buttonStyle.hover.background = guiSkin.button.hover.background;
 			}
 			
 			musicViewerPosition = GUI.Window ( 0, musicViewerPosition, MusicViewerPane, musicViewerTitle );
@@ -879,10 +895,10 @@ public class MusicViewer : MonoBehaviour
 					GUI.Label ( new Rect ( musicViewerPosition.width/2 - 100, musicViewerPosition.height/4 - 50, 100, 25 ), "Volume" );
 					startupManager.preferences.volumebarValue = GUI.HorizontalSlider ( new Rect ( musicViewerPosition.width/2 - 118, musicViewerPosition.height/4 - 30, 100, 30 ), startupManager.preferences.volumebarValue, 0.0F, 1.0F );
 		
-					if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 - 70, musicViewerPosition.height/4 - 15, 60, 30 ), "Next" ))
+					if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 - 70, musicViewerPosition.height/4 - 15, 60, 30 ), "Next", buttonStyle ))
 						NextSong ();
 
-					if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 - 130, musicViewerPosition.height/4 - 15, 60, 30 ), "Back" ))
+					if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 - 130, musicViewerPosition.height/4 - 15, 60, 30 ), "Back", buttonStyle ))
 						PreviousSong ();
 				
 					GUI.Label ( new Rect ( musicViewerPosition.width/2 + 10, musicViewerPosition.height/4 - 50, 120, 30 ), "Loop" );
@@ -942,7 +958,7 @@ public class MusicViewer : MonoBehaviour
 							else		
 								audioTitle = parentDirectoryFiles[songInt].Substring ( parentDirectoryFiles[songInt].LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length, parentDirectoryFiles[songInt].LastIndexOf ( "." ) - parentDirectoryFiles[songInt].LastIndexOf ( Path.DirectorySeparatorChar ) - Path.DirectorySeparatorChar.ToString().Length );
 
-							if ( GUILayout.Button ( new GUIContent ( audioTitle )))
+							if ( GUILayout.Button ( new GUIContent ( audioTitle ), buttonStyle ))
 							{
 						
 								Resources.UnloadUnusedAssets ();
@@ -986,13 +1002,13 @@ public class MusicViewer : MonoBehaviour
 							GUILayout.Label ( "You don't have any music to play!\n\nIf you have some music (.wav, .ogg, or .aiff),\nclick 'Open File Browser' under the System Commands bar bellow." +
 								"\n\nYou can also download music by navigating\nto the OnlineMusicBrowser (press the right arrow key).\n", centerStyle );
 						
-							if ( GUILayout.Button ( "Hide Tutorials"))
+							if ( GUILayout.Button ( "Hide Tutorials", buttonStyle ))
 							{
 							
 								startupManager.preferences.enableTutorials = false;
 							}
 							
-							if ( GUILayout.Button ( "View Extended Help/Tutorial" ))
+							if ( GUILayout.Button ( "View Extended Help/Tutorial", buttonStyle ))
 							{
 											
 								Process.Start ( startupManager.helpPath );
@@ -1101,7 +1117,7 @@ public class MusicViewer : MonoBehaviour
 					if ( browserCurrentDirectory.Substring ( 0, browserCurrentDirectory.LastIndexOf ( Path.DirectorySeparatorChar )).Length > 0 )
 					{
 						
-						if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 - 300, musicViewerPosition.height/4 - 15, 140, 30 ), new GUIContent ( "Previous", paneManager.leftArrowNormal )))
+						if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 - 300, musicViewerPosition.height/4 - 15, 140, 30 ), new GUIContent ( "Previous", paneManager.leftArrowNormal ), buttonStyle ))
 						{
 						
 							browserCurrentDirectory = browserCurrentDirectory.Substring ( 0, browserCurrentDirectory.LastIndexOf ( Path.DirectorySeparatorChar ));
@@ -1110,7 +1126,7 @@ public class MusicViewer : MonoBehaviour
 						}
 					}
 					
-					if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 - 150, musicViewerPosition.height/4 - 15, 200, 30 ), "Active Directory" ))
+					if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 - 150, musicViewerPosition.height/4 - 15, 200, 30 ), "Active Directory", buttonStyle ))
 					{
 						
 						browserCurrentDirectory = parentDirectory;
@@ -1118,7 +1134,7 @@ public class MusicViewer : MonoBehaviour
 						browserCurrentDirectoryFiles = parentDirectoryFiles;
 					}
 		
-					if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 + 60, musicViewerPosition.height/4 - 15, 240, 30 ), "Open in " + startupManager.directoryBrowser ))
+					if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 + 60, musicViewerPosition.height/4 - 15, 240, 30 ), "Open in " + startupManager.directoryBrowser, buttonStyle ))
 						Process.Start ( browserCurrentDirectory );
 					
 					GUILayout.BeginHorizontal ();
@@ -1197,10 +1213,10 @@ public class MusicViewer : MonoBehaviour
 				{
 					
 					if ( startupManager.preferences.enableQuickManage == true )
-						if ( GUILayout.Button ( "Open Current Directory" ))
+						if ( GUILayout.Button ( "Open Current Directory", buttonStyle ))
 							Process.Start ( parentDirectory );
 					
-					if ( GUILayout.Button ( "Open File Browser" ))
+					if ( GUILayout.Button ( "Open File Browser", buttonStyle ))
 					{
 						
 						browserCurrentDirectory = parentDirectory;
@@ -1210,17 +1226,21 @@ public class MusicViewer : MonoBehaviour
 						scrollPosition.y = 0;
 					}
 				} else {
-					if ( GUILayout.Button ( "Close File Browser" ))
+					if ( GUILayout.Button ( "Close File Browser", buttonStyle ))
 					{
 				
 						fileBrowser = false;
 						Refresh ();
 					
 						scrollPosition.y = 0;
+						
+						bool preferencesSaved = false;
+						preferencesSaved = startupManager.SavePreferences ();
+						while ( preferencesSaved == false ) {}
 					}
 				}
 										
-				if ( GUILayout.Button ( "Options" ))
+				if ( GUILayout.Button ( "Options", buttonStyle ))
 					showOptionsWindow = true;
 			
 				GUI.EndScrollView();
@@ -1282,16 +1302,18 @@ public class MusicViewer : MonoBehaviour
 				audioVisualizer.topRightLine.material.color = new Color ( startupManager.preferences.avcR, startupManager.preferences.avcG, startupManager.preferences.avcB, 255 );
 				audioVisualizer.bottomRightLine.material.color = new Color ( startupManager.preferences.avcR, startupManager.preferences.avcG, startupManager.preferences.avcB, 255 );
 		
-				manager.GetComponent<BloomAndLensFlares>().enabled = Convert.ToBoolean ( startupManager.preferences.bloom );
-				manager.GetComponent<BlurEffect>().enabled = Convert.ToBoolean ( startupManager.preferences.blur );
-				manager.GetComponent<SunShafts>().enabled = Convert.ToBoolean ( startupManager.preferences.sunShafts );
-					
+				manager.GetComponent<BloomAndLensFlares>().enabled = startupManager.preferences.bloom;
+				manager.GetComponent<BlurEffect>().enabled = startupManager.preferences.blur;
+				manager.GetComponent<SunShafts>().enabled = startupManager.preferences.sunShafts;
+				manager.GetComponent<Vignetting>().enabled = startupManager.preferences.vignetting;
+				
 				manager.GetComponent<BlurEffect> ().iterations = startupManager.preferences.blurIterations;
 			} else {
 		
 				manager.GetComponent<BloomAndLensFlares>().enabled = false;
 				manager.GetComponent<BlurEffect>().enabled = false;
 				manager.GetComponent<SunShafts>().enabled = false;
+				manager.GetComponent<Vignetting>().enabled = false;
 			}
 			
 			if ( showOptionsWindow == true || startupManager.showUnderlay == true )
