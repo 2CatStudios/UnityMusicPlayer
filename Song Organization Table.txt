@@ -1,35 +1,33 @@
 UnityMusicPlayer
 OnlineMusicBrowser
-Song classification table
+Song Organization
 NOTE: Encrypted audio must be uncompressed!
 
-Title
-Album
-Artist
-Genre
-Type
-Download link [or] Release date (Start with "|", no space)
-SupportLink [or] "NONE"
-Date added
+	<Song featured=‘true/false'>
+		<name>NAME</name>
+		<album>ALBUM</album>
+		<artist>ARTIST</artist>
+		<genre>GENRE</genre>
+		<format>FORMAT</format>
+        	<downloadURL>URL</downloadURL>
+		<link name=‘NAME’>URL</link>
+		<releaseDate>DATE</releaseDate>
+        	<smallArtworkURL>URL</smallArtworkURL>
+        	<largeArtworkURL>URL</largeArtworkURL>
+	</Song>
 
 
-Examples:
+Example:
 
-Classic Tetris
-UMP Exclusive
-Combustible Lemonade
-Soundtrack (VideoGame)
-wav
-http://ubuntuone.com/7g2DhY50oCgdIMJENFs68w
-NONE
-January 2, 2013
-
-
-Classic Tetris
-UMP Exclusive
-Combustible Lemonade
-Soundtrack (VideoGame)
-wav
-|4/24/13
-http://soundcloud.com/combustible-lemonade
-Unavailable
+<Song featured='false'>
+		<name>Liberty</name>
+		<album>Silent Room</album>
+		<artist>DJ Purify</artist>
+		<genre>Trance</genre>
+		<format>ogg</format>
+        <downloadURL>https://copy.com/wGPdMB44oQSV</downloadURL>
+		<link name='Bandcamp'>http://purify1.bandcamp.com/track/purify-liberty</link>
+		<releaseDate>January 2, 2013</releaseDate>
+        <smallArtworkURL>https://copy.com/VNkgncQtJ1QF</smallArtworkURL>
+        <largeArtworkURL>https://copy.com/IirTDqQBtcaq</largeArtworkURL>
+	</Song>
