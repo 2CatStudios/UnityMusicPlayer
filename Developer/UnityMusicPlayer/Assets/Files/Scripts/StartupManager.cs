@@ -389,7 +389,7 @@ public class StartupManager : MonoBehaviour
 					if ( File.Exists ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" ))
 						File.Delete ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" );
 						
-					Uri url = new Uri ( "http://raw.github.com/2CatStudios/UnityMusicPlayer/master/Downloads.xml" );
+					Uri url = new Uri ( "http://2catstudios.github.io/UnityMusicPlayer/OnlineMusicBrowser.xml" );
 					using ( client = new WebClient ())
 					{
 							
@@ -404,7 +404,7 @@ public class StartupManager : MonoBehaviour
 						if ( File.Exists ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" ))
 							File.Delete ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" );
 					
-						Uri url = new Uri ( "http://raw.github.com/2CatStudios/UnityMusicPlayer/master/Developer/Downloads.xml" );
+						Uri url = new Uri ( "http://2catstudios.github.io/UnityMusicPlayer/DevOnlineMusicBrowser.xml" );
 						using ( client = new WebClient ())
 						{
 						
@@ -414,7 +414,7 @@ public class StartupManager : MonoBehaviour
 					} catch {
 				
 						UnityEngine.Debug.Log ( "Unable to download XML file! Downloading regular file instead." );
-						Uri url = new Uri ( "http://raw.github.com/2CatStudios/UnityMusicPlayer/master/Downloads.xml" );
+						Uri url = new Uri ( "http://2catstudios.github.io/UnityMusicPlayer/OnlineMusicBrowser.xml" );
 						using ( client = new WebClient ())
 						{
 						

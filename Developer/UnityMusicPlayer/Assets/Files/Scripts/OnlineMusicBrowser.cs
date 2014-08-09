@@ -719,9 +719,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 						specificSort = allRecentlyAddedList;
 						sortBy = 0;
 					}
-					
-					GUILayout.FlexibleSpace ();
 				}
+				GUILayout.FlexibleSpace ();
 				break;
 	
 				case 2:
