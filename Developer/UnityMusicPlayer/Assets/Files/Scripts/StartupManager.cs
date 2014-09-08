@@ -389,7 +389,7 @@ public class StartupManager : MonoBehaviour
 					if ( File.Exists ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" ))
 						File.Delete ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" );
 						
-					Uri url = new Uri ( "http://2catstudios.github.io/UnityMusicPlayer/OnlineMusicBrowser.xml" );
+					Uri url = new Uri ( "http://2catstudios.github.io/UnityMusicPlayer/Stable/OnlineMusicBrowser.xml" );
 					using ( client = new WebClient ())
 					{
 							
@@ -404,7 +404,7 @@ public class StartupManager : MonoBehaviour
 						if ( File.Exists ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" ))
 							File.Delete ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" );
 					
-						Uri url = new Uri ( "http://2catstudios.github.io/UnityMusicPlayer/DevOnlineMusicBrowser.xml" );
+						Uri url = new Uri ( "http://2catstudios.github.io/UnityMusicPlayer/Developer/OnlineMusicBrowser.xml" );
 						using ( client = new WebClient ())
 						{
 						
@@ -414,7 +414,7 @@ public class StartupManager : MonoBehaviour
 					} catch {
 				
 						UnityEngine.Debug.Log ( "Unable to download XML file! Downloading regular file instead." );
-						Uri url = new Uri ( "http://2catstudios.github.io/UnityMusicPlayer/OnlineMusicBrowser.xml" );
+						Uri url = new Uri ( "http://2catstudios.github.io/UnityMusicPlayer/Stable/OnlineMusicBrowser.xml" );
 						using ( client = new WebClient ())
 						{
 						
@@ -428,7 +428,7 @@ public class StartupManager : MonoBehaviour
 			if ( updateVersion == true )
 			{
 				
-				applicationDownloads = wClient.DownloadString ( "http://raw.github.com/2CatStudios/UnityMusicPlayer/master/VersionInfo.txt" ).Split ( '\n' );
+				applicationDownloads = wClient.DownloadString ( "http://2catstudios.github.io/UnityMusicPlayer/Stable/VersionInfo.txt" ).Split ( '\n' );
 
 				websiteLink = applicationDownloads [4];
 					
@@ -442,7 +442,7 @@ public class StartupManager : MonoBehaviour
 				if ( developmentMode == true )
 				{
 					
-					devApplicationDownloads = wClient.DownloadString ( "http://raw.github.com/2CatStudios/UnityMusicPlayer/master/Developer/VersionInfo.txt" ).Split ( '\n' );
+					devApplicationDownloads = wClient.DownloadString ( "http://2catstudios.github.io/UnityMusicPlayer/Developer/VersionInfo.txt" ).Split ( '\n' );
 					
 					newestVersion = Convert.ToSingle ( applicationDownloads [1]);
 					devVersion = Convert.ToSingle ( devApplicationDownloads [1]);
@@ -572,7 +572,7 @@ public class StartupManager : MonoBehaviour
 	IEnumerator UnableToConnectToOMB ()
 	{
 
-		connectionInformation.text = "Unable to connect to the OnlineMusicDatabase!";
+		connectionInformation.text = "Unable to connect to the OnlineMusicBrowser!";
 
 		yield return new WaitForSeconds ( 10 );
 		connectionInformation.text = "";
