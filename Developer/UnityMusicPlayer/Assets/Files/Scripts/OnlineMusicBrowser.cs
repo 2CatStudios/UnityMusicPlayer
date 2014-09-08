@@ -497,10 +497,12 @@ public class OnlineMusicBrowser : MonoBehaviour
 			
 			GUILayout.Space ( 20 );
 			GUILayout.BeginHorizontal ();
-			GUILayout.Space ( 100 );
-	
+			GUILayout.FlexibleSpace ();
 			if ( sortBy != 1 )
+			{
+				
 				scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  onlineMusicBrowserPosition.height - 200 ));
+			}
 				
 			switch ( sortBy )
 			{
@@ -772,8 +774,9 @@ public class OnlineMusicBrowser : MonoBehaviour
 				}
 				break;
 			}
-			
+
 			GUILayout.EndScrollView ();
+			GUILayout.FlexibleSpace ();
 			GUILayout.EndHorizontal ();
 		} else {
 			

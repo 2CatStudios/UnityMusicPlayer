@@ -69,6 +69,9 @@ public class Preferences
 	[XmlElement ( "EnablePreciseTimemark" )]
 	public bool enablePreciseTimemark = false;
 	
+	[XmlElement ( "EnableHideGUINotifications" )]
+	public bool enableHideGUINotifications = true;
+	
 	[XmlElement ( "VolumebarValue" )]
 	public float volumebarValue = 1.0f;
 	
@@ -262,7 +265,7 @@ public class StartupManager : MonoBehaviour
 		{
 			
 			Directory.CreateDirectory ( slideshowPath );
-				File.Copy ( Application.streamingAssetsPath + Path.DirectorySeparatorChar + "UnityMusicPlayerIcon.png", slideshowPath + "UnityMusicPlayerIcon.png", true );
+			File.Copy ( Application.streamingAssetsPath + Path.DirectorySeparatorChar + "UnityMusicPlayerIcon.png", slideshowPath + "UnityMusicPlayerIcon.png", true );
 		}
 		
 		if ( !File.Exists ( slideshowPath + "UnityMusicPlayerIcon.png" ))

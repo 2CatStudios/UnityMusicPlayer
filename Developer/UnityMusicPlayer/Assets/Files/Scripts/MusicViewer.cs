@@ -85,6 +85,7 @@ public class MusicViewer : MonoBehaviour
 	Vector2 scrollPosition;
 	Vector2 mousePos;
 	
+	Rect bottomBarPosition;
 	private float bottomBarVelocity = 0.0F;
 	
 	int[] previousSongs = new int  [ 7 ] { 0, 0, 0, 0, 0, 0, 0 };
@@ -186,14 +187,13 @@ public class MusicViewer : MonoBehaviour
 	bool tempEnableTimebar;
 	bool tempEnableArtwork;
 	bool tempEnableQuickManage;
+	bool tempEnableHideGUINotifications;
 	bool tempEnablePreciseTimemark;
 	bool tempEnableDeepSearch;
 	bool tempEnableArrows;
 
-	bool tempCheckForUpdates;
+	//bool tempCheckForUpdates;
 	internal bool tempEnableOMB;
-	
-	Rect bottomBarPosition;
 
 #endregion
 
@@ -258,7 +258,7 @@ public class MusicViewer : MonoBehaviour
 		parentDirectory = startupManager.preferences.lastDirectory;
 		activeDirectory = parentDirectory;
 		
-		tempCheckForUpdates = startupManager.preferences.checkForUpdate;
+		//tempCheckForUpdates = startupManager.preferences.checkForUpdate;
 		tempEnableOMB = startupManager.preferences.enableOMB;
 
 		tempEnableTypes = startupManager.preferences.enableTypes;	
@@ -268,6 +268,7 @@ public class MusicViewer : MonoBehaviour
 		tempEnableDeepSearch = startupManager.preferences.enableDeepSearch;
 		tempEnableQuickManage = startupManager.preferences.enableQuickManage;
 		tempEnablePreciseTimemark = startupManager.preferences.enablePreciseTimemark;
+		tempEnableHideGUINotifications = startupManager.preferences.enableHideGUINotifications;
 
 		tempAVcR = startupManager.preferences.avcR;
 		tempAVcG = startupManager.preferences.avcG;
@@ -507,12 +508,12 @@ public class MusicViewer : MonoBehaviour
 		tempEnableArrows = GUILayout.Toggle ( tempEnableArrows, "Toggle Arrows" );
 		tempEnableArtwork = GUILayout.Toggle ( tempEnableArtwork, "Toggle Artwork" );
 		tempEnableTimebar = GUILayout.Toggle ( tempEnableTimebar, "Toggle Timebar" );
-		tempCheckForUpdates = GUILayout.Toggle ( tempCheckForUpdates, "Check for Updates" );
+//		tempCheckForUpdates = GUILayout.Toggle ( tempCheckForUpdates, "Check for Updates" );
 		tempEnableDeepSearch = GUILayout.Toggle ( tempEnableDeepSearch, "Toggle DeepSearch" );
 		tempEnableQuickManage = GUILayout.Toggle ( tempEnableQuickManage, "Toggle QuickManage" );
 		tempEnablePreciseTimemark = GUILayout.Toggle ( tempEnablePreciseTimemark, "Toggle Precise Timemark" );
-		
 		tempEnableOMB = GUILayout.Toggle ( tempEnableOMB, "Toggle OnlineMusicBrowser" );
+		tempEnableHideGUINotifications = GUILayout.Toggle ( tempEnableHideGUINotifications, "Toggle HideGUI Notifications" );
 		
 		GUILayout.EndVertical ();
 		
@@ -587,7 +588,7 @@ public class MusicViewer : MonoBehaviour
 			startupManager.preferences.enableTutorials = true;
 		}
 		
-		if ( GUILayout.Button ( "Close" ))
+		if ( GUILayout.Button ( "Save & Close" ))
 			close = true;
 		
 		GUILayout.EndHorizontal ();
@@ -678,7 +679,8 @@ public class MusicViewer : MonoBehaviour
 			startupManager.preferences.enableDeepSearch = tempEnableDeepSearch;
 			startupManager.preferences.enableQuickManage = tempEnableQuickManage;
 			startupManager.preferences.enablePreciseTimemark = tempEnablePreciseTimemark;
-			startupManager.preferences.checkForUpdate = tempCheckForUpdates;
+			//startupManager.preferences.checkForUpdate = tempCheckForUpdates;
+			startupManager.preferences.enableHideGUINotifications = tempEnableHideGUINotifications;
 			
 			if ( startupManager.preferences.enableOMB == false && Convert.ToBoolean ( tempEnableOMB ) == true )
 			{
@@ -941,10 +943,10 @@ public class MusicViewer : MonoBehaviour
 					}
 						
 					GUILayout.BeginHorizontal ();
-					GUILayout.Space ( musicViewerPosition.width / 2 - 300 );
+					GUILayout.FlexibleSpace ();
 					GUILayout.BeginVertical ();
-					GUILayout.Space ( musicViewerPosition.height / 4 + 25 );
-					scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  musicViewerPosition.height - ( musicViewerPosition.height / 4 + 65 )));
+					GUILayout.Space ( musicViewerPosition.height / 4 );
+					scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width ( 600 ), GUILayout.Height (  musicViewerPosition.height - ( musicViewerPosition.height / 4 + 65 )));
 					
 					if ( parentDirectoryFiles.Any ())
 					{
@@ -1137,10 +1139,11 @@ public class MusicViewer : MonoBehaviour
 					if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 + 60, musicViewerPosition.height/4 - 15, 240, 30 ), "Open in " + startupManager.directoryBrowser, buttonStyle ))
 						Process.Start ( browserCurrentDirectory );
 					
-					GUILayout.BeginHorizontal ();
-					GUILayout.Space ( musicViewerPosition.width / 2 - 300 );
+GUILayout.BeginHorizontal ();
+GUILayout.FlexibleSpace ();
 					GUILayout.BeginVertical ();
-					GUILayout.Space ( musicViewerPosition.height / 4 + 25 );
+					
+					GUILayout.Space ( musicViewerPosition.height / 4 );
 					scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  musicViewerPosition.height - ( musicViewerPosition.height / 4 + 53 )));
 			
 					for ( int i = 0; i < browserCurrentDirectoryFiles.Length; i += 1 )
@@ -1243,9 +1246,10 @@ public class MusicViewer : MonoBehaviour
 				if ( GUILayout.Button ( "Options", buttonStyle ))
 					showOptionsWindow = true;
 			
-				GUI.EndScrollView();
+				GUILayout.EndScrollView();
 				GUILayout.EndVertical();
-				GUILayout.EndHorizontal();
+GUILayout.FlexibleSpace ();
+GUILayout.EndHorizontal();
 			}
 
 			GUILayout.BeginArea ( bottomBarPosition );
@@ -1253,6 +1257,9 @@ public class MusicViewer : MonoBehaviour
 			
 			GUILayout.Space ( 10 );
 			hideGUI = GUILayout.Toggle ( hideGUI, "", hideGUIStyle, GUILayout.Height ( 36 ));
+			
+			currentSong.enabled = !hideGUI;
+			timemark.enabled = !hideGUI;
 			
 			GUILayout.Space ( 10 );
 			showVisualizer = GUILayout.Toggle ( showVisualizer, "", showVisualizerStyle, GUILayout.Height ( 36 ));
@@ -1749,6 +1756,11 @@ public class MusicViewer : MonoBehaviour
 			wasPlaying = true;
 			
 			socketsManager.PrepareUDPMessage ( audioTitle );
+			if ( hideGUI == true && startupManager.preferences.enableHideGUINotifications == true )
+			{
+				
+				GameObject.FindGameObjectWithTag ( "NotificationManager" ).GetComponent<NotificationManager>().Message ( "Now Playing '" + audioTitle + "'", true, false, 3.0f, true );
+			}
 				
 			if ( startupManager.developmentMode == true )
 				UnityEngine.Debug.Log ( "Playing audio" );
@@ -1793,6 +1805,7 @@ public class MusicViewer : MonoBehaviour
 		
 		if ( new Rect (( musicViewerPosition.width - 240 ) / 2 , 0, 240, 36 ).Contains ( Input.mousePosition ) && showOptionsWindow == false )
 		{
+			
 			float bottomBarYUp = Mathf.SmoothDamp ( bottomBarPosition.y, musicViewerPosition.height - 36, ref bottomBarVelocity, 0.05f );
 			bottomBarPosition = new Rect (( musicViewerPosition.width - 240 ) / 2 , bottomBarYUp, 240, 64 );
 		} else {
