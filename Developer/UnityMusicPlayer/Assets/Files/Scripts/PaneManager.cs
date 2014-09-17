@@ -1,7 +1,7 @@
 using System.IO;
 using UnityEngine;
 using System.Collections;
-//Written by GibsonBethke
+//Written by Michael Bethke
 //Jesus, you are awesome!
 //Thanks to Jan Heemstra for the idea.
 public class PaneManager : MonoBehaviour
@@ -46,13 +46,13 @@ public class PaneManager : MonoBehaviour
 
 /*
 
-	GUI.Window 0 is MusicViewer
-	GUI.Window 1 is OnlineMusicViewer
-	GUI.Window 2 is DownloadInfo
-	GUI.Window 3 is UpdateAvailable
-	GUI.Window 4 is *NULL*
-	GUI.Window 5 is Settings
-	GUI.Window 6 is NewFolder
+	GUI.Window 0 : MusicViewer
+	GUI.Window 1 : OnlineMusicViewer
+	GUI.Window 2 : DownloadInfo
+	GUI.Window 3 : UpdateAvailable
+	GUI.Window 4 : *NULL*
+	GUI.Window 5 : Settings
+	GUI.Window 6 : *NULL*
 
 */
 	
@@ -235,7 +235,7 @@ public class PaneManager : MonoBehaviour
 			}
 		}
 		
-		if ( musicViewer.slideshow == false )
+		if ( musicViewer.slideshow == false && musicViewer.hideGUI == false )
 		{
 			
 			if ( GUI.Button ( new Rect ( musicViewer.musicViewerPosition.width - 75, musicViewer.musicViewerPosition.height - 40, 60, 30 ), "Quit" ))

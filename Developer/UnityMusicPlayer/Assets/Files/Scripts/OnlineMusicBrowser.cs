@@ -11,7 +11,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Xml.Serialization;
 using System.Collections.Generic;
-//Written by GibsonBethke
+//Written by Michael Bethke
 //Thanks to Mike Talbot
 [XmlRoot("Songs")]
 public class SongCollection

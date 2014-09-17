@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+//Written by Michael Bethke
 //Thank you Jesus, for your forgiveness
 public class LoadingImage : MonoBehaviour
 {

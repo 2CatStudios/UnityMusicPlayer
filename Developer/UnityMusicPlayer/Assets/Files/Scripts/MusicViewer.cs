@@ -6,7 +6,7 @@ using System.Text;
 using System.Collections;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
-//Written by Gibson Bethke
+//Written by Michael Bethke
 //Thank you for saving me, Jesus!
 //Thank you for living in me, Spirit!
 //Thank you for making me, Father!
@@ -14,7 +14,8 @@ public class MusicViewer : MonoBehaviour
 {
 	
 	public Font secretCode;
-	public GUISkin guiSkin;	
+	public GUISkin guiSkin;
+	public GUISkin optionsSkin;
 	
 #region Components
 
@@ -85,6 +86,10 @@ public class MusicViewer : MonoBehaviour
 	Vector2 scrollPosition;
 	Vector2 mousePos;
 	
+	
+	Vector2 optionsWindowScroll;
+	
+	
 	Rect bottomBarPosition;
 	private float bottomBarVelocity = 0.0F;
 	
@@ -148,7 +153,7 @@ public class MusicViewer : MonoBehaviour
 #region EffectsSettings
 	
 	bool echo;
-	bool hideGUI = false;
+	internal bool hideGUI = false;
 	internal bool showVisualizer = false;
 	bool halfSpeed = false;
 	bool doubleSpeed = false;
@@ -444,18 +449,13 @@ public class MusicViewer : MonoBehaviour
 		GUI.FocusWindow ( 5 );
 		GUI.BringWindowToFront ( 5 );
 
-#region Settings
+
 		
 		GUILayout.BeginVertical ();
-		GUILayout.BeginHorizontal ();
+		optionsWindowScroll = GUILayout.BeginScrollView ( optionsWindowScroll, false, true );
 		
-#region AudioVisualizer
 		
-		GUILayout.BeginVertical ();
-		
-		GUILayout.Box ( "AudioVisualizer", GUILayout.Width ( 173 ));
-		
-		GUI.contentColor = new Color ( tempAVcR, tempAVcG, tempAVcB, 1.000F );
+		GUILayout.Box ( "AudioVisualizer" );
 		
 		GUILayout.BeginHorizontal ();
 		GUILayout.Label ( "Red", GUILayout.MaxWidth ( 50 ));
@@ -472,131 +472,134 @@ public class MusicViewer : MonoBehaviour
 		tempAVcB = GUILayout.HorizontalSlider ( tempAVcB, 0.0F, 1.000F );
 		GUILayout.EndHorizontal ();
 		
-		GUI.contentColor = Color.white;
+		
+		GUI.contentColor = new Color ( tempAVcR, tempAVcG, tempAVcB, 1.000F );
 		
 		GUILayout.BeginHorizontal ();
-		GUILayout.Label ( "YScale Max", GUILayout.MaxWidth ( 80 ));
+		GUILayout.FlexibleSpace ();
+		GUILayout.Label ( guiSkin.toggle.normal.background, GUIStyle.none );
+		GUILayout.FlexibleSpace ();
+		GUILayout.EndHorizontal ();
+		
+		GUI.contentColor = Color.white;
+		
+		
+		GUILayout.BeginHorizontal ();
+		GUILayout.FlexibleSpace ();
+		GUILayout.Label ( "Sample Colour" );
+		GUILayout.FlexibleSpace ();
+		GUILayout.EndHorizontal ();
+		
+		
+		tempSunShafts = GUILayout.Toggle ( tempSunShafts, "SunShafts" );
+		tempBloom = GUILayout.Toggle ( tempBloom, "Bloom" );
+		
+		tempVignetting = GUILayout.Toggle ( tempVignetting, "Vignetting" );
+		
+		tempBlur = GUILayout.Toggle ( tempBlur, "Blur" );
+		
+		if ( tempBlur == true )
+		{
+			
+			GUILayout.BeginHorizontal ();
+			GUILayout.Space ( 10 );
+			tempBlurIterations = GUILayout.TextField ( tempBlurIterations, 1, GUILayout.MaxWidth ( 16 ));
+			tempBlurIterations = RegexToString ( tempBlurIterations, false );
+			GUILayout.Label ( "Blur Amount (iterations)" );
+			GUILayout.EndHorizontal ();
+		}
+		
+		GUILayout.BeginHorizontal ();
+		GUILayout.Label ( "Max Height", GUILayout.MaxWidth ( 80 ));
 		tempYScale = GUILayout.HorizontalSlider ( tempYScale, 10.0F, 2000.0F );
 		GUILayout.EndHorizontal ();
 		
-		tempSunShafts = GUILayout.Toggle ( tempSunShafts, "Toggle SunShafts" );
-		tempBloom = GUILayout.Toggle ( tempBloom, "Toggle Bloom" );
+
+
+		GUILayout.Box ( "General" );
 		
-		GUILayout.BeginHorizontal ();
-		
-		tempBlur = GUILayout.Toggle ( tempBlur, "Toggle Blur" );
-		GUILayout.Label ( "/" );
-		
-		GUILayout.BeginHorizontal ();
-		GUILayout.Label ( "Amount" );
-		tempBlurIterations = GUILayout.TextField ( tempBlurIterations, 1, GUILayout.MaxWidth ( 16 ));
-		tempBlurIterations = RegexToString ( tempBlurIterations, false );
-		GUILayout.EndHorizontal ();
-		GUILayout.EndHorizontal ();
-		
-		tempVignetting = GUILayout.Toggle ( tempVignetting, "Toggle Vignetting" );
-		
-		GUILayout.EndVertical ();
-		
-#endregion
-#region General
-		
-		GUILayout.BeginVertical ();
-		GUILayout.Box ( "General", GUILayout.Width ( 173 ));
-		
-		tempEnableTypes = GUILayout.Toggle ( tempEnableTypes, "Toggle Types" );
-		tempEnableArrows = GUILayout.Toggle ( tempEnableArrows, "Toggle Arrows" );
-		tempEnableArtwork = GUILayout.Toggle ( tempEnableArtwork, "Toggle Artwork" );
-		tempEnableTimebar = GUILayout.Toggle ( tempEnableTimebar, "Toggle Timebar" );
+		tempEnableArrows = GUILayout.Toggle ( tempEnableArrows, "Show Arrows" );
+		tempEnableArtwork = GUILayout.Toggle ( tempEnableArtwork, "Enable Artwork" );
+		tempEnableTimebar = GUILayout.Toggle ( tempEnableTimebar, "Enable Timebar" );
 //		tempCheckForUpdates = GUILayout.Toggle ( tempCheckForUpdates, "Check for Updates" );
-		tempEnableDeepSearch = GUILayout.Toggle ( tempEnableDeepSearch, "Toggle DeepSearch" );
-		tempEnableQuickManage = GUILayout.Toggle ( tempEnableQuickManage, "Toggle QuickManage" );
-		tempEnablePreciseTimemark = GUILayout.Toggle ( tempEnablePreciseTimemark, "Toggle Precise Timemark" );
-		tempEnableOMB = GUILayout.Toggle ( tempEnableOMB, "Toggle OnlineMusicBrowser" );
-		tempEnableHideGUINotifications = GUILayout.Toggle ( tempEnableHideGUINotifications, "Toggle HideGUI Notifications" );
-		
-		GUILayout.EndVertical ();
-		
-#endregion
-		
-		GUILayout.EndHorizontal ();
-		GUILayout.BeginHorizontal ();
+		tempEnableDeepSearch = GUILayout.Toggle ( tempEnableDeepSearch, "Enable DeepSearch" );
+		tempEnableTypes = GUILayout.Toggle ( tempEnableTypes, "Show Audio Format" );
+		tempEnableQuickManage = GUILayout.Toggle ( tempEnableQuickManage, "Enable QuickManage" );
+		tempEnableHideGUINotifications = GUILayout.Toggle ( tempEnableHideGUINotifications, "Hide GUI Notifications" );
+		tempEnablePreciseTimemark = GUILayout.Toggle ( tempEnablePreciseTimemark, "Enable Precise Timemark" );
+		tempEnableOMB = GUILayout.Toggle ( tempEnableOMB, "Enable OnlineMusicBrowser" );
 
-#region AudioEcho
 
-		GUILayout.BeginVertical ();
-		GUILayout.Box ( "Audio Echo", GUILayout.Width ( 173 ));
+
+		GUILayout.Box ( "Audio Echo" );
 		
 		GUILayout.BeginHorizontal ();
 		GUILayout.Label ( "Echo Delay" );
-		tempEchoDelay = GUILayout.TextField ( tempEchoDelay, 3 );
+		tempEchoDelay = GUILayout.TextField ( tempEchoDelay, 3, GUILayout.Width ( 100 ));
 		tempEchoDelay = RegexToString ( tempEchoDelay, true );
 		GUILayout.EndHorizontal ();
 
 		GUILayout.BeginHorizontal ();
 		GUILayout.Label ( "Echo Decay Rate" );
-		tempEchoDecayRate = GUILayout.TextField ( tempEchoDecayRate, 3 );
+		tempEchoDecayRate = GUILayout.TextField ( tempEchoDecayRate, 3, GUILayout.Width ( 100 ));
 		tempEchoDecayRate = RegexToString ( tempEchoDecayRate, true );
 		GUILayout.EndHorizontal ();
 
 		GUILayout.BeginHorizontal ();
 		GUILayout.Label ( "Echo Wet Mix" );
-		tempEchoWetMix = GUILayout.TextField (tempEchoWetMix, 3 );
+		tempEchoWetMix = GUILayout.TextField (tempEchoWetMix, 3, GUILayout.Width ( 100 ));
 		tempEchoWetMix = RegexToString ( tempEchoWetMix, true );
 		GUILayout.EndHorizontal ();
 
 		GUILayout.BeginHorizontal ();
 		GUILayout.Label ( "Echo Dry Mix" );
-		tempEchoDryMix = GUILayout.TextField ( tempEchoDryMix, 3 );
+		tempEchoDryMix = GUILayout.TextField ( tempEchoDryMix, 3, GUILayout.Width ( 100 ));
 		tempEchoDryMix = RegexToString ( tempEchoDryMix, true );
 		GUILayout.EndHorizontal ();
-		
-		GUILayout.EndVertical ();
-		
-#endregion
-#region Slideshow
-		
-		GUILayout.BeginVertical ();
-		GUILayout.Box ( "Slideshow", GUILayout.Width ( 173 ));
 
+
+		
+		GUILayout.Box ( "Slideshow" );
+		
+		GUI.skin.button.fontSize = 16;
 		if ( GUILayout.Button ( "Start Slideshow" ))
 		{
 			
 			slideshow = true;
 			close = true;
 		}
-			
-		tempAutoAVOff = GUILayout.Toggle ( tempAutoAVOff, "Force AV OFF" );
+		GUI.skin.button.fontSize = 22;
+		
+		tempAutoAVOff = GUILayout.Toggle ( tempAutoAVOff, "Force AudioVisualizer OFF" );
 		tempAutoAVBlur = GUILayout.Toggle ( tempAutoAVBlur, "Force Blur ON" );
 		
 		GUILayout.BeginHorizontal ();
-		GUILayout.Label ( "Display Time" );
-		tempSlideshowDisplayTime = GUILayout.TextField ( tempSlideshowDisplayTime, 3 );
+		GUILayout.Label ( "Display Time (seconds)" );
+		tempSlideshowDisplayTime = GUILayout.TextField ( tempSlideshowDisplayTime, 3, GUILayout.Width ( 100 ));
 		tempSlideshowDisplayTime = RegexToString ( tempSlideshowDisplayTime, true );
 		GUILayout.EndHorizontal ();
 		
-		GUILayout.EndVertical ();
-		GUILayout.EndHorizontal ();
 		
-#endregion
 		
-		GUILayout.BeginHorizontal ();
+		GUILayout.Box ( "UnityMusicPlayer Version " + startupManager.runningVersion );
 		
+		GUI.skin.button.fontSize = 16;
 		if ( GUILayout.Button ( "Reset Tutorials" ))
 		{
 			
 			startupManager.preferences.enableTutorials = true;
 		}
+		GUI.skin.button.fontSize = 22;
+		
 		
 		if ( GUILayout.Button ( "Save & Close" ))
 			close = true;
 		
-		GUILayout.EndHorizontal ();
 		
-		GUILayout.Box ( "UnityMusicPlayer Version " + startupManager.runningVersion );
+		GUILayout.EndScrollView ();
 		GUILayout.EndVertical ();
-		
-#endregion
+
+
 		
 		if ( close == true )
 		{
@@ -745,6 +748,7 @@ public class MusicViewer : MonoBehaviour
 			paneManager.popupBlocking = false;
 			close = false;
 			showOptionsWindow = false;
+			optionsWindowScroll = new Vector2 ( 0, 0 );
 		}
 	}
 	
@@ -854,12 +858,14 @@ public class MusicViewer : MonoBehaviour
 		
 		if ( showMusicViewer == true )
 		{
+			
+			GUI.skin = optionsSkin;
 
 			if ( showOptionsWindow == true )
 			{
 
 				paneManager.popupBlocking = true;
-				GUI.Window ( 5, optionsWindowRect, OptionsWindow, "Options and Settings" );
+				GUI.Window ( 5, optionsWindowRect, OptionsWindow, "" );
 			}
 			
 			GUI.skin = guiSkin;
@@ -895,7 +901,7 @@ public class MusicViewer : MonoBehaviour
 				{
 					
 					GUI.Label ( new Rect ( musicViewerPosition.width/2 - 100, musicViewerPosition.height/4 - 50, 100, 25 ), "Volume" );
-					startupManager.preferences.volumebarValue = GUI.HorizontalSlider ( new Rect ( musicViewerPosition.width/2 - 118, musicViewerPosition.height/4 - 30, 100, 30 ), startupManager.preferences.volumebarValue, 0.0F, 1.0F );
+					startupManager.preferences.volumebarValue = GUI.HorizontalSlider ( new Rect ( musicViewerPosition.width/2 - 118, musicViewerPosition.height/4 - 30, 100, 15 ), startupManager.preferences.volumebarValue, 0.0F, 1.0F );
 		
 					if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 - 70, musicViewerPosition.height/4 - 15, 60, 30 ), "Next", buttonStyle ))
 						NextSong ();
@@ -946,7 +952,7 @@ public class MusicViewer : MonoBehaviour
 					GUILayout.FlexibleSpace ();
 					GUILayout.BeginVertical ();
 					GUILayout.Space ( musicViewerPosition.height / 4 );
-					scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width ( 600 ), GUILayout.Height (  musicViewerPosition.height - ( musicViewerPosition.height / 4 + 65 )));
+					scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width ( 600 ), GUILayout.Height (  musicViewerPosition.height - ( musicViewerPosition.height / 4 + 60 )));
 					
 					if ( parentDirectoryFiles.Any ())
 					{

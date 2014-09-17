@@ -13,7 +13,7 @@ using System.Globalization;
 using System.ComponentModel;
 using System.Xml.Serialization;
 using System.Security.Cryptography.X509Certificates;
-//Written by GibsonBethke
+//Written by Michael Bethke
 //Thank you for your ∞ mercy, Jesus!
 [XmlRoot("UniversalSettings")]
 public class UniversalSettings
@@ -523,6 +523,29 @@ public class StartupManager : MonoBehaviour
 			GUI.FocusWindow ( 5 );
 		}
 	}
+	
+	
+	void NewVersion ( int pwid )
+	{
+		
+		GUI.Label (new Rect (0, 15, 300, 40), applicationDownloads[2]);
+		if (GUI.Button (new Rect (210, 60, 70, 30), "No"))
+		{
+
+			updateAvailable = false;
+			showUnderlay = false;
+			paneManager.popupBlocking = false;
+			GUI.FocusWindow ( 0 );
+			GUI.BringWindowToFront ( 0 );
+		}
+		
+		if (GUI.Button (new Rect (20, 60, 70, 30), "Yes"))
+		{
+
+			Process.Start ( websiteLink );
+			musicViewer.SendMessage ( "Quit" );
+		}
+	}
 
 	
 	void DeveloperMode ( int pwid )
@@ -546,30 +569,6 @@ public class StartupManager : MonoBehaviour
 			GUI.BringWindowToFront ( 0 );
 		}
 	}
-
-	
-	void NewVersion ( int pwid )
-	{
-		
-		GUI.Label (new Rect (0, 15, 300, 40), applicationDownloads[2]);
-		GUI.Label (new Rect (0, 50, 300, 40), "Download now?");
-		if (GUI.Button (new Rect (20, 60, 70, 30), "No"))
-		{
-
-			updateAvailable = false;
-			showUnderlay = false;
-			paneManager.popupBlocking = false;
-			GUI.FocusWindow ( 0 );
-			GUI.BringWindowToFront ( 0 );
-		}
-		
-		if (GUI.Button (new Rect (210, 60, 70, 30), "Yes"))
-		{
-
-			Process.Start ( websiteLink );
-			musicViewer.SendMessage ( "Quit" );
-		}
-	}
 	
 
 	IEnumerator UnableToConnectToOMB ()
@@ -577,7 +576,7 @@ public class StartupManager : MonoBehaviour
 
 		connectionInformation.text = "Unable to connect to the OnlineMusicBrowser!";
 
-		yield return new WaitForSeconds ( 10 );
+		yield return new WaitForSeconds ( 5 );
 		connectionInformation.text = "";
 	}
 	

@@ -6,7 +6,7 @@ using System.Threading;
 using System.Net.Sockets;
 using System.Collections;
 using System.Collections.Generic;
-
+//Written by Michael Bethke
 public class SocketsManager : MonoBehaviour
 {
 	
