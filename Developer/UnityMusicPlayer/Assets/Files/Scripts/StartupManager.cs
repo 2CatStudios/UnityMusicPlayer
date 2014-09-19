@@ -496,18 +496,30 @@ public class StartupManager : MonoBehaviour
 	{
 		
 		GUI.skin = guiskin;
-
-		if ( updateAvailable == true )
+		
+		//UnityEngine.Debug.Log ( showUnderlay );
+		
+		if ( developmentMode == true && Application.isEditor == false )
 		{
-			
-			if ( preferences.updateNotifications == true )
-			{
 
-				showUnderlay = true;
-				paneManager.popupBlocking = true;
-				GUI.Window ( 3, new Rect (Screen.width / 2 - 142.5F, Screen.height / 2 - 85, 300, 200), NewVersion, "" );
-				GUI.FocusWindow ( 3 );
-				GUI.BringWindowToFront ( 3 );
+			showUnderlay = true;
+			GUI.Window ( 5, new Rect ( Screen.width / 2 - 150F, Screen.height / 2 - 85, 300, 100 ), DeveloperMode, "" );
+			GUI.BringWindowToFront ( 5 );
+			GUI.FocusWindow ( 5 );
+		} else {
+			
+			if ( updateAvailable == true )
+			{
+				
+				if ( preferences.updateNotifications == true )
+				{
+        	
+					showUnderlay = true;
+					paneManager.popupBlocking = true;
+					GUI.Window ( 3, new Rect (Screen.width / 2 - 150, Screen.height / 2 - 85, 300, 200), NewVersion, "" );
+					GUI.FocusWindow ( 3 );
+					GUI.BringWindowToFront ( 3 );
+				}
 			}
 		}
 
@@ -524,15 +536,6 @@ public class StartupManager : MonoBehaviour
 			connectionInformation.text = "";
 			clearConnectionInformation = false;
 		}
-
-		if ( developmentMode == true && Application.isEditor == false )
-		{
-
-			showUnderlay = true;
-			GUI.Window ( 5, new Rect ( Screen.width / 2 - 100F, Screen.height / 2 - 45, 200, 80 ), DeveloperMode, "Notice" );
-			GUI.BringWindowToFront ( 5 );
-			GUI.FocusWindow ( 5 );
-		}
 	}
 	
 	
@@ -542,15 +545,20 @@ public class StartupManager : MonoBehaviour
 		GUILayout.BeginVertical ();
 		GUILayout.BeginHorizontal ();
 		GUILayout.FlexibleSpace ();
+		
 		GUILayout.Label ( "Update " + applicationDownloads [1] + " is Available!" );
+		
 		GUILayout.FlexibleSpace ();
 		GUILayout.EndHorizontal ();
+
 		GUILayout.FlexibleSpace ();
 		GUILayout.BeginHorizontal ();
 		GUILayout.FlexibleSpace ();
+		
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 		GUILayout.Label ( applicationDownloads[2] );
 		GUI.skin.label.alignment = TextAnchor.UpperLeft;
+		
 		GUILayout.FlexibleSpace ();
 		GUILayout.EndHorizontal ();
 		GUILayout.FlexibleSpace ();
@@ -580,24 +588,38 @@ public class StartupManager : MonoBehaviour
 	
 	void DeveloperMode ( int pwid )
 	{
-
-		GUI.Label ( new Rect ( 30, 25, 200, 40 ), "developerMode is ON!" );
 		
-		if ( GUI.Button ( new Rect ( 10, 55, 120, 20 ), "Get Stable Version" ))
+		GUILayout.BeginVertical ();
+		GUILayout.BeginHorizontal ();
+		GUILayout.FlexibleSpace ();
+		
+		GUILayout.Label ( "DeveloperMode is Enabled!" );
+		
+		GUILayout.FlexibleSpace ();
+		GUILayout.EndHorizontal ();
+		GUILayout.FlexibleSpace ();
+		
+		GUI.skin.button.fontSize = 16;
+		if ( GUILayout.Button ( "Get Stable Version" ))
 		{
 			
 			Process.Start ( websiteLink );
 			musicViewer.SendMessage ( "Quit" );
+			
 		}
+		GUI.skin.button.fontSize = 22;
 		
-		if ( GUI.Button ( new Rect ( 140, 55, 50, 20 ), "Close" ))
+		if ( GUILayout.Button ( "Okay" ))
 		{
-
+			
+			developmentMode = false;
 			showUnderlay = false;
-		    developmentMode = false;
+			paneManager.popupBlocking = false;
 			GUI.FocusWindow ( 0 );
 			GUI.BringWindowToFront ( 0 );
 		}
+		
+		GUILayout.EndVertical ();
 	}
 	
 

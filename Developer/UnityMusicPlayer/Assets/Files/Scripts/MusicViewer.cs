@@ -199,6 +199,8 @@ public class MusicViewer : MonoBehaviour
 	bool tempUpdateNotifications;
 
 	internal bool tempEnableOMB;
+	
+	bool confirmSettingsReset = false;
 
 #endregion
 
@@ -259,71 +261,13 @@ public class MusicViewer : MonoBehaviour
 
 		timemark = GameObject.FindGameObjectWithTag ( "Timemark" ).GetComponent<GUIText> ();
 		GameObject.FindGameObjectWithTag ( "TimebarImage" ).guiTexture.pixelInset = new Rect ( -musicViewerPosition.width/2, musicViewerPosition.height/2 - 3, musicViewerPosition.width, 6 );
-
-		parentDirectory = startupManager.preferences.lastDirectory;
-		activeDirectory = parentDirectory;
 		
-		//tempCheckForUpdates = startupManager.preferences.checkForUpdate;
-		tempEnableOMB = startupManager.preferences.enableOMB;
-
-		tempEnableTypes = startupManager.preferences.enableTypes;	
-		tempEnableArrows = startupManager.preferences.enableArrows;
-		tempEnableTimebar = startupManager.preferences.enableTimebar;
-		tempEnableArtwork = startupManager.preferences.enableArtwork;
-		tempEnableDeepSearch = startupManager.preferences.enableDeepSearch;
-		tempEnableQuickManage = startupManager.preferences.enableQuickManage;
-		tempEnablePreciseTimemark = startupManager.preferences.enablePreciseTimemark;
-		tempEnableHideGUINotifications = startupManager.preferences.enableHideGUINotifications;
-		tempUpdateNotifications = startupManager.preferences.updateNotifications;
-
-		tempAVcR = startupManager.preferences.avcR;
-		tempAVcG = startupManager.preferences.avcG;
-		tempAVcB = startupManager.preferences.avcB;
 		
-		tempYScale = startupManager.preferences.yScale;
-
-		tempBloom = startupManager.preferences.bloom;
-		tempBlur = startupManager.preferences.blur;
-		tempSunShafts = startupManager.preferences.sunShafts;
-		tempBlurIterations = startupManager.preferences.blurIterations.ToString ();
-		tempVignetting = startupManager.preferences.vignetting;
 		
-		manager.GetComponent<BlurEffect> ().iterations = startupManager.preferences.blurIterations;
-
-		tempEchoDelay = startupManager.preferences.echoDelay.ToString ();
-		tempEchoDecayRate = startupManager.preferences.echoDecayRate.ToString ();
-		tempEchoWetMix = startupManager.preferences.echoWetMix.ToString ();
-		tempEchoDryMix = startupManager.preferences.echoDryMix.ToString ();
+		LoadSettings ( false );
 		
-		manager.GetComponent<AudioEchoFilter> ().delay = startupManager.preferences.echoDelay;
-		manager.GetComponent<AudioEchoFilter> ().decayRatio = startupManager.preferences.echoDecayRate;
-		manager.GetComponent<AudioEchoFilter> ().wetMix = startupManager.preferences.echoWetMix;
-		manager.GetComponent<AudioEchoFilter> ().dryMix = startupManager.preferences.echoDryMix;
 		
-		tempAutoAVBlur = startupManager.preferences.autoAVBlur;
-		tempAutoAVOff = startupManager.preferences.autoAVOff;
-
-		tempSlideshowDisplayTime = startupManager.preferences.slideshowDisplayTime.ToString ();
 		
-		currentSong.text = "UnityMusicPlayer";
-		GameObject.FindGameObjectWithTag ( "TimebarImage" ).guiTexture.enabled = startupManager.preferences.enableTimebar;
-
-		if ( startupManager.preferences.enableTimebar == true )
-		{
-
-			musicViewerTitle = "";
-			onlineMusicBrowser.onlineMusicBrowserTitle = "";
-		} else {
-
-			musicViewerTitle = "MusicViewer";
-			onlineMusicBrowser.onlineMusicBrowserTitle = "OnlineMusicBrowser";
-		}
-
-		if ( startupManager.preferences.enablePreciseTimemark == true )
-			timemark.text = "0:00.000][0:00.000";
-		else
-			timemark.text = "0:00][0:00";
-
 		centerStyle = new GUIStyle ();
 		centerStyle.alignment = TextAnchor.MiddleCenter;
 		
@@ -398,6 +342,92 @@ public class MusicViewer : MonoBehaviour
 		
 		InvokeRepeating ( "Refresh", 0, 2 );
 		StartCoroutine ( SetArtwork ());
+	}
+	
+	
+	void LoadSettings ( bool reset )
+	{
+		
+		if ( reset == true )
+		{
+			
+			startupManager.preferences = new Preferences ();
+			
+			manager.audio.Stop ();
+			manager.audio.clip = null;
+			Resources.UnloadUnusedAssets ();
+		}
+		
+		parentDirectory = startupManager.preferences.lastDirectory;
+		activeDirectory = parentDirectory;
+		
+		tempEnableOMB = startupManager.preferences.enableOMB;
+
+		tempEnableTypes = startupManager.preferences.enableTypes;	
+		tempEnableArrows = startupManager.preferences.enableArrows;
+		tempEnableTimebar = startupManager.preferences.enableTimebar;
+		tempEnableArtwork = startupManager.preferences.enableArtwork;
+		tempEnableDeepSearch = startupManager.preferences.enableDeepSearch;
+		tempEnableQuickManage = startupManager.preferences.enableQuickManage;
+		tempEnablePreciseTimemark = startupManager.preferences.enablePreciseTimemark;
+		tempEnableHideGUINotifications = startupManager.preferences.enableHideGUINotifications;
+		tempUpdateNotifications = startupManager.preferences.updateNotifications;
+
+		tempAVcR = startupManager.preferences.avcR;
+		tempAVcG = startupManager.preferences.avcG;
+		tempAVcB = startupManager.preferences.avcB;
+		
+		tempYScale = startupManager.preferences.yScale;
+
+		tempBloom = startupManager.preferences.bloom;
+		tempBlur = startupManager.preferences.blur;
+		tempSunShafts = startupManager.preferences.sunShafts;
+		tempBlurIterations = startupManager.preferences.blurIterations.ToString ();
+		tempVignetting = startupManager.preferences.vignetting;
+		
+		manager.GetComponent<BlurEffect> ().iterations = startupManager.preferences.blurIterations;
+
+		tempEchoDelay = startupManager.preferences.echoDelay.ToString ();
+		tempEchoDecayRate = startupManager.preferences.echoDecayRate.ToString ();
+		tempEchoWetMix = startupManager.preferences.echoWetMix.ToString ();
+		tempEchoDryMix = startupManager.preferences.echoDryMix.ToString ();
+		
+		manager.GetComponent<AudioEchoFilter> ().delay = startupManager.preferences.echoDelay;
+		manager.GetComponent<AudioEchoFilter> ().decayRatio = startupManager.preferences.echoDecayRate;
+		manager.GetComponent<AudioEchoFilter> ().wetMix = startupManager.preferences.echoWetMix;
+		manager.GetComponent<AudioEchoFilter> ().dryMix = startupManager.preferences.echoDryMix;
+		
+		tempAutoAVBlur = startupManager.preferences.autoAVBlur;
+		tempAutoAVOff = startupManager.preferences.autoAVOff;
+
+		tempSlideshowDisplayTime = startupManager.preferences.slideshowDisplayTime.ToString ();
+		
+		
+		currentSong.text = "UnityMusicPlayer";
+		GameObject.FindGameObjectWithTag ( "TimebarImage" ).guiTexture.enabled = startupManager.preferences.enableTimebar;
+
+		if ( startupManager.preferences.enableTimebar == true )
+		{
+
+			musicViewerTitle = "";
+			onlineMusicBrowser.onlineMusicBrowserTitle = "";
+		} else {
+
+			musicViewerTitle = "MusicViewer";
+			onlineMusicBrowser.onlineMusicBrowserTitle = "OnlineMusicBrowser";
+		}
+		
+		rtMinutes = 0;
+		rtSeconds = 00;
+		minutes = 0;
+		seconds = 00;
+			
+		audioLocation = "";
+
+		if ( startupManager.preferences.enablePreciseTimemark == true )
+			timemark.text = "0:00.000][0:00.000";
+		else
+			timemark.text = "0:00][0:00";
 	}
 	
 	
@@ -589,6 +619,25 @@ public class MusicViewer : MonoBehaviour
 			
 			startupManager.preferences.enableTutorials = true;
 		}
+		
+		if ( confirmSettingsReset == false )
+		{
+			
+			if ( GUILayout.Button ( "Restore Default Settings" ))
+			{
+				
+				confirmSettingsReset = true;
+			}
+		} else {
+			
+			if ( GUILayout.Button ( "Confirm Restore" ))
+			{
+				
+				LoadSettings ( true );
+				close = true;
+			}
+		}
+		
 		GUI.skin.button.fontSize = 22;
 		
 		
@@ -743,6 +792,8 @@ public class MusicViewer : MonoBehaviour
 			preferencesSaved = startupManager.SavePreferences ();
 			while ( preferencesSaved == false ) {}
 
+			confirmSettingsReset = false;
+
 			GUI.FocusWindow ( 0 );
 			GUI.BringWindowToFront ( 0 );
 			paneManager.popupBlocking = false;
@@ -863,7 +914,8 @@ public class MusicViewer : MonoBehaviour
 
 			if ( showOptionsWindow == true )
 			{
-
+				
+				startupManager.showUnderlay = true;
 				paneManager.popupBlocking = true;
 				GUI.Window ( 5, optionsWindowRect, OptionsWindow, "" );
 			}
