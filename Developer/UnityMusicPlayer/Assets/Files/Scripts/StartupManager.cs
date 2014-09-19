@@ -465,9 +465,6 @@ public class StartupManager : MonoBehaviour
 				
 			errorInConnectionToInternet = true;
 		}
-		
-		//if ( updateVersion == true )
-			//loadingImage.showLoadingImages = false;
 			
 		if ( updateOMB == true && errorInConnectionToInternet == false )
 			clearConnectionInformation = true;
@@ -496,8 +493,6 @@ public class StartupManager : MonoBehaviour
 	{
 		
 		GUI.skin = guiskin;
-		
-		//UnityEngine.Debug.Log ( showUnderlay );
 		
 		if ( developmentMode == true && Application.isEditor == false )
 		{

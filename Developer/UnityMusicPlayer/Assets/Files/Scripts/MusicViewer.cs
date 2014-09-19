@@ -480,6 +480,8 @@ public class MusicViewer : MonoBehaviour
 		GUI.FocusWindow ( 5 );
 		GUI.BringWindowToFront ( 5 );
 
+		startupManager.showUnderlay = true;
+		paneManager.popupBlocking = true;
 
 		GUILayout.BeginVertical ();
 		optionsWindowScroll = GUILayout.BeginScrollView ( optionsWindowScroll, false, true );
@@ -796,6 +798,7 @@ public class MusicViewer : MonoBehaviour
 
 			GUI.FocusWindow ( 0 );
 			GUI.BringWindowToFront ( 0 );
+			startupManager.showUnderlay = false;
 			paneManager.popupBlocking = false;
 			close = false;
 			showOptionsWindow = false;
@@ -915,8 +918,6 @@ public class MusicViewer : MonoBehaviour
 			if ( showOptionsWindow == true )
 			{
 				
-				startupManager.showUnderlay = true;
-				paneManager.popupBlocking = true;
 				GUI.Window ( 5, optionsWindowRect, OptionsWindow, "" );
 			}
 			

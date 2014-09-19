@@ -469,7 +469,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 		if ( startupManager.preferences.enableOMB == true )
 		{
 	
-			//GUILayout.Space ( onlineMusicBrowserPosition.width / 8 );
+			GUILayout.Space ( onlineMusicBrowserPosition.width / 8 );
 			GUILayout.BeginArea ( new Rect ( 20, onlineMusicBrowserPosition.width / 8 + 5, 216, 40 ));
 			GUILayout.BeginHorizontal ();
 			
@@ -494,16 +494,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 			GUILayout.EndArea ();
 			
 			GUI.Label ( new Rect ( onlineMusicBrowserPosition.width - 236, onlineMusicBrowserPosition.width / 8 + 5, 216, 40 ), currentSort.name, sortLabelStyle );
-			
-			GUILayout.Space ( 20 );
-			//GUILayout.BeginHorizontal ();
-			//GUILayout.FlexibleSpace ();
-			/*if ( sortBy != 1 )
-			{
-			
-				GUILayout.FlexibleSpace ();
-				scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  onlineMusicBrowserPosition.height - 200 ));
-			}*/
+			GUILayout.Space ( 22 );
 				
 			switch ( sortBy )
 			{
@@ -620,6 +611,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 									downloading = true;
 
 								}
+								
 								GUILayout.FlexibleSpace ();
 								GUILayout.EndHorizontal ();
 							} else {
@@ -635,6 +627,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 							
 							if ( String.IsNullOrEmpty ( song.largeArtworkURL ) == false )
 							{
+								
 								GUILayout.BeginHorizontal ();
 								GUILayout.FlexibleSpace ();
 								if ( GUILayout.Button ( "Download Artwork", buttonStyle ))
@@ -642,14 +635,19 @@ public class OnlineMusicBrowser : MonoBehaviour
 								
 									StartCoroutine ( "DownloadArtwork", song );
 								}
+								
 								GUILayout.FlexibleSpace ();
 								GUILayout.EndHorizontal ();
 							}
 							
 							if ( downloadingSong == songInfoOwner )
+							{
+								
 								GUILayout.Label ( "Download size: ~" + currentDownloadSize + currentDownloadPercentage );
-							else
+							} else {
+								
 								GUILayout.Label ( "Download size: ~" + currentDownloadSize );
+							}
 					
 							GUILayout.Label ( "Name: " + song.name, infoLabelStyle );
 							GUILayout.Label ( "Album: " + song.album, infoLabelStyle );
@@ -673,17 +671,24 @@ public class OnlineMusicBrowser : MonoBehaviour
 									if ( GUILayout.Button ( currentLink.name, buttonStyle ))
 										Process.Start ( currentLink.address );
 								}
+								
 								GUILayout.FlexibleSpace ();
 								GUILayout.EndHorizontal ();
 							}
+							
 							GUILayout.Label ( "" );
 						}
 					}
+					
+					GUILayout.FlexibleSpace ();
 				}
+				
+				GUILayout.EndScrollView ();
+				GUILayout.FlexibleSpace ();
+				GUILayout.EndHorizontal ();
 				break;
 				
 				case 1:
-				//GUILayout.EndHorizontal ();
 				
 				GUILayout.BeginHorizontal ();
 				GUILayout.Space ( 10 );
@@ -732,7 +737,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 				}
 				
 				GUILayout.EndHorizontal ();
-				//GUILayout.FlexibleSpace ();
+				GUILayout.EndScrollView ();
+				GUILayout.EndHorizontal ();
 				break;
 	
 				case 2:
@@ -784,10 +790,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 				}
 				break;
 			}
-
-			//GUILayout.FlexibleSpace ();
-			GUILayout.EndScrollView ();
-			GUILayout.EndHorizontal ();
 		} else {
 			
 			GUI.Label ( new Rect ( 10, onlineMusicBrowserPosition.height / 4, onlineMusicBrowserPosition.width - 20, 128 ), "The OnlineMusicBrowser has been disabled!", labelStyle );
