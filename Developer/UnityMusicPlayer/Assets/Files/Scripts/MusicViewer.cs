@@ -196,8 +196,8 @@ public class MusicViewer : MonoBehaviour
 	bool tempEnablePreciseTimemark;
 	bool tempEnableDeepSearch;
 	bool tempEnableArrows;
+	bool tempUpdateNotifications;
 
-	//bool tempCheckForUpdates;
 	internal bool tempEnableOMB;
 
 #endregion
@@ -274,6 +274,7 @@ public class MusicViewer : MonoBehaviour
 		tempEnableQuickManage = startupManager.preferences.enableQuickManage;
 		tempEnablePreciseTimemark = startupManager.preferences.enablePreciseTimemark;
 		tempEnableHideGUINotifications = startupManager.preferences.enableHideGUINotifications;
+		tempUpdateNotifications = startupManager.preferences.updateNotifications;
 
 		tempAVcR = startupManager.preferences.avcR;
 		tempAVcG = startupManager.preferences.avcG;
@@ -450,7 +451,6 @@ public class MusicViewer : MonoBehaviour
 		GUI.BringWindowToFront ( 5 );
 
 
-		
 		GUILayout.BeginVertical ();
 		optionsWindowScroll = GUILayout.BeginScrollView ( optionsWindowScroll, false, true );
 		
@@ -521,13 +521,13 @@ public class MusicViewer : MonoBehaviour
 		tempEnableArrows = GUILayout.Toggle ( tempEnableArrows, "Show Arrows" );
 		tempEnableArtwork = GUILayout.Toggle ( tempEnableArtwork, "Enable Artwork" );
 		tempEnableTimebar = GUILayout.Toggle ( tempEnableTimebar, "Enable Timebar" );
-//		tempCheckForUpdates = GUILayout.Toggle ( tempCheckForUpdates, "Check for Updates" );
 		tempEnableDeepSearch = GUILayout.Toggle ( tempEnableDeepSearch, "Enable DeepSearch" );
 		tempEnableTypes = GUILayout.Toggle ( tempEnableTypes, "Show Audio Format" );
 		tempEnableQuickManage = GUILayout.Toggle ( tempEnableQuickManage, "Enable QuickManage" );
-		tempEnableHideGUINotifications = GUILayout.Toggle ( tempEnableHideGUINotifications, "Hide GUI Notifications" );
+		tempEnableHideGUINotifications = GUILayout.Toggle ( tempEnableHideGUINotifications, "GUI Notifications" );
 		tempEnablePreciseTimemark = GUILayout.Toggle ( tempEnablePreciseTimemark, "Enable Precise Timemark" );
 		tempEnableOMB = GUILayout.Toggle ( tempEnableOMB, "Enable OnlineMusicBrowser" );
+		tempUpdateNotifications = GUILayout.Toggle ( tempUpdateNotifications, "Enable Update Notifications" );
 
 
 
@@ -682,8 +682,8 @@ public class MusicViewer : MonoBehaviour
 			startupManager.preferences.enableDeepSearch = tempEnableDeepSearch;
 			startupManager.preferences.enableQuickManage = tempEnableQuickManage;
 			startupManager.preferences.enablePreciseTimemark = tempEnablePreciseTimemark;
-			//startupManager.preferences.checkForUpdate = tempCheckForUpdates;
 			startupManager.preferences.enableHideGUINotifications = tempEnableHideGUINotifications;
+			startupManager.preferences.updateNotifications = tempUpdateNotifications;
 			
 			if ( startupManager.preferences.enableOMB == false && Convert.ToBoolean ( tempEnableOMB ) == true )
 			{
@@ -870,7 +870,7 @@ public class MusicViewer : MonoBehaviour
 			
 			GUI.skin = guiSkin;
 			
-			if ( showOptionsWindow == true )
+			if ( startupManager.showUnderlay == true )
 			{
 				
 				fileStyle.hover.background = null;
@@ -1007,7 +1007,7 @@ public class MusicViewer : MonoBehaviour
 						if ( startupManager.preferences.enableTutorials == true )
 						{
 								
-							GUILayout.Label ( "You don't have any music to play!\n\nIf you have some music (.wav, .ogg, or .aiff),\nclick 'Open File Browser' under the System Commands bar bellow." +
+							GUILayout.Label ( "You don't have any tracks to play!\n\nIf you have some music (.wav, .ogg, or .aiff),\nclick 'Open File Browser' under the System Commands bar bellow." +
 								"\n\nYou can also download music by navigating\nto the OnlineMusicBrowser (press the right arrow key).\n", centerStyle );
 						
 							if ( GUILayout.Button ( "Hide Tutorials", buttonStyle ))
@@ -1852,47 +1852,58 @@ GUILayout.EndHorizontal();
 			}
 		}
 		
-		if ( Input.GetKey ( KeyCode.Escape ) && slideshow == true )
+		if ( Input.GetKey ( KeyCode.Escape ))
 		{
 				
-			slideshow = false;
-			StartCoroutine ( "SetArtwork" );
-			
-			//tempSlideshow = Convert.ToSingle ( slideshow );
-			if ( startupManager.preferences.enableTimebar == false )
-				musicViewerTitle = "MusicViewer";
-			
-			timemark.enabled = true;
-			hideGUI = false;
-			
-			manager.GetComponent<BlurEffect> ().enabled = startupManager.preferences.blur;
-			
-			if ( manager.audio.clip != null )
+			if ( slideshow == true )
 			{
-
-				if ( startupManager.preferences.enableTypes == true )
-					currentSong.text = audioLocation.Substring ( audioLocation.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length );
-				else
-					currentSong.text = audioLocation.Substring ( audioLocation.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length, audioLocation.LastIndexOf ( "." ) - audioLocation.LastIndexOf ( Path.DirectorySeparatorChar ) - Path.DirectorySeparatorChar.ToString().Length );
 				
-			} else {
+				slideshow = false;
+				StartCoroutine ( "SetArtwork" );
 				
-				currentSong.text = "UnityMusicPlayer";
-				if ( startupManager.preferences.enablePreciseTimemark == true )
-					timemark.text = "0:00.000][0:00.000";
-				else
-					timemark.text = "0:00][0:00";
+				//tempSlideshow = Convert.ToSingle ( slideshow );
+				if ( startupManager.preferences.enableTimebar == false )
+					musicViewerTitle = "MusicViewer";
+				
+				timemark.enabled = true;
+				hideGUI = false;
+				
+				manager.GetComponent<BlurEffect> ().enabled = startupManager.preferences.blur;
+				
+				if ( manager.audio.clip != null )
+				{
+            	
+					if ( startupManager.preferences.enableTypes == true )
+						currentSong.text = audioLocation.Substring ( audioLocation.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length );
+					else
+						currentSong.text = audioLocation.Substring ( audioLocation.LastIndexOf ( Path.DirectorySeparatorChar ) + Path.DirectorySeparatorChar.ToString().Length, audioLocation.LastIndexOf ( "." ) - audioLocation.LastIndexOf ( Path.DirectorySeparatorChar ) - Path.DirectorySeparatorChar.ToString().Length );
+					
+				} else {
+					
+					currentSong.text = "UnityMusicPlayer";
+					if ( startupManager.preferences.enablePreciseTimemark == true )
+						timemark.text = "0:00.000][0:00.000";
+					else
+						timemark.text = "0:00][0:00";
+				}
+				
+				StopCoroutine ( "LoadSlideshow" );
+				newSlideshowImage = null;
+				currentSlideshowImage.pixelInset = new Rect ( -300, -300, 600, 600 );
+				currentSlideshowImage.texture = null;
+				currentSlideshowImage.color = new Color ( 0.5f, 0.5f, 0.5f, 0.1f );
+				slideshowImage = 0;
+				fadeIn = false;
+				
+				Resources.UnloadUnusedAssets ();
 			}
 			
-			StopCoroutine ( "LoadSlideshow" );
-			newSlideshowImage = null;
-			currentSlideshowImage.pixelInset = new Rect ( -300, -300, 600, 600 );
-			currentSlideshowImage.texture = null;
-			currentSlideshowImage.color = new Color ( 0.5f, 0.5f, 0.5f, 0.1f );
-			slideshowImage = 0;
-			fadeIn = false;
 			
-			Resources.UnloadUnusedAssets ();
+			if ( showOptionsWindow == true )
+			{
+				
+				close = true;
+			}
 		}
 			
 		if ( manager.audio.isPlaying == true )

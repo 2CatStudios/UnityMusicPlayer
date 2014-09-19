@@ -469,7 +469,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 		if ( startupManager.preferences.enableOMB == true )
 		{
 	
-			GUILayout.Space ( onlineMusicBrowserPosition.width / 8 );
+			//GUILayout.Space ( onlineMusicBrowserPosition.width / 8 );
 			GUILayout.BeginArea ( new Rect ( 20, onlineMusicBrowserPosition.width / 8 + 5, 216, 40 ));
 			GUILayout.BeginHorizontal ();
 			
@@ -496,18 +496,23 @@ public class OnlineMusicBrowser : MonoBehaviour
 			GUI.Label ( new Rect ( onlineMusicBrowserPosition.width - 236, onlineMusicBrowserPosition.width / 8 + 5, 216, 40 ), currentSort.name, sortLabelStyle );
 			
 			GUILayout.Space ( 20 );
-			GUILayout.BeginHorizontal ();
-			GUILayout.FlexibleSpace ();
-			if ( sortBy != 1 )
+			//GUILayout.BeginHorizontal ();
+			//GUILayout.FlexibleSpace ();
+			/*if ( sortBy != 1 )
 			{
-				
+			
+				GUILayout.FlexibleSpace ();
 				scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  onlineMusicBrowserPosition.height - 200 ));
-			}
+			}*/
 				
 			switch ( sortBy )
 			{
 				
 				case 0:
+				GUILayout.BeginHorizontal ();
+				GUILayout.FlexibleSpace ();
+				scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  onlineMusicBrowserPosition.height - 200 ));
+				
 				foreach ( Song song in specificSort )
 				{
 					
@@ -678,7 +683,10 @@ public class OnlineMusicBrowser : MonoBehaviour
 				break;
 				
 				case 1:
-				GUILayout.EndHorizontal ();
+				//GUILayout.EndHorizontal ();
+				
+				GUILayout.BeginHorizontal ();
+				GUILayout.Space ( 10 );
 				horizontalScrollPosition = GUILayout.BeginScrollView ( horizontalScrollPosition, GUILayout.Width ( onlineMusicBrowserPosition.width - 20 ), GUILayout.Height( 390 ));
 				GUILayout.BeginHorizontal ();
 				foreach ( Featured featured in featuredList )
@@ -722,7 +730,9 @@ public class OnlineMusicBrowser : MonoBehaviour
 						sortBy = 0;
 					}
 				}
-				GUILayout.FlexibleSpace ();
+				
+				GUILayout.EndHorizontal ();
+				//GUILayout.FlexibleSpace ();
 				break;
 	
 				case 2:
@@ -775,8 +785,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 				break;
 			}
 
+			//GUILayout.FlexibleSpace ();
 			GUILayout.EndScrollView ();
-			GUILayout.FlexibleSpace ();
 			GUILayout.EndHorizontal ();
 		} else {
 			

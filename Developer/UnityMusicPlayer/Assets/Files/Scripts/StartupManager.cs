@@ -33,6 +33,9 @@ public class Preferences
 	[XmlElement ( "CheckForUpdate" )]
 	public bool checkForUpdate = true;
 	
+	[XmlElement ( "EnableUpdateNotifications" )]
+	public bool updateNotifications = true;
+	
 	[XmlElement ( "EnableOMB" )]
 	public bool enableOMB = true;
 	
@@ -138,9 +141,11 @@ public class StartupManager : MonoBehaviour
 	bool errorInConnectionToInternet = false;
 	internal bool startOMB = false;
 
+	public GUISkin guiskin;
+
 	internal bool showUnderlay = false;
 	public Texture2D underlay;
-	public Texture2D popupWindowTexture;
+	//public Texture2D popupWindowTexture;
 
 	MusicViewer musicViewer;
 	PaneManager paneManager;
@@ -489,15 +494,21 @@ public class StartupManager : MonoBehaviour
 
 	void OnGUI ()
 	{
+		
+		GUI.skin = guiskin;
 
 		if ( updateAvailable == true )
 		{
+			
+			if ( preferences.updateNotifications == true )
+			{
 
-			showUnderlay = true;
-			paneManager.popupBlocking = true;
-			GUI.Window ( 3, new Rect (Screen.width / 2 - 142.5F, Screen.height / 2 - 85, 300, 100), NewVersion, "An Update is Available!" );
-			GUI.FocusWindow ( 3 );
-			GUI.BringWindowToFront ( 3 );
+				showUnderlay = true;
+				paneManager.popupBlocking = true;
+				GUI.Window ( 3, new Rect (Screen.width / 2 - 142.5F, Screen.height / 2 - 85, 300, 200), NewVersion, "" );
+				GUI.FocusWindow ( 3 );
+				GUI.BringWindowToFront ( 3 );
+			}
 		}
 
 		if ( errorInConnectionToInternet == true )
@@ -528,23 +539,42 @@ public class StartupManager : MonoBehaviour
 	void NewVersion ( int pwid )
 	{
 		
-		GUI.Label (new Rect (0, 15, 300, 40), applicationDownloads[2]);
-		if (GUI.Button (new Rect (210, 60, 70, 30), "No"))
+		GUILayout.BeginVertical ();
+		GUILayout.BeginHorizontal ();
+		GUILayout.FlexibleSpace ();
+		GUILayout.Label ( "Update " + applicationDownloads [1] + " is Available!" );
+		GUILayout.FlexibleSpace ();
+		GUILayout.EndHorizontal ();
+		GUILayout.FlexibleSpace ();
+		GUILayout.BeginHorizontal ();
+		GUILayout.FlexibleSpace ();
+		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+		GUILayout.Label ( applicationDownloads[2] );
+		GUI.skin.label.alignment = TextAnchor.UpperLeft;
+		GUILayout.FlexibleSpace ();
+		GUILayout.EndHorizontal ();
+		GUILayout.FlexibleSpace ();
+		
+		GUI.skin.button.fontSize = 16;
+		if ( GUILayout.Button ( "Ignore" ))
 		{
-
+			
 			updateAvailable = false;
 			showUnderlay = false;
 			paneManager.popupBlocking = false;
 			GUI.FocusWindow ( 0 );
 			GUI.BringWindowToFront ( 0 );
 		}
+		GUI.skin.button.fontSize = 22;
 		
-		if (GUI.Button (new Rect (20, 60, 70, 30), "Yes"))
+		if ( GUILayout.Button ( "Download Now" ))
 		{
-
+			
 			Process.Start ( websiteLink );
 			musicViewer.SendMessage ( "Quit" );
 		}
+		
+		GUILayout.EndVertical ();
 	}
 
 	
