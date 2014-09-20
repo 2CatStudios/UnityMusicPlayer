@@ -197,6 +197,7 @@ public class MusicViewer : MonoBehaviour
 	bool tempEnableDeepSearch;
 	bool tempEnableArrows;
 	bool tempUpdateNotifications;
+	bool tempEnableKeybinds;
 
 	internal bool tempEnableOMB;
 	
@@ -367,6 +368,7 @@ public class MusicViewer : MonoBehaviour
 		tempEnableArrows = startupManager.preferences.enableArrows;
 		tempEnableTimebar = startupManager.preferences.enableTimebar;
 		tempEnableArtwork = startupManager.preferences.enableArtwork;
+		tempEnableKeybinds = startupManager.preferences.enableKeybinds;
 		tempEnableDeepSearch = startupManager.preferences.enableDeepSearch;
 		tempEnableQuickManage = startupManager.preferences.enableQuickManage;
 		tempEnablePreciseTimemark = startupManager.preferences.enablePreciseTimemark;
@@ -480,7 +482,7 @@ public class MusicViewer : MonoBehaviour
 		GUI.FocusWindow ( 5 );
 		GUI.BringWindowToFront ( 5 );
 
-		startupManager.showUnderlay = true;
+/**/	startupManager.showUnderlay = true;
 		paneManager.popupBlocking = true;
 
 		GUILayout.BeginVertical ();
@@ -553,6 +555,7 @@ public class MusicViewer : MonoBehaviour
 		tempEnableArrows = GUILayout.Toggle ( tempEnableArrows, "Show Arrows" );
 		tempEnableArtwork = GUILayout.Toggle ( tempEnableArtwork, "Enable Artwork" );
 		tempEnableTimebar = GUILayout.Toggle ( tempEnableTimebar, "Enable Timebar" );
+		tempEnableKeybinds = GUILayout.Toggle ( tempEnableKeybinds, "Enable Keybinds" );
 		tempEnableDeepSearch = GUILayout.Toggle ( tempEnableDeepSearch, "Enable DeepSearch" );
 		tempEnableTypes = GUILayout.Toggle ( tempEnableTypes, "Show Audio Format" );
 		tempEnableQuickManage = GUILayout.Toggle ( tempEnableQuickManage, "Enable QuickManage" );
@@ -643,8 +646,11 @@ public class MusicViewer : MonoBehaviour
 		GUI.skin.button.fontSize = 22;
 		
 		
-		if ( GUILayout.Button ( "Save & Close" ))
+		if ( GUILayout.Button ( "Save & Close" ) || Input.GetKey ( KeyCode.Escape ))
+		{
+			
 			close = true;
+		}
 		
 		
 		GUILayout.EndScrollView ();
@@ -730,6 +736,7 @@ public class MusicViewer : MonoBehaviour
 			else
 				currentSlideshowImage.texture = null;
 			
+			startupManager.preferences.enableKeybinds = tempEnableKeybinds;
 			startupManager.preferences.enableDeepSearch = tempEnableDeepSearch;
 			startupManager.preferences.enableQuickManage = tempEnableQuickManage;
 			startupManager.preferences.enablePreciseTimemark = tempEnablePreciseTimemark;
@@ -796,13 +803,15 @@ public class MusicViewer : MonoBehaviour
 
 			confirmSettingsReset = false;
 
-			GUI.FocusWindow ( 0 );
-			GUI.BringWindowToFront ( 0 );
 			startupManager.showUnderlay = false;
 			paneManager.popupBlocking = false;
-			close = false;
 			showOptionsWindow = false;
 			optionsWindowScroll = new Vector2 ( 0, 0 );
+			
+			GUI.FocusWindow ( 0 );
+			GUI.BringWindowToFront ( 0 );
+			
+			close = false;
 		}
 	}
 	
@@ -1303,7 +1312,10 @@ GUILayout.FlexibleSpace ();
 				}
 										
 				if ( GUILayout.Button ( "Options", buttonStyle ))
+				{
+					
 					showOptionsWindow = true;
+				}
 			
 				GUILayout.EndScrollView();
 				GUILayout.EndVertical();
@@ -1382,8 +1394,11 @@ GUILayout.EndHorizontal();
 				manager.GetComponent<Vignetting>().enabled = false;
 			}
 			
-			if ( showOptionsWindow == true || startupManager.showUnderlay == true )
+			if ( startupManager.showUnderlay == true )
+			{
+				
 				GUI.DrawTexture ( new Rect ( 0, 0, musicViewerPosition.width, musicViewerPosition.height ), startupManager.underlay );
+			}
 		}
 	}
 
@@ -1862,7 +1877,7 @@ GUILayout.EndHorizontal();
 	void Update ()
 	{
 		
-		if ( new Rect (( musicViewerPosition.width - 240 ) / 2 , 0, 240, 36 ).Contains ( Input.mousePosition ) && showOptionsWindow == false )
+		if ( new Rect (( musicViewerPosition.width - 240 ) / 2 , 0, 240, 36 ).Contains ( Input.mousePosition ) && startupManager.showUnderlay == false )
 		{
 			
 			float bottomBarYUp = Mathf.SmoothDamp ( bottomBarPosition.y, musicViewerPosition.height - 36, ref bottomBarVelocity, 0.05f );
@@ -1872,22 +1887,34 @@ GUILayout.EndHorizontal();
 			float bottomBarYDown = Mathf.SmoothDamp ( bottomBarPosition.y, musicViewerPosition.height - 18, ref bottomBarVelocity, 0.05f );
 			bottomBarPosition = new Rect (( musicViewerPosition.width - 240 ) / 2 , bottomBarYDown, 240, 54 );
 		}
+		
+		if ( Input.GetKeyDown ( KeyCode.RightArrow ))
+		{
+			
+			paneManager.MoveToOMB ();
+		}
+		
+		if ( Input.GetKeyDown ( KeyCode.LeftArrow ))
+		{
+			
+			paneManager.MoveToMV ();
+		}
 
-		if ( Input.GetKeyUp ( KeyCode.DownArrow ))
+		if ( Input.GetKeyDown ( KeyCode.DownArrow ))
 		{
 			
 			NextSong ();
 			loadingImage.showLoadingImages = true;
 		}
 
-		if ( Input.GetKeyUp ( KeyCode.UpArrow ))
+		if ( Input.GetKeyDown ( KeyCode.UpArrow ))
 		{
 			
 			PreviousSong ();
 			loadingImage.showLoadingImages = true;
 		}
 
-		if ( Input.GetKeyUp ( KeyCode.Space ))
+		if ( Input.GetKeyDown ( KeyCode.Space ))
 		{
 			
 			if (isPaused == false )
@@ -1905,7 +1932,7 @@ GUILayout.EndHorizontal();
 			}
 		}
 		
-		if ( Input.GetKey ( KeyCode.Escape ))
+		if ( Input.GetKeyDown ( KeyCode.Escape ))
 		{
 				
 			if ( slideshow == true )
@@ -1914,7 +1941,6 @@ GUILayout.EndHorizontal();
 				slideshow = false;
 				StartCoroutine ( "SetArtwork" );
 				
-				//tempSlideshow = Convert.ToSingle ( slideshow );
 				if ( startupManager.preferences.enableTimebar == false )
 					musicViewerTitle = "MusicViewer";
 				
@@ -1950,13 +1976,106 @@ GUILayout.EndHorizontal();
 				
 				Resources.UnloadUnusedAssets ();
 			}
+		}
+		
+		if ( startupManager.preferences.enableKeybinds == true )
+		{
 			
-			
-			if ( showOptionsWindow == true )
+			if ( Input.GetKeyDown ( KeyCode.H ))
 			{
 				
-				close = true;
+				hideGUI = !hideGUI;
 			}
+			
+			if ( Input.GetKeyDown ( KeyCode.A ))
+			{
+				
+				showVisualizer = !showVisualizer;
+				
+				if ( showVisualizer == true )
+				{
+		
+					audioVisualizer.topLeftLine.material.color = new Color ( startupManager.preferences.avcR, startupManager.preferences.avcG, startupManager.preferences.avcB, 255 );
+					audioVisualizer.bottomLeftLine.material.color = new Color ( startupManager.preferences.avcR, startupManager.preferences.avcG, startupManager.preferences.avcB, 255 );
+					audioVisualizer.topRightLine.material.color = new Color ( startupManager.preferences.avcR, startupManager.preferences.avcG, startupManager.preferences.avcB, 255 );
+					audioVisualizer.bottomRightLine.material.color = new Color ( startupManager.preferences.avcR, startupManager.preferences.avcG, startupManager.preferences.avcB, 255 );
+		
+					manager.GetComponent<BloomAndLensFlares>().enabled = startupManager.preferences.bloom;
+					manager.GetComponent<BlurEffect>().enabled = startupManager.preferences.blur;
+					manager.GetComponent<SunShafts>().enabled = startupManager.preferences.sunShafts;
+					manager.GetComponent<Vignetting>().enabled = startupManager.preferences.vignetting;
+				
+					manager.GetComponent<BlurEffect> ().iterations = startupManager.preferences.blurIterations;
+				} else {
+		
+					manager.GetComponent<BloomAndLensFlares>().enabled = false;
+					manager.GetComponent<BlurEffect>().enabled = false;
+					manager.GetComponent<SunShafts>().enabled = false;
+					manager.GetComponent<Vignetting>().enabled = false;
+				}
+			}
+			
+			if ( Input.GetKeyDown ( KeyCode.F ))
+			{
+				
+				doubleSpeed = !doubleSpeed;
+				
+				if ( doubleSpeed == true )
+				{
+					
+					manager.audio.pitch = 2.0F;
+			    	
+					if ( doubleSpeed == true && halfSpeed == true )
+						halfSpeed = false;
+				}
+				
+				if ( halfSpeed == false && doubleSpeed == false )
+					manager.audio.pitch = 1.0F;
+			}
+			
+			if ( Input.GetKeyDown ( KeyCode.S ))
+			{
+				
+				halfSpeed = !halfSpeed;
+				
+				if ( halfSpeed == true )
+				{
+					
+					manager.audio.pitch = 0.5F;
+			    	
+					if ( doubleSpeed == true && halfSpeed == true )
+						doubleSpeed = false;
+				}
+				
+				if ( halfSpeed == false && doubleSpeed == false )
+					manager.audio.pitch = 1.0F;
+			}
+			
+			if ( Input.GetKeyDown ( KeyCode.E ))
+			{
+				
+				echo = !echo;
+				
+				if ( echo == true )
+				{
+					
+					manager.GetComponent<AudioEchoFilter> ().enabled = true;
+				} else {
+				    manager.GetComponent<AudioEchoFilter> ().enabled = false;
+				}
+			}
+			
+			/*if ( Input.GetKeyDown ( KeyCode.O ))
+			{
+				
+				paneManager.MoveToOMB ();
+			}
+			
+			if ( Input.GetKeyDown ( KeyCode.M ))
+			{
+				
+				paneManager.MoveToMV ();
+			}*/
 		}
 			
 		if ( manager.audio.isPlaying == true )

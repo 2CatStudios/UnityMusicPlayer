@@ -95,26 +95,6 @@ public class PaneManager : MonoBehaviour
 			}
 		}
 		
-		if ( musicViewer.slideshow == false )
-		{
-		
-			if ( popupBlocking == false && Input.GetKey ( KeyCode.RightArrow ) && currentPane == pane.musicViewer && moving == false && loading == false )
-			{
-
-				onlineMusicBrowser.showOnlineMusicBrowser = true;
-				moving = true;
-				moveToOMB = true;
-			}
-
-			if ( popupBlocking == false && Input.GetKey ( KeyCode.LeftArrow ) && currentPane == pane.onlineMusicBrowser && moving == false )
-			{
-
-				musicViewer.showMusicViewer = true;
-				moving = true;
-				moveToMV = true;
-			}
-		}
-		
 		//Move to OnlineMusicBrowser from MusicViewer
 		if ( moveToOMB == true )
 		{
@@ -191,45 +171,29 @@ public class PaneManager : MonoBehaviour
 		
 		GUI.skin = guiSkin;
 		
-		if ( musicViewer.slideshow == false )
+		if ( startupManager.preferences.enableArrows == true )
 		{
-			
-			if ( startupManager.preferences.enableArrows == true )
+		
+			if ( musicViewer.slideshow == false )
 			{
 				
-				if ( moving == false )
+				if ( currentPane == pane.onlineMusicBrowser )
 				{
-				
-					if ( currentPane == pane.onlineMusicBrowser )
-					{
 					
-						if ( GUI.Button ( new Rect ( 25, 60, 36, 36 ), "", leftArrowStyle ))
-						{
+					if ( GUI.Button ( new Rect ( 25, 60, 36, 36 ), "", leftArrowStyle ))
+					{
 						
-							if ( currentPane == pane.onlineMusicBrowser )
-							{
-							
-								moving = true;
-								moveToMV = true;
-								musicViewer.showMusicViewer = true;
-							}
-						}
+						MoveToMV ();
 					}
+				}
 				
-					if ( currentPane == pane.musicViewer && loading == false )
-					{
+				if ( currentPane == pane.musicViewer && loading == false )
+				{
 					
-						if ( GUI.Button ( new Rect ( musicViewer.musicViewerPosition.width - 65, 60, 36, 36 ), "", rightArrowStyle ))
-						{
+					if ( GUI.Button ( new Rect ( musicViewer.musicViewerPosition.width - 65, 60, 36, 36 ), "", rightArrowStyle ))
+					{
 						
-							if ( currentPane == pane.musicViewer )
-							{
-							
-								moving = true;
-								moveToOMB = true;
-								onlineMusicBrowser.showOnlineMusicBrowser = true;
-							}
-						}
+						MoveToOMB ();
 					}
 				}
 			}
@@ -240,6 +204,56 @@ public class PaneManager : MonoBehaviour
 			
 			if ( GUI.Button ( new Rect ( musicViewer.musicViewerPosition.width - 75, musicViewer.musicViewerPosition.height - 40, 60, 30 ), "Quit" ))
 				musicViewer.Quit ();
+		}
+	}
+	
+	
+	internal void MoveToOMB ()
+	{
+		
+		if ( musicViewer.slideshow == false )
+		{
+			
+			if ( moving == false && popupBlocking == false && loading == false )
+			{
+			
+				if ( currentPane == pane.musicViewer )
+				{
+					
+					if ( currentPane == pane.musicViewer )
+					{
+					
+						moving = true;
+						moveToOMB = true;
+						onlineMusicBrowser.showOnlineMusicBrowser = true;
+					}
+				}
+			}
+		}
+	}
+	
+	
+	internal void MoveToMV ()
+	{
+		
+		if ( musicViewer.slideshow == false )
+		{
+			
+			if ( moving == false && popupBlocking == false )
+			{
+			
+				if ( currentPane == pane.onlineMusicBrowser )
+				{
+				
+					if ( currentPane == pane.onlineMusicBrowser )
+					{
+					
+						moving = true;
+						moveToMV = true;
+						musicViewer.showMusicViewer = true;
+					}
+				}
+			}
 		}
 	}
 }

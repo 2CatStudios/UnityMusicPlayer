@@ -63,6 +63,9 @@ public class Preferences
 	[XmlElement ( "EnableArtwork" )]
 	public bool enableArtwork = true;
 	
+	[XmlElement ( "EnableKeybinds" )]
+	public bool enableKeybinds = true;
+	
 	[XmlElement ( "EnableDeepSearch" )]
 	public bool enableDeepSearch = true;
 	
@@ -145,11 +148,9 @@ public class StartupManager : MonoBehaviour
 
 	internal bool showUnderlay = false;
 	public Texture2D underlay;
-	//public Texture2D popupWindowTexture;
 
 	MusicViewer musicViewer;
 	PaneManager paneManager;
-	//LoadingImage loadingImage;
 	OnlineMusicBrowser onlineMusicBrowser;
 	internal string[] allSongs;
 	
@@ -192,7 +193,6 @@ public class StartupManager : MonoBehaviour
 			UnityEngine.Debug.Log ( "Development Mode is ON" );
 			
 		onlineMusicBrowser = GameObject.FindGameObjectWithTag ( "OnlineMusicBrowser" ).GetComponent<OnlineMusicBrowser>();
-		//loadingImage = GameObject.FindGameObjectWithTag ( "LoadingImage" ).GetComponent<LoadingImage>();
 		musicViewer = GameObject.FindGameObjectWithTag ( "MusicViewer" ).GetComponent<MusicViewer>();
 		paneManager = gameObject.GetComponent<PaneManager>();
 
