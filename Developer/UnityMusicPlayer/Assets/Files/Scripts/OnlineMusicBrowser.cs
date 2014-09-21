@@ -736,6 +736,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 					}
 				}
 				
+				GUILayout.FlexibleSpace ();
 				GUILayout.EndHorizontal ();
 				GUILayout.EndScrollView ();
 				GUILayout.EndHorizontal ();
@@ -752,6 +753,9 @@ public class OnlineMusicBrowser : MonoBehaviour
 				break;
 				
 				case 4:
+				GUILayout.BeginHorizontal ();
+				GUILayout.FlexibleSpace ();
+				scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  onlineMusicBrowserPosition.height - 200 ));
 				foreach ( Album album in albums.Values )
 				{
 	
@@ -762,9 +766,15 @@ public class OnlineMusicBrowser : MonoBehaviour
 						sortBy = 0;
 					}
 				}
+				GUILayout.EndScrollView ();
+				GUILayout.FlexibleSpace ();
+				GUILayout.EndHorizontal ();
 				break;
 				
 				case 5:
+				GUILayout.BeginHorizontal ();
+				GUILayout.FlexibleSpace ();
+				scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  onlineMusicBrowserPosition.height - 200 ));
 				foreach ( Artist artist in artists.Values )
 				{
 					
@@ -775,9 +785,15 @@ public class OnlineMusicBrowser : MonoBehaviour
 						sortBy = 0;
 					}
 				}
+				GUILayout.EndScrollView ();
+				GUILayout.FlexibleSpace ();
+				GUILayout.EndHorizontal ();
 				break;
 				
 				case 6:
+				GUILayout.BeginHorizontal ();
+				GUILayout.FlexibleSpace ();
+				scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  onlineMusicBrowserPosition.height - 200 ));
 				foreach ( Genre genre in genres.Values )
 				{
 					
@@ -788,6 +804,9 @@ public class OnlineMusicBrowser : MonoBehaviour
 						sortBy = 0;
 					}
 				}
+				GUILayout.EndScrollView ();
+				GUILayout.FlexibleSpace ();
+				GUILayout.EndHorizontal ();
 				break;
 			}
 		} else {
