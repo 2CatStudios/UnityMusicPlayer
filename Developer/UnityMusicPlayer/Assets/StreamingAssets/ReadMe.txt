@@ -1,4 +1,5 @@
-UnityMusicPlayer 1.2
+UnityMusicPlayer 1.25 DevBuild
+Thank you for helping test UMP!
 
 
 UnityMusicPlayer has been developed by

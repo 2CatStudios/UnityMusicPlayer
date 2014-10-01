@@ -108,6 +108,9 @@ public class Preferences
 	[XmlElement ( "BlurIterations" )]
 	public int blurIterations = 2;
 	
+	[XmlElement ( "IterateEffects" )]
+	public bool iterateEffects = false;
+	
 	[XmlElement ( "Vignetting" )]
 	public bool vignetting = true;
 	

@@ -182,6 +182,10 @@ public class MusicViewer : MonoBehaviour
 	string tempBlurIterations;
 	bool tempVignetting;
 	
+	bool tempIterateEffects;
+	//float tempIterateBloom;
+	//float tempIterate
+	
 #endregion
 	
 #region GeneralSettings
@@ -386,6 +390,7 @@ public class MusicViewer : MonoBehaviour
 		tempSunShafts = startupManager.preferences.sunShafts;
 		tempBlurIterations = startupManager.preferences.blurIterations.ToString ();
 		tempVignetting = startupManager.preferences.vignetting;
+		tempIterateEffects = startupManager.preferences.iterateEffects;
 		
 		manager.GetComponent<BlurEffect> ().iterations = startupManager.preferences.blurIterations;
 
@@ -543,6 +548,8 @@ public class MusicViewer : MonoBehaviour
 			GUILayout.EndHorizontal ();
 		}
 		
+		tempIterateEffects = GUILayout.Toggle ( tempIterateEffects, "Iterate Effects" );
+		
 		GUILayout.BeginHorizontal ();
 		GUILayout.Label ( "Max Height", GUILayout.MaxWidth ( 80 ));
 		tempYScale = GUILayout.HorizontalSlider ( tempYScale, 10.0F, 2000.0F );
@@ -696,6 +703,7 @@ public class MusicViewer : MonoBehaviour
 			startupManager.preferences.bloom = tempBloom;
 			startupManager.preferences.blur = tempBlur;
 			startupManager.preferences.vignetting = tempVignetting;
+			startupManager.preferences.iterateEffects = tempIterateEffects;
 			
 			if ( tempBlurIterations.Trim () == "" )
 				tempBlurIterations = "3";
@@ -1009,12 +1017,12 @@ public class MusicViewer : MonoBehaviour
 							startupManager.preferences.loop = false;
 						}
 					}
-						
+					
 					GUILayout.BeginHorizontal ();
-					GUILayout.FlexibleSpace ();
+					GUILayout.Space ( musicViewerPosition.width/16 );
 					GUILayout.BeginVertical ();
 					GUILayout.Space ( musicViewerPosition.height / 4 );
-					scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width ( 600 ), GUILayout.Height (  musicViewerPosition.height - ( musicViewerPosition.height / 4 + 60 )));
+					scrollPosition = GUILayout.BeginScrollView ( /*new Rect ( musicViewerPosition.width/16, musicViewerPosition.height/4, musicViewerPosition.width - ( musicViewerPosition.width/8 ), musicViewerPosition.height - ( musicViewerPosition.height/4 )),*/ scrollPosition, /*new Rect ( musicViewerPosition.width/16, musicViewerPosition.height/4, musicViewerPosition.width - ( musicViewerPosition.width/8 ), musicViewerPosition.height - ( musicViewerPosition.height/4 ))*/ GUILayout.Width ( musicViewerPosition.width - ( musicViewerPosition.width/8 )), GUILayout.Height (  musicViewerPosition.height - ( musicViewerPosition.height / 4 + 60 )));
 					
 					if ( parentDirectoryFiles.Any ())
 					{
@@ -1206,13 +1214,13 @@ public class MusicViewer : MonoBehaviour
 		
 					if ( GUI.Button ( new Rect ( musicViewerPosition.width/2 + 60, musicViewerPosition.height/4 - 15, 240, 30 ), "Open in " + startupManager.directoryBrowser, buttonStyle ))
 						Process.Start ( browserCurrentDirectory );
-					
-GUILayout.BeginHorizontal ();
-GUILayout.FlexibleSpace ();
+
+					GUILayout.BeginHorizontal ();
+					GUILayout.Space ( musicViewerPosition.width / 16 );
 					GUILayout.BeginVertical ();
-					
 					GUILayout.Space ( musicViewerPosition.height / 4 );
-					scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  musicViewerPosition.height - ( musicViewerPosition.height / 4 + 53 )));
+					
+					scrollPosition = GUILayout.BeginScrollView ( /*new Rect ( musicViewerPosition.width/16, musicViewerPosition.height/4, musicViewerPosition.width - ( musicViewerPosition.width/8 ), musicViewerPosition.height - ( musicViewerPosition.height/4 )),*/ scrollPosition, /*new Rect ( musicViewerPosition.width/16, musicViewerPosition.height/4, musicViewerPosition.width - ( musicViewerPosition.width/8 ), musicViewerPosition.height - ( musicViewerPosition.height/4 ))*/ GUILayout.Width ( musicViewerPosition.width - ( musicViewerPosition.width/8 )), GUILayout.Height (  musicViewerPosition.height - ( musicViewerPosition.height / 4 + 60 )));
 			
 					for ( int i = 0; i < browserCurrentDirectoryFiles.Length; i += 1 )
 					{
@@ -1319,8 +1327,8 @@ GUILayout.FlexibleSpace ();
 			
 				GUILayout.EndScrollView();
 				GUILayout.EndVertical();
-GUILayout.FlexibleSpace ();
-GUILayout.EndHorizontal();
+				//GUILayout.FlexibleSpace ();
+				GUILayout.EndHorizontal();
 			}
 
 			GUILayout.BeginArea ( bottomBarPosition );
@@ -2195,6 +2203,23 @@ GUILayout.EndHorizontal();
 				}
 			}
 		}
+		
+		if ( showVisualizer == true && isPaused == false )
+		{
+			
+			if ( startupManager.preferences.iterateEffects == true )
+			{
+				
+				float currentPerlin = Mathf.PerlinNoise ( Time.time * 1.0f, 0.0f );
+				
+				manager.GetComponent<SunShafts> ().maxRadius = currentPerlin;
+				//manager.GetComponent<BloomAndLensFlares> ().bloomThreshhold = Mathf.PerlinNoise ( Time.time * 1.0f, 0.0f );
+				//manager.GetComponent<BlurEffect> ().blurSpread = Mathf.PerlinNoise ( Time.time * 10.0f, 0.0f );
+			} else {
+				
+				manager.GetComponent<SunShafts> ().maxRadius = 0.25f;
+			}
+		}
 	}
 
 
@@ -2370,9 +2395,9 @@ GUILayout.EndHorizontal();
 		preferencesSaved = startupManager.SavePreferences ();
 		while ( preferencesSaved == false ) {}
 		
-		/*if ( Application.isEditor == true )
+		if ( Application.isEditor == true )
 			UnityEditor.EditorApplication.isPlaying = false;
-		else*/
+		else
 			Application.Quit ();
 	}
 }

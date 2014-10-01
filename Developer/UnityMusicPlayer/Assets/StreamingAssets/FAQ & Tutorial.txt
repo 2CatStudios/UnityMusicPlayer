@@ -1,4 +1,5 @@
-UnityMusicPlayer 1.2
+UnityMusicPlayer 1.25 DevBuild
+Thank you for helping test UMP!
 
 
 Tutorial:
@@ -8,7 +9,12 @@ Left Arrow Key	: Swipe to the left
 Down Arrow Key	: Play next song
 Up Arrow Key	: Play previous song
 Spacebar	: Play/pause current song
-Escape		: Exit slideshow mode (when applicable)
+Escape		: Exit slideshow mode / Save and close Options window (when applicable)
+H		: Toggle GUI
+A		: Toggle AudioVisualizer
+F		: Toggle audio "Fast mode" (2x speed)
+S		: Toggle audio "Slow mode" (0.5x speed)
+E		: Toggle audio Echo
 
 
 FAQ:
