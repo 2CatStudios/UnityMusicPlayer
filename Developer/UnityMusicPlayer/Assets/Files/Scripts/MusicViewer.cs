@@ -768,7 +768,7 @@ public class MusicViewer : MonoBehaviour
 			if ( slideshow == true )
 			{
 				
-				if ( startupManager.preferences.autoAVOff == true )
+				if ( startupManager.preferences.autoAVOff == true || showVisualizer == false )
 				{
 					
 					showVisualizer = false;
@@ -777,6 +777,7 @@ public class MusicViewer : MonoBehaviour
 					manager.GetComponent<BlurEffect>().enabled = false;
 					manager.GetComponent<SunShafts>().enabled = false;
 					manager.GetComponent<Vignetting>().enabled = false;
+	
 				} else {
 					
 					audioVisualizer.topLeftLine.material.color = new Color ( startupManager.preferences.avcR, startupManager.preferences.avcG, startupManager.preferences.avcB, 255 );
@@ -786,12 +787,15 @@ public class MusicViewer : MonoBehaviour
 	
 					manager.GetComponent<BloomAndLensFlares>().enabled = startupManager.preferences.bloom;
 					if ( startupManager.preferences.autoAVBlur == false )
+					{
+						
 						manager.GetComponent<BlurEffect>().enabled = startupManager.preferences.blur;
-					else
+					} else {
+						
 						manager.GetComponent<BlurEffect>().enabled = true;
+					}
 						
 					manager.GetComponent<SunShafts>().enabled = startupManager.preferences.sunShafts;
-					
 					manager.GetComponent<Vignetting>().enabled = startupManager.preferences.vignetting;
 				}
 
@@ -1146,6 +1150,7 @@ public class MusicViewer : MonoBehaviour
 										
 												GUILayout.BeginHorizontal ();
 												GUILayout.Space ( 20 );
+												
 												if ( GUILayout.Button ( new GUIContent ( childAudioTitle ), fileStyle ))
 												{
 													
@@ -1190,7 +1195,7 @@ public class MusicViewer : MonoBehaviour
 							}
 						}
 					}
-				} else {
+				} else {	// FileBrowser == true
 					
 					if ( browserCurrentDirectory.Substring ( 0, browserCurrentDirectory.LastIndexOf ( Path.DirectorySeparatorChar )).Length > 0 )
 					{
