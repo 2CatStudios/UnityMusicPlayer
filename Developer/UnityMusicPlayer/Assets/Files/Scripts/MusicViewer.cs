@@ -487,7 +487,7 @@ public class MusicViewer : MonoBehaviour
 		GUI.FocusWindow ( 5 );
 		GUI.BringWindowToFront ( 5 );
 
-/**/	startupManager.showUnderlay = true;
+		startupManager.showUnderlay = true;
 		paneManager.popupBlocking = true;
 
 		GUILayout.BeginVertical ();
@@ -1077,7 +1077,7 @@ public class MusicViewer : MonoBehaviour
 						if ( startupManager.preferences.enableTutorials == true )
 						{
 								
-							GUILayout.Label ( "You don't have any tracks to play!\n\nIf you have some music (.wav, .ogg, or .aiff),\nclick 'Open File Browser' under the System Commands bar bellow." +
+							GUILayout.Label ( "You don't have any audio to play!\n\nIf you have some music (.wav, .ogg, or .aiff),\nclick 'Open File Browser' under the System Commands bar bellow." +
 								"\n\nYou can also download music by navigating\nto the OnlineMusicBrowser (press the right arrow key).\n", centerStyle );
 						
 							if ( GUILayout.Button ( "Hide Tutorials", buttonStyle ))
