@@ -294,23 +294,26 @@ public class StartupManager : MonoBehaviour
 
 			Directory.CreateDirectory ( tempPath );
 		}
-
-		if ( !File.Exists ( supportPath + "Preferences.umpp" ))
+		
+		if ( ReadPreferences () == true )
 		{
-			
-			if ( developmentMode == true )
-				UnityEngine.Debug.LogWarning ( "Preference file does not exist!" );
-			
-			bool preferencesCreated = false;
-			preferencesCreated = SavePreferences ();
-			while ( preferencesCreated == false ) {}
+		
+			if ( WritePreferences () == true )
+			{
+				
+				if ( developmentMode == true )
+				{
+					
+					UnityEngine.Debug.Log ( "Universal Settings Loaded Successfully" );
+				}
+			}
 		} else {
-		
-			System.IO.StreamReader preferencesReader = new System.IO.StreamReader ( supportPath + "Preferences.umpp" );
-			string preferencesXML = preferencesReader.ReadToEnd();
-			preferencesReader.Close();
-		
-			preferences = preferencesXML.DeserializeXml<Preferences> ();
+			
+			if ( WritePreferences () != true )
+			{
+				
+				UnityEngine.Debug.LogError ( "Unable to Write Universal Settings!" );
+			}
 		}
 
 		if ( !Directory.Exists ( preferences.lastDirectory ))
@@ -697,7 +700,28 @@ public class StartupManager : MonoBehaviour
 	}
 	
 	
-	internal bool SavePreferences ()
+	bool ReadPreferences ()
+	{
+		
+		try {
+			
+			System.IO.StreamReader preferencesReader = new System.IO.StreamReader ( supportPath + "Preferences.umpp" );
+			string preferencesXML = preferencesReader.ReadToEnd();
+			preferencesReader.Close();
+		
+			preferences = preferencesXML.DeserializeXml<Preferences> ();
+		} catch ( Exception error )
+		{
+			
+			UnityEngine.Debug.LogWarning ( "Unable to Read Preferences: " + error );
+			return false;
+		}
+		
+		return ( true );
+	}
+	
+	
+	internal bool WritePreferences ()
 	{
 		
 		try {

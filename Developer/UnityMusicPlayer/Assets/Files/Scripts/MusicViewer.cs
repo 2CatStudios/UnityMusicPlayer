@@ -810,7 +810,7 @@ public class MusicViewer : MonoBehaviour
 			}
 
 			bool preferencesSaved = false;
-			preferencesSaved = startupManager.SavePreferences ();
+			preferencesSaved = startupManager.WritePreferences ();
 			while ( preferencesSaved == false ) {}
 
 			confirmSettingsReset = false;
@@ -1188,7 +1188,10 @@ public class MusicViewer : MonoBehaviour
 											}
 										} else {
 											
+											GUILayout.BeginHorizontal ();
+											GUILayout.Space ( 20 );
 											GUILayout.Label ( "This folder doesn't contain any music!" );
+											GUILayout.EndHorizontal ();
 										}
 									}
 								}
@@ -1319,7 +1322,7 @@ public class MusicViewer : MonoBehaviour
 						scrollPosition.y = 0;
 						
 						bool preferencesSaved = false;
-						preferencesSaved = startupManager.SavePreferences ();
+						preferencesSaved = startupManager.WritePreferences ();
 						while ( preferencesSaved == false ) {}
 					}
 				}
@@ -1991,11 +1994,11 @@ public class MusicViewer : MonoBehaviour
 				fadeIn = false;
 				
 				Resources.UnloadUnusedAssets ();
-			} else if ( showOptionsWindow == false )
+			}/* else if ( showOptionsWindow == false )
 			{
 				
 				showOptionsWindow = true;
-			}
+			}*/
 		}
 		
 		if ( startupManager.preferences.enableKeybinds == true )
@@ -2404,7 +2407,7 @@ public class MusicViewer : MonoBehaviour
 		Caching.CleanCache ();
 		
 		bool preferencesSaved = false;
-		preferencesSaved = startupManager.SavePreferences ();
+		preferencesSaved = startupManager.WritePreferences ();
 		while ( preferencesSaved == false ) {}
 		
 		if ( Application.isEditor == true )
