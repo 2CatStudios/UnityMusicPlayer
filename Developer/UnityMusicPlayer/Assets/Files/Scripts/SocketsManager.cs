@@ -20,7 +20,7 @@ public class SocketsManager : MonoBehaviour
 	{
 		startupManager = GameObject.FindGameObjectWithTag ( "Manager" ).GetComponent <StartupManager> ();
 		
-		port = startupManager.universalSettings.port;
+		port = startupManager.universalSettings.localPort;
 		
 		InvokeRepeating ( "SendUDPMessage", 0, 5 );
 		PrepareUDPMessage ( "UMP is Running" );
@@ -67,7 +67,7 @@ public class SocketsManager : MonoBehaviour
 		
 		
 			UdpClient udpClient = new UdpClient( localIP, port );
-			Byte[] sendBytes = Encoding.Unicode.GetBytes ( "[UMP]" + message /*messages[0]*/ );
+			Byte[] sendBytes = Encoding.Unicode.GetBytes ( "[2CatStudios:UMP]" + message /*messages[0]*/ );
 			try
 			{
 			

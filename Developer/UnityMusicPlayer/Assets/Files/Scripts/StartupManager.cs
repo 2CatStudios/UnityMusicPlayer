@@ -19,8 +19,8 @@ using System.Security.Cryptography.X509Certificates;
 public class UniversalSettings
 {
 	
-	[XmlElement("Port")]
-	public int port;
+	[XmlElement("LocalPort")]
+	public int localPort = 35143;
 }
 
 [XmlRoot ( "Preferences" )]
@@ -171,7 +171,7 @@ public class StartupManager : MonoBehaviour
 	internal string	slideshowPath;
 	internal string tempPath;
 
-	internal UniversalSettings universalSettings;
+	internal UniversalSettings universalSettings = new UniversalSettings ();
 	internal Preferences preferences = new Preferences ();
 
 	string[] applicationDownloads;
@@ -229,24 +229,26 @@ public class StartupManager : MonoBehaviour
 			Directory.CreateDirectory ( twoCatStudiosPath );
 		}
 		
-		if ( !File.Exists ( twoCatStudiosPath + "UniversalSettings.xml" ) || File.ReadAllLines ( twoCatStudiosPath + "UniversalSettings.xml" ).Length <= 0 )
+		if ( ReadUniversalSettings () == true )
 		{
-			
-			UnityEngine.Debug.Log (( twoCatStudiosPath + "UniversalSettings.xml" ) + " does not exist!" );
-			
-			using ( FileStream universalSettingsFS= File.Create ( twoCatStudiosPath + "UniversalSettings.xml" ))
+		
+			if ( WriteUniversalSettings () == true )
 			{
+				
+				if ( developmentMode == true )
+				{
 					
-				Byte[] uSettings = new UTF8Encoding ( true ).GetBytes ( "<?xml version='1.0' encoding='utf-8'?>\n\t<UniversalSettings>\n\t\t<Port>35143</Port>\n\t</UniversalSettings>" );
-				universalSettingsFS.Write ( uSettings, 0, uSettings.Length );
+					UnityEngine.Debug.Log ( "Universal Settings Loaded Successfully" );
+				}
+			}
+		} else {
+			
+			if ( WriteUniversalSettings () != true )
+			{
+				
+				UnityEngine.Debug.LogError ( "Unable to Write Universal Settings!" );
 			}
 		}
-		
-		System.IO.StreamReader universalSettingsReader = new System.IO.StreamReader ( twoCatStudiosPath + "UniversalSettings.xml" );
-		string universalSettingsXML = universalSettingsReader.ReadToEnd();
-		universalSettingsReader.Close();
-		
-		universalSettings = universalSettingsXML.DeserializeXml<UniversalSettings>();
 		
 		if ( !Directory.Exists ( mediaPath ))
 			Directory.CreateDirectory ( mediaPath );
@@ -424,7 +426,7 @@ public class StartupManager : MonoBehaviour
 						}
 					} catch {
 				
-						UnityEngine.Debug.Log ( "Unable to download XML file! Downloading regular file instead." );
+						UnityEngine.Debug.LogWarning ( "Unable to download XML file! Downloading regular file instead." );
 						Uri url = new Uri ( "http://2catstudios.github.io/UnityMusicPlayer/Stable/OnlineMusicBrowser.xml" );
 						using ( client = new WebClient ())
 						{
@@ -656,12 +658,59 @@ public class StartupManager : MonoBehaviour
 	}
 	
 	
+	bool ReadUniversalSettings ()
+	{
+		
+		try {
+			
+			System.IO.StreamReader unisetReader = new System.IO.StreamReader ( twoCatStudiosPath + "UniversalSettings.xml" );
+			string unisetXML = unisetReader.ReadToEnd();
+			unisetReader.Close();
+			
+			universalSettings = unisetXML.DeserializeXml<UniversalSettings> ();
+		} catch ( Exception error )
+		{
+			
+			UnityEngine.Debug.LogWarning ( "Unable to Read Universal Settings: " + error );
+			return false;
+		}
+		
+		return ( true );
+	}
+	
+	
+	bool WriteUniversalSettings ()
+	{
+		
+		try {
+			
+			XmlSerializer unisetSerializer = new XmlSerializer ( universalSettings.GetType ());
+			StreamWriter unisetWriter = new StreamWriter ( twoCatStudiosPath + "UniversalSettings.xml" );
+			unisetSerializer.Serialize ( unisetWriter.BaseStream, universalSettings );
+		} catch ( Exception error ) {
+			
+			UnityEngine.Debug.LogError ( "Unable to Write Universal Settings: " + error );
+			return false;
+		}
+		
+		return ( true );
+	}
+	
+	
 	internal bool SavePreferences ()
 	{
 		
-		XmlSerializer serializer = new XmlSerializer ( preferences.GetType ());
-		StreamWriter writer = new StreamWriter ( supportPath + "Preferences.umpp" );
-		serializer.Serialize ( writer.BaseStream, preferences );
+		try {
+			
+			XmlSerializer serializer = new XmlSerializer ( preferences.GetType ());
+			StreamWriter writer = new StreamWriter ( supportPath + "Preferences.umpp" );
+			serializer.Serialize ( writer.BaseStream, preferences );
+		} catch ( Exception error )
+		{
+			
+			UnityEngine.Debug.LogError ( "Unable to Write Preferences: " + error );
+			return false;
+		}
 
 		return ( true );
 	}

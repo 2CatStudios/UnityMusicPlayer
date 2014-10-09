@@ -927,7 +927,7 @@ public class MusicViewer : MonoBehaviour
 		if ( manager.audio.clip != null && startupManager.preferences.enableTimebar == true )
 		{
 			
-			GUI.DrawTexture ( new Rect ( manager.audio.time * ( musicViewerPosition.width/manager.audio.clip.length ), -3, 10, 6 ), timebarMarker );
+			GUI.DrawTexture ( new Rect ( /*manager.audio.time * ( musicViewerPosition.width/manager.audio.clip.length )*/ 0, -3, manager.audio.time * ( musicViewerPosition.width/manager.audio.clip.length ), 6 ), timebarMarker );
 		}
 			
 		
@@ -1955,7 +1955,10 @@ public class MusicViewer : MonoBehaviour
 				StartCoroutine ( "SetArtwork" );
 				
 				if ( startupManager.preferences.enableTimebar == false )
+				{
+					
 					musicViewerTitle = "MusicViewer";
+				}
 				
 				timemark.enabled = true;
 				hideGUI = false;
@@ -1988,6 +1991,10 @@ public class MusicViewer : MonoBehaviour
 				fadeIn = false;
 				
 				Resources.UnloadUnusedAssets ();
+			} else if ( showOptionsWindow == false )
+			{
+				
+				showOptionsWindow = true;
 			}
 		}
 		

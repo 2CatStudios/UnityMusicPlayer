@@ -76,12 +76,12 @@ public class PaneManager : MonoBehaviour
 	void Update()
 	{
 		
-		if ( countFPS == true )
+		if ( startupManager.developmentMode == true )
 		{
-			
-			if ( startupManager.developmentMode == true )
+		
+			if ( countFPS == true )
 			{
-			
+
 				frames += 1;
 				float timeNow = Time.realtimeSinceStartup;
 				if ( timeNow > lastInterval + updateInterval )
