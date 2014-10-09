@@ -199,7 +199,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	bool showSongInformation = false;
 	bool downloading = false;
 	bool downloadFeaturedArtwork;
-	internal bool downloadArtwork;
+	bool downloadArtwork = true;
 	
 	Song songInfoOwner;
 	Song downloadingSong;
@@ -618,14 +618,18 @@ public class OnlineMusicBrowser : MonoBehaviour
 									
 								GUILayout.Label ( "Downloading '" + downloadingSong.name + "'", labelStyle );
 
+								GUILayout.BeginHorizontal ();
+								GUILayout.FlexibleSpace ();
 								if ( GUILayout.Button ( "Cancel Download", buttonStyle ))
 								{
 										
 									client.CancelAsync ();
 								}
+								GUILayout.FlexibleSpace ();
+								GUILayout.EndHorizontal ();
 							}
 							
-							if ( String.IsNullOrEmpty ( song.largeArtworkURL ) == false )
+							if ( String.IsNullOrEmpty ( song.largeArtworkURL ) == false && downloadArtwork == true )
 							{
 								
 								GUILayout.BeginHorizontal ();
@@ -679,8 +683,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 							GUILayout.Label ( "" );
 						}
 					}
-					
-					GUILayout.FlexibleSpace ();
 				}
 				
 				GUILayout.EndScrollView ();
@@ -873,6 +875,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 	IEnumerator DownloadArtwork ( Song downloadedSong )
 	{
 		
+		downloadArtwork = false;
+		
 		if ( String.IsNullOrEmpty ( downloadedSong.largeArtworkURL ) == false )
 		{
 			
@@ -895,6 +899,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 			}
 			
 			UnityEngine.Debug.Log ( "Artwork Downloaded" );
+			downloadArtwork = true;
 		}
 	}
 }
