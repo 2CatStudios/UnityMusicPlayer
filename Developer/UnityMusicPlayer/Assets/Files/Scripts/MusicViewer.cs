@@ -1994,11 +1994,7 @@ public class MusicViewer : MonoBehaviour
 				fadeIn = false;
 				
 				Resources.UnloadUnusedAssets ();
-			}/* else if ( showOptionsWindow == false )
-			{
-				
-				showOptionsWindow = true;
-			}*/
+			}
 		}
 		
 		if ( startupManager.preferences.enableKeybinds == true )
