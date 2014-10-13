@@ -34,7 +34,7 @@ class SunShaftsEditor extends Editor
         
         resolution =  serObj.FindProperty("resolution");
         
-        maxRadius = serObj.FindProperty("maxRadius"); 
+        maxRadius = serObj.FindProperty("maxRadius");
 		
 		useDepthTexture = serObj.FindProperty("useDepthTexture");
 	}

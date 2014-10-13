@@ -71,7 +71,7 @@ public class AudioVisualizer : MonoBehaviour
 			int p;
 			float sum = 0;
 
-			for (p = 0; p < numSamples; p++)
+			for ( p = 0; p < numSamples; p++ )
 			{
 				
 				sum += leftAudioOutput [p] * leftAudioOutput [p];

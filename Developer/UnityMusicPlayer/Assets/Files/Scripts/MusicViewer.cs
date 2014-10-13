@@ -2215,7 +2215,7 @@ public class MusicViewer : MonoBehaviour
 			}
 		}
 		
-		if ( showVisualizer == true && isPaused == false )
+		if ( showVisualizer == true && manager.audio.isPlaying == true )
 		{
 			
 			if ( startupManager.preferences.iterateEffects == true )
@@ -2224,11 +2224,11 @@ public class MusicViewer : MonoBehaviour
 				float currentPerlin = Mathf.PerlinNoise ( Time.time * 1.0f, 0.0f );
 				
 				manager.GetComponent<SunShafts> ().maxRadius = currentPerlin;
-				//manager.GetComponent<BloomAndLensFlares> ().bloomThreshhold = Mathf.PerlinNoise ( Time.time * 1.0f, 0.0f );
-				//manager.GetComponent<BlurEffect> ().blurSpread = Mathf.PerlinNoise ( Time.time * 10.0f, 0.0f );
+				manager.GetComponent<BloomAndLensFlares> ().bloomThreshhold = currentPerlin;
+				manager.GetComponent<BlurEffect> ().blurSpread = currentPerlin;
 			} else {
 				
-				manager.GetComponent<SunShafts> ().maxRadius = 0.25f;
+				manager.GetComponent<SunShafts> ().maxRadius = 0.75f;
 			}
 		}
 	}
