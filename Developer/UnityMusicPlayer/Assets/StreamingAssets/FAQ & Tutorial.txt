@@ -10,7 +10,7 @@ Down Arrow Key	: Play next song
 Up Arrow Key	: Play previous song
 Spacebar	: Play/pause current song
 Escape		: Exit slideshow mode / Save and close Options window (when applicable)
-H		: Toggle GUI
+H		: Toggle GUI ("Hide" GUI)
 A		: Toggle AudioVisualizer
 F		: Toggle audio "Fast mode" (2x speed)
 S		: Toggle audio "Slow mode" (0.5x speed)

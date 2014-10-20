@@ -203,6 +203,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	
 	Song songInfoOwner;
 	Song downloadingSong;
+	string activeSongFormat;
 	
 	#endregion
 	
@@ -361,6 +362,12 @@ public class OnlineMusicBrowser : MonoBehaviour
 
 		foreach ( Song song in songCollection.songs )
 		{
+			
+			/*if ( song.format == "unity3d" )
+			{
+				
+				song.format = "encrypted";
+			}*/
 			
 			tempAlbum = new Album ();
 			tempAlbum.name = song.album;
@@ -601,6 +608,16 @@ public class OnlineMusicBrowser : MonoBehaviour
 							
 							        		client.DownloadProgressChanged += new DownloadProgressChangedEventHandler( DownloadProgressCallback );
 											
+											/*string downloadFormat;
+											if ( song.format == "encrypted" )
+											{
+				
+												downloadFormat = "unity3d";
+											} else {
+												
+												downloadFormat = song.format;
+											}*/
+											
 							        		client.DownloadFileAsync ( url, startupManager.tempPath + song.name + "." + song.format );
 										}
 									} catch ( Exception error ) {
@@ -652,12 +669,18 @@ public class OnlineMusicBrowser : MonoBehaviour
 								
 								GUILayout.Label ( "Download size: ~" + currentDownloadSize );
 							}
+							
+							if ( song.format == "unity3d" )
+							{
+				
+								activeSongFormat = "encrypted";
+							}
 					
 							GUILayout.Label ( "Name: " + song.name, infoLabelStyle );
 							GUILayout.Label ( "Album: " + song.album, infoLabelStyle );
 							GUILayout.Label ( "Artist: " + song.artist, infoLabelStyle );
 							GUILayout.Label ( "Genre: " + song.genre, infoLabelStyle );
-							GUILayout.Label ( "Format: " + song.format, infoLabelStyle );
+							GUILayout.Label ( "Format: " + activeSongFormat, infoLabelStyle );
 							GUILayout.Label ( "Released: " + song.releaseDate, infoLabelStyle );
 
 							if ( song.links != null )
@@ -868,7 +891,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 	void DownloadProgressCallback ( object sender, DownloadProgressChangedEventArgs arg )
 	{
 	
-		currentDownloadPercentage = " '" + downloadingSong.name + "' - " + arg.ProgressPercentage.ToString () + "% Complete";
+		currentDownloadPercentage = " - " + arg.ProgressPercentage.ToString () + "% Complete";
 	}
 	
 	
