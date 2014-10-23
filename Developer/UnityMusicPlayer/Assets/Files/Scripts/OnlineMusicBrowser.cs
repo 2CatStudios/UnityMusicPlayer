@@ -111,6 +111,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 {
 	
 	StartupManager startupManager;
+	MusicViewer musicViewer;
 	PaneManager paneManager;
 
 	public GUISkin guiSkin;
@@ -211,8 +212,9 @@ public class OnlineMusicBrowser : MonoBehaviour
 	void Start ()
 	{
 
-		startupManager = GameObject.FindGameObjectWithTag ( "Manager" ).GetComponent<StartupManager>();
-		paneManager = GameObject.FindGameObjectWithTag ("Manager").GetComponent<PaneManager>();
+		startupManager = GameObject.FindGameObjectWithTag ( "Manager" ).GetComponent<StartupManager> ();
+		musicViewer = GameObject.FindGameObjectWithTag ( "MusicViewer" ).GetComponent<MusicViewer> ();
+		paneManager = GameObject.FindGameObjectWithTag ( "Manager" ).GetComponent<PaneManager> ();
 
 		onlineMusicBrowserPosition.width = Screen.width;
 		onlineMusicBrowserPosition.height = Screen.height;
@@ -878,6 +880,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 					File.Delete ( startupManager.downloadedPath + downloadingSong.name + "." + downloadingSong.format );
 				
 				File.Move ( startupManager.tempPath + downloadingSong.name + "." + downloadingSong.format, startupManager.downloadedPath + downloadingSong.name + "." + downloadingSong.format );
+				
+				musicViewer.Refresh ( true );
 			}
 
 			songInfoOwner = null;

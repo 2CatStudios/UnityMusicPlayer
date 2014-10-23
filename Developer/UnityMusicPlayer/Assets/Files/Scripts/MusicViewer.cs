@@ -438,10 +438,11 @@ public class MusicViewer : MonoBehaviour
 	}
 	
 	
-	void Refresh ()
+	internal void Refresh ( bool forceRefresh = false )
 	{
 		
-		if ( paneManager.currentPane == PaneManager.pane.musicViewer )
+		UnityEngine.Debug.Log ( forceRefresh );
+		if ( paneManager.currentPane == PaneManager.pane.musicViewer || forceRefresh == true )
 		{	
 			
 			try
