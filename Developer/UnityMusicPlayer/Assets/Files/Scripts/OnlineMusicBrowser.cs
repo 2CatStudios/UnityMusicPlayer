@@ -881,7 +881,7 @@ public class OnlineMusicBrowser : MonoBehaviour
 				
 				File.Move ( startupManager.tempPath + downloadingSong.name + "." + downloadingSong.format, startupManager.downloadedPath + downloadingSong.name + "." + downloadingSong.format );
 				
-				musicViewer.Refresh ( true );
+				musicViewer.forceRefresh = true;
 			}
 
 			songInfoOwner = null;

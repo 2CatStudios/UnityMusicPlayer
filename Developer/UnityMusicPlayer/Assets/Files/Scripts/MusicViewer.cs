@@ -189,6 +189,8 @@ public class MusicViewer : MonoBehaviour
 #endregion
 	
 #region GeneralSettings
+	
+	internal bool forceRefresh = false;
 
 	bool close = false;
 
@@ -226,7 +228,7 @@ public class MusicViewer : MonoBehaviour
 
 	int slideshowImage = 0;
 	
-#endregion	
+#endregion
 	
 	public static string RegexToString ( string key, bool isFloat )
 	{
@@ -438,10 +440,9 @@ public class MusicViewer : MonoBehaviour
 	}
 	
 	
-	internal void Refresh ( bool forceRefresh = false )
+	internal void Refresh ()
 	{
-		
-		UnityEngine.Debug.Log ( forceRefresh );
+
 		if ( paneManager.currentPane == PaneManager.pane.musicViewer || forceRefresh == true )
 		{	
 			
@@ -479,6 +480,8 @@ public class MusicViewer : MonoBehaviour
 				activeDirectoryFiles = parentDirectoryFiles;
 			}
 		}
+		
+		forceRefresh = false;
 	}
 
 
