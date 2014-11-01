@@ -365,12 +365,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 		foreach ( Song song in songCollection.songs )
 		{
 			
-			/*if ( song.format == "unity3d" )
-			{
-				
-				song.format = "encrypted";
-			}*/
-			
 			tempAlbum = new Album ();
 			tempAlbum.name = song.album;
 			tempAlbum.songs.Add ( song );
@@ -610,16 +604,6 @@ public class OnlineMusicBrowser : MonoBehaviour
 							
 							        		client.DownloadProgressChanged += new DownloadProgressChangedEventHandler( DownloadProgressCallback );
 											
-											/*string downloadFormat;
-											if ( song.format == "encrypted" )
-											{
-				
-												downloadFormat = "unity3d";
-											} else {
-												
-												downloadFormat = song.format;
-											}*/
-											
 							        		client.DownloadFileAsync ( url, startupManager.tempPath + song.name + "." + song.format );
 										}
 									} catch ( Exception error ) {
@@ -672,7 +656,8 @@ public class OnlineMusicBrowser : MonoBehaviour
 								GUILayout.Label ( "Download size: ~" + currentDownloadSize );
 							}
 							
-							if ( song.format == "unity3d" )
+							activeSongFormat = song.format;
+							if ( activeSongFormat == "unity3d" )
 							{
 				
 								activeSongFormat = "encrypted";
@@ -690,15 +675,35 @@ public class OnlineMusicBrowser : MonoBehaviour
 								
 								GUILayout.Label ( "", infoLabelStyle );
 							
-								GUILayout.Label ( "Support " + song.artist + " by visiting the following link(s)", labelStyle );
+								GUILayout.Label ( "Support " + song.artist + " by visiting", labelStyle );
 								
 								GUILayout.BeginHorizontal ();
 								GUILayout.FlexibleSpace ();
-								foreach ( Link currentLink in song.links )
+								for ( int supportI = 0; supportI < song.links.Count (); supportI += 1 )
 								{
 									
-									if ( GUILayout.Button ( currentLink.name, buttonStyle ))
-										Process.Start ( currentLink.address );
+									if ( song.links.Count () > 1 )
+									{
+										
+										if ( supportI == song.links.Count () - 1 )
+										{
+											
+											GUILayout.Label ( ", and" );
+										} else {
+											
+											if ( supportI != 0 )
+											{
+											
+												GUILayout.Label ( "," );
+											}
+										}
+									}
+										
+									if ( GUILayout.Button ( song.links[supportI].name, buttonStyle ))
+									{
+										
+										Process.Start ( song.links[supportI].address );
+									}
 								}
 								
 								GUILayout.FlexibleSpace ();
