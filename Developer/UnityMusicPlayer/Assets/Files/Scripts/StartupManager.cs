@@ -15,8 +15,8 @@ using System.Xml.Serialization;
 using System.Security.Cryptography.X509Certificates;
 //Written by Michael Bethke
 //Thank you for your ∞ mercy, Jesus!
-[XmlRoot("UniversalSettings")]
-public class UniversalSettings
+[XmlRoot("TwoCatSettings")]
+public class TwoCatSettings
 {
 	
 	[XmlElement("LocalPort")]
@@ -171,7 +171,7 @@ public class StartupManager : MonoBehaviour
 	internal string	slideshowPath;
 	internal string tempPath;
 
-	internal UniversalSettings universalSettings = new UniversalSettings ();
+	internal TwoCatSettings twoCatSettings = new TwoCatSettings ();
 	internal Preferences preferences = new Preferences ();
 
 	string[] applicationDownloads;
@@ -229,24 +229,24 @@ public class StartupManager : MonoBehaviour
 			Directory.CreateDirectory ( twoCatStudiosPath );
 		}
 		
-		if ( ReadUniversalSettings () == true )
+		if ( ReadTwoCatSettings () == true )
 		{
 		
-			if ( WriteUniversalSettings () == true )
+			if ( WriteTwoCatSettings () == true )
 			{
 				
 				if ( developmentMode == true )
 				{
 					
-					UnityEngine.Debug.Log ( "Universal Settings Loaded Successfully" );
+					UnityEngine.Debug.Log ( "TwoCat Settings Loaded Successfully" );
 				}
 			}
 		} else {
 			
-			if ( WriteUniversalSettings () != true )
+			if ( WriteTwoCatSettings () != true )
 			{
 				
-				UnityEngine.Debug.LogError ( "Unable to Write Universal Settings!" );
+				UnityEngine.Debug.LogError ( "Unable to Write TwoCat Settings!" );
 			}
 		}
 		
@@ -661,20 +661,20 @@ public class StartupManager : MonoBehaviour
 	}
 	
 	
-	bool ReadUniversalSettings ()
+	bool ReadTwoCatSettings ()
 	{
 		
 		try {
 			
-			System.IO.StreamReader unisetReader = new System.IO.StreamReader ( twoCatStudiosPath + "UniversalSettings.xml" );
+			System.IO.StreamReader unisetReader = new System.IO.StreamReader ( twoCatStudiosPath + "TwoCatSettings.xml" );
 			string unisetXML = unisetReader.ReadToEnd();
 			unisetReader.Close();
 			
-			universalSettings = unisetXML.DeserializeXml<UniversalSettings> ();
+			twoCatSettings = unisetXML.DeserializeXml<TwoCatSettings> ();
 		} catch ( Exception error )
 		{
 			
-			UnityEngine.Debug.LogWarning ( "Unable to Read Universal Settings: " + error );
+			UnityEngine.Debug.LogWarning ( "Unable to Read TwoCat Settings: " + error );
 			return false;
 		}
 		
@@ -682,17 +682,17 @@ public class StartupManager : MonoBehaviour
 	}
 	
 	
-	bool WriteUniversalSettings ()
+	bool WriteTwoCatSettings ()
 	{
 		
 		try {
 			
-			XmlSerializer unisetSerializer = new XmlSerializer ( universalSettings.GetType ());
-			StreamWriter unisetWriter = new StreamWriter ( twoCatStudiosPath + "UniversalSettings.xml" );
-			unisetSerializer.Serialize ( unisetWriter.BaseStream, universalSettings );
+			XmlSerializer unisetSerializer = new XmlSerializer ( twoCatSettings.GetType ());
+			StreamWriter unisetWriter = new StreamWriter ( twoCatStudiosPath + "TwoCatSettings.xml" );
+			unisetSerializer.Serialize ( unisetWriter.BaseStream, twoCatSettings );
 		} catch ( Exception error ) {
 			
-			UnityEngine.Debug.LogError ( "Unable to Write Universal Settings: " + error );
+			UnityEngine.Debug.LogError ( "Unable to Write TwoCat Settings: " + error );
 			return false;
 		}
 		

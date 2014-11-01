@@ -20,7 +20,7 @@ public class SocketsManager : MonoBehaviour
 	{
 		startupManager = GameObject.FindGameObjectWithTag ( "Manager" ).GetComponent <StartupManager> ();
 		
-		port = startupManager.universalSettings.localPort;
+		port = startupManager.twoCatSettings.localPort;
 		
 		InvokeRepeating ( "SendUDPMessage", 0, 5 );
 		PrepareUDPMessage ( "UMP is Running" );
