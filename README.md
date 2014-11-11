@@ -3,7 +3,7 @@ UnityMusicPlayer
 
 
 Repository for UnityMusicPlayer online functions and developer resources.
-For more information, please see our website,[http://2catstudios.github.io](http://2catstudios.github.io/unitymusicplayer.html)
+For more information, please see our website,[2catstudios.github.io](http://2catstudios.github.io/unitymusicplayer.html)
 
 
 > Development is ongoing, however may be slow now due our multiple projects.
