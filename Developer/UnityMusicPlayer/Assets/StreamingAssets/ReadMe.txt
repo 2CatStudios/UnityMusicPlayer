@@ -1,11 +1,11 @@
-UnityMusicPlayer 1.25 DevBuild
-Thank you for helping test UMP!
+UnityMusicPlayer 1.25
+Thank you for using UMP!
 
 
 UnityMusicPlayer has been developed by
 2Cat Studios
 
-	Gibson Bethke	- Programming and Application Design
+	Michael Bethke	- Programming and Application Design
 	Jan Heemstra	- Planning and Support
 	Joshua Wade	- Additional Planning and Product Testing
 

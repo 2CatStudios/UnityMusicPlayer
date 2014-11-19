@@ -1,7 +1,7 @@
 UnityMusicPlayer
 OnlineMusicBrowser
 Song Organization
-NOTE: Encrypted audio must be uncompressed!
+NOTE: Encrypted audio must be uncompressed WAV!
 
 	<Song featured=‘true/false'>
 		<name>NAME</name>

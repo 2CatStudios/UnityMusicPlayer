@@ -469,89 +469,288 @@ public class OnlineMusicBrowser : MonoBehaviour
 	void OnlineMusicBrowserPane ( int wid )
 	{
 		
-		if ( startupManager.preferences.enableOMB == true )
+		if ( musicViewer.hideGUI == false )
 		{
-	
-			GUILayout.Space ( onlineMusicBrowserPosition.width / 8 );
-			GUILayout.BeginArea ( new Rect ( 20, onlineMusicBrowserPosition.width / 8 + 5, 216, 40 ));
-			GUILayout.BeginHorizontal ();
-			
-			foreach ( Sort sort in availableSorts )
+		
+			if ( startupManager.preferences.enableOMB == true )
 			{
-				
-				if ( currentSort == sort )
-					currentStyle = sort.activeStyle;
-				else
-					currentStyle = sort.normalStyle;
-				
-				if ( GUILayout.Button ( "", currentStyle, GUILayout.Height ( 36 )))
-				{
-					
-					currentSort = sort;
-					sortBy = sort.method;
-					scrollPosition = new Vector2 ( 0, 0 );
-				}
-			}
-			
-			GUILayout.EndHorizontal ();
-			GUILayout.EndArea ();
-			
-			GUI.Label ( new Rect ( onlineMusicBrowserPosition.width - 236, onlineMusicBrowserPosition.width / 8 + 5, 216, 40 ), currentSort.name, sortLabelStyle );
-			GUILayout.Space ( 22 );
-				
-			switch ( sortBy )
-			{
-				
-				case 0:
+	    	
+				GUILayout.Space ( onlineMusicBrowserPosition.width / 8 );
+				GUILayout.BeginArea ( new Rect ( 20, onlineMusicBrowserPosition.width / 8 + 5, 216, 40 ));
 				GUILayout.BeginHorizontal ();
-				GUILayout.FlexibleSpace ();
-				scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  onlineMusicBrowserPosition.height - 200 ));
 				
-				foreach ( Song song in specificSort )
+				foreach ( Sort sort in availableSorts )
 				{
 					
-					if ( songInfoOwner == song )
-					{
-						
-						guiSkin.button.normal.background = guiHover;
-						guiSkin.button.hover.background = guiActiveHover;
-					} else {
-						
-						guiSkin.button.normal.background = null;
-						guiSkin.button.hover.background = guiHover;
-					}
+					if ( currentSort == sort )
+						currentStyle = sort.activeStyle;
+					else
+						currentStyle = sort.normalStyle;
 					
-					if ( GUILayout.Button ( song.name ))
+					if ( GUILayout.Button ( "", currentStyle, GUILayout.Height ( 36 )))
 					{
 						
-						int firstEquation = ( allRecentlyAddedList.Count - 1 ) - specificSort.IndexOf ( song );
-						int secondEquation = ( allRecentlyAddedList.Count - 1 ) - firstEquation;
+						currentSort = sort;
+						sortBy = sort.method;
+						scrollPosition = new Vector2 ( 0, 0 );
+					}
+				}
+				
+				GUILayout.EndHorizontal ();
+				GUILayout.EndArea ();
+				
+				GUI.Label ( new Rect ( onlineMusicBrowserPosition.width - 236, onlineMusicBrowserPosition.width / 8 + 5, 216, 40 ), currentSort.name, sortLabelStyle );
+				GUILayout.Space ( 22 );
+					
+				switch ( sortBy )
+				{
+					
+					case 0:
+					GUILayout.BeginHorizontal ();
+					GUILayout.FlexibleSpace ();
+					scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  onlineMusicBrowserPosition.height - 200 ));
+					
+					foreach ( Song song in specificSort )
+					{
 						
-						scrollPosition.y = secondEquation * 36;
-						
-						if ( showSongInformation == false || songInfoOwner != song )
+						if ( songInfoOwner == song )
 						{
 							
-							if ( songInfoOwner != song )
+							guiSkin.button.normal.background = guiHover;
+							guiSkin.button.hover.background = guiActiveHover;
+						} else {
+							
+							guiSkin.button.normal.background = null;
+							guiSkin.button.hover.background = guiHover;
+						}
+						
+						if ( GUILayout.Button ( song.name ))
+						{
+							
+							int firstEquation = ( allRecentlyAddedList.Count - 1 ) - specificSort.IndexOf ( song );
+							int secondEquation = ( allRecentlyAddedList.Count - 1 ) - firstEquation;
+							
+							scrollPosition.y = secondEquation * 36;
+							
+							if ( showSongInformation == false || songInfoOwner != song )
 							{
+								
+								if ( songInfoOwner != song )
+								{
+									
+									showSongInformation = false;
+									songInfoOwner = null;
+								}
+								
+								if ( song.downloadURL.StartsWith ( "|" ) == true )
+								{
+        	
+									url = null;
+									downloadButtonText = song.downloadURL.Substring ( 1 );
+									
+									currentDownloadPercentage = "";
+									currentDownloadSize = "Unreleased";
+								} else if ( song.downloadURL.StartsWith ( "h" ) == true )
+								{
+									
+									url = new Uri ( song.downloadURL );
+									downloadButtonText = "Download '" + song.name + "'";
+									
+									currentDownloadPercentage = "";
+									currentDownloadSize = "Fetching";
+										
+									Thread getInfoThread = new Thread ( GetInfoThread );
+									getInfoThread.Priority = System.Threading.ThreadPriority.AboveNormal;
+									getInfoThread.Start ();
+								}
+									
+								showSongInformation = true;
+								songInfoOwner = song;
+							} else {
 								
 								showSongInformation = false;
 								songInfoOwner = null;
 							}
+						}
+						
+						guiSkin.button.normal.background = null;
+						guiSkin.button.hover.background = guiHover;
+						
+						if ( showSongInformation == true )
+						{
 							
-							if ( song.downloadURL.StartsWith ( "|" ) == true )
+							if ( songInfoOwner == song )
 							{
-
+							
+								if ( downloading == false )
+								{
+									
+									GUILayout.BeginHorizontal ();
+									GUILayout.FlexibleSpace ();
+									if ( GUILayout.Button ( downloadButtonText, buttonStyle ) && url != null )
+									{
+										
+										if ( startupManager.developmentMode == true )
+											UnityEngine.Debug.Log ( url );
+										
+										downloadingSong = song;
+										
+										currentDownloadPercentage = " - Processing Download";
+										
+										try
+										{
+											
+											using ( client = new WebClient ())
+											{
+							 
+								        		client.DownloadFileCompleted += new AsyncCompletedEventHandler ( DownloadFileCompleted );
+								
+								        		client.DownloadProgressChanged += new DownloadProgressChangedEventHandler( DownloadProgressCallback );
+												
+								        		client.DownloadFileAsync ( url, startupManager.tempPath + song.name + "." + song.format );
+											}
+										} catch ( Exception error ) {
+											
+											UnityEngine.Debug.Log ( error );
+										}
+													
+										downloading = true;
+        	
+									}
+									
+									GUILayout.FlexibleSpace ();
+									GUILayout.EndHorizontal ();
+								} else {
+										
+									GUILayout.Label ( "Downloading '" + downloadingSong.name + "'", labelStyle );
+        	
+									GUILayout.BeginHorizontal ();
+									GUILayout.FlexibleSpace ();
+									if ( GUILayout.Button ( "Cancel Download", buttonStyle ))
+									{
+											
+										client.CancelAsync ();
+									}
+									GUILayout.FlexibleSpace ();
+									GUILayout.EndHorizontal ();
+								}
+								
+								if ( String.IsNullOrEmpty ( song.largeArtworkURL ) == false && downloadArtwork == true )
+								{
+									
+									GUILayout.BeginHorizontal ();
+									GUILayout.FlexibleSpace ();
+									if ( GUILayout.Button ( "Download Artwork", buttonStyle ))
+									{
+									
+										StartCoroutine ( "DownloadArtwork", song );
+									}
+									
+									GUILayout.FlexibleSpace ();
+									GUILayout.EndHorizontal ();
+								}
+								
+								if ( downloadingSong == songInfoOwner )
+								{
+									
+									GUILayout.Label ( "Download size: ~" + currentDownloadSize + currentDownloadPercentage );
+								} else {
+									
+									GUILayout.Label ( "Download size: ~" + currentDownloadSize );
+								}
+								
+								activeSongFormat = song.format;
+								if ( activeSongFormat == "unity3d" )
+								{
+					
+									activeSongFormat = "encrypted";
+								}
+						
+								GUILayout.Label ( "Name: " + song.name, infoLabelStyle );
+								GUILayout.Label ( "Album: " + song.album, infoLabelStyle );
+								GUILayout.Label ( "Artist: " + song.artist, infoLabelStyle );
+								GUILayout.Label ( "Genre: " + song.genre, infoLabelStyle );
+								GUILayout.Label ( "Format: " + activeSongFormat, infoLabelStyle );
+								GUILayout.Label ( "Released: " + song.releaseDate, infoLabelStyle );
+        	
+								if ( song.links != null )
+								{
+									
+									GUILayout.Label ( "", infoLabelStyle );
+								
+									GUILayout.Label ( "Support " + song.artist + " by visiting", labelStyle );
+									
+									GUILayout.BeginHorizontal ();
+									GUILayout.FlexibleSpace ();
+									for ( int supportI = 0; supportI < song.links.Count (); supportI += 1 )
+									{
+										
+										if ( song.links.Count () > 1 )
+										{
+											
+											if ( supportI == song.links.Count () - 1 )
+											{
+												
+												GUILayout.Label ( ", and" );
+											} else {
+												
+												if ( supportI != 0 )
+												{
+												
+													GUILayout.Label ( "," );
+												}
+											}
+										}
+											
+										if ( GUILayout.Button ( song.links[supportI].name, buttonStyle ))
+										{
+											
+											Process.Start ( song.links[supportI].address );
+										}
+									}
+									
+									GUILayout.FlexibleSpace ();
+									GUILayout.EndHorizontal ();
+								}
+								
+								GUILayout.Label ( "" );
+							}
+						}
+					}
+					
+					GUILayout.EndScrollView ();
+					GUILayout.FlexibleSpace ();
+					GUILayout.EndHorizontal ();
+					break;
+					
+					case 1:
+					
+					GUILayout.BeginHorizontal ();
+					GUILayout.Space ( 10 );
+					horizontalScrollPosition = GUILayout.BeginScrollView ( horizontalScrollPosition, GUILayout.Width ( onlineMusicBrowserPosition.width - 20 ), GUILayout.Height( 390 ));
+					GUILayout.BeginHorizontal ();
+					foreach ( Featured featured in featuredList )
+					{
+        	
+						if ( GUILayout.Button ( featured.artwork, artworkStyle ))
+						{
+							
+							songInfoOwner = featured.song;
+							showSongInformation = true;
+							
+							if ( featured.song.downloadURL.StartsWith ( "|" ) == true )
+							{
+        	
 								url = null;
-								downloadButtonText = song.downloadURL.Substring ( 1 );
+								downloadButtonText = featured.song.downloadURL.Substring ( 1 );
 								
 								currentDownloadPercentage = "";
 								currentDownloadSize = "Unreleased";
-							} else if ( song.downloadURL.StartsWith ( "h" ) == true )
+							} else if ( featured.song.downloadURL.StartsWith ( "h" ) == true )
 							{
-								
-								url = new Uri ( song.downloadURL );
-								downloadButtonText = "Download '" + song.name + "'";
+									
+								url = new Uri ( featured.song.downloadURL );
+								downloadButtonText = "Download '" + featured.song.name + "'";
 								
 								currentDownloadPercentage = "";
 								currentDownloadSize = "Fetching";
@@ -560,294 +759,99 @@ public class OnlineMusicBrowser : MonoBehaviour
 								getInfoThread.Priority = System.Threading.ThreadPriority.AboveNormal;
 								getInfoThread.Start ();
 							}
-								
-							showSongInformation = true;
-							songInfoOwner = song;
-						} else {
 							
-							showSongInformation = false;
-							songInfoOwner = null;
+							int firstEquation = ( allRecentlyAddedList.Count - 1 ) - allRecentlyAddedList.IndexOf ( featured.song );
+							int secondEquation = ( allRecentlyAddedList.Count - 1 ) - firstEquation;
+							
+							scrollPosition.y = secondEquation * 36;
+							
+							currentSort = availableSorts[1];
+							specificSort = allRecentlyAddedList;
+							sortBy = 0;
 						}
 					}
 					
-					guiSkin.button.normal.background = null;
-					guiSkin.button.hover.background = guiHover;
+					GUILayout.FlexibleSpace ();
+					GUILayout.EndHorizontal ();
+					GUILayout.EndScrollView ();
+					GUILayout.EndHorizontal ();
+					break;
+	    	
+					case 2:
+					specificSort = allRecentlyAddedList;
+					sortBy = 0;
+					break;
+	    	
+					case 3:
+					specificSort = allSongsList;
+					sortBy = 0;
+					break;
 					
-					if ( showSongInformation == true )
+					case 4:
+					GUILayout.BeginHorizontal ();
+					GUILayout.FlexibleSpace ();
+					scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  onlineMusicBrowserPosition.height - 200 ));
+					foreach ( Album album in albums.Values )
 					{
-						
-						if ( songInfoOwner == song )
+	    	
+						if ( GUILayout.Button ( album.name ))
 						{
-						
-							if ( downloading == false )
-							{
-								
-								GUILayout.BeginHorizontal ();
-								GUILayout.FlexibleSpace ();
-								if ( GUILayout.Button ( downloadButtonText, buttonStyle ) && url != null )
-								{
-									
-									if ( startupManager.developmentMode == true )
-										UnityEngine.Debug.Log ( url );
-									
-									downloadingSong = song;
-									
-									currentDownloadPercentage = " - Processing Download";
-									
-									try
-									{
-										
-										using ( client = new WebClient ())
-										{
-						 
-							        		client.DownloadFileCompleted += new AsyncCompletedEventHandler ( DownloadFileCompleted );
-							
-							        		client.DownloadProgressChanged += new DownloadProgressChangedEventHandler( DownloadProgressCallback );
-											
-							        		client.DownloadFileAsync ( url, startupManager.tempPath + song.name + "." + song.format );
-										}
-									} catch ( Exception error ) {
-										
-										UnityEngine.Debug.Log ( error );
-									}
-												
-									downloading = true;
-
-								}
-								
-								GUILayout.FlexibleSpace ();
-								GUILayout.EndHorizontal ();
-							} else {
-									
-								GUILayout.Label ( "Downloading '" + downloadingSong.name + "'", labelStyle );
-
-								GUILayout.BeginHorizontal ();
-								GUILayout.FlexibleSpace ();
-								if ( GUILayout.Button ( "Cancel Download", buttonStyle ))
-								{
-										
-									client.CancelAsync ();
-								}
-								GUILayout.FlexibleSpace ();
-								GUILayout.EndHorizontal ();
-							}
-							
-							if ( String.IsNullOrEmpty ( song.largeArtworkURL ) == false && downloadArtwork == true )
-							{
-								
-								GUILayout.BeginHorizontal ();
-								GUILayout.FlexibleSpace ();
-								if ( GUILayout.Button ( "Download Artwork", buttonStyle ))
-								{
-								
-									StartCoroutine ( "DownloadArtwork", song );
-								}
-								
-								GUILayout.FlexibleSpace ();
-								GUILayout.EndHorizontal ();
-							}
-							
-							if ( downloadingSong == songInfoOwner )
-							{
-								
-								GUILayout.Label ( "Download size: ~" + currentDownloadSize + currentDownloadPercentage );
-							} else {
-								
-								GUILayout.Label ( "Download size: ~" + currentDownloadSize );
-							}
-							
-							activeSongFormat = song.format;
-							if ( activeSongFormat == "unity3d" )
-							{
-				
-								activeSongFormat = "encrypted";
-							}
-					
-							GUILayout.Label ( "Name: " + song.name, infoLabelStyle );
-							GUILayout.Label ( "Album: " + song.album, infoLabelStyle );
-							GUILayout.Label ( "Artist: " + song.artist, infoLabelStyle );
-							GUILayout.Label ( "Genre: " + song.genre, infoLabelStyle );
-							GUILayout.Label ( "Format: " + activeSongFormat, infoLabelStyle );
-							GUILayout.Label ( "Released: " + song.releaseDate, infoLabelStyle );
-
-							if ( song.links != null )
-							{
-								
-								GUILayout.Label ( "", infoLabelStyle );
-							
-								GUILayout.Label ( "Support " + song.artist + " by visiting", labelStyle );
-								
-								GUILayout.BeginHorizontal ();
-								GUILayout.FlexibleSpace ();
-								for ( int supportI = 0; supportI < song.links.Count (); supportI += 1 )
-								{
-									
-									if ( song.links.Count () > 1 )
-									{
-										
-										if ( supportI == song.links.Count () - 1 )
-										{
-											
-											GUILayout.Label ( ", and" );
-										} else {
-											
-											if ( supportI != 0 )
-											{
-											
-												GUILayout.Label ( "," );
-											}
-										}
-									}
-										
-									if ( GUILayout.Button ( song.links[supportI].name, buttonStyle ))
-									{
-										
-										Process.Start ( song.links[supportI].address );
-									}
-								}
-								
-								GUILayout.FlexibleSpace ();
-								GUILayout.EndHorizontal ();
-							}
-							
-							GUILayout.Label ( "" );
+	    	
+							specificSort = album.songs;
+							sortBy = 0;
 						}
 					}
-				}
-				
-				GUILayout.EndScrollView ();
-				GUILayout.FlexibleSpace ();
-				GUILayout.EndHorizontal ();
-				break;
-				
-				case 1:
-				
-				GUILayout.BeginHorizontal ();
-				GUILayout.Space ( 10 );
-				horizontalScrollPosition = GUILayout.BeginScrollView ( horizontalScrollPosition, GUILayout.Width ( onlineMusicBrowserPosition.width - 20 ), GUILayout.Height( 390 ));
-				GUILayout.BeginHorizontal ();
-				foreach ( Featured featured in featuredList )
-				{
-
-					if ( GUILayout.Button ( featured.artwork, artworkStyle ))
+					GUILayout.EndScrollView ();
+					GUILayout.FlexibleSpace ();
+					GUILayout.EndHorizontal ();
+					break;
+					
+					case 5:
+					GUILayout.BeginHorizontal ();
+					GUILayout.FlexibleSpace ();
+					scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  onlineMusicBrowserPosition.height - 200 ));
+					foreach ( Artist artist in artists.Values )
 					{
 						
-						songInfoOwner = featured.song;
-						showSongInformation = true;
-						
-						if ( featured.song.downloadURL.StartsWith ( "|" ) == true )
+						if ( GUILayout.Button ( artist.name ))
 						{
-
-							url = null;
-							downloadButtonText = featured.song.downloadURL.Substring ( 1 );
-							
-							currentDownloadPercentage = "";
-							currentDownloadSize = "Unreleased";
-						} else if ( featured.song.downloadURL.StartsWith ( "h" ) == true )
-						{
-								
-							url = new Uri ( featured.song.downloadURL );
-							downloadButtonText = "Download '" + featured.song.name + "'";
-							
-							currentDownloadPercentage = "";
-							currentDownloadSize = "Fetching";
-								
-							Thread getInfoThread = new Thread ( GetInfoThread );
-							getInfoThread.Priority = System.Threading.ThreadPriority.AboveNormal;
-							getInfoThread.Start ();
+	    	
+							specificSort = artist.songs;
+							sortBy = 0;
 						}
-						
-						int firstEquation = ( allRecentlyAddedList.Count - 1 ) - allRecentlyAddedList.IndexOf ( featured.song );
-						int secondEquation = ( allRecentlyAddedList.Count - 1 ) - firstEquation;
-						
-						scrollPosition.y = secondEquation * 36;
-						
-						currentSort = availableSorts[1];
-						specificSort = allRecentlyAddedList;
-						sortBy = 0;
 					}
-				}
-				
-				GUILayout.FlexibleSpace ();
-				GUILayout.EndHorizontal ();
-				GUILayout.EndScrollView ();
-				GUILayout.EndHorizontal ();
-				break;
-	
-				case 2:
-				specificSort = allRecentlyAddedList;
-				sortBy = 0;
-				break;
-	
-				case 3:
-				specificSort = allSongsList;
-				sortBy = 0;
-				break;
-				
-				case 4:
-				GUILayout.BeginHorizontal ();
-				GUILayout.FlexibleSpace ();
-				scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  onlineMusicBrowserPosition.height - 200 ));
-				foreach ( Album album in albums.Values )
-				{
-	
-					if ( GUILayout.Button ( album.name ))
+					GUILayout.EndScrollView ();
+					GUILayout.FlexibleSpace ();
+					GUILayout.EndHorizontal ();
+					break;
+					
+					case 6:
+					GUILayout.BeginHorizontal ();
+					GUILayout.FlexibleSpace ();
+					scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  onlineMusicBrowserPosition.height - 200 ));
+					foreach ( Genre genre in genres.Values )
 					{
-	
-						specificSort = album.songs;
-						sortBy = 0;
+						
+						if ( GUILayout.Button ( genre.name ))
+						{
+	    	
+							specificSort = genre.songs;
+							sortBy = 0;
+						}
 					}
+					GUILayout.EndScrollView ();
+					GUILayout.FlexibleSpace ();
+					GUILayout.EndHorizontal ();
+					break;
 				}
-				GUILayout.EndScrollView ();
-				GUILayout.FlexibleSpace ();
-				GUILayout.EndHorizontal ();
-				break;
+			} else {
 				
-				case 5:
-				GUILayout.BeginHorizontal ();
-				GUILayout.FlexibleSpace ();
-				scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  onlineMusicBrowserPosition.height - 200 ));
-				foreach ( Artist artist in artists.Values )
+				GUI.Label ( new Rect ( 10, onlineMusicBrowserPosition.height / 4, onlineMusicBrowserPosition.width - 20, 128 ), "The OnlineMusicBrowser has been disabled!", labelStyle );
+				if ( GUI.Button ( new Rect ( onlineMusicBrowserPosition.width / 2 - 160, onlineMusicBrowserPosition.height / 2, 320, 64 ), "Enable OnlineMusicBrowser" ))
 				{
 					
-					if ( GUILayout.Button ( artist.name ))
-					{
-	
-						specificSort = artist.songs;
-						sortBy = 0;
-					}
+					startupManager.SendMessage ( "RefreshOMB" );
 				}
-				GUILayout.EndScrollView ();
-				GUILayout.FlexibleSpace ();
-				GUILayout.EndHorizontal ();
-				break;
-				
-				case 6:
-				GUILayout.BeginHorizontal ();
-				GUILayout.FlexibleSpace ();
-				scrollPosition = GUILayout.BeginScrollView ( scrollPosition, GUILayout.Width( 600 ), GUILayout.Height (  onlineMusicBrowserPosition.height - 200 ));
-				foreach ( Genre genre in genres.Values )
-				{
-					
-					if ( GUILayout.Button ( genre.name ))
-					{
-	
-						specificSort = genre.songs;
-						sortBy = 0;
-					}
-				}
-				GUILayout.EndScrollView ();
-				GUILayout.FlexibleSpace ();
-				GUILayout.EndHorizontal ();
-				break;
-			}
-		} else {
-			
-			GUI.Label ( new Rect ( 10, onlineMusicBrowserPosition.height / 4, onlineMusicBrowserPosition.width - 20, 128 ), "The OnlineMusicBrowser has been disabled!", labelStyle );
-			if ( GUI.Button ( new Rect ( onlineMusicBrowserPosition.width / 2 - 160, onlineMusicBrowserPosition.height / 2, 320, 64 ), "Enable OnlineMusicBrowser" ))
-			{
-				
-				startupManager.SendMessage ( "RefreshOMB" );
 			}
 		}
 	}

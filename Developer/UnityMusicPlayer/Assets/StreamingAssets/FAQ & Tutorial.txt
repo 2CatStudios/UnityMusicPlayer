@@ -1,5 +1,5 @@
-UnityMusicPlayer 1.25 DevBuild
-Thank you for helping test UMP!
+UnityMusicPlayer 1.25
+Thank you for using UMP!
 
 
 Tutorial:

@@ -1863,7 +1863,7 @@ public class MusicViewer : MonoBehaviour
 			if ( hideGUI == true && startupManager.preferences.enableHideGUINotifications == true )
 			{
 				
-				GameObject.FindGameObjectWithTag ( "NotificationManager" ).GetComponent<NotificationManager>().Message ( "Now Playing '" + audioTitle + "'", true, false, 3.0f, true );
+				GameObject.FindGameObjectWithTag ( "NotificationManager" ).GetComponent<NotificationManager>().Message ( "'" + audioTitle + "'", true, false, 3.0f, true );
 			}
 				
 			if ( startupManager.developmentMode == true )

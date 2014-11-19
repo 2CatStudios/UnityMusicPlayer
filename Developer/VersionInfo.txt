@@ -1,5 +1,5 @@
 Current Version
-1.2
-NOTE: Get the stable build now!
+1.25
+NOTE: Get the latest stable build now!
 
 http://2catstudios.github.io/unitymusicplayer.html

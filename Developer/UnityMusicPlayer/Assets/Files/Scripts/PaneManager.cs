@@ -174,26 +174,30 @@ public class PaneManager : MonoBehaviour
 		if ( startupManager.preferences.enableArrows == true )
 		{
 		
-			if ( musicViewer.slideshow == false )
+			if ( musicViewer.slideshow == false && musicViewer.hideGUI == false )
 			{
 				
-				if ( currentPane == pane.onlineMusicBrowser )
+				if ( moving == false )
 				{
-					
-					if ( GUI.Button ( new Rect ( 25, 60, 36, 36 ), "", leftArrowStyle ))
-					{
-						
-						MoveToMV ();
-					}
-				}
 				
-				if ( currentPane == pane.musicViewer && loading == false )
-				{
-					
-					if ( GUI.Button ( new Rect ( musicViewer.musicViewerPosition.width - 65, 60, 36, 36 ), "", rightArrowStyle ))
+					if ( currentPane == pane.onlineMusicBrowser )
 					{
 						
-						MoveToOMB ();
+						if ( GUI.Button ( new Rect ( 25, 60, 36, 36 ), "", leftArrowStyle ))
+						{
+							
+							MoveToMV ();
+						}
+					}
+					
+					if ( currentPane == pane.musicViewer && loading == false )
+					{
+						
+						if ( GUI.Button ( new Rect ( musicViewer.musicViewerPosition.width - 65, 60, 36, 36 ), "", rightArrowStyle ))
+						{
+							
+							MoveToOMB ();
+						}
 					}
 				}
 			}
@@ -211,7 +215,7 @@ public class PaneManager : MonoBehaviour
 	internal void MoveToOMB ()
 	{
 		
-		if ( musicViewer.slideshow == false )
+		if ( musicViewer.slideshow == false && musicViewer.hideGUI == false )
 		{
 			
 			if ( moving == false && popupBlocking == false && loading == false )
@@ -236,7 +240,7 @@ public class PaneManager : MonoBehaviour
 	internal void MoveToMV ()
 	{
 		
-		if ( musicViewer.slideshow == false )
+		if ( musicViewer.slideshow == false && musicViewer.hideGUI == false )
 		{
 			
 			if ( moving == false && popupBlocking == false )
