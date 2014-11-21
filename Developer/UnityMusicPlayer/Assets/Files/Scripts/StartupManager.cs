@@ -729,6 +729,7 @@ public class StartupManager : MonoBehaviour
 			XmlSerializer serializer = new XmlSerializer ( preferences.GetType ());
 			StreamWriter writer = new StreamWriter ( supportPath + "Preferences.umpp" );
 			serializer.Serialize ( writer.BaseStream, preferences );
+			writer.Close ();
 		} catch ( Exception error )
 		{
 			

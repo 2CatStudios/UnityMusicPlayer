@@ -2420,9 +2420,9 @@ public class MusicViewer : MonoBehaviour
 		preferencesSaved = startupManager.WritePreferences ();
 		while ( preferencesSaved == false ) {}
 		
-		if ( Application.isEditor == true )
+		/*if ( Application.isEditor == true )
 			UnityEditor.EditorApplication.isPlaying = false;
-		else
+		else*/
 			Application.Quit ();
 	}
 }
