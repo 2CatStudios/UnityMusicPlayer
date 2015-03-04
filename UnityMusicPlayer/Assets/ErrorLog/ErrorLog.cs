@@ -8,6 +8,7 @@ using System.Collections.Generic;
 public class ErrorLog : MonoBehaviour
 {
 	
+	StartupManager startupManager;
 	ErrorUI userInterface;
 	
 	public bool startupOnlyWriteToScreen = true;
@@ -24,6 +25,7 @@ public class ErrorLog : MonoBehaviour
 	void Start ()
 	{
 		
+		startupManager = GameObject.FindGameObjectWithTag ( "Manager" ).GetComponent<StartupManager> ();
 		userInterface = gameObject.GetComponent<ErrorUI>();
 		
 		writeLogToScreen = startupOnlyWriteToScreen;
@@ -120,7 +122,7 @@ public class ErrorLog : MonoBehaviour
 		try
 		{
 			
-			messageToAdd = DateTime.Now.Year + "/" + DateTime.Now.Month + "/" + DateTime.Now.Day + " - " + DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second + "." + DateTime.Now.Millisecond + " || " + messageToAdd;
+			messageToAdd = DateTime.Now.Year + "/" + DateTime.Now.Month + "/" + DateTime.Now.Day + " - " + DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second + "." + DateTime.Now.Millisecond + " || " + startupManager.runningVersion + " || " + messageToAdd;
 			log.Add ( messageToAdd );
 			
 			if ( writeLogToScreen == true )

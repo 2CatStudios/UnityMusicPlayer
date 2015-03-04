@@ -209,7 +209,7 @@ public class StartupManager : MonoBehaviour
 		{
 
 			path = windows;
-			twoCatStudiosPath = Environment.GetFolderPath ( Environment.SpecialFolder.CommonApplicationData ) + Path.DirectorySeparatorChar  + "2Cat Studios" + Path.DirectorySeparatorChar;
+			twoCatStudiosPath = Environment.GetFolderPath ( Environment.SpecialFolder.CommonApplicationData ) + Path.DirectorySeparatorChar + "2Cat Studios" + Path.DirectorySeparatorChar;
 			directoryBrowser = "File Explorer";
 		}
 
@@ -420,7 +420,7 @@ public class StartupManager : MonoBehaviour
 						if ( File.Exists ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" ))
 							File.Delete ( supportPath + Path.DirectorySeparatorChar + "Downloads.xml" );
 					
-						Uri url = new Uri ( "http://2catstudios.github.io/UnityMusicPlayer/Developer/OnlineMusicBrowser.xml" );
+						Uri url = new Uri ( "http://71.63.239.44/shares/USB_Storage/Storage/UnityMusicPlayer/Developer/OnlineMusicBrowser.xml" );
 						using ( client = new WebClient ())
 						{
 						
@@ -648,8 +648,9 @@ public class StartupManager : MonoBehaviour
 	void RefreshOMB ()
 	{
 		
-		allSongs = null;
+		startTime = Time.realtimeSinceStartup;
 		
+		allSongs = null;
 		startOMB = false;
 		
 		connectionInformation.text = "Connecting to the OnlineMusicDatabase";

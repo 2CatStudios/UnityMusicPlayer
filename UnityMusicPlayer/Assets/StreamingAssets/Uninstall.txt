@@ -1,0 +1,21 @@
+UnityMusicPlayer 1.25
+Thank you for using UMP!
+
+This guide will outline the "uninstall" steps for UMP, which is without an uninstaller application, at the moment.
+Whether you're uninstalling UnityMusicPlayer for bug-testing purposes, or you just want to completely remove all traces (what were you doing with UMP?!), this guide should help you restore your system to a state without UnityMusicPlayer.
+
+UnityMusicPlayer creates two main directories, the "UnityMusicPlayer" directory, and the "2Cat Studios" directory.
+The "UnityMusicPlayer" folder contains an organizational structure for local music, "Media", a folder for images to use in SlideshowMode, "Slideshow", and the support files for UMP, "Support".
+
+If you just want to remove music, delete the specific files/folders from inside the Media directory.
+Similarly, to delete specific images from your slideshow, remove the relevant files from the Slideshow directory.
+
+All files in the Support folder are necessary for UMP to run, and will be regenerated upon starting UMP. Files in the "Temp" folder will automatically be deleted upon starting UMP, should it crash mid-download.
+Note: any missing folders from UMP's "UnityMusicPlayer" directory will be regenerated upon starting UMP.
+
+
+
+The "2Cat Studios" directory, located, on Mac, in the installer's Application Support folder (~/Library/Application Support), or, on Windows, in CommonApplicationData, contains some files that are required across applications, so more care should be taken in removing them. If UnityMusicPlayer is the only 2Cat Studios application that you have, and you wish to completely remove UMP, deleting the parent directory, "2Cat Studios", is your last step. 
+
+To only remove the files relating to UnityMusicPlayer, without disturbing anything relating to other 2Cat Studios applications, only delete the "TwoCatSettings.xml" file, located in the parent directory, "2Cat Studios". This file is used by other applications, so should it reappear, uninstall whatever other 2Cat Studios application uses it. Note: this file does not contain any specific information relating to UnityMusicPlayer.
+
