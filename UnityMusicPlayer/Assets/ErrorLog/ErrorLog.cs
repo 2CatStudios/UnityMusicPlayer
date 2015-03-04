@@ -17,7 +17,7 @@ public class ErrorLog : MonoBehaviour
 	bool debugLogActive = false;
 	bool writeLogToScreen = false;
 	bool writeLogToDisk = false;
-	/*public*/ string writePath = null;
+	string writePath = null;
 	
 	internal List<String> log = new List<String> ();
 	

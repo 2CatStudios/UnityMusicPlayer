@@ -343,18 +343,33 @@ public class StartupManager : MonoBehaviour
 				faq.Close ();
 				readme.Close ();
 
-				if ( float.Parse( faqVersion, CultureInfo.InvariantCulture.NumberFormat ) < float.Parse ( runningVersion ))
-				{
-				
-					File.Delete ( supportPath + "FAQ & Tutorial.txt" );
-					File.Copy ( Application.streamingAssetsPath + Path.DirectorySeparatorChar + "FAQ & Tutorial.txt", supportPath + "FAQ & Tutorial.txt" );
-				}
-				if ( float.Parse( readmeVersion, CultureInfo.InvariantCulture.NumberFormat ) < float.Parse ( runningVersion ))
-				{
-				
-					File.Delete ( supportPath + "ReadMe.txt" );
-					File.Copy ( Application.streamingAssetsPath + Path.DirectorySeparatorChar + "ReadMe.txt", supportPath + "ReadMe.txt" );
-				}
+                try
+                {
+
+                    if (float.Parse(faqVersion, CultureInfo.InvariantCulture.NumberFormat) < float.Parse(runningVersion))
+                    {
+
+                        File.Delete(supportPath + "FAQ & Tutorial.txt");
+                        File.Copy(Application.streamingAssetsPath + Path.DirectorySeparatorChar + "FAQ & Tutorial.txt", supportPath + "FAQ & Tutorial.txt");
+                    }
+                    if (float.Parse(readmeVersion, CultureInfo.InvariantCulture.NumberFormat) < float.Parse(runningVersion))
+                    {
+
+                        File.Delete(supportPath + "ReadMe.txt");
+                        File.Copy(Application.streamingAssetsPath + Path.DirectorySeparatorChar + "ReadMe.txt", supportPath + "ReadMe.txt");
+                    }
+                }
+                catch (Exception e)
+                {
+
+                    UnityEngine.Debug.Log ( "Unable to Read FAQ and Tutorial/ReadMe, rewritting, " + e );
+
+                    File.Delete(supportPath + "FAQ & Tutorial.txt");
+                    File.Copy(Application.streamingAssetsPath + Path.DirectorySeparatorChar + "FAQ & Tutorial.txt", supportPath + "FAQ & Tutorial.txt");
+
+                    File.Delete(supportPath + "ReadMe.txt");
+                    File.Copy(Application.streamingAssetsPath + Path.DirectorySeparatorChar + "ReadMe.txt", supportPath + "ReadMe.txt");
+                }
 			}
 			catch ( ArgumentOutOfRangeException error ) 
 			{
